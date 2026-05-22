@@ -171,7 +171,7 @@ export function ListingEditorScreen({ navigation, route }: Props) {
         return;
       }
     }
-    navigation.navigate("MyListings");
+    navigation.navigate("SpacesHome");
   }
 
   if (loading) {

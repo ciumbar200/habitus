@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
-import { isPropertyReturnPath } from "@habitus/core";
-import { loadRememberedEmail, saveRememberMe } from "../lib/rememberMe";
 import {
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
-import { ACCOUNT_ROLES, es } from "@habitus/core";
+import { MaterialIcons } from "@expo/vector-icons";
+import { es, isPropertyReturnPath } from "@habitus/core";
 import type { AccountRoleSlug, OAuthProvider } from "@habitus/core";
+import { AuthDivider } from "../components/auth/AuthDivider";
+import { AuthField } from "../components/auth/AuthField";
+import { AuthScreenLayout } from "../components/auth/AuthScreenLayout";
+import { RolePicker } from "../components/auth/RolePicker";
+import { SocialAuthButtons } from "../components/auth/SocialAuthButtons";
 import { useAuth } from "../context/AuthContext";
 import { signInWithOAuthMobile } from "../lib/oauth";
-import { isHabitusConfigured } from "../lib/supabase";
+import { loadRememberedEmail, saveRememberMe } from "../lib/rememberMe";
 import { peekReturnTo } from "../lib/returnTo";
+import { isHabitusConfigured } from "../lib/supabase";
 import type { RootStackParamList } from "../navigation/RootNavigator";
+import { colors } from "../theme/colors";
+import { fontStyles } from "../theme/fonts";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
 
 export function LoginScreen() {
@@ -29,6 +33,7 @@ export function LoginScreen() {
   const [showForgot, setShowForgot] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState<AccountRoleSlug>("inquilino");
   const [error, setError] = useState<string | null>(null);
@@ -76,6 +81,10 @@ export function LoginScreen() {
 
   async function submit() {
     setError(null);
+    if (mode === "signup" && !role) {
+      setError(es.access.roleRequired);
+      return;
+    }
     if (mode === "login") await saveRememberMe(email, rememberMe);
     setBusy(true);
     const result =
@@ -90,177 +99,211 @@ export function LoginScreen() {
     return <ForgotPasswordScreen onBack={() => setShowForgot(false)} />;
   }
 
+  const isLogin = mode === "login";
+
   return (
-    <KeyboardAvoidingView
-      style={styles.root}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <Text style={styles.brand}>{es.brand}</Text>
-      <Text style={styles.tagline}>{es.access.tagline}</Text>
-      {mode === "signup" && role === "inquilino" && (
-        <Text style={styles.propertyHint}>{es.access.propertySignupHint}</Text>
+    <AuthScreenLayout>
+      <Text style={styles.title}>
+        {isLogin ? es.access.welcomeBack : es.access.createAccount}
+      </Text>
+      <Text style={styles.subtitle}>
+        {isLogin ? es.access.signInSubtitle : es.access.joinSubtitle}
+      </Text>
+
+      {!isLogin && role === "inquilino" && (
+        <View style={styles.hintBanner}>
+          <Text style={styles.hintBannerText}>{es.access.propertySignupHint}</Text>
+        </View>
       )}
+
       {!isHabitusConfigured() && (
-        <Text style={styles.warn}>
-          Configura EXPO_PUBLIC_SUPABASE_URL y EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY en .env
+        <Text style={styles.warnText}>
+          Configura EXPO_PUBLIC_SUPABASE_URL y EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY
         </Text>
       )}
 
-      <View style={styles.socialRow}>
-        <Pressable
-          style={styles.socialBtn}
-          onPress={() => oauth("google")}
-          disabled={busy}
-        >
-          <Text style={styles.socialBtnText}>{es.access.continueGoogle}</Text>
-        </Pressable>
-        <Pressable
-          style={styles.socialBtn}
-          onPress={() => oauth("facebook")}
-          disabled={busy}
-        >
-          <Text style={styles.socialBtnText}>{es.access.continueFacebook}</Text>
-        </Pressable>
-      </View>
-      <Text style={styles.orEmail}>{es.access.orEmail}</Text>
+      {error ? (
+        <View style={styles.errorBanner}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      ) : null}
+
+      <SocialAuthButtons
+        busy={busy}
+        onGoogle={() => oauth("google")}
+        onFacebook={() => oauth("facebook")}
+      />
+
+      <AuthDivider />
 
       {mode === "signup" && (
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre"
+        <AuthField
+          label={es.common.fullName}
           value={name}
           onChangeText={setName}
           autoCapitalize="words"
+          autoComplete="name"
         />
       )}
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+
+      {mode === "signup" && <RolePicker value={role} onChange={setRole} />}
+
+      <AuthField
+        label={es.common.email}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
+        autoComplete="email"
+        placeholder="nombre@empresa.com"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      {mode === "login" && (
+
+      {isLogin && (
         <Pressable style={styles.rememberRow} onPress={() => setRememberMe(!rememberMe)}>
-          <View style={[styles.checkbox, rememberMe && styles.checkboxOn]} />
+          <View style={[styles.checkbox, rememberMe && styles.checkboxOn]}>
+            {rememberMe ? (
+              <MaterialIcons name="check" size={12} color={colors.white} />
+            ) : null}
+          </View>
           <Text style={styles.rememberText}>{es.common.rememberMe}</Text>
         </Pressable>
       )}
-      {mode === "login" && (
-        <Pressable onPress={() => setShowForgot(true)}>
-          <Text style={styles.forgot}>{es.common.forgotPassword}</Text>
-        </Pressable>
-      )}
-      {mode === "signup" && (
-        <View style={styles.roles}>
-          {ACCOUNT_ROLES.map((r) => (
-            <Pressable
-              key={r.slug}
-              style={[styles.roleChip, role === r.slug && styles.roleChipActive]}
-              onPress={() => setRole(r.slug)}
-            >
-              <Text style={role === r.slug ? styles.roleTextActive : styles.roleText}>
-                {r.label}
-              </Text>
+
+      <AuthField
+        label={es.common.password}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry={!showPassword}
+        autoComplete={isLogin ? "password" : "password-new"}
+        suffix={
+          <Pressable
+            style={styles.eyeBtn}
+            onPress={() => setShowPassword(!showPassword)}
+            hitSlop={8}
+          >
+            <MaterialIcons
+              name={showPassword ? "visibility-off" : "visibility"}
+              size={20}
+              color={colors.outline}
+            />
+          </Pressable>
+        }
+        footer={
+          isLogin ? (
+            <Pressable style={styles.forgotWrap} onPress={() => setShowForgot(true)}>
+              <Text style={styles.forgotLink}>{es.common.forgotPassword}</Text>
             </Pressable>
-          ))}
-        </View>
-      )}
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-      <Pressable style={styles.btn} onPress={submit} disabled={busy}>
+          ) : undefined
+        }
+      />
+
+      <Pressable style={[styles.primaryBtn, busy && styles.primaryBtnDisabled]} onPress={submit} disabled={busy}>
         {busy ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={colors.white} />
         ) : (
-          <Text style={styles.btnText}>
-            {mode === "login" ? es.common.signIn : es.access.signUp}
-          </Text>
+          <>
+            <Text style={styles.primaryBtnText}>
+              {isLogin ? es.common.signIn : es.access.signUp}
+            </Text>
+            <MaterialIcons name="arrow-forward" size={18} color={colors.white} />
+          </>
         )}
       </Pressable>
-      <Pressable onPress={() => setMode(mode === "login" ? "signup" : "login")}>
-        <Text style={styles.switch}>
-          {mode === "login" ? es.access.notMember : es.access.hasAccount}
+
+      <Text style={styles.footer}>
+        {isLogin ? es.access.notMember : es.access.hasAccount}{" "}
+        <Text
+          style={styles.footerLink}
+          onPress={() => {
+            setMode(isLogin ? "signup" : "login");
+            setError(null);
+          }}
+        >
+          {isLogin ? es.access.createAccountLink : es.access.signInLink}
         </Text>
-      </Pressable>
-    </KeyboardAvoidingView>
+      </Text>
+    </AuthScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 24, justifyContent: "center", backgroundColor: "#f8f6f3" },
-  brand: { fontSize: 32, fontWeight: "700", color: "#1a3d2e", marginBottom: 4 },
-  tagline: { fontSize: 15, color: "#4a5c52", marginBottom: 24 },
-  propertyHint: {
-    fontSize: 13,
-    color: "#2d6a4f",
-    textAlign: "center",
+  title: {
+    fontSize: 24,
+    lineHeight: 32,
+    color: colors.deepNavy,
+    marginBottom: 2,
+    ...fontStyles.title,
+  },
+  subtitle: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: colors.warmSlate,
+    marginBottom: 14,
+    ...fontStyles.body,
+  },
+  hintBanner: {
+    backgroundColor: colors.primaryContainer,
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
     marginBottom: 12,
-    paddingHorizontal: 8,
   },
-  warn: { color: "#b45309", marginBottom: 12, fontSize: 13 },
-  input: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#e2ddd4",
+  hintBannerText: { fontSize: 13, lineHeight: 18, color: colors.onPrimaryContainer, ...fontStyles.body },
+  warnText: { fontSize: 13, color: "#b45309", marginBottom: 12 },
+  errorBanner: {
+    backgroundColor: colors.errorContainer,
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 12,
   },
-  roles: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 12 },
-  roleChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#d4cfc4",
+  errorText: { fontSize: 14, lineHeight: 20, color: colors.onErrorContainer, ...fontStyles.body },
+  eyeBtn: {
+    position: "absolute",
+    right: 10,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
   },
-  roleChipActive: { backgroundColor: "#1a3d2e", borderColor: "#1a3d2e" },
-  roleText: { color: "#333", fontSize: 13 },
-  roleTextActive: { color: "#fff", fontSize: 13 },
-  error: { color: "#b91c1c", marginBottom: 8 },
-  btn: {
-    backgroundColor: "#1a3d2e",
-    padding: 16,
-    borderRadius: 10,
+  rememberRow: {
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 8,
+    gap: 8,
+    marginBottom: 12,
+    alignSelf: "flex-start",
   },
-  btnText: { color: "#fff", fontWeight: "600", fontSize: 16 },
-  switch: { textAlign: "center", marginTop: 16, color: "#1a3d2e" },
-  socialRow: { flexDirection: "row", gap: 10, marginBottom: 16 },
-  socialBtn: {
-    flex: 1,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#e2ddd4",
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: "center",
-  },
-  socialBtnText: { fontSize: 14, fontWeight: "600", color: "#1a3d2e" },
-  rememberRow: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 8 },
   checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 2,
-    borderColor: "#1a3d2e",
+    width: 18,
+    height: 18,
+    borderWidth: 1,
+    borderColor: colors.borderLight,
     borderRadius: 4,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  checkboxOn: { backgroundColor: "#1a3d2e" },
-  rememberText: { color: "#333", fontSize: 14 },
-  forgot: { textAlign: "right", color: "#1a3d2e", marginBottom: 8, fontSize: 13 },
-  orEmail: {
+  checkboxOn: { backgroundColor: colors.tealAccent, borderColor: colors.tealAccent },
+  rememberText: { fontSize: 14, color: colors.warmSlate, flexShrink: 1, ...fontStyles.body },
+  forgotWrap: { marginTop: 8, alignItems: "flex-end", width: "100%" },
+  forgotLink: { fontSize: 13, color: colors.tealAccent, textAlign: "right", ...fontStyles.label },
+  primaryBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: colors.deepNavy,
+    borderRadius: 8,
+    paddingVertical: 12,
+    marginTop: 4,
+  },
+  primaryBtnDisabled: { opacity: 0.6 },
+  primaryBtnText: { color: colors.white, fontSize: 15, ...fontStyles.button },
+  footer: {
     textAlign: "center",
-    fontSize: 13,
-    color: "#6b7280",
-    marginBottom: 16,
+    marginTop: 16,
+    fontSize: 14,
+    color: colors.warmSlate,
+    lineHeight: 22,
+    ...fontStyles.body,
   },
+  footerLink: { color: colors.tealAccent, ...fontStyles.label },
 });

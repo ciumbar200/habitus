@@ -97,6 +97,13 @@ export function homeScreenForRole(role: AccountRoleSlug | null | undefined): str
   return primaryNavForRole(role)[0]?.screen ?? "Discover";
 }
 
+/** Enlaces secundarios (grupos, convivencia…) para menú de perfil u overflow en mobile. */
+export function secondaryNavItemsForRole(
+  role: AccountRoleSlug | null | undefined,
+): NavItem[] {
+  return role ? (SECONDARY_NAV[role] ?? []) : [];
+}
+
 export type CanAccessOptions = {
   isAdmin?: boolean;
 };

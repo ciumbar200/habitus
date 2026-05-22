@@ -18,8 +18,11 @@ import { ListingsRouterPage } from "./pages/panel/ListingsRouterPage";
 import { ListingEditorPage } from "./pages/panel/ListingEditorPage";
 import { ReviewApplicationsPage } from "./pages/panel/ReviewApplicationsPage";
 import { LandingPage } from "./pages/public/LandingPage";
+import { PublicListingsPage } from "./pages/public/PublicListingsPage";
+import { ListingsLegacyRedirect } from "./pages/public/ListingsLegacyRedirect";
 import { HostLandingPage } from "./pages/public/HostLandingPage";
 import { OwnerLandingPage } from "./pages/public/OwnerLandingPage";
+import { AgencyLandingPage } from "./pages/public/AgencyLandingPage";
 import { HowItWorksPage } from "./pages/public/HowItWorksPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { CommunityPage } from "./pages/CommunityPage";
@@ -54,8 +57,11 @@ export default function App() {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route index element={<LandingPage />} />
+          <Route path="alojamientos" element={<PublicListingsPage />} />
+          <Route path="listings" element={<ListingsLegacyRedirect />} />
           <Route path="anfitriones" element={<HostLandingPage />} />
           <Route path="propietarios" element={<OwnerLandingPage />} />
+          <Route path="agencias" element={<AgencyLandingPage />} />
           <Route path="como-funciona" element={<HowItWorksPage />} />
         </Route>
 

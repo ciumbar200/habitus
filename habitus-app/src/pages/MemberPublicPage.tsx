@@ -15,6 +15,7 @@ import {
   fetchListingsByHost,
   fetchListingsByOwner,
   fetchPublicMember,
+  lifestyleTagLabel,
   roleShowsLifestyleProfile,
   roleShowsTrustProfile,
   startConversationWith,
@@ -179,7 +180,7 @@ export function MemberPublicPage() {
                     key={tag}
                     className="rounded bg-surface-container px-3 py-1 text-label-sm text-deep-navy"
                   >
-                    {tag}
+                    {lifestyleTagLabel(tag)}
                   </span>
                 ))}
               </div>

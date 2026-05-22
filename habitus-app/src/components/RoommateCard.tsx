@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { es } from "@habitus/core";
-import { startConversationWith } from "@habitus/core";
+import { es, lifestyleTagLabel, startConversationWith } from "@habitus/core";
 import type { Roommate } from "@habitus/core";
 import { Icon } from "./Icon";
 import { CompatibilityScore } from "./CompatibilityScore";
@@ -109,7 +108,7 @@ export function RoommateCard({
                 key={tag}
                 className="rounded bg-surface-container px-3 py-1 text-label-sm text-deep-navy"
               >
-                {tag}
+                {lifestyleTagLabel(tag)}
               </span>
             ))}
           </div>

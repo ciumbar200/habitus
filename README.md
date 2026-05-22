@@ -1,4 +1,4 @@
-# Habitus
+# : moon shared living
 
 Monorepo de co-living (Barcelona y Madrid): web, mobile y core compartido.
 

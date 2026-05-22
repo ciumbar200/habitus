@@ -8,6 +8,7 @@ import {
   es,
   fetchProfileEditData,
   isQuizComplete,
+  normalizeLifestyleTags,
   PROFILE_LIFESTYLE_TAGS,
   questionsForRole,
   roleNeedsCompatQuiz,
@@ -79,7 +80,7 @@ export function ProfileEditPage() {
           setAvatarUrl(d.avatarUrl);
           setIsDiscoverable(d.isDiscoverable);
           setSearchPrefs(d.searchPrefs);
-          setTags(d.tags);
+          setTags(normalizeLifestyleTags(d.tags));
           if (role && roleNeedsCompatQuiz(role)) {
             setQuizComplete(isQuizComplete(d.compatQuiz, role));
           }

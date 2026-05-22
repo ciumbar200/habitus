@@ -58,6 +58,8 @@ export {
 
 export {
   PROFILE_LIFESTYLE_TAGS,
+  lifestyleTagLabel,
+  normalizeLifestyleTags,
   type ProfileLifestyleTag,
 } from "./data/profileTags";
 
@@ -70,6 +72,7 @@ export {
   navItemsForRole,
   bottomNavItemsForRole,
   primaryNavItemsForRole,
+  secondaryNavItemsForRole,
   MAX_BOTTOM_NAV_ITEMS,
   canAccessPath,
   type NavItem,

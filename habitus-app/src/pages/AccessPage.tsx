@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { loadRememberedEmail, saveRememberMe } from "../lib/rememberMe";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { isPropertyReturnPath } from "@habitus/core";
 import { saveReturnTo } from "../lib/returnTo";
 import { redirectAfterAuth } from "../lib/returnTo";
+import { accessWantsSignup, parseAccessRole } from "../lib/accessLinks";
 import { Icon } from "../components/Icon";
 import { SocialAuthButtons } from "../components/SocialAuthButtons";
 import { useAuth } from "../context/AuthContext";
@@ -11,12 +12,14 @@ import { es } from "@habitus/core";
 import { ACCOUNT_ROLES } from "@habitus/core";
 import type { AccountRoleSlug, OAuthProvider } from "@habitus/core";
 import { signInWithOAuth } from "../lib/oauth";
+import { Logo } from "../components/Logo";
 
 type AccessLocationState = { from?: string; signup?: boolean };
 
 export function AccessPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const fromPath = (location.state as AccessLocationState | null)?.from;
   const { signIn, signUp } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
@@ -38,13 +41,19 @@ export function AccessPage() {
   }, []);
 
   useEffect(() => {
-    if (!fromPath) return;
-    saveReturnTo(fromPath);
-    if (isPropertyReturnPath(fromPath) || (location.state as AccessLocationState)?.signup) {
-      setMode("signup");
-      setAccountRole("inquilino");
-    }
-  }, [fromPath, location.state]);
+    const state = location.state as AccessLocationState | null;
+    const roleFromUrl = parseAccessRole(searchParams.get("role"));
+    const propertySignup = fromPath != null && isPropertyReturnPath(fromPath);
+    const wantsSignup =
+      accessWantsSignup(searchParams) || state?.signup === true || propertySignup;
+
+    if (fromPath) saveReturnTo(fromPath);
+
+    if (wantsSignup) setMode("signup");
+
+    if (roleFromUrl) setAccountRole(roleFromUrl);
+    else if (propertySignup || state?.signup) setAccountRole("inquilino");
+  }, [fromPath, location.state, searchParams]);
 
   const handleOAuth = async (provider: OAuthProvider) => {
     setError(null);
@@ -112,7 +121,7 @@ export function AccessPage() {
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-deep-navy via-deep-navy/40 to-transparent" />
           <div className="relative z-10">
-            <h1 className="text-headline-lg text-white">{es.brand}</h1>
+            <Logo variant="dark" height={48} />
             <p className="mt-4 max-w-sm text-body-lg text-on-primary-container">
               {es.access.tagline}
             </p>
@@ -121,7 +130,7 @@ export function AccessPage() {
 
         <section className="flex flex-col justify-center bg-surface-container-lowest p-8 md:p-16 lg:p-20">
           <div className="mb-10 text-center md:hidden">
-            <h1 className="text-headline-lg-mobile text-deep-navy">{es.brand}</h1>
+            <Logo variant="light" height={40} className="mx-auto" />
           </div>
 
           <div className="mx-auto w-full max-w-md">

@@ -14,14 +14,23 @@ const Stack = createNativeStackNavigator<SpacesStackParamList>();
 export function SpacesStack() {
   const { profile } = useAuth();
   const isHost = profile?.accountRole === "anfitrion";
-  const canEdit = profile?.accountRole === "propietario" || profile?.accountRole === "agencia";
+  const canEdit =
+    profile?.accountRole === "anfitrion" ||
+    profile?.accountRole === "propietario" ||
+    profile?.accountRole === "agencia";
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: true, headerTintColor: "#1a3d2e" }}>
       <Stack.Screen
         name="SpacesHome"
         component={isHost ? HostSpacesScreen : MyListingsScreen}
-        options={{ title: isHost ? "Espacios" : profile?.accountRole === "agencia" ? "Cartera" : "Espacios" }}
+        options={{
+          title: isHost
+            ? "Espacios"
+            : profile?.accountRole === "agencia"
+              ? "Cartera"
+              : "Espacios",
+        }}
       />
       {canEdit ? (
         <Stack.Screen

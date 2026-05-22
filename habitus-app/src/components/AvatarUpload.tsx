@@ -83,7 +83,7 @@ export function AvatarUpload({ userId, value, onChange, displayName }: AvatarUpl
         >
           <Icon name="cloud_upload" className="mx-auto mb-2 text-[32px] text-teal-accent" />
           <p className="text-label-md text-deep-navy">
-            {uploading ? es.upload.uploading : "Arrastra una foto o haz clic para subir"}
+            {uploading ? es.upload.uploading : es.upload.clickToUpload}
           </p>
           <p className="mt-1 text-label-sm text-warm-slate">{es.upload.dropHint}</p>
           <input

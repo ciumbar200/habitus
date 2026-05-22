@@ -1,0 +1,21 @@
+/** Mismos tokens que habitus-app/src/index.css @theme */
+export const colors = {
+  deepNavy: "#0c0a09",
+  tealAccent: "#14b8a6",
+  warmSlate: "#57534e",
+  onSurface: "#1c1917",
+  borderLight: "#e7e5e4",
+  outline: "#78716c",
+  background: "#fafaf9",
+  surfaceLowest: "#ffffff",
+  surfaceLow: "#f5f5f4",
+  primaryContainer: "#131b2e",
+  onPrimaryContainer: "#7c839b",
+  error: "#ba1a1a",
+  errorContainer: "#ffdad6",
+  onErrorContainer: "#93000a",
+  white: "#ffffff",
+  primaryFixedDim: "#bec6e0",
+  sand: "#f5f0e8",
+  black: "#000000",
+} as const;

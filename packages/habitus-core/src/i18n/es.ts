@@ -1,5 +1,6 @@
 export const es = {
-  brand: "Habitus",
+  brand: ": moon",
+  brandProduct: ": moon shared living",
   nav: {
     discover: "Descubrir",
     matches: "Compañeros",
@@ -28,7 +29,7 @@ export const es = {
     email: "Correo electrónico",
     password: "Contraseña",
     fullName: "Nombre completo",
-    role: "Tu rol en Habitus",
+    role: "Tu rol en : moon",
     selectRole: "Selecciona cómo usarás la plataforma",
     rememberMe: "Recordarme 30 días",
     forgotPassword: "¿Has olvidado la contraseña?",
@@ -100,7 +101,7 @@ export const es = {
       propertyType: "Tipo de inmueble",
       availableFrom: "Disponible desde",
       host: "Anfitrión asignado",
-      hostAdminOnly: "La asignación de anfitriones la gestiona el equipo de Habitus.",
+      hostAdminOnly: "La asignación de anfitriones la gestiona el equipo de : moon.",
       noHost: "Sin anfitrión (solo propietario)",
       visibility: "Visibilidad del anuncio",
       visibilityPublic: "Público — visible en Descubrir",
@@ -146,6 +147,7 @@ export const es = {
     uploading: "Subiendo…",
     remove: "Quitar",
     dropHint: "JPG, PNG o WebP (máx. 5 MB)",
+    clickToUpload: "Arrastra una foto o haz clic para subir",
     orPasteUrl: "O pega una URL",
     error: "No se pudo subir la imagen.",
     coverHint: "Imagen principal del espacio. Se mostrará en las tarjetas y en el detalle.",
@@ -199,7 +201,7 @@ export const es = {
     deleteAccountHint:
       "Se eliminarán de forma permanente tu perfil, anuncios, mensajes y el resto de datos vinculados a tu cuenta.",
     deleteAccountConfirm:
-      "¿Eliminar tu cuenta de Habitus? Esta acción no se puede deshacer.",
+      "¿Eliminar tu cuenta de : moon? Esta acción no se puede deshacer.",
   },
   discover: {
     location: "Ubicación",
@@ -211,6 +213,44 @@ export const es = {
     allCategories: "Todos",
     emptyCategory: "No hay anuncios en esta categoría.",
     configError: "Configura .env.local con las credenciales de Supabase.",
+  },
+  publicListings: {
+    metaTitle: "alojamientos compatibles — : moon shared living",
+    metaDescription:
+      "Descubre habitaciones y pisos compartidos en Barcelona y Madrid con compatibilidad real. Filtra por ciudad, precio y estilo de convivencia.",
+    badge: "Encuentra tu lugar ideal",
+    title: "Hogares compatibles",
+    titleAccent: "con personas como tú",
+    subtitle:
+      "Descubre habitaciones y pisos compartidos con compatibilidad real. Menos sorpresas, más convivencia.",
+    filters: "Filtros",
+    city: "Ciudad",
+    cityAll: "Todas las ciudades",
+    cityBarcelona: "Barcelona",
+    cityMadrid: "Madrid",
+    price: "Precio mensual",
+    priceAny: "Cualquier precio",
+    priceUpTo400: "Hasta 400 €",
+    price400_600: "400 € – 600 €",
+    price600_800: "600 € – 800 €",
+    price800_1000: "800 € – 1.000 €",
+    price1000Plus: "Más de 1.000 €",
+    sortBy: "Ordenar por",
+    sortCompat: "Mejor compatibilidad",
+    sortPriceAsc: "Precio: menor a mayor",
+    sortPriceDesc: "Precio: mayor a menor",
+    sortRecent: "Más recientes",
+    results: "{count} hogares encontrados",
+    resultsLoading: "… hogares encontrados",
+    empty: "No hay hogares con estos filtros. Prueba ampliando la búsqueda.",
+    compatHint:
+      "Inicia sesión y completa el cuestionario para ver tu compatibilidad personalizada con cada espacio.",
+    compatHintCta: "Crear cuenta gratis",
+    statAvailable: "Hogares disponibles",
+    statCompat: "Compatibilidad media",
+    statSupport: "Soporte humano",
+    statSupportValue: "24/7",
+    exploreNav: "Explorar",
   },
   property: {
     startingAt: "Desde",
@@ -355,7 +395,7 @@ export const es = {
     welcomeBack: "Bienvenido de nuevo",
     signInSubtitle: "Accede a tu espacio de miembro",
     createAccount: "Crear cuenta",
-    joinSubtitle: "Únete a la comunidad Habitus",
+    joinSubtitle: "Únete a la comunidad : moon",
     tagline:
       "Comparte vivienda con personas compatibles. Menos gasto, más apoyo y un hogar donde encajar — en Barcelona y Madrid.",
     orEmail: "O continúa con el correo",
@@ -374,7 +414,7 @@ export const es = {
     confirmEmail: "Revisa tu correo para confirmar la cuenta (si la verificación está activa en Supabase).",
     confirmEmailTitle: "Cuenta creada",
     roleRequired: "Selecciona tu rol en la plataforma (inquilino, anfitrión, propietario o agencia).",
-    accountRoleHint: "Define qué puedes hacer en Habitus: buscar espacio, gestionar convivencia, publicar inmuebles o actuar como agencia.",
+    accountRoleHint: "Define qué puedes hacer en : moon: buscar espacio, gestionar convivencia, publicar inmuebles o actuar como agencia.",
     completeRoleTitle: "Completa tu perfil",
     continue: "Continuar",
     showPassword: "Mostrar contraseña",
@@ -398,7 +438,7 @@ export const es = {
     heroLine2: "no solo dónde.",
     heroLine3: "Vive acompañado.",
     heroSubtitle:
-      "Para estudiantes, expats, separados o cualquiera que comparta piso: Habitus conecta personas compatibles para alquilar juntos, convivir mejor y sentir hogar desde el primer día — Barcelona y Madrid.",
+      "Para estudiantes, expats, separados o cualquiera que comparta piso, : moon conecta personas compatibles para alquilar juntos, convivir mejor y sentir hogar desde el primer día — barcelona y madrid.",
     heroTrust: [
       "Matching por hábitos, valores y ritmo de vida",
       "Grupos para alquilar piso entero con reparto justo",
@@ -408,10 +448,10 @@ export const es = {
     ctaStartFree: "Crear cuenta gratis",
     ctaFindMatches: "Buscar compañeros",
     howItWorks: "Cómo funciona",
-    howItWorksTitle: "Cómo funciona Habitus",
+    howItWorksTitle: "Cómo funciona : moon",
     howItWorksIntro:
       "Inspirados en la visión de convivencia consciente: con quién vives importa tanto como el piso. Forma grupo, conoce al anfitrión y alinea expectativas antes de mudarte.",
-    pillarsTitle: "¿Por qué Habitus?",
+    pillarsTitle: "¿Por qué : moon?",
     pillar1Title: "Compatibilidad real",
     pillar1Text:
       "Cuestionario de estilo de vida. Afinidad con compañeros, anfitriones y espacios — con desglose claro al pulsar el porcentaje.",
@@ -423,11 +463,11 @@ export const es = {
       "Verificación de identidad (demo Veriff), perfiles completos y mensajes antes de dar el paso — menos sorpresas, más hogar.",
     groupsTitle: "Alquilar en grupo, sin caos",
     groupsIntro:
-      "Moon enseñó que alquilar juntos falla sin herramientas: no sabes con quién vives, no repartís bien y el propietario no confía. Habitus ordena ese proceso.",
+      "Alquilar juntos falla sin herramientas: no sabes con quién vives, no repartís bien y el propietario no confía. : moon ordena ese proceso.",
     groupsStep1: "Crea o únete a un grupo compatible",
     groupsStep2: "Repartid el alquiler con pesos por habitación",
     groupsStep3: "Solicitad pisos públicos o privados desbloqueados",
-    audiencesTitle: "Para quién es Habitus",
+    audiencesTitle: "Para quién es : moon",
     audiences: [
       "Estudiantes que buscan piso y compañeros afines",
       "Expats que llegan sin red local",
@@ -461,12 +501,12 @@ export const es = {
     fullName: "Nombre completo",
     fullNamePlaceholder: "Ej. María García López",
     birthDate: "Fecha de nacimiento",
-    ageHint: "Debes tener al menos 18 años para usar Habitus.",
+    ageHint: "Debes tener al menos 18 años para usar : moon.",
     ageInvalid: "La edad debe estar entre 18 y 99 años.",
     nameRequired: "Indica tu nombre completo.",
     birthRequired: "Indica tu fecha de nacimiento.",
     saveAndContinue: "Guardar y continuar",
-    welcomeTitle: "Bienvenido a Habitus",
+    welcomeTitle: "Bienvenido a : moon",
     welcomeBody:
       "En unos minutos dejarás listo tu perfil para que el matching funcione de verdad.",
     quizTitle: "Tu perfil de convivencia",
@@ -526,7 +566,7 @@ export const es = {
     members: "miembros",
     fairSplit: "Reparto justo del alquiler",
     fairSplitHint:
-      "Cada habitación puede tener un peso distinto. Así evitáis discusiones antes de mudaros — como en Moon.",
+      "Cada habitación puede tener un peso distinto. Así evitáis discusiones antes de mudaros — como en : moon.",
     totalRent: "Alquiler total del piso",
     markReady: "Marcar grupo listo",
     status: {
@@ -566,7 +606,7 @@ export const es = {
   },
   blog: {
     nav: "Blog",
-    title: "Blog Habitus",
+    title: "blog : moon shared living",
     subtitle: "Consejos y reflexiones sobre compartir piso, afinidad y vivienda en España.",
     empty: "Pronto publicaremos más artículos.",
     notFound: "Artículo no encontrado.",
@@ -591,7 +631,7 @@ export const es = {
     signInCta: "Inicia sesión para ver todos los eventos de la comunidad.",
   },
   admin: {
-    title: "Administración Habitus",
+    title: "administración : moon shared living",
     backToApp: "Volver a la app",
     nav: {
       short: "Admin",

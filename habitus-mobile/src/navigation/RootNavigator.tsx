@@ -8,7 +8,7 @@ import { CompleteRoleScreen } from "../screens/CompleteRoleScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { OnboardingScreen } from "../screens/OnboardingScreen";
 import { PropertyDetailScreen } from "../screens/PropertyDetailScreen";
-import { MainTabs } from "./MainTabs";
+import { MainStack } from "./MainStack";
 
 export type RootStackParamList = {
   Login: { signup?: boolean } | undefined;
@@ -53,7 +53,7 @@ export function RootNavigator() {
         ) : !quizComplete ? (
           <Stack.Screen name="Quiz" component={CompatibilityQuizScreen} />
         ) : (
-          <Stack.Screen name="Main" component={MainTabs} />
+          <Stack.Screen name="Main" component={MainStack} />
         )}
       </Stack.Navigator>
     </NavigationContainer>

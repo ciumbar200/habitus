@@ -18,7 +18,7 @@ import type { CompatQuizAnswers } from "@habitus/core";
 import { useAuth } from "../context/AuthContext";
 
 export function CompatibilityQuizScreen() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, markQuizComplete } = useAuth();
   const [answers, setAnswers] = useState<CompatQuizAnswers>({});
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,6 +57,7 @@ export function CompatibilityQuizScreen() {
       return;
     }
     await refreshProfile();
+    markQuizComplete();
   }
 
   return (

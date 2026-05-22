@@ -1,4 +1,4 @@
-# Habitus Mobile
+# : moon mobile
 
 App Expo que comparte lógica con la web vía `@habitus/core`.
 

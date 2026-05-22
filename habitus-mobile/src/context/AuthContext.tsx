@@ -12,6 +12,7 @@ import {
   ensureProfileForAuthUser,
   fetchCompatQuiz,
   isQuizComplete,
+  normalizeImageUrl,
   roleNeedsCompatQuiz,
   translateAuthError,
   type AccountRoleSlug,
@@ -25,6 +26,7 @@ type AuthContextValue = {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
+  profileReady: boolean;
   quizComplete: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (
@@ -35,6 +37,7 @@ type AuthContextValue = {
   ) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
+  markQuizComplete: () => void;
   updateAccountRole: (role: AccountRoleSlug) => Promise<string | null>;
   finalizeOAuthSession: () => Promise<{ error: string | null }>;
 };
@@ -45,7 +48,7 @@ async function loadProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from("habitus_profiles")
     .select(
-      "id, display_name, avatar_url, profile_score, role_title, account_role, bio_quote, is_discoverable, is_admin, birth_date, onboarding_completed_at",
+      "id, display_name, avatar_url, profile_score, role_title, account_role, bio_quote, is_discoverable, is_admin, birth_date, onboarding_completed_at, identity_status",
     )
     .eq("id", userId)
     .maybeSingle();
@@ -54,13 +57,14 @@ async function loadProfile(userId: string): Promise<Profile | null> {
   return {
     id: data.id,
     displayName: data.display_name,
-    avatarUrl: data.avatar_url,
+    avatarUrl: normalizeImageUrl(data.avatar_url),
     profileScore: data.profile_score,
     roleTitle: data.role_title,
     accountRole: data.account_role as AccountRoleSlug | null,
     bioQuote: data.bio_quote,
     isDiscoverable: data.is_discoverable ?? false,
     isAdmin: data.is_admin ?? false,
+    identityStatus: (data.identity_status ?? "none") as Profile["identityStatus"],
     birthDate: data.birth_date,
     onboardingCompletedAt: data.onboarding_completed_at,
   };
@@ -70,14 +74,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileReady, setProfileReady] = useState(true);
   const [quizComplete, setQuizComplete] = useState(true);
 
   const refreshProfile = useCallback(async () => {
     if (!session?.user.id) {
       setProfile(null);
       setQuizComplete(true);
+      setProfileReady(true);
       return;
     }
+    setProfileReady(false);
     const p = await loadProfile(session.user.id);
     setProfile(p);
     if (!p?.accountRole || !roleNeedsCompatQuiz(p.accountRole)) {
@@ -86,7 +93,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const q = await fetchCompatQuiz(session.user.id);
       setQuizComplete(isQuizComplete(q, p.accountRole));
     }
+    setProfileReady(true);
   }, [session?.user.id]);
+
+  const markQuizComplete = useCallback(() => {
+    setQuizComplete(true);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -102,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     else {
       setProfile(null);
       setQuizComplete(true);
+      setProfileReady(true);
     }
   }, [session?.user.id, refreshProfile]);
 
@@ -164,11 +177,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: session?.user ?? null,
       profile,
       loading,
+      profileReady,
       quizComplete,
       signIn,
       signUp,
       signOut,
       refreshProfile,
+      markQuizComplete,
       updateAccountRole,
       finalizeOAuthSession,
     }),
@@ -176,11 +191,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       profile,
       loading,
+      profileReady,
       quizComplete,
       signIn,
       signUp,
       signOut,
       refreshProfile,
+      markQuizComplete,
       updateAccountRole,
       finalizeOAuthSession,
     ],

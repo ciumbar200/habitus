@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { es } from "@habitus/core";
 import { Icon } from "./Icon";
 import { UserMenu } from "./UserMenu";
+import { Logo } from "./Logo";
 
 const FALLBACK_AVATAR =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCyG1Vj2fNf0xSTn63zYFOCzosjrxS4Cxbm7MCGcUFHRWN25GbwAuKi1Y4SCoqfHdiF7EJGcO2DYT1RSJurWKPTmuR96Rubez-y-Y6vdYNi1L8c9zIh4Ar2Ng2LGa7n0TPqyCyhqdYxDAZwtNB13MJCUja1gTM2aNQ5Wmi65W0VwCrRf903QB46g2WIBd15QXDDTHugUMKwDaVb1vT8P_K1N3UA7GSdne1JL-DfKFMOz9Y-FZpCzh63-lvh0JnjexqpJaAJS4hI6lQ";
@@ -28,7 +29,7 @@ export function Header({ showBack }: HeaderProps) {
             <button
               type="button"
               onClick={() => window.history.back()}
-              className="cursor-pointer text-deep-navy transition-transform active:scale-95"
+              className="cursor-pointer text-white transition-transform active:scale-95"
               aria-label={es.common.back}
             >
               <Icon name="arrow_back" />
@@ -44,9 +45,9 @@ export function Header({ showBack }: HeaderProps) {
           )}
           <Link
             to={user ? homePathForRole(profile?.accountRole) : "/access"}
-            className="text-headline-md tracking-tight text-deep-navy"
+            className="inline-flex items-center"
           >
-            {es.brand}
+            <Logo variant="dark" height={24} />
           </Link>
         </div>
 
@@ -59,8 +60,8 @@ export function Header({ showBack }: HeaderProps) {
                 className={`text-label-md transition-opacity hover:opacity-80 ${
                   location.pathname === item.path ||
                   (item.path !== "/" && location.pathname.startsWith(item.path))
-                    ? "font-bold text-deep-navy"
-                    : "text-on-surface-variant"
+                    ? "font-bold text-white"
+                    : "text-stone-400"
                 }`}
               >
                 {item.label}

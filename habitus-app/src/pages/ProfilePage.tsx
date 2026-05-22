@@ -125,7 +125,7 @@ export function ProfilePage() {
                 Hola, {firstName}
               </h2>
               <p className="mt-2 text-body-lg text-warm-slate">
-                Cuenta de administrador de la plataforma Habitus.
+                Cuenta de administrador de la plataforma : moon.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

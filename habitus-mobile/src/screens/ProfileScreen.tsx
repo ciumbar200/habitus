@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { accountRoleLabel, es } from "@habitus/core";
+import { accountRoleLabel, es, secondaryNavItemsForRole } from "@habitus/core";
 import type { ProfileStackParamList } from "../navigation/ProfileStack";
+import { navigateFromTabs } from "../navigation/MainStack";
 import { useAuth } from "../context/AuthContext";
 
 type Props = NativeStackScreenProps<ProfileStackParamList, "ProfileMain">;
 
 export function ProfileScreen({ navigation }: Props) {
   const { profile, user, signOut } = useAuth();
+  const secondary = secondaryNavItemsForRole(profile?.accountRole);
 
   return (
     <View style={styles.root}>
@@ -22,10 +24,29 @@ export function ProfileScreen({ navigation }: Props) {
           {es.profile.profileScore}: {profile?.profileScore ?? 0}%
         </Text>
       </View>
-      <Pressable
-        style={styles.linkBtn}
-        onPress={() => navigation.navigate("ProfileEdit")}
-      >
+
+      {secondary.map((item) => (
+        <Pressable
+          key={item.path}
+          style={styles.linkBtn}
+          onPress={() => {
+            if (item.path === "/grupos") navigateFromTabs(navigation, "Groups");
+          }}
+        >
+          <Text style={styles.linkText}>{item.label}</Text>
+        </Pressable>
+      ))}
+
+      {profile?.isAdmin && (
+        <Pressable
+          style={styles.linkBtn}
+          onPress={() => navigateFromTabs(navigation, "AdminDashboard")}
+        >
+          <Text style={styles.linkText}>{es.admin.nav.short}</Text>
+        </Pressable>
+      )}
+
+      <Pressable style={styles.linkBtn} onPress={() => navigation.navigate("ProfileEdit")}>
         <Text style={styles.linkText}>{es.profile.editProfile}</Text>
       </Pressable>
       <Pressable style={styles.btn} onPress={() => signOut()}>
@@ -49,7 +70,7 @@ const styles = StyleSheet.create({
   meta: { color: "#666", marginTop: 6 },
   score: { color: "#2d6a4f", marginTop: 12, fontWeight: "600" },
   linkBtn: {
-    marginTop: 16,
+    marginTop: 12,
     padding: 14,
     borderRadius: 10,
     borderWidth: 1,

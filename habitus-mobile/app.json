@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "habitus-mobile",
+    "name": "moon",
     "slug": "habitus-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,13 +24,33 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "habitus",
+              "host": "auth",
+              "pathPrefix": "/callback"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": ": moon necesita acceso a tus fotos para el avatar y las imágenes de los espacios."
+        }
+      ]
     ]
   }
 }

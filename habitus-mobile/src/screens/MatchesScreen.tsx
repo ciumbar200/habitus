@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
   es,
   fetchCompatQuiz,
@@ -21,18 +22,22 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { isHabitusConfigured } from "../lib/supabase";
 import type { MainTabParamList } from "../navigation/MainTabs";
+import type { MainStackParamList } from "../navigation/MainStack";
 import { CompatibilityScore } from "../components/CompatibilityScore";
 
-type Nav = BottomTabNavigationProp<MainTabParamList, "Matches">;
+type TabNav = BottomTabNavigationProp<MainTabParamList, "Matches">;
+type MainNav = NativeStackNavigationProp<MainStackParamList>;
 
 function MatchCard({
   item,
   onChat,
+  onProfile,
   chatLoading,
   hint,
 }: {
   item: Roommate;
   onChat: () => void;
+  onProfile: () => void;
   chatLoading: boolean;
   hint: string | null;
 }) {
@@ -69,6 +74,9 @@ function MatchCard({
           </Text>
         ) : null}
         {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        <Pressable style={styles.profileBtn} onPress={onProfile}>
+          <Text style={styles.profileBtnText}>{es.matches.viewProfile}</Text>
+        </Pressable>
         <Pressable
           style={[styles.chatBtn, chatLoading && styles.chatBtnDisabled]}
           onPress={onChat}
@@ -85,7 +93,8 @@ function MatchCard({
 
 export function MatchesScreen() {
   const { user } = useAuth();
-  const navigation = useNavigation<Nav>();
+  const tabNav = useNavigation<TabNav>();
+  const mainNav = tabNav.getParent() as MainNav | undefined;
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState<Roommate[]>([]);
   const [chatLoadingId, setChatLoadingId] = useState<string | null>(null);
@@ -130,7 +139,7 @@ export function MatchesScreen() {
     });
     try {
       const convId = await startConversationWith(otherId);
-      navigation.navigate("Messages", { conversationId: convId });
+      tabNav.navigate("Messages", { conversationId: convId });
     } catch {
       setHintById((prev) => ({
         ...prev,
@@ -155,6 +164,7 @@ export function MatchesScreen() {
             <MatchCard
               item={item}
               onChat={() => void handleChat(item)}
+              onProfile={() => mainNav?.navigate("MemberPublic", { slug: item.slug })}
               chatLoading={chatLoadingId === item.id}
               hint={hintById[item.id] ?? null}
             />
@@ -221,5 +231,14 @@ const styles = StyleSheet.create({
   },
   chatBtnDisabled: { opacity: 0.6 },
   chatBtnText: { color: "#fff", fontWeight: "600", fontSize: 14 },
+  profileBtn: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: "#1a3d2e",
+    borderRadius: 8,
+    paddingVertical: 8,
+    alignItems: "center",
+  },
+  profileBtnText: { color: "#1a3d2e", fontWeight: "600", fontSize: 14 },
   empty: { textAlign: "center", color: "#666", marginTop: 40 },
 });

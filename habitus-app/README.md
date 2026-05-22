@@ -1,4 +1,4 @@
-# Habitus — Web
+# : moon shared living — web
 
 Co-living en Barcelona y Madrid. La lógica de negocio vive en `@habitus/core` (monorepo).
 
