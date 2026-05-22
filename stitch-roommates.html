@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vibe-match-gradient {
+            background: linear-gradient(135deg, #14B8A6 0%, #0F172A 100%);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#eff1f3",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#bec6e0",
+                      "on-secondary-container": "#006f64",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "teal-accent": "#14B8A6",
+                      "background": "#f7f9fb",
+                      "on-secondary-fixed-variant": "#005048",
+                      "inverse-surface": "#2d3133",
+                      "secondary-fixed": "#71f8e4",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "surface": "#f7f9fb",
+                      "secondary-container": "#6df5e1",
+                      "surface-container-low": "#f2f4f6",
+                      "on-secondary-fixed": "#00201c",
+                      "primary-container": "#131b2e",
+                      "on-primary-container": "#7c839b",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "warm-slate": "#475569",
+                      "surface-tint": "#565e74",
+                      "error": "#ba1a1a",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-background": "#191c1e",
+                      "primary-fixed-dim": "#bec6e0",
+                      "error-container": "#ffdad6",
+                      "secondary": "#006b5f",
+                      "surface-container-high": "#e6e8ea",
+                      "on-surface-variant": "#45464d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-secondary": "#ffffff",
+                      "tertiary-container": "#2a1700",
+                      "primary-fixed": "#dae2fd",
+                      "border-light": "#E2E8F0",
+                      "outline-variant": "#c6c6cd",
+                      "tertiary": "#000000",
+                      "secondary-fixed-dim": "#4fdbc8",
+                      "primary": "#000000",
+                      "surface-variant": "#e0e3e5",
+                      "deep-navy": "#0F172A",
+                      "on-tertiary-container": "#b87500",
+                      "outline": "#76777d",
+                      "surface-dim": "#d8dadc",
+                      "surface-container": "#eceef0",
+                      "on-primary-fixed": "#131b2e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px",
+                      "stack-md": "16px",
+                      "margin-desktop": "40px",
+                      "base": "8px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-md": ["Manrope"],
+                      "label-md": ["Manrope"],
+                      "headline-lg": ["Manrope"],
+                      "headline-md": ["Manrope"],
+                      "label-sm": ["Manrope"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "display-lg": ["Manrope"],
+                      "body-lg": ["Manrope"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md selection:bg-teal-accent/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-border-light dark:border-outline-variant h-16">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-full w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-border-light cursor-pointer active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a modern young man with a friendly expression, set against a clean, architectural office backdrop with soft natural lighting. The aesthetic is high-end corporate minimalist, featuring a palette of soft whites and deep navies to match the premium co-living brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa1driTFHyN0dSHb1aU_vkVAG5VebySfLeK4Dtzr0zDhTgrGYqDwcUeqAbXaScetqwaZl8fZZBY2D-Xgh8-NZXzdhpzwtoEcnE9FpFy9FKHMlbNYUqSpDhNMDFjwBQhOQSEKGB3gXz9eXnDuuqqxF364IdOXIwGSoqG1M-HtyVKU8B3teBrmtJQCHsrUD8L__0MN2SCDEYvPnZbCX0jEutEnolYVmqXmcZvYNQ7-dCJsKuHE2GN7Yv28q1GLLTgeRpG2ObkymqU20"/>
+</div>
+<h1 class="text-headline-md font-headline-md tracking-tight text-deep-navy dark:text-inverse-primary">Habitus</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Discover</a>
+<a class="text-deep-navy dark:text-inverse-primary font-bold transition-opacity duration-200 font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Messages</a>
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Dashboard</a>
+</nav>
+<span class="material-symbols-outlined text-primary dark:text-on-primary cursor-pointer active:scale-95 transition-transform" data-icon="notifications">notifications</span>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+<!-- Hero Section / Context -->
+<section class="mb-stack-lg space-y-2">
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-deep-navy">People you'd live well with</h2>
+<p class="text-body-lg font-body-lg text-warm-slate max-w-2xl">Curated matches based on professional alignment, shared values, and lifestyle compatibility for the Habitus community.</p>
+</section>
+<!-- Profile Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Profile Card 1: Architect / Focus -->
+<article class="bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden shadow-[0px_4px_20px_rgba(15,23,42,0.05)] flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A sophisticated professional woman in her late 20s, dressed in high-end minimalist attire. She is standing in a brightly lit, modern architectural studio with blueprints and clean lines in the background. The lighting is soft and airy, conveying a sense of calm and professional focus in a light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGMPplHMYk-_Q2xUbwDuZuMgS8l8oRiXeizPPlZCrIrBOjiM5C9lmdOjofexWFh-fgPh40qfFTa-OazAJP85wSYERDEQhNm-BX7BXl_JHstCAwB5v7IeIb-z55Gcla-SSU6oYfQw0ymge87Ja6IdAaRNPQ1hB-T1mth88OxGsDINJ042cG9tV_EpbLbtwfrjQgIDKp1Xl5MH-yvAe0rPPIFIELVfJOO6kuMYDIQKbBWk_-XVLtR6c5_7NH1pRfLHjyHZGEEZlY6DM"/>
+<div class="absolute top-4 left-4 vibe-match-gradient text-white px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                        98% Vibe Match
+                    </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Elena Vance</h3>
+<p class="text-label-md font-label-md text-teal-accent">Architectural Designer</p>
+</div>
+<span class="material-symbols-outlined text-warm-slate cursor-pointer" data-icon="bookmark">bookmark</span>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Early riser</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Remote work</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Classical Music</span>
+</div>
+<p class="text-body-md font-body-md text-warm-slate line-clamp-2 italic">"Looking for a quiet, light-filled space near the design district. I value order and shared dinner occasionally."</p>
+</div>
+<div class="pt-6 mt-auto border-t border-border-light flex gap-3">
+<button class="flex-1 bg-deep-navy text-on-primary py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity active:scale-95">Start Conversation</button>
+<button class="w-12 h-12 flex items-center justify-center border border-border-light rounded-lg hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Profile Card 2: Tech Lead / Order -->
+<article class="bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden shadow-[0px_4px_20px_rgba(15,23,42,0.05)] flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A portrait of a confident male tech professional sitting in a clean, high-end cafe with wood and glass accents. He has a warm smile and is wearing a dark navy knit sweater. The environment is quiet and orderly, lit by late afternoon sun through a large window, embodying a serene and high-end community vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAawBQMRZ1-fFTY6_7k2OFDmdCJAvgcS8LizJ9wAsi6Tu0Uq0ExYLV4Bc-paymTOZc8gsJvZ3OFwp323MYMJpdWANnUY2zYmeR3WLVm5G0KWaT09wjfBtdgcDugwFOBK_KrkUvNU8U0TkCXJVlNqhGQJWIHsw6bNk2F8R_P0HQQUk4gL2fBwUN_F9ufQF_Ew0m_SeZfYO17Jpe2KWteEj-ZCso48C5zJrXCcTTZJI8TCvZeib20BFlfDUgT_qJ_UsLfDCTe_H9-jlw"/>
+<div class="absolute top-4 left-4 vibe-match-gradient text-white px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                        94% Vibe Match
+                    </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Marcus Chen</h3>
+<p class="text-label-md font-label-md text-teal-accent">Fintech Lead</p>
+</div>
+<span class="material-symbols-outlined text-warm-slate cursor-pointer" data-icon="bookmark">bookmark</span>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Night owl</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Fitness focused</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Minimalist</span>
+</div>
+<p class="text-body-md font-body-md text-warm-slate line-clamp-2 italic">"I travel often for work. I appreciate a clean, peaceful home environment to recharge between trips."</p>
+</div>
+<div class="pt-6 mt-auto border-t border-border-light flex gap-3">
+<button class="flex-1 bg-deep-navy text-on-primary py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity active:scale-95">Start Conversation</button>
+<button class="w-12 h-12 flex items-center justify-center border border-border-light rounded-lg hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Profile Card 3: Senior Consultant / Social -->
+<article class="bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden shadow-[0px_4px_20px_rgba(15,23,42,0.05)] flex flex-col group hover:shadow-lg transition-all duration-300">
+<div class="relative h-72 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A vibrant professional woman laughing in a modern, plant-filled lounge area. She is holding a ceramic cup, and the background shows a blurred bookshelf and high-end furniture. The atmosphere is social yet refined, with bright morning light and a palette of warm woods and cool teals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlcOVdP7YAm-IkLopHzRuxTmp3ZzbbX2EEcyMum8RInuLC9zidK2PD4JGqWVLF_FwOsHPiXe6t3hu54aAeDH-Ep7Nl4agEjlF8wG3BkA2xlLyu0locqmVZ55fZyh2qcaATFKTm8wKAZgwUCb__uv6RS7MvCmH2IffrnNm0wvB0NQeSHYETxOnjt740Geq9TMx-5T3kt8RYjL_w-Jm0YhUwv79c9x4TL2nfsbVGJKYGV3lku0b5GMhy1NEBldEbCLSip1omDdM4EmM"/>
+<div class="absolute top-4 left-4 vibe-match-gradient text-white px-3 py-1 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                        89% Vibe Match
+                    </div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Sarah Jenkins</h3>
+<p class="text-label-md font-label-md text-teal-accent">Senior Consultant</p>
+</div>
+<span class="material-symbols-outlined text-warm-slate cursor-pointer" data-icon="bookmark">bookmark</span>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Social</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Weekend hiker</span>
+<span class="bg-surface-container px-3 py-1 rounded text-label-sm font-label-sm text-deep-navy">Cooking</span>
+</div>
+<p class="text-body-md font-body-md text-warm-slate line-clamp-2 italic">"New to the city and looking for housemates who enjoy Sunday brunches and keeping a tidy living room."</p>
+</div>
+<div class="pt-6 mt-auto border-t border-border-light flex gap-3">
+<button class="flex-1 bg-deep-navy text-on-primary py-3 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity active:scale-95">Start Conversation</button>
+<button class="w-12 h-12 flex items-center justify-center border border-border-light rounded-lg hover:bg-surface-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Secondary section: Community Guidelines / Bento Style -->
+<section class="mt-stack-lg grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-primary-container p-8 rounded-xl text-on-primary-container relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="text-headline-md font-headline-md mb-4 text-white">The Membership Standard</h4>
+<p class="text-body-md font-body-md text-on-primary-container max-w-lg mb-6">Every match in Habitus is pre-vetted to ensure a community of respected professionals. We prioritize mutual respect, cleanliness, and architectural appreciation.</p>
+<button class="flex items-center gap-2 text-teal-accent font-label-md text-label-md hover:gap-4 transition-all">
+                        Review community guidelines <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="absolute -right-12 -bottom-12 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[200px]" data-icon="verified_user">verified_user</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-8 rounded-xl border border-border-light flex flex-col justify-center">
+<div class="text-display-lg font-display-lg text-deep-navy mb-2">42</div>
+<div class="text-label-md font-label-md text-warm-slate uppercase tracking-wider">New matches today</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-4">Based on your refined preference for central locations and silent workspaces.</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg border-t border-border-light dark:border-outline-variant shadow-[0px_-4px_20px_rgba(15,23,42,0.05)] rounded-t-xl h-20">
+<div class="flex justify-around items-center h-full px-4 pb-safe w-full">
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline hover:text-deep-navy dark:hover:text-inverse-on-surface transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="text-label-sm font-label-sm">Discover</span>
+</div>
+<div class="flex flex-col items-center justify-center text-teal-accent dark:text-secondary-fixed font-semibold transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="group" data-weight="fill">group</span>
+<span class="text-label-sm font-label-sm">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline hover:text-deep-navy dark:hover:text-inverse-on-surface transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-sm font-label-sm">Messages</span>
+</div>
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline hover:text-deep-navy dark:hover:text-inverse-on-surface transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</div>
+</div>
+</nav>
+<script>
+        // Smooth hover interactions for cards
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Toggle bookmark active state
+        document.querySelectorAll('[data-icon="bookmark"]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const isFilled = this.style.fontVariationSettings.includes("'FILL' 1");
+                this.style.fontVariationSettings = isFilled ? "'FILL' 0" : "'FILL' 1";
+                this.style.color = isFilled ? '#475569' : '#14B8A6';
+            });
+        });
+    </script>
+</body></html>

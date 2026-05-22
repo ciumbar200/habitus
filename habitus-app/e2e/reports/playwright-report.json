@@ -1,0 +1,336 @@
+{
+  "config": {
+    "configFile": "/Users/valentin/Downloads/aaaaa/habitus-app/playwright.config.ts",
+    "rootDir": "/Users/valentin/Downloads/aaaaa/habitus-app/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/valentin/Downloads/aaaaa/habitus-app/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "e2e/reports/playwright-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:5173",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "agents/role-agents.spec.ts",
+      "file": "agents/role-agents.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "agente inquilino: registro, login y onboarding",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+                    "stack": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "\n--- INFORME AGENTES E2E ---\n\n"
+                    },
+                    {
+                      "text": "# Informe agentes E2E — Habitus\n\nFecha: 21/5/2026, 4:09:54\n\n| Rol | Email | Registro | Login | Onboarding | Duración |\n|-----|-------|----------|-------|------------|----------|\n\n**Resultado: todos los agentes pasaron.**\n"
+                    },
+                    {
+                      "text": "\nGuardado: /Users/valentin/Downloads/aaaaa/habitus-app/e2e/reports/agent-report-2026-05-21T02-09-54-883Z.md\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-21T02:09:54.865Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--24d14-registro-login-y-onboarding-chromium/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--24d14-registro-login-y-onboarding-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f6efbc19d5a2d3a0e8fb-eee362440f06297505e5",
+          "file": "agents/role-agents.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "agente anfitrion: registro, login y onboarding",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1,
+                  "error": {
+                    "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+                    "stack": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "\n--- INFORME AGENTES E2E ---\n\n"
+                    },
+                    {
+                      "text": "# Informe agentes E2E — Habitus\n\nFecha: 21/5/2026, 4:09:55\n\n| Rol | Email | Registro | Login | Onboarding | Duración |\n|-----|-------|----------|-------|------------|----------|\n\n**Resultado: todos los agentes pasaron.**\n"
+                    },
+                    {
+                      "text": "\nGuardado: /Users/valentin/Downloads/aaaaa/habitus-app/e2e/reports/agent-report-2026-05-21T02-09-55-168Z.md\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-21T02:09:55.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--16d30-registro-login-y-onboarding-chromium/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--16d30-registro-login-y-onboarding-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f6efbc19d5a2d3a0e8fb-4e693aaf40c57ff280ce",
+          "file": "agents/role-agents.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "agente propietario: registro, login y onboarding",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+                    "stack": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "\n--- INFORME AGENTES E2E ---\n\n"
+                    },
+                    {
+                      "text": "# Informe agentes E2E — Habitus\n\nFecha: 21/5/2026, 4:09:55\n\n| Rol | Email | Registro | Login | Onboarding | Duración |\n|-----|-------|----------|-------|------------|----------|\n\n**Resultado: todos los agentes pasaron.**\n"
+                    },
+                    {
+                      "text": "\nGuardado: /Users/valentin/Downloads/aaaaa/habitus-app/e2e/reports/agent-report-2026-05-21T02-09-55-450Z.md\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-21T02:09:55.430Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--279a7-registro-login-y-onboarding-chromium/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--279a7-registro-login-y-onboarding-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f6efbc19d5a2d3a0e8fb-3f436222801c3e2097a0",
+          "file": "agents/role-agents.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "agente agencia: registro, login y onboarding",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 0,
+                  "error": {
+                    "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+                    "stack": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Executable doesn't exist at /var/folders/sd/xtc3x2dd0ls0bnvwcbws6jwc0000gn/T/cursor-sandbox-cache/6f9fd28148ef57cc418849fd2dfd4b0b/playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "\n--- INFORME AGENTES E2E ---\n\n"
+                    },
+                    {
+                      "text": "# Informe agentes E2E — Habitus\n\nFecha: 21/5/2026, 4:09:55\n\n| Rol | Email | Registro | Login | Onboarding | Duración |\n|-----|-------|----------|-------|------------|----------|\n\n**Resultado: todos los agentes pasaron.**\n"
+                    },
+                    {
+                      "text": "\nGuardado: /Users/valentin/Downloads/aaaaa/habitus-app/e2e/reports/agent-report-2026-05-21T02-09-55-718Z.md\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-21T02:09:55.700Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--cb133-registro-login-y-onboarding-chromium/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/valentin/Downloads/aaaaa/habitus-app/test-results/agents-role-agents-agente--cb133-registro-login-y-onboarding-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f6efbc19d5a2d3a0e8fb-df42ad9a942e8ff5aba3",
+          "file": "agents/role-agents.spec.ts",
+          "line": 11,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-21T02:09:54.549Z",
+    "duration": 1189.359,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}

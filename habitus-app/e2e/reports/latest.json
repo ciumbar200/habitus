@@ -1,0 +1,18 @@
+[
+  {
+    "role": "inquilino",
+    "email": "habitus-1779330148398-wlgjzh@wshu.net",
+    "signupOk": true,
+    "loginOk": false,
+    "onboardingOk": false,
+    "finalPath": "http://localhost:5176/access",
+    "errors": [
+      "page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================"
+    ],
+    "uxNotes": [
+      "Rate limit en registro UI; provisionando por RPC/Admin",
+      "Fallback RPC SQL"
+    ],
+    "durationMs": 18331
+  }
+]

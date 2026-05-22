@@ -1,0 +1,17 @@
+{
+  "name": "habitus-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/habitus-core",
+    "habitus-mobile",
+    "habitus-app"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w habitus-app",
+    "dev:mobile": "npm run dev -w habitus-mobile",
+    "typecheck:core": "npm run typecheck -w @habitus/core"
+  },
+  "dependencies": {
+    "phosphor-react": "^1.4.1"
+  }
+}

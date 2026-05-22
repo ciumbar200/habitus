@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Habitus - Discover Premium Co-living</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#eff1f3",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#bec6e0",
+                      "on-secondary-container": "#006f64",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "teal-accent": "#14B8A6",
+                      "background": "#f7f9fb",
+                      "on-secondary-fixed-variant": "#005048",
+                      "inverse-surface": "#2d3133",
+                      "secondary-fixed": "#71f8e4",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "surface": "#f7f9fb",
+                      "secondary-container": "#6df5e1",
+                      "surface-container-low": "#f2f4f6",
+                      "on-secondary-fixed": "#00201c",
+                      "primary-container": "#131b2e",
+                      "on-primary-container": "#7c839b",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "warm-slate": "#475569",
+                      "surface-tint": "#565e74",
+                      "error": "#ba1a1a",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-background": "#191c1e",
+                      "primary-fixed-dim": "#bec6e0",
+                      "error-container": "#ffdad6",
+                      "secondary": "#006b5f",
+                      "surface-container-high": "#e6e8ea",
+                      "on-surface-variant": "#45464d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-secondary": "#ffffff",
+                      "tertiary-container": "#2a1700",
+                      "primary-fixed": "#dae2fd",
+                      "border-light": "#E2E8F0",
+                      "outline-variant": "#c6c6cd",
+                      "tertiary": "#000000",
+                      "secondary-fixed-dim": "#4fdbc8",
+                      "primary": "#000000",
+                      "surface-variant": "#e0e3e5",
+                      "deep-navy": "#0F172A",
+                      "on-tertiary-container": "#b87500",
+                      "outline": "#76777d",
+                      "surface-dim": "#d8dadc",
+                      "surface-container": "#eceef0",
+                      "on-primary-fixed": "#131b2e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px",
+                      "stack-md": "16px",
+                      "margin-desktop": "40px",
+                      "base": "8px",
+                      "margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-md": ["Manrope"],
+                      "label-md": ["Manrope"],
+                      "headline-lg": ["Manrope"],
+                      "headline-md": ["Manrope"],
+                      "label-sm": ["Manrope"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "display-lg": ["Manrope"],
+                      "body-lg": ["Manrope"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-border-light dark:border-outline-variant">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-border-light cursor-pointer active:scale-95 transition-transform duration-200">
+<img alt="user profile" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a sophisticated young professional woman with a warm, confident expression. She is set against a clean, softly blurred architectural office background with natural lighting. The image maintains a high-end, membership-exclusive aesthetic with a clean and professional corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyG1Vj2fNf0xSTn63zYFOCzosjrxS4Cxbm7MCGcUFHRWN25GbwAuKi1Y4SCoqfHdiF7EJGcO2DYT1RSJurWKPTmuR96Rubez-y-Y6vdYNi1L8c9zIh4Ar2Ng2LGa7n0TPqyCyhqdYxDAZwtNB13MJCUja1gTM2aNQ5Wmi65W0VwCrRf903QB46g2WIBd15QXDDTHugUMKwDaVb1vT8P_K1N3UA7GSdne1JL-DfKFMOz9Y-FZpCzh63-lvh0JnjexqpJaAJS4hI6lQ"/>
+</div>
+<h1 class="text-headline-md font-headline-md tracking-tight text-deep-navy dark:text-inverse-primary">Habitus</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
+<span class="text-deep-navy dark:text-inverse-primary font-bold cursor-pointer hover:opacity-80 transition-opacity">Discover</span>
+<span class="text-on-surface-variant dark:text-outline cursor-pointer hover:opacity-80 transition-opacity">Matches</span>
+<span class="text-on-surface-variant dark:text-outline cursor-pointer hover:opacity-80 transition-opacity">Messages</span>
+<span class="text-on-surface-variant dark:text-outline cursor-pointer hover:opacity-80 transition-opacity">Dashboard</span>
+</nav>
+<div class="text-primary dark:text-on-primary cursor-pointer active:scale-95 transition-opacity duration-200 hover:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Search & Filter Section -->
+<section class="mb-stack-lg">
+<div class="bg-surface-container-lowest rounded-xl border border-border-light card-shadow p-2 md:p-3 flex flex-col md:flex-row items-center gap-2 md:gap-4">
+<div class="flex items-center flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-border-light">
+<span class="material-symbols-outlined text-warm-slate mr-3" data-icon="location_on">location_on</span>
+<div class="flex flex-col">
+<label class="text-label-sm font-label-sm text-warm-slate uppercase tracking-wider">Location</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-body-md font-semibold text-deep-navy placeholder:text-outline" placeholder="London, United Kingdom" type="text"/>
+</div>
+</div>
+<div class="flex items-center flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-border-light">
+<span class="material-symbols-outlined text-warm-slate mr-3" data-icon="payments">payments</span>
+<div class="flex flex-col">
+<label class="text-label-sm font-label-sm text-warm-slate uppercase tracking-wider">Budget</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-body-md font-semibold text-deep-navy placeholder:text-outline" placeholder="£1,200 - £2,500" type="text"/>
+</div>
+</div>
+<div class="flex items-center flex-1 w-full px-4 py-2">
+<span class="material-symbols-outlined text-warm-slate mr-3" data-icon="calendar_month">calendar_month</span>
+<div class="flex flex-col">
+<label class="text-label-sm font-label-sm text-warm-slate uppercase tracking-wider">Move-in</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-body-md font-semibold text-deep-navy placeholder:text-outline" placeholder="Oct 2024" type="text"/>
+</div>
+</div>
+<button class="w-full md:w-auto bg-deep-navy text-on-primary px-8 py-3 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+                    Search
+                </button>
+</div>
+</section>
+<!-- Category Chips -->
+<div class="flex gap-3 overflow-x-auto no-scrollbar mb-stack-lg pb-2">
+<span class="px-5 py-2 rounded-full bg-deep-navy text-white font-label-md cursor-pointer whitespace-nowrap">All Homes</span>
+<span class="px-5 py-2 rounded-full bg-surface-container border border-border-light text-deep-navy font-label-md cursor-pointer whitespace-nowrap hover:bg-surface-container-high transition-colors">Shared Suites</span>
+<span class="px-5 py-2 rounded-full bg-surface-container border border-border-light text-deep-navy font-label-md cursor-pointer whitespace-nowrap hover:bg-surface-container-high transition-colors">Studio Lofts</span>
+<span class="px-5 py-2 rounded-full bg-surface-container border border-border-light text-deep-navy font-label-md cursor-pointer whitespace-nowrap hover:bg-surface-container-high transition-colors">Creative Hubs</span>
+<span class="px-5 py-2 rounded-full bg-surface-container border border-border-light text-deep-navy font-label-md cursor-pointer whitespace-nowrap hover:bg-surface-container-high transition-colors">Quiet Residences</span>
+</div>
+<!-- Property Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden card-shadow transition-transform duration-300 hover:-translate-y-1">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="luxury co-living space" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A wide-angle, high-end interior shot of a sun-drenched minimalist living room featuring architectural furniture, floor-to-ceiling windows, and polished concrete floors. The space is decorated with lush indoor plants and high-quality textiles in a palette of cream, deep navy, and teal. Soft morning light creates a peaceful, exclusive atmosphere in a modern corporate hybrid style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxNC4fnqYI-WPPJ6kja6257E7AUVlNv4PWbycUCIwncJrgc6RB4cRkGUgLsz00F44UOvU11FIDVBLkk-DPXpX3faAwJRNSx31ALu-bhjiXCiOB05A1mpfDpcXVoS8WAHG18cdHhiF66_VhAMQ70iy7lIP6L7cAEW19lHUmp-1ks2qWIMbknxmSblREyFi37FhO9jaZEs4kKokoSOD7D_eTeVWgAZlEWPaxHHtt-j7DSFssrWsUzo9Znypi6MYiN3TPdO_ieyDUhWA"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-surface/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-bold text-teal-accent flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                            98% Compatible
+                        </span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-deep-navy hover:text-teal-accent transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">The Kensington Collective</h3>
+<p class="text-body-md text-warm-slate flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                                South Kensington, London
+                            </p>
+</div>
+<div class="text-right">
+<p class="text-headline-md font-headline-md text-teal-accent">£2,450</p>
+<p class="text-label-sm text-warm-slate">per month</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border-light">
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="volume_off">volume_off</span>
+                            Quiet hours
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="pets">pets</span>
+                            Pet friendly
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="cleaning_services">cleaning_services</span>
+                            Weekly Cleaning
+                        </span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden card-shadow transition-transform duration-300 hover:-translate-y-1">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="modern kitchen shared living" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="An expansive, ultra-modern communal kitchen and dining area in a premium co-living building. Featuring sleek marble countertops, designer pendant lighting, and high-end built-in appliances. The environment is impeccably clean, bright, and airy with a sophisticated color palette of white, slate grey, and warm wood accents. The mood is social yet orderly and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsAgTNvoEkc9qYM3Ktw5uREeivWwRIEoNambaj1eXclBKIIOMNsgL-qEWsOWwcDcL0KbP7QK01wRI3I7tl0qIJ37APqEc2fYtIz2lUAj0Z7OyuPhMWchuj8beUHP94-uyEpC3oaKqQc6cFsjCXj8l2wnEVh2BzPLNO0EFUq2VGSNkPV5hEC1jEPsXiR-hcqYDFlc9gFOjkznipEpKt0zKQvX6IRZWyPmW0XbKH74_POeDqC9GnPL1pltmIU7XwaGb0bf-Le_uEMbM"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-surface/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-bold text-teal-accent flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                            85% Compatible
+                        </span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-deep-navy hover:text-teal-accent transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">Skyline Lofts Shoreditch</h3>
+<p class="text-body-md text-warm-slate flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                                Shoreditch, London
+                            </p>
+</div>
+<div class="text-right">
+<p class="text-headline-md font-headline-md text-teal-accent">£1,800</p>
+<p class="text-label-sm text-warm-slate">per month</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border-light">
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="wifi">wifi</span>
+                            1Gbps Wi-Fi
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="coffee">coffee</span>
+                            Roastery Coffee
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="groups">groups</span>
+                            Networking Events
+                        </span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl border border-border-light overflow-hidden card-shadow transition-transform duration-300 hover:-translate-y-1">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="co-living bedroom" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A serene, premium bedroom suite within a luxury co-living property. The room features a king-sized bed with crisp white linens, a minimalist desk area for remote work, and subtle architectural details. Large windows provide a view of a tranquil courtyard. The aesthetic is calm, permanent, and architectural, using high-quality materials and a neutral palette with deep navy accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZAEKjQ7xsaxov_2snvIH8toKuGx1XXg1OpaKW4PixWHATZYcrox-9vbEvHsk6c9Y6Y5d-qJTiNiRtIWaZcdKM5_55FttDdzekDE-4NG-Hu9UJGE59VSPoXdzKA-uvnLqIj7Xfh2qWl_46Jv1e8u0yuklNd1wSMnYhmZrSoVjMGlSa7P8YEpjiI1lDqgbOglVxMMzYJn3a7pxSvCDq9jmG2QoNJqARyUBobMXDowoo-zXYkDCO3s7k1kxv7SL-ClnnEU9FRhaxVtQ"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-surface/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-bold text-teal-accent flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="bolt" data-weight="fill">bolt</span>
+                            92% Compatible
+                        </span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-surface/90 backdrop-blur-md flex items-center justify-center text-deep-navy hover:text-teal-accent transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-headline-md font-headline-md text-deep-navy">The Fitzrovia House</h3>
+<p class="text-body-md text-warm-slate flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                                Fitzrovia, London
+                            </p>
+</div>
+<div class="text-right">
+<p class="text-headline-md font-headline-md text-teal-accent">£2,100</p>
+<p class="text-label-sm text-warm-slate">per month</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border-light">
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="work">work</span>
+                            Coworking Space
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="local_laundry_service">local_laundry_service</span>
+                            Laundry Concierge
+                        </span>
+<span class="px-3 py-1 bg-surface-container rounded-lg text-label-sm text-deep-navy flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="fitness_center">fitness_center</span>
+                            On-site Gym
+                        </span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg border-t border-border-light dark:border-outline-variant shadow-[0px_-4px_20px_rgba(15,23,42,0.05)]">
+<div class="flex justify-around items-center h-20 px-4 pb-safe w-full">
+<a class="flex flex-col items-center justify-center text-teal-accent dark:text-secondary-fixed font-semibold transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="text-label-sm font-label-sm">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-label-sm font-label-sm">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-sm font-label-sm">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</a>
+</div>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.97)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Hover effect for navigation
+        const navItems = document.querySelectorAll('nav a, nav span');
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.opacity = '0.7';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.opacity = '1';
+            });
+        });
+    </script>
+</body></html>

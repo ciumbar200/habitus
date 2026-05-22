@@ -1,0 +1,16 @@
+[
+  {
+    "role": "agencia",
+    "email": "habitus-1779329506812-xrtuz4@wshu.net",
+    "signupOk": false,
+    "loginOk": false,
+    "onboardingOk": false,
+    "finalPath": "http://localhost:5176/access",
+    "errors": [
+      "Tras registro, URL inesperada: http://localhost:5176/access",
+      "\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/panel/\u001b[39m\nReceived string:  \u001b[31m\"http://localhost:5176/access\"\u001b[39m\nTimeout: 15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 15000ms\u001b[22m\n\u001b[2m    34 × unexpected value \"http://localhost:5176/access\"\u001b[22m\n"
+    ],
+    "uxNotes": [],
+    "durationMs": 20532
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "role": "inquilino",
+    "email": "habitus-1779329607486-65zk2r@wshu.net",
+    "signupOk": false,
+    "loginOk": false,
+    "onboardingOk": false,
+    "finalPath": "http://localhost:5176/access",
+    "errors": [
+      "Registro: email rate limit exceeded",
+      "page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n============================================================"
+    ],
+    "durationMs": 19734
+  }
+]

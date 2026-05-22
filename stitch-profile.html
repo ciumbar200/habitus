@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Habitus | Your Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary-container": "#006f64",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "teal-accent": "#14B8A6",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#005048",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed": "#71f8e4",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface": "#f7f9fb",
+                        "secondary-container": "#6df5e1",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#00201c",
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "warm-slate": "#475569",
+                        "surface-tint": "#565e74",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-background": "#191c1e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006b5f",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface-variant": "#45464d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#2a1700",
+                        "primary-fixed": "#dae2fd",
+                        "border-light": "#E2E8F0",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#4fdbc8",
+                        "primary": "#000000",
+                        "surface-variant": "#e0e3e5",
+                        "deep-navy": "#0F172A",
+                        "on-tertiary-container": "#b87500",
+                        "outline": "#76777d",
+                        "surface-dim": "#d8dadc",
+                        "surface-container": "#eceef0",
+                        "on-primary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "stack-md": "16px",
+                        "margin-desktop": "40px",
+                        "base": "8px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .glass-nav { background: rgba(247, 249, 251, 0.8); backdrop-filter: blur(12px); }
+        .card-shadow { box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-border-light dark:border-outline-variant">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-light cursor-pointer active:scale-95 transition-all">
+<img alt="user profile picture" data-alt="A professional headshot of a young man with a friendly expression, wearing a tailored charcoal blazer over a crisp white shirt. The background is a blurred high-end interior with soft architectural lighting and a minimalist aesthetic, reflecting a membership-only corporate modern vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6bKE730JXUHAdtPMOtP_jQOKVPje5zAE3r7JS5lEE2vLdbRrBFgQIEYwS53OalR2h2nRh9ODGanXaeZt-z_BvEnMvm-HQAOarr488Bn8GXDrN2QUfiglyNsbTRL_P5-Cq082HmYQ2bnQZT5cYXcME1xgUFIBxXTmzCq7LPPxaUQSwohFqeYHuuZfMd3IUXJtAChyLYbCapg0zDxt1aO39X_-MEJdrzWnAc2lTzzyJCfatvu6_tql4WsR2-uoO8QKD29LW5tXIvds"/>
+</div>
+<h1 class="text-headline-md font-headline-md tracking-tight text-deep-navy dark:text-inverse-primary">Habitus</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Discover</a>
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Matches</a>
+<a class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity duration-200 font-label-md text-label-md" href="#">Messages</a>
+<a class="text-deep-navy dark:text-inverse-primary font-bold font-label-md text-label-md" href="#">Dashboard</a>
+</nav>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-all hover:opacity-80" data-icon="notifications">notifications</span>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Welcome Section -->
+<section class="mb-stack-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="text-teal-accent font-label-md text-label-md uppercase tracking-wider mb-2 block">Member Portal</span>
+<h2 class="text-display-lg font-display-lg text-deep-navy">Welcome home, Julian</h2>
+<p class="text-body-lg font-body-lg text-warm-slate mt-2">You are 85% of the way to your next curated living space.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 bg-deep-navy text-white rounded-lg font-label-md text-label-md hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+                        Edit Profile
+                    </button>
+</div>
+</div>
+</section>
+<!-- Journey Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<!-- Application Status -->
+<div class="md:col-span-8 bg-surface-container-lowest border border-border-light rounded-xl p-6 card-shadow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-headline-md font-headline-md text-deep-navy">Active Applications</h3>
+<span class="text-label-sm font-label-sm text-warm-slate">2 in progress</span>
+</div>
+<div class="space-y-4">
+<!-- App Card 1 -->
+<div class="flex items-center gap-4 p-4 border border-border-light rounded-lg hover:border-teal-accent transition-colors group cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Property" class="w-full h-full object-cover" data-alt="A bright, sun-drenched modern apartment interior with high ceilings and floor-to-ceiling windows. The room features architectural details like minimalist moldings and light oak hardwood floors. High-end Scandinavian furniture is carefully arranged, creating an atmosphere of sophisticated urban living in a light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_hHuJ6khgLQ9TtoKmTShgzQBbB__Xnu2y8RxLRt7qmPmuz1SDhzuxKBHYFeo76ANmeCnW7vCvLEckTzD-P9qmE5QPPbtqVH0tt7APyhUBUR7PMboUTpXOu8u9oLcaJFn8sspt88DwkVMZbs6FEpX_oy11Mo6C4Ng3fsPs9ukPto_SZhStNrDBpCMCEORUEVMXC7-5mqie2CE7LEXUDASi3qEFrq38-bsZTxKXnVZ3juHqMNOW90uZl1Y2zmcEaVn5lfUO0R45Ya8"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between">
+<h4 class="text-label-md font-label-md text-deep-navy">The Heritage House, Notting Hill</h4>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded">Final Review</span>
+</div>
+<p class="text-label-sm font-label-sm text-warm-slate mt-1">Applied: Oct 12, 2023</p>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-teal-accent h-full w-3/4 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- App Card 2 -->
+<div class="flex items-center gap-4 p-4 border border-border-light rounded-lg hover:border-teal-accent transition-colors group cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Property" class="w-full h-full object-cover" data-alt="An expansive, luxury penthouse suite with an open floor plan and dramatic city views through architectural steel-frame windows. The lighting is soft and golden, highlighting premium marble surfaces and velvet upholstery. The style is minimalist corporate modern, focusing on clean lines and a sense of exclusive quietude." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD179aYkjhAj9IuQqjmLf4YB2yVo4oxDKgjdvr4y92o8qnjp2jPywzDaHhcGY3QNlLtp98NmzowFkf-jxkk80PIajbiA-zhP-4KUo2onYQeb7Qxs08QDo8otDNLsqKcS7NGPzlaTUcLgX4cgzQT74BEEXD0NDL-NTB8BrAhyA_EJLPZ4XYUpLm-kqCasvnPF8xFD2Y4Tk4X1rbvsk1iDnWHVGSc_papG3lS5xh9i-o90uwGP9Qm-f6IGuLWQHkUy7ulBIgrFLC4MJo"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between">
+<h4 class="text-label-md font-label-md text-deep-navy">Atlas Lofts, Shoreditch</h4>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm rounded">Interview Scheduled</span>
+</div>
+<p class="text-label-sm font-label-sm text-warm-slate mt-1">Applied: Oct 15, 2023</p>
+<div class="w-full bg-surface-container-low h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-warm-slate h-full w-1/2 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Profile Completion -->
+<div class="md:col-span-4 bg-deep-navy rounded-xl p-6 text-white flex flex-col justify-between">
+<div>
+<h3 class="text-headline-md font-headline-md mb-2">Profile Score</h3>
+<p class="text-on-primary-container text-label-md font-label-md">Complete your 'Socializing' preference to reach 100% visibility.</p>
+</div>
+<div class="relative py-8 flex justify-center">
+<svg class="w-32 h-32 transform -rotate-90">
+<circle class="text-primary-container" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-teal-accent" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-dasharray="351.85" stroke-dashoffset="52.77" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-headline-md font-headline-md">85%</span>
+</div>
+</div>
+<button class="w-full py-3 bg-teal-accent text-deep-navy rounded-lg font-label-md text-label-md font-bold">Complete Profile</button>
+</div>
+</div>
+<!-- Lifestyle Preferences Section -->
+<section class="mb-stack-lg">
+<h3 class="text-headline-md font-headline-md text-deep-navy mb-stack-md">Lifestyle Preferences</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Cleanliness -->
+<div class="bg-surface-container-lowest border border-border-light rounded-xl p-6 card-shadow">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-teal-accent" data-icon="cleaning_services">cleaning_services</span>
+<h4 class="text-label-md font-label-md text-deep-navy uppercase">Cleanliness</h4>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-label-sm font-label-sm text-warm-slate">
+<span>Relaxes</span>
+<span>Meticulous</span>
+</div>
+<input class="w-full accent-teal-accent h-1 bg-surface-container-high rounded-full appearance-none cursor-pointer" type="range" value="80"/>
+<p class="text-label-sm font-label-sm text-warm-slate">You prefer professional weekly cleaning and shared chores.</p>
+</div>
+</div>
+<!-- Socializing -->
+<div class="bg-surface-container-lowest border border-border-light rounded-xl p-6 card-shadow">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-teal-accent" data-icon="groups">groups</span>
+<h4 class="text-label-md font-label-md text-deep-navy uppercase">Socializing</h4>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-label-sm font-label-sm text-warm-slate">
+<span>Quiet</span>
+<span>Vibrant</span>
+</div>
+<input class="w-full accent-teal-accent h-1 bg-surface-container-high rounded-full appearance-none cursor-pointer" type="range" value="40"/>
+<p class="text-label-sm font-label-sm text-warm-slate">You value a quiet home base but enjoy monthly group dinners.</p>
+</div>
+</div>
+<!-- Cooking -->
+<div class="bg-surface-container-lowest border border-border-light rounded-xl p-6 card-shadow">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-teal-accent" data-icon="restaurant">restaurant</span>
+<h4 class="text-label-md font-label-md text-deep-navy uppercase">Cooking</h4>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-label-sm font-label-sm text-warm-slate">
+<span>Delivery</span>
+<span>Chef</span>
+</div>
+<input class="w-full accent-teal-accent h-1 bg-surface-container-high rounded-full appearance-none cursor-pointer" type="range" value="65"/>
+<p class="text-label-sm font-label-sm text-warm-slate">You enjoy communal Sunday roasts and keeping the kitchen tidy.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Saved Properties -->
+<section>
+<div class="flex justify-between items-center mb-stack-md">
+<h3 class="text-headline-md font-headline-md text-deep-navy">Saved for Later</h3>
+<a class="text-teal-accent font-label-md text-label-md flex items-center gap-1 hover:underline" href="#">
+                    View all 12
+                    <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Saved Card 1 -->
+<div class="bg-white border border-border-light rounded-xl overflow-hidden card-shadow group cursor-pointer transition-transform duration-300 hover:-translate-y-1">
+<div class="relative h-48 overflow-hidden">
+<img alt="Room" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A modern architectural living space with high-end designer furniture and large windows looking out onto a lush private garden. The room is filled with soft afternoon light, creating a serene and exclusive atmosphere. The color palette is composed of warm slates and cream tones, emphasizing a minimalist corporate modern lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzhcmvYAduiN5H2jV2RtcRhQ3uyt4VMBExdjr96ePmsY3DXq8cp7Xm0ZRiPVunhuGkv7pOPm38cKdmi5BA_HFPEtjZN4TqMyhFxIUOhIwxWeL4kDvS2SR0h049Op06eXIV-w643zSdorYtNwdzMsOzIMjdYMN3lDfkC1UOC_JqMHEPJVA2ExNfMcaoYJvD-hgala-57SCH_XRidd0-5P0DLhS-Pnja7UtVP9B4NtiDhD5TLfpccBVY5z4Yr2eI8716vyMQXCiX-4E"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-teal-accent">
+<span class="material-symbols-outlined fill-1" data-icon="bookmark" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</div>
+</div>
+<div class="p-5">
+<h4 class="text-headline-md font-headline-md text-deep-navy truncate">Chelsea Garden Studio</h4>
+<p class="text-label-sm font-label-sm text-warm-slate mt-1">Chelsea • Available Nov 1</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-teal-accent font-bold text-headline-md">£2,400<span class="text-label-sm font-normal text-warm-slate">/mo</span></span>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Gym</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Terrace</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Saved Card 2 -->
+<div class="bg-white border border-border-light rounded-xl overflow-hidden card-shadow group cursor-pointer transition-transform duration-300 hover:-translate-y-1">
+<div class="relative h-48 overflow-hidden">
+<img alt="Room" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A luxurious urban bedroom with a king-sized bed, premium linens, and a dedicated workspace. The room features high-quality wooden panelling and minimalist pendant lighting. A large window offers a view of a tranquil courtyard. The mood is sophisticated and peaceful, designed for a high-end membership experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRvKdIq3MKWfaUUMzdkFw3fzulbU10gH9cvmYSHtdSglREwIim4TRlLnET_xH6d0EL23fK94uZ_IJwNA5zKY5tQ0rgpvdB-wFW_zjoSV17R-p7ciV9O8iRNmGohqmBAUQMh_qu3Dxa4bk2bYmmCp2v2m3-Ez6_JTrz3rudI47wyDcySUgUPUnoSzclMWZORF6Aomy_kAb-cQv79wgeOmVGkXpQ-lhnKMs9ybS454ip4CqmDMo8M0AqEqTLtzGBs_TnLTZPsttdl0o"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-teal-accent">
+<span class="material-symbols-outlined" data-icon="bookmark" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</div>
+</div>
+<div class="p-5">
+<h4 class="text-headline-md font-headline-md text-deep-navy truncate">Belgravia Residences</h4>
+<p class="text-label-sm font-label-sm text-warm-slate mt-1">Belgravia • Available Dec 15</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-teal-accent font-bold text-headline-md">£3,100<span class="text-label-sm font-normal text-warm-slate">/mo</span></span>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Concierge</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Spa</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Desktop Only Saved Card 3 -->
+<div class="hidden lg:block bg-white border border-border-light rounded-xl overflow-hidden card-shadow group cursor-pointer transition-transform duration-300 hover:-translate-y-1">
+<div class="relative h-48 overflow-hidden">
+<img alt="Room" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A bright and spacious contemporary kitchen and dining area in a high-end co-living space. The kitchen features state-of-the-art appliances and a minimalist white island. The dining area has a large oak table with designer chairs, perfect for community interaction. The overall aesthetic is clean, light, and architecturally precise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbEtPGzHMxQJYEJ8UBP6Zn94_VWToEJ7UgoVf4o-eYiugYCepd2yXTaYobsO9rC9sZMJ-KxvGcjk8b0eus-FdmU-siaf1C83f8bHYbXQ-ZlZJxoeisdaXE05h3aYwOadlgmK2hNTHek9sZgjgnWOutwT2fudQEe6BWF00rVa8b93OYjMiGmmotJJ-gWfw2a25ZICeuXJS5pYE-mJu9xFUuWH9Zw6bBRBEI6Y2gWrFkYemNZlQ4u4qkoynOSP8B1LSemz0OilSsacY"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-teal-accent">
+<span class="material-symbols-outlined" data-icon="bookmark" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</div>
+</div>
+<div class="p-5">
+<h4 class="text-headline-md font-headline-md text-deep-navy truncate">The Greenwich Club</h4>
+<p class="text-label-sm font-label-sm text-warm-slate mt-1">Greenwich • Available Immediate</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-teal-accent font-bold text-headline-md">£1,850<span class="text-label-sm font-normal text-warm-slate">/mo</span></span>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Garden</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase rounded">Parking</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface/90 dark:bg-inverse-surface/90 backdrop-blur-lg border-t border-border-light dark:border-outline-variant shadow-[0px_-4px_20px_rgba(15,23,42,0.05)] rounded-t-xl">
+<div class="flex justify-around items-center h-20 px-4 pb-safe w-full">
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface cursor-pointer">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="text-label-sm font-label-sm mt-1">Discover</span>
+</div>
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface cursor-pointer">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-label-sm font-label-sm mt-1">Matches</span>
+</div>
+<div class="flex flex-col items-center justify-center text-warm-slate dark:text-outline transition-all duration-200 ease-in-out hover:text-deep-navy dark:hover:text-inverse-on-surface cursor-pointer">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-label-sm font-label-sm mt-1">Messages</span>
+</div>
+<div class="flex flex-col items-center justify-center text-teal-accent dark:text-secondary-fixed font-semibold transition-all duration-200 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm mt-1">Dashboard</span>
+</div>
+</div>
+</nav>
+<script>
+        // Micro-interaction for range inputs
+        const ranges = document.querySelectorAll('input[type="range"]');
+        ranges.forEach(range => {
+            range.addEventListener('input', (e) => {
+                const val = e.target.value;
+                // Add atmospheric feedback or update text
+                console.log(`Preference updated to: ${val}`);
+            });
+        });
+    </script>
+</body></html>

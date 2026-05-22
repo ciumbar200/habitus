@@ -1,0 +1,41 @@
+{
+  "name": "habitus-mobile",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "expo start",
+    "dev:mobile": "expo start",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "node scripts/open-ios.mjs",
+    "ios:legacy": "EXPO_IOS_SIMULATOR_DEVICE_NAME=\"iPhone 17\" expo start --ios",
+    "ios:fix": "xcrun simctl delete unavailable || true && echo '{\"devices\":[]}' > .expo/devices.json",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@habitus/core": "file:../packages/habitus-core",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-navigation/bottom-tabs": "^7.4.2",
+    "@react-navigation/native": "^7.1.14",
+    "@react-navigation/native-stack": "^7.3.21",
+    "@supabase/supabase-js": "^2.106.1",
+    "expo": "~54.0.33",
+    "expo-asset": "~12.0.13",
+    "expo-auth-session": "~7.0.11",
+    "expo-constants": "~18.0.13",
+    "expo-font": "~14.0.11",
+    "expo-linking": "~8.0.12",
+    "expo-status-bar": "~3.0.9",
+    "expo-web-browser": "~15.0.11",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-url-polyfill": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "private": true
+}

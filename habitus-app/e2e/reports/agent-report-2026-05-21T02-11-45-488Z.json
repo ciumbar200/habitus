@@ -1,0 +1,24 @@
+[
+  {
+    "role": "inquilino",
+    "email": "habitus-1779329481220-yx5gr8@wshu.net",
+    "signupOk": true,
+    "loginOk": true,
+    "onboardingOk": true,
+    "finalPath": "http://localhost:5176/descubrir",
+    "errors": [],
+    "durationMs": 13854
+  },
+  {
+    "role": "anfitrion",
+    "email": "habitus-1779329495211-gnt0x2@wshu.net",
+    "signupOk": true,
+    "loginOk": true,
+    "onboardingOk": true,
+    "finalPath": "http://localhost:5176/panel",
+    "errors": [
+      "\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/Panel de gestión|Hola/)\nExpected: visible\nError: strict mode violation: getByText(/Panel de gestión|Hola/) resolved to 2 elements:\n    1) <span class=\"text-label-md uppercase tracking-wider text-teal-accent\">Panel de gestión</span> aka getByText('Panel de gestión')\n    2) <h1 class=\"text-headline-lg text-deep-navy\">Hola, Agente</h1> aka getByRole('heading', { name: 'Hola, Agente' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/Panel de gestión|Hola/)\u001b[22m\n"
+    ],
+    "durationMs": 10290
+  }
+]

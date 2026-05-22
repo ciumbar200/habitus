@@ -1,0 +1,347 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Icon } from "../components/Icon";
+import { CompatibilityScore } from "../components/CompatibilityScore";
+import { CompatibilityNotice } from "../components/CompatibilityNotice";
+import { HostProfileCard } from "../components/HostProfileCard";
+import { IdentityBadge } from "../components/IdentityBadge";
+import { PropertyVerificationBadge } from "../components/PropertyVerificationBadge";
+import { LoadingState, ErrorState } from "../components/PageState";
+import { useAuth } from "../context/AuthContext";
+import { useBookmarks } from "../hooks/useBookmarks";
+import { saveReturnTo } from "../lib/returnTo";
+import { formatAvailableDate, formatPrice } from "@habitus/core";
+import { es } from "@habitus/core";
+import {
+  fetchCompatQuiz,
+  fetchPropertyBySlug,
+  fetchPropertyImages,
+  getListingUuidBySlug,
+} from "@habitus/core";
+import { createApplication } from "@habitus/core";
+import type { Property } from "@habitus/core";
+import { isSupabaseConfigured } from "../lib/supabase";
+
+export function PropertyDetailPage() {
+  const { id: slug } = useParams();
+  const navigate = useNavigate();
+  const { user, profile } = useAuth();
+  const { isListingSaved, toggleListing } = useBookmarks();
+  const [property, setProperty] = useState<Property | null>(null);
+  const [gallery, setGallery] = useState<{ url: string; alt: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [applying, setApplying] = useState(false);
+  const [applyMsg, setApplyMsg] = useState<string | null>(null);
+
+  const propertyPath = slug ? `/property/${slug}` : null;
+
+  useEffect(() => {
+    if (!slug) {
+      setError(es.property.notFound);
+      setLoading(false);
+      return;
+    }
+    if (!isSupabaseConfigured) {
+      setError(es.discover.configError);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const quizPromise = user?.id ? fetchCompatQuiz(user.id) : Promise.resolve({});
+
+    quizPromise
+      .then((quiz) =>
+        Promise.all([fetchPropertyBySlug(slug, quiz), fetchPropertyImages(slug)]),
+      )
+      .then(([prop, images]) => {
+        if (!prop) {
+          setError(es.property.notFound);
+          setProperty(null);
+          return;
+        }
+        setProperty(prop);
+        setGallery(images);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
+      .finally(() => setLoading(false));
+  }, [slug, user?.id]);
+
+  function goToAccess(signup = false) {
+    if (!propertyPath) return;
+    saveReturnTo(propertyPath);
+    navigate("/access", { state: { from: propertyPath, signup } });
+  }
+
+  const handleApply = async () => {
+    if (!user) {
+      goToAccess(true);
+      return;
+    }
+    if (!slug) return;
+
+    setApplying(true);
+    setApplyMsg(null);
+    const listingId = await getListingUuidBySlug(slug);
+    if (!listingId) {
+      setApplyMsg(es.property.notFound);
+      setApplying(false);
+      return;
+    }
+
+    const { error: err } = await createApplication(user.id, listingId);
+    setApplying(false);
+    if (err) {
+      setApplyMsg(err);
+    } else {
+      setApplyMsg(es.property.applySuccess);
+      if (propertyPath) saveReturnTo(propertyPath);
+      navigate("/profile");
+    }
+  };
+
+  const handleBookmark = async () => {
+    if (!user || !slug) {
+      goToAccess(false);
+      return;
+    }
+    await toggleListing(slug);
+  };
+
+  if (loading) {
+    return (
+      <main className="mx-auto max-w-7xl pb-32 pt-16">
+        <LoadingState message={es.common.loading} />
+      </main>
+    );
+  }
+
+  if (error || !property) {
+    return (
+      <main className="mx-auto max-w-7xl px-margin-mobile pb-32 pt-16">
+        <ErrorState message={error ?? es.property.notFound} />
+        <p className="mt-6 text-center">
+          <Link to="/descubrir" className="text-teal-accent hover:underline">
+            {es.common.exploreSpaces}
+          </Link>
+        </p>
+      </main>
+    );
+  }
+
+  const secondaryImages = gallery.length > 0 ? gallery : [];
+  const saved = slug ? isListingSaved(slug) : false;
+  const coverImage =
+    property.image ||
+    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&h=800&fit=crop";
+
+  return (
+    <main className="mx-auto max-w-7xl pb-32 pt-16">
+      <section className="mt-stack-lg px-margin-mobile md:px-margin-desktop">
+        <div className="grid h-[400px] grid-cols-1 grid-rows-2 gap-4 md:h-[600px] md:grid-cols-4">
+          <div className="group relative overflow-hidden rounded-xl md:col-span-2 md:row-span-2">
+            <img
+              src={coverImage}
+              alt={property.name}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+            {property.visibility === "private" && (
+              <span className="absolute top-4 left-4 rounded-full bg-deep-navy/90 px-3 py-1 text-label-sm text-white">
+                {es.property.privateBadge}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={handleBookmark}
+              className={`absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-surface/90 backdrop-blur-md ${
+                saved ? "text-teal-accent" : "text-deep-navy"
+              }`}
+              aria-label={saved ? es.common.saved : es.common.save}
+            >
+              <Icon name="bookmark" filled={saved} />
+            </button>
+            <div className="absolute bottom-6 left-6 text-white">
+              <h1 className="text-headline-lg md:text-display-lg">{property.name}</h1>
+              <p className="text-body-md opacity-90">{property.location}</p>
+            </div>
+          </div>
+          {secondaryImages[0] && (
+            <div className="hidden overflow-hidden rounded-xl md:col-span-2 md:block">
+              <img
+                src={secondaryImages[0].url}
+                alt={secondaryImages[0].alt}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          {secondaryImages[1] && (
+            <div className="hidden overflow-hidden rounded-xl md:block">
+              <img
+                src={secondaryImages[1].url}
+                alt={secondaryImages[1].alt}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="mt-stack-lg grid grid-cols-1 gap-stack-lg px-margin-mobile md:px-margin-desktop lg:grid-cols-12">
+        <div className="space-y-stack-lg lg:col-span-8">
+          {property.host && <HostProfileCard host={property.host} />}
+
+          <CompatibilityNotice mode={property.compatibilityMode} />
+
+          {(property.propertyVerificationStatus !== "none" ||
+            property.ownerIdentityStatus === "verified" ||
+            property.host?.identityStatus === "verified") && (
+            <div className="rounded-xl border border-border-light bg-surface-container-lowest p-5 card-shadow">
+              <h2 className="mb-3 text-headline-md text-deep-navy">{es.property.trustTitle}</h2>
+              <div className="flex flex-wrap gap-2">
+                {property.ownerIdentityStatus === "verified" && (
+                  <IdentityBadge status="verified" size="sm" />
+                )}
+                {property.host?.identityStatus === "verified" && (
+                  <IdentityBadge status="verified" size="sm" />
+                )}
+                <PropertyVerificationBadge status={property.propertyVerificationStatus} size="sm" />
+              </div>
+              {property.propertyVerificationStatus === "verified" && (
+                <p className="mt-3 text-body-sm text-warm-slate">
+                  {es.propertyVerification.verifiedHint}
+                </p>
+              )}
+            </div>
+          )}
+
+          {property.visibility === "private" && (
+            <p className="rounded-lg bg-surface-container px-4 py-3 text-body-sm text-warm-slate">
+              {es.property.privateHint}
+            </p>
+          )}
+
+          <div className="grid grid-cols-3 gap-4 rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow">
+            <div className="border-r border-border-light text-center">
+              <p className="text-label-sm uppercase tracking-wider text-warm-slate">
+                {es.property.startingAt}
+              </p>
+              <p className="mt-1 text-headline-md text-teal-accent">
+                {formatPrice(property.price, property.currency)}
+              </p>
+            </div>
+            <div className="border-r border-border-light text-center">
+              <p className="text-label-sm uppercase tracking-wider text-warm-slate">
+                {es.property.available}
+              </p>
+              <p className="mt-1 text-headline-md text-deep-navy">
+                {formatAvailableDate(property.availableFrom)}
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-label-sm uppercase tracking-wider text-warm-slate">
+                {property.categorySlug === "piso-grupo"
+                  ? es.property.propertyType
+                  : es.property.roomType}
+              </p>
+              <p className="mt-1 text-headline-md text-deep-navy">{property.roomType ?? "—"}</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-4 text-headline-md text-deep-navy">{es.property.about}</h2>
+            <p className="text-body-lg leading-relaxed text-on-surface-variant">
+              {property.description ??
+                `En ${property.location}, ${property.name} ofrece una experiencia de co-living curada para profesionales.`}
+            </p>
+          </div>
+
+          {property.listingConditions?.trim() && (
+            <div className="border-t border-border-light pt-8">
+              <h2 className="mb-4 text-headline-md text-deep-navy">{es.property.conditions}</h2>
+              <p className="whitespace-pre-wrap text-body-lg leading-relaxed text-on-surface-variant">
+                {property.listingConditions}
+              </p>
+            </div>
+          )}
+
+          {property.amenities.length > 0 && (
+            <div className="border-t border-border-light pt-8">
+              <h2 className="mb-6 text-headline-md text-deep-navy">{es.property.amenities}</h2>
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                {property.amenities.map((a) => (
+                  <div key={a.label} className="flex items-center gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container text-teal-accent">
+                      <Icon name={a.icon} />
+                    </div>
+                    <p className="text-label-md text-deep-navy">{a.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <aside className="lg:col-span-4">
+          <div className="sticky top-24 rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow">
+            <p className="mb-2 text-label-sm uppercase tracking-wider text-warm-slate">
+              {es.property.membershipApplication}
+            </p>
+            <p className="mb-6 text-headline-md text-deep-navy">
+              {formatPrice(property.price, property.currency)}
+              <span className="text-body-md text-warm-slate"> / {es.common.perMonth}</span>
+            </p>
+            {applyMsg && (
+              <p className="mb-3 text-label-sm text-teal-accent">{applyMsg}</p>
+            )}
+            <button
+              type="button"
+              disabled={applying}
+              onClick={handleApply}
+              className="mb-3 w-full rounded-lg bg-deep-navy py-4 text-label-md text-on-primary transition-opacity hover:opacity-90 disabled:opacity-60"
+            >
+              {applying
+                ? es.property.applySending
+                : user
+                  ? es.property.apply
+                  : es.property.signInToApply}
+            </button>
+            {!user && (
+              <p className="mb-3 text-center text-label-sm text-warm-slate">
+                {es.access.propertySignupHint}
+              </p>
+            )}
+            <Link
+              to="/grupos"
+              className="mb-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border-light py-3 text-label-md text-deep-navy transition-colors hover:bg-surface-container"
+            >
+              <Icon name="groups" className="text-[20px]" />
+              {es.groups.create}
+            </Link>
+            <Link
+              to="/matches"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-border-light py-3 text-label-md text-deep-navy transition-colors hover:bg-surface-container"
+            >
+              <Icon name="group" className="text-[20px]" />
+              {es.property.viewRoommates}
+            </Link>
+            {profile && property.compatibilityMode === "host" && property.compatibility != null && (
+              <div className="mt-4">
+                <CompatibilityScore
+                  score={property.compatibility}
+                  result={property.compatibilityResult}
+                  label={es.property.profileCompatible}
+                  defaultOpen={Boolean(property.compatibilityResult?.dimensions.length)}
+                  className="w-full"
+                />
+              </div>
+            )}
+          </div>
+        </aside>
+      </section>
+    </main>
+  );
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "role": "inquilino",
+    "email": "habitus-1779329803809-glup8e@wshu.net",
+    "signupOk": false,
+    "loginOk": false,
+    "onboardingOk": false,
+    "finalPath": "http://localhost:5176/access",
+    "errors": [
+      "email rate limit exceeded — Añade E2E_SUPABASE_SERVICE_ROLE_KEY en .env.local o espera unos minutos."
+    ],
+    "uxNotes": [],
+    "durationMs": 2635
+  }
+]
