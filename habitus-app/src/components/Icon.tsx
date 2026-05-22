@@ -132,7 +132,7 @@ export function Icon({
     return <Fallback size={size} weight={weight} className={className} aria-hidden />;
   }
 
-  const IconComponent = (PhosphorIcons as Record<string, ComponentType<{
+  const IconComponent = (PhosphorIcons as unknown as Record<string, ComponentType<{
     size?: number;
     weight?: IconProps["weight"];
     className?: string;

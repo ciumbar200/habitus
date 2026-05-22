@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { HOST_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
-import { ArrowRight, CheckCircle, Users, Shield, Heart, MapPin, ChatCircle, House, User, Buildings, Funnel, Clock, Star, Check, X, Plus } from "@phosphor-icons/react";
+import { ArrowRight, CheckCircle, Users, Shield, MapPin, ChatCircle, House, User, Star } from "@phosphor-icons/react";
 
 const HOST_TESTIMONIALS = [
   {

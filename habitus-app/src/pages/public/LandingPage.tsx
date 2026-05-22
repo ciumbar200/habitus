@@ -4,8 +4,7 @@ import { fetchCompatQuiz, homePathForRole } from "@habitus/core";
 import { redirectAfterAuth } from "../../lib/returnTo";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingState } from "../../components/PageState";
-import { ArrowRight, Briefcase, CheckCircle, Users, Shield, Heart, MapPin, ChatCircle, House, Target, User, Buildings, Funnel, Clock, Star } from "@phosphor-icons/react";
-import { es } from "@habitus/core";
+import { ArrowRight, Briefcase, Users, Shield, Heart, ChatCircle, House, Target, User, Buildings, Star } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { LandingMainHero, type HeroListingSlide } from "../../components/public/LandingMainHero";
 
