@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
-import { es } from "@habitus/core";
+import { es, formatMoonLocation } from "@habitus/core";
 import type { LivingGroup } from "@habitus/core";
 import { Icon } from "./Icon";
 
 type LivingGroupCardProps = {
   group: LivingGroup;
+  membershipPending?: boolean;
 };
 
-export function LivingGroupCard({ group }: LivingGroupCardProps) {
+export function LivingGroupCard({ group, membershipPending }: LivingGroupCardProps) {
   const statusLabel = es.groups.status[group.status];
   return (
     <Link
@@ -17,16 +18,23 @@ export function LivingGroupCard({ group }: LivingGroupCardProps) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="text-headline-md text-deep-navy">{group.name}</h3>
-          {group.city && (
+          {(group.city || group.zone) && (
             <p className="mt-1 flex items-center gap-1 text-body-sm text-warm-slate">
               <Icon name="location_on" className="text-[16px]" />
-              {group.city}
+              {formatMoonLocation(group.city, group.zone)}
             </p>
           )}
         </div>
-        <span className="shrink-0 rounded-full bg-surface-container px-3 py-1 text-label-sm text-deep-navy">
-          {statusLabel}
-        </span>
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          {membershipPending && (
+            <span className="rounded-full bg-amber-100 px-3 py-1 text-label-sm text-amber-900">
+              {es.groups.requestPending}
+            </span>
+          )}
+          <span className="rounded-full bg-surface-container px-3 py-1 text-label-sm text-deep-navy">
+            {statusLabel}
+          </span>
+        </div>
       </div>
       <p className="mt-3 text-body-sm text-warm-slate">
         {group.memberCount}/{group.targetMembers} {es.groups.members}

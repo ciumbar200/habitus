@@ -35,8 +35,8 @@ export function HowItWorksPage() {
       {/* Intro */}
       <section className="border-b border-stone-200 bg-white pt-28">
         <div className="mx-auto max-w-7xl px-6 pb-10 lg:px-8">
-          <p className="text-sm font-medium uppercase tracking-wider text-terracotta">Guía por rol</p>
-          <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight text-stone-900 lg:text-5xl">
+          <p className="section-eyebrow text-terracotta">Guía por rol</p>
+          <h1 className="section-title mt-3">
             cómo funciona : moon
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -86,7 +86,7 @@ export function HowItWorksPage() {
             },
           ].map((pillar) => (
             <div key={pillar.title} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-              <h2 className="font-serif text-xl text-stone-900">{pillar.title}</h2>
+              <h2 className="card-title">{pillar.title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-stone-600">{pillar.text}</p>
             </div>
           ))}
@@ -131,10 +131,10 @@ function RoleSection({
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.2fr]">
           <div>
-            <p className={`text-sm font-medium uppercase tracking-wider ${config.accent}`}>
+            <p className={`section-eyebrow ${config.accent}`}>
               Para {config.labelPlural}
             </p>
-            <h2 className="mt-3 font-serif text-3xl text-stone-900 lg:text-4xl">{config.headline}</h2>
+            <h2 className="section-title mt-3 lg:text-4xl">{config.headline}</h2>
             <p className="mt-4 text-stone-600 leading-relaxed">{config.intro}</p>
             <Link
               to={config.landingPath}
@@ -166,7 +166,7 @@ function RoleSection({
                 key={step.num}
                 className="group flex gap-5 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-all hover:border-stone-300 hover:shadow-md"
               >
-                <span className={`font-serif text-3xl font-medium ${config.accent} opacity-40 group-hover:opacity-70`}>
+                <span className={`step-number text-2xl sm:text-3xl ${config.accent} opacity-40 group-hover:opacity-70`}>
                   {step.num}
                 </span>
                 <div className="flex-1">
@@ -174,7 +174,7 @@ function RoleSection({
                     <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${config.accentBg}`}>
                       <step.icon size={18} weight="bold" className={config.accent} />
                     </div>
-                    <h3 className="font-serif text-lg text-stone-900">{step.title}</h3>
+                    <h3 className="card-title">{step.title}</h3>
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-stone-600">{step.desc}</p>
                 </div>
@@ -183,7 +183,7 @@ function RoleSection({
 
             {config.extras && (
               <div className={`rounded-2xl border border-dashed p-5 ${config.accentRing} ${config.accentBg}/50`}>
-                <h3 className="font-serif text-lg text-stone-900">{config.extras.title}</h3>
+                <h3 className="card-title">{config.extras.title}</h3>
                 <ul className="mt-3 space-y-2">
                   {config.extras.items.map((item) => (
                     <li key={item} className="flex gap-2 text-sm text-stone-600">

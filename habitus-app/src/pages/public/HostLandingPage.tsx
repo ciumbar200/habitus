@@ -2,24 +2,7 @@ import { Link } from "react-router-dom";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { HOST_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
-import { ArrowRight, CheckCircle, Users, Shield, MapPin, ChatCircle, House, User, Star } from "@phosphor-icons/react";
-
-const HOST_TESTIMONIALS = [
-  {
-    name: "Carmen López",
-    role: "Anfitriona desde 2022",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80",
-    text: "Solía tener problemas con inquilinos que no encajaban. Desde que uso : moon, todas las personas que han pasado por mi piso han sido una bendición. El cuestionario realmente funciona.",
-    location: "Madrid, Chamberí"
-  },
-  {
-    name: "Jordi Martínez",
-    role: "Anfitrión desde 2023",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
-    text: "Como profesional que comparte piso, necesito tranquilidad. : moon me ha conectado con personas que respetan los horarios y el ritmo de vida que busco.",
-    location: "Barcelona, Gracia"
-  }
-];
+import { ArrowRight, CheckCircle, Users, Shield, ChatCircle, House, User } from "@phosphor-icons/react";
 
 export function HostLandingPage() {
   return (
@@ -29,8 +12,8 @@ export function HostLandingPage() {
         badge="Para anfitriones"
         title={
           <>
-            Gestiona tu piso
-            <span className="block text-emerald-300">con personas que encajan.</span>
+            <span className="block">Gestiona tu piso con</span>
+            <span className="hero-display-accent block">personas que encajan.</span>
           </>
         }
         subtitle={
@@ -63,14 +46,11 @@ export function HostLandingPage() {
         }
       />
 
-      {/* Benefits for Hosts */}
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <p className="text-emerald-700 font-medium mb-4 tracking-wider uppercase text-sm">Ventajas para anfitriones</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
-              Convivencia sin estrés
-            </h2>
+            <p className="section-eyebrow">Ventajas para anfitriones</p>
+            <h2 className="section-title">Convivencia sin estrés</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -112,7 +92,7 @@ export function HostLandingPage() {
                   <benefit.icon size={40} weight="thin" className={benefit.color} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-2xl text-stone-900 mb-2">{benefit.title}</h3>
+                  <h3 className="card-title mb-2">{benefit.title}</h3>
                   <p className="text-stone-600 leading-relaxed">{benefit.desc}</p>
                 </div>
               </div>
@@ -121,60 +101,11 @@ export function HostLandingPage() {
         </div>
       </section>
 
-      {/* Testimonials from Hosts */}
-      <section className="py-32 bg-gradient-to-br from-emerald-50 to-teal-50">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-emerald-700 font-medium mb-4 tracking-wider uppercase text-sm">Historias de anfitriones</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
-              Lo que dicen quienes<br />ya comparten su piso
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {HOST_TESTIMONIALS.map((testimonial, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl bg-white p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="h-16 w-16 rounded-full object-cover ring-4 ring-emerald-100 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div>
-                    <p className="font-serif text-lg text-stone-900">{testimonial.name}</p>
-                    <p className="text-sm text-stone-500">{testimonial.role}</p>
-                    <div className="flex items-center gap-1 text-xs text-emerald-600 mt-1">
-                      <MapPin size={12} weight="fill" />
-                      {testimonial.location}
-                    </div>
-                  </div>
-                </div>
-
-                <blockquote className="text-stone-600 leading-relaxed mb-4">
-                  "{testimonial.text}"
-                </blockquote>
-
-                <div className="flex items-center gap-1 text-emerald-600">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} weight="fill" />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works for Hosts */}
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
-              Tu camino al anfitrión
-            </h2>
+            <p className="section-eyebrow">Proceso</p>
+            <h2 className="section-title">Tu camino al anfitrión</h2>
             <Link
               to={howItWorksUrl("anfitrion")}
               className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 hover:underline"
@@ -191,19 +122,16 @@ export function HostLandingPage() {
               { num: "03", title: "Publica", desc: "Sube fotos y detalles.", icon: House },
               { num: "04", title: "Elige", desc: "Revisa solicitudes compatibles.", icon: Users }
             ].map((step, i) => (
-              <div
-                key={i}
-                className="text-center group"
-              >
+              <div key={i} className="text-center group">
                 <div className="relative inline-block mb-4">
-                  <span className="font-serif text-6xl text-emerald-100 group-hover:text-emerald-200 transition-colors">
+                  <span className="step-number text-emerald-100 group-hover:text-emerald-200 transition-colors">
                     {step.num}
                   </span>
                   <div className="absolute -top-2 -right-2 h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
                     <step.icon size={20} weight="bold" className="text-emerald-700" />
                   </div>
                 </div>
-                <h3 className="font-serif text-xl text-stone-900 mb-2">{step.title}</h3>
+                <h3 className="card-title mb-2">{step.title}</h3>
                 <p className="text-stone-600 text-sm">{step.desc}</p>
               </div>
             ))}
@@ -211,45 +139,13 @@ export function HostLandingPage() {
         </div>
       </section>
 
-      {/* Stats/Results */}
-      <section className="py-32 bg-emerald-700 text-white relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-600 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-600 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        </div>
-
-        <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-            {[
-              { value: "87%", label: "menos conflictos", icon: "📉" },
-              { value: "2.5x", label: "permanencia media", icon: "🏠" },
-              { value: "24/7", label: "soporte humano", icon: "💬" }
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="group"
-              >
-                <div className="text-5xl mb-2 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
-                <p className="font-serif text-5xl mb-2 group-hover:scale-110 transition-transform duration-300">{stat.value}</p>
-                <p className="text-emerald-200">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
-            Anfitriones que usan : moon reportan mayor satisfacción y menos estrés en la gestión de convivencia.
-          </p>
-        </div>
-      </section>
-
-      {/* CTA */}
       <section className="py-32 bg-gradient-to-br from-stone-50 to-white">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="font-serif text-4xl lg:text-6xl text-stone-900 mb-6">
+          <h2 className="section-title lg:text-5xl xl:text-[3.25rem] mb-6">
             Comparte tu espacio<br />con tranquilidad
           </h2>
-          <p className="text-xl text-stone-600 mb-10">
-            Únete a anfitriones que ya transformaron su experiencia de compartir piso.
+          <p className="text-lg text-stone-600 mb-10 sm:text-xl">
+            Publica tu habitación, filtra por compatibilidad y gestiona la convivencia con apoyo humano.
           </p>
           <Link
             to={accessSignupUrl("anfitrion")}

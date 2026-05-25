@@ -21,6 +21,7 @@ export type AdminListingRow = {
   slug: string;
   name: string;
   city: string | null;
+  location: string | null;
   status: string;
   priceMonthly: number;
   ownerProfileId: string | null;
@@ -37,6 +38,7 @@ type ListingDbRow = {
   slug: string;
   name: string;
   city: string | null;
+  location: string | null;
   status: string;
   price_monthly: number;
   owner_profile_id: string | null;
@@ -164,7 +166,7 @@ export async function fetchAdminListings(): Promise<AdminListingRow[]> {
   const { data, error } = await getSupabase()
     .from("habitus_listings")
     .select(
-      `id, slug, name, city, status, price_monthly, owner_profile_id, host_profile_id,
+      `id, slug, name, city, location, status, price_monthly, owner_profile_id, host_profile_id,
        property_verification_status,
        habitus_categories (slug),
        habitus_listing_assignments (host_profile_id)`,
@@ -214,6 +216,7 @@ export async function fetchAdminListings(): Promise<AdminListingRow[]> {
       slug: row.slug,
       name: row.name,
       city: row.city,
+      location: row.location ?? null,
       status: row.status,
       priceMonthly: Number(row.price_monthly),
       ownerProfileId: row.owner_profile_id,

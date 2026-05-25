@@ -16,8 +16,11 @@ export function ListingAccessPage() {
   const { id: listingId } = useParams();
   const { user } = useAuth();
   const [listingName, setListingName] = useState("");
+  const [listingCity, setListingCity] = useState<string | null>(null);
   const [access, setAccess] = useState<ListingAccessGrant[]>([]);
-  const [groups, setGroups] = useState<{ id: string; name: string; slug: string; memberCount: number }[]>([]);
+  const [groups, setGroups] = useState<
+    { id: string; name: string; slug: string; memberCount: number; targetMembers: number }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -32,9 +35,10 @@ export function ListingAccessPage() {
         return;
       }
       setListingName(listing.name);
+      setListingCity(listing.city ?? null);
       const [grants, available] = await Promise.all([
         fetchListingAccess(listingId),
-        fetchOwnerGroupsForGrant(user.id).catch(() => []),
+        fetchOwnerGroupsForGrant(user.id, listing.city).catch(() => []),
       ]);
       setAccess(grants);
       setGroups(available);
@@ -78,7 +82,8 @@ export function ListingAccessPage() {
       </Link>
       <h1 className="mt-4 text-headline-lg text-deep-navy">{es.groups.unlockTitle}</h1>
       <p className="mt-2 text-body-md text-warm-slate">
-        {listingName} — {es.groups.unlockHint}
+        {listingName}
+        {listingCity ? ` · ${listingCity}` : ""} — {es.groups.unlockHint}
       </p>
       {error && <p className="mt-4 text-body-sm text-error">{error}</p>}
 
@@ -115,6 +120,14 @@ export function ListingAccessPage() {
 
       <section className="mt-10">
         <h2 className="text-headline-md text-deep-navy">{es.groups.grantAccess}</h2>
+        {groups.length === 0 ? (
+          <p className="mt-4 text-body-md text-warm-slate">
+            {es.panel.noFormedGroups}{" "}
+            <Link to="/panel/inquilinos" className="text-teal-accent hover:underline">
+              {es.panel.ownerTenantsTitle}
+            </Link>
+          </p>
+        ) : (
         <ul className="mt-4 space-y-2">
           {groups
             .filter((g) => !grantedIds.has(g.id))
@@ -126,8 +139,11 @@ export function ListingAccessPage() {
                 <div>
                   <p className="text-label-md text-deep-navy">{g.name}</p>
                   <p className="text-label-sm text-warm-slate">
-                    {g.memberCount} {es.groups.members}
+                    {g.memberCount}/{g.targetMembers} {es.groups.members}
                   </p>
+                  <span className="mt-1 inline-block rounded-full bg-teal-accent/10 px-2 py-0.5 text-label-sm text-teal-accent">
+                    {es.groups.formedBadge}
+                  </span>
                 </div>
                 <button
                   type="button"
@@ -140,6 +156,7 @@ export function ListingAccessPage() {
               </li>
             ))}
         </ul>
+        )}
       </section>
     </main>
   );

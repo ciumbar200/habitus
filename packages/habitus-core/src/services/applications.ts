@@ -1,4 +1,6 @@
+import { formatMoonLocation } from "../data/locations";
 import { getSupabase } from "../client";
+import { queueNotificationEvent } from "./notifications";
 import {
   applicationStatusClass,
   applicationStatusLabel,
@@ -46,21 +48,55 @@ export async function fetchApplications(profileId: string): Promise<Application[
 export async function createApplication(
   profileId: string,
   listingId: string,
+  groupId?: string | null,
 ): Promise<{ error: string | null }> {
-  const { error } = await getSupabase().from("habitus_applications").insert({
+  const payload: Record<string, unknown> = {
     profile_id: profileId,
     listing_id: listingId,
     status: "submitted",
     progress_percent: 25,
     applied_at: new Date().toISOString(),
-  });
+  };
+  if (groupId) payload.group_id = groupId;
+
+  const { error } = await getSupabase().from("habitus_applications").insert(payload);
 
   if (error) {
     if (error.code === "23505") {
       return { error: "Ya tienes una solicitud activa para este espacio." };
     }
+    if (error.code === "42703" || error.message.includes("group_id")) {
+      const { error: fallbackErr } = await getSupabase().from("habitus_applications").insert({
+        profile_id: profileId,
+        listing_id: listingId,
+        status: "submitted",
+        progress_percent: 25,
+        applied_at: new Date().toISOString(),
+      });
+      if (fallbackErr) {
+        if (fallbackErr.code === "23505") {
+          return { error: "Ya tienes una solicitud activa para este espacio." };
+        }
+        return { error: fallbackErr.message };
+      }
+      void queueNotificationEvent({
+        type: "application_submitted",
+        profileIds: [profileId],
+        title: "Solicitud enviada",
+        body: "Tu solicitud de alquiler ha sido registrada.",
+      });
+      return { error: null };
+    }
     return { error: error.message };
   }
+
+  void queueNotificationEvent({
+    type: "application_submitted",
+    profileIds: [profileId],
+    title: "Solicitud enviada",
+    body: "Tu solicitud de alquiler ha sido registrada.",
+  });
+
   return { error: null };
 }
 
@@ -89,9 +125,7 @@ export async function fetchApplicationById(
   } | null;
 
   const status = data.status as string;
-  const loc = listing
-    ? [listing.location, listing.city].filter(Boolean).join(", ")
-    : "";
+  const loc = listing ? formatMoonLocation(listing.city, listing.location) : "";
 
   return {
     id: data.id,

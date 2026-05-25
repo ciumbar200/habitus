@@ -10,12 +10,15 @@ import { PanelStack } from "./PanelStack";
 import { SpacesStack } from "./SpacesStack";
 import { ProfileStack } from "./ProfileStack";
 import { CommunityScreen } from "../screens/CommunityScreen";
+import { GroupsScreen } from "../screens/GroupsScreen";
 import { ApplicationsScreen } from "../screens/panel/ApplicationsScreen";
+import { liquidGlassTheme } from "../theme/liquidGlass";
 
 export type MainTabParamList = {
   Discover: undefined;
   Matches: undefined;
   Community: undefined;
+  Groups: undefined;
   Messages: { conversationId?: string } | undefined;
   Profile: undefined;
   Panel: undefined;
@@ -25,10 +28,11 @@ export type MainTabParamList = {
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-const screens: Record<string, ComponentType> = {
+const screens: Record<string, ComponentType<any>> = {
   Discover: DiscoverStack,
   Matches: MatchesScreen,
   Community: CommunityScreen,
+  Groups: GroupsScreen,
   Messages: MessagesScreen,
   Profile: ProfileStack,
   Panel: PanelStack,
@@ -46,9 +50,24 @@ export function MainTabs() {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: "#1a3d2e",
-          tabBarInactiveTintColor: "#888",
-          tabBarStyle: { backgroundColor: "#fff", borderTopColor: "#e8e4dc" },
+          tabBarActiveTintColor: liquidGlassTheme.colors.brand.primary,
+          tabBarInactiveTintColor: liquidGlassTheme.colors.light.text.tertiary,
+          tabBarStyle: {
+            backgroundColor: liquidGlassTheme.colors.light.glass.navigation,
+            borderTopColor: liquidGlassTheme.colors.light.border.subtle,
+            borderTopWidth: 1,
+            height: 85,
+            paddingBottom: 5,
+            paddingTop: 5,
+          },
+          tabBarLabelStyle: {
+            fontSize: 11,
+            fontWeight: "500",
+            letterSpacing: -0.2,
+          },
+          tabBarItemStyle: {
+            paddingVertical: 5,
+          },
         }}
       >
         {tabs.map((tab) => {

@@ -22,3 +22,9 @@ ios/build/
 *.p8
 *.p12
 *.mobileprovision
+.vercel
+.env*.local
+
+# Datos locales / importaciones
+*usuarios*.csv
+dev-dist/

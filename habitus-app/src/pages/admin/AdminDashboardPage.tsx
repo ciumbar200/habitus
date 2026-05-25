@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { es } from "@habitus/core";
-import { fetchAdminStats, type AdminStats } from "@habitus/core";
+import { fetchAdminStats, fetchMoonAccessReadiness, type AdminStats } from "@habitus/core";
 import { Icon } from "../../components/Icon";
 import { LoadingState, ErrorState } from "../../components/PageState";
 
@@ -16,12 +16,24 @@ const STAT_LINKS: { key: keyof AdminStats; path: string; icon: string }[] = [
 
 export function AdminDashboardPage() {
   const [stats, setStats] = useState<AdminStats | null>(null);
+  const [moonAccess, setMoonAccess] = useState<{
+    userCount: number;
+    threshold: number;
+    readyToEnable: boolean;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchAdminStats()
-      .then(setStats)
+    Promise.all([fetchAdminStats(), fetchMoonAccessReadiness()])
+      .then(([s, m]) => {
+        setStats(s);
+        setMoonAccess({
+          userCount: m.userCount,
+          threshold: m.threshold,
+          readyToEnable: m.readyToEnable,
+        });
+      })
       .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
       .finally(() => setLoading(false));
   }, []);
@@ -50,6 +62,37 @@ export function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      {moonAccess && (
+        <section className="mt-8 rounded-xl border border-border-light bg-surface-container-lowest p-6">
+          <h2 className="text-headline-md text-deep-navy">{es.admin.moonAccess.title}</h2>
+          <p className="mt-2 text-body-sm text-warm-slate">{es.admin.moonAccess.note}</p>
+          <div className="mt-4 flex flex-wrap gap-6">
+            <div>
+              <p className="text-label-sm text-warm-slate">{es.admin.moonAccess.userCount}</p>
+              <p className="text-headline-lg text-deep-navy">
+                {moonAccess.userCount} / {moonAccess.threshold}
+              </p>
+            </div>
+            <div>
+              <p className="text-label-sm text-warm-slate">{es.admin.stats.moonAccessProgress}</p>
+              <p className="text-headline-md text-teal-accent">
+                {moonAccess.readyToEnable
+                  ? es.admin.moonAccess.ready
+                  : es.admin.moonAccess.notReady}
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-surface-container">
+            <div
+              className="h-full rounded-full bg-teal-accent transition-all"
+              style={{
+                width: `${Math.min(100, (moonAccess.userCount / moonAccess.threshold) * 100)}%`,
+              }}
+            />
+          </div>
+        </section>
+      )}
 
       <p className="mt-8 rounded-lg bg-surface-container px-4 py-3 text-body-sm text-warm-slate">
         {es.admin.betaNote}

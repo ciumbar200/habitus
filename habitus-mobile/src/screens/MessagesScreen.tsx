@@ -7,7 +7,11 @@ import {
   Text,
   TextInput,
   View,
+  Platform,
+  Animated,
 } from "react-native";
+import { BlurView } from "expo-blur";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -24,6 +28,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { isHabitusConfigured } from "../lib/supabase";
 import type { MainTabParamList } from "../navigation/MainTabs";
+import { liquidGlassTheme } from "../theme/liquidGlass";
 
 type MessagesRoute = RouteProp<MainTabParamList, "Messages">;
 type MessagesNav = BottomTabNavigationProp<MainTabParamList, "Messages">;
@@ -97,9 +102,34 @@ export function MessagesScreen() {
     const conv = conversations.find((c) => c.id === activeId);
     return (
       <View style={styles.root}>
-        <Pressable onPress={() => setActiveId(null)}>
-          <Text style={styles.back}>← {conv?.otherName ?? "Chat"}</Text>
-        </Pressable>
+        {/* Header */}
+        <View style={styles.chatHeader}>
+          {Platform.OS === "ios" && (
+            <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+          )}
+          <Pressable onPress={() => setActiveId(null)} style={styles.backButton}>
+            <MaterialIcons
+              name="arrow-back"
+              size={24}
+              color={liquidGlassTheme.colors.light.text.primary}
+            />
+          </Pressable>
+          <View style={styles.chatHeaderContent}>
+            <View style={styles.avatar}>
+              <MaterialIcons
+                name="person"
+                size={20}
+                color={liquidGlassTheme.colors.light.text.tertiary}
+              />
+            </View>
+            <View style={styles.chatHeaderInfo}>
+              <Text style={styles.chatHeaderName}>{conv?.otherName ?? "Chat"}</Text>
+              <Text style={styles.chatHeaderStatus}>En línea</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Messages */}
         <FlatList
           data={messages}
           keyExtractor={(m) => m.id}
@@ -107,25 +137,58 @@ export function MessagesScreen() {
           renderItem={({ item }) => (
             <View
               style={[
-                styles.bubble,
-                item.senderId === user?.id ? styles.bubbleMine : styles.bubbleOther,
+                styles.bubbleRow,
+                item.senderId === user?.id ? styles.bubbleRowMine : styles.bubbleRowOther,
               ]}
             >
-              <Text style={styles.bubbleText}>{item.body}</Text>
-              <Text style={styles.time}>{formatMessageTime(item.createdAt)}</Text>
+              <View
+                style={[
+                  styles.bubble,
+                  item.senderId === user?.id ? styles.bubbleMine : styles.bubbleOther,
+                ]}
+              >
+                <Text style={[
+                  styles.bubbleText,
+                  item.senderId === user?.id ? styles.bubbleTextMine : styles.bubbleTextOther,
+                ]}>
+                  {item.body}
+                </Text>
+                <Text style={[
+                  styles.time,
+                  item.senderId === user?.id ? styles.timeMine : styles.timeOther,
+                ]}>
+                  {formatMessageTime(item.createdAt)}
+                </Text>
+              </View>
             </View>
           )}
         />
+
+        {/* Message composer */}
         <View style={styles.composer}>
-          <TextInput
-            style={styles.input}
-            value={draft}
-            onChangeText={setDraft}
-            placeholder="Escribe un mensaje…"
-          />
-          <Pressable style={styles.sendBtn} onPress={handleSend} disabled={sending}>
-            <Text style={styles.sendText}>Enviar</Text>
-          </Pressable>
+          {Platform.OS === "ios" && (
+            <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+          )}
+          <View style={styles.composerContent}>
+            <TextInput
+              style={styles.input}
+              value={draft}
+              onChangeText={setDraft}
+              placeholder="Escribe un mensaje…"
+              placeholderTextColor={liquidGlassTheme.colors.light.text.tertiary}
+            />
+            <Pressable
+              style={[styles.sendBtn, !draft.trim() && styles.sendBtnDisabled]}
+              onPress={handleSend}
+              disabled={sending || !draft.trim()}
+            >
+              <MaterialIcons
+                name="send"
+                size={20}
+                color={draft.trim() ? liquidGlassTheme.colors.white : liquidGlassTheme.colors.light.text.tertiary}
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
     );
@@ -133,26 +196,61 @@ export function MessagesScreen() {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.title}>{es.messages.title}</Text>
+      {/* Header */}
+      <View style={styles.header}>
+        {Platform.OS === "ios" && (
+          <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+        )}
+        <Text style={styles.title}>{es.messages.title}</Text>
+      </View>
+
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a3d2e" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator
+            size="large"
+            color={liquidGlassTheme.colors.brand.primary}
+          />
+        </View>
       ) : (
         <FlatList
           data={conversations}
           keyExtractor={(c) => c.id}
           contentContainerStyle={styles.list}
           renderItem={({ item }) => (
-            <Pressable style={styles.row} onPress={() => openConversation(item.id)}>
-              <Text style={styles.rowName}>{item.otherName}</Text>
-              <Text style={styles.preview} numberOfLines={1}>
-                {item.lastMessage || es.messages.emptyHint}
-              </Text>
-              {item.lastMessageAt && (
-                <Text style={styles.time}>{formatMessageTime(item.lastMessageAt)}</Text>
-              )}
+            <Pressable
+              style={styles.row}
+              onPress={() => openConversation(item.id)}
+            >
+              <View style={styles.avatar}>
+                <MaterialIcons
+                  name="person"
+                  size={24}
+                  color={liquidGlassTheme.colors.light.text.tertiary}
+                />
+              </View>
+              <View style={styles.rowContent}>
+                <View style={styles.rowHeader}>
+                  <Text style={styles.rowName}>{item.otherName}</Text>
+                  {item.lastMessageAt && (
+                    <Text style={styles.rowTime}>{formatMessageTime(item.lastMessageAt)}</Text>
+                  )}
+                </View>
+                <Text style={styles.preview} numberOfLines={1}>
+                  {item.lastMessage || es.messages.emptyHint}
+                </Text>
+              </View>
             </Pressable>
           )}
-          ListEmptyComponent={<Text style={styles.empty}>{es.messages.empty}</Text>}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <MaterialIcons
+                name="chat-bubble-outline"
+                size={48}
+                color={liquidGlassTheme.colors.light.text.tertiary}
+              />
+              <Text style={styles.emptyText}>{es.messages.empty}</Text>
+            </View>
+          }
         />
       )}
     </View>
@@ -160,36 +258,194 @@ export function MessagesScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#f8f6f3" },
-  title: { fontSize: 22, fontWeight: "700", padding: 16, color: "#1a3d2e" },
-  back: { padding: 16, color: "#1a3d2e", fontWeight: "600" },
-  list: { padding: 16 },
-  row: {
-    backgroundColor: "#fff",
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: "#e8e4dc",
+  root: {
+    flex: 1,
+    backgroundColor: liquidGlassTheme.colors.light.background,
   },
-  rowName: { fontWeight: "600", fontSize: 16 },
-  preview: { color: "#666", marginTop: 4 },
-  thread: { padding: 16, flexGrow: 1 },
-  bubble: { maxWidth: "80%", padding: 10, borderRadius: 12, marginBottom: 8 },
-  bubbleMine: { alignSelf: "flex-end", backgroundColor: "#1a3d2e" },
-  bubbleOther: { alignSelf: "flex-start", backgroundColor: "#fff" },
-  bubbleText: { color: "#1a1a1a" },
-  time: { fontSize: 11, color: "#888", marginTop: 4 },
-  composer: { flexDirection: "row", padding: 12, gap: 8, borderTopWidth: 1, borderColor: "#e2ddd4" },
+  header: {
+    paddingHorizontal: liquidGlassTheme.spacing.lg,
+    paddingTop: liquidGlassTheme.spacing.lg + 8,
+    paddingBottom: liquidGlassTheme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: liquidGlassTheme.colors.light.border.subtle,
+    backgroundColor: liquidGlassTheme.colors.light.glass.navigation,
+  },
+  title: {
+    fontSize: liquidGlassTheme.typography.fontSize.title2,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  list: {
+    padding: liquidGlassTheme.spacing.lg,
+  },
+  row: {
+    flexDirection: "row",
+    backgroundColor: liquidGlassTheme.colors.light.glass.card,
+    padding: liquidGlassTheme.spacing.md,
+    borderRadius: liquidGlassTheme.borderRadius.lg,
+    marginBottom: liquidGlassTheme.spacing.md,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    ...liquidGlassTheme.shadows.sm,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: liquidGlassTheme.colors.light.surfaceVariant,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: liquidGlassTheme.spacing.md,
+  },
+  rowContent: {
+    flex: 1,
+  },
+  rowHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rowName: {
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    fontSize: liquidGlassTheme.typography.fontSize.headline,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  rowTime: {
+    fontSize: liquidGlassTheme.typography.fontSize.caption2,
+    color: liquidGlassTheme.colors.light.text.tertiary,
+  },
+  preview: {
+    color: liquidGlassTheme.colors.light.text.tertiary,
+    marginTop: liquidGlassTheme.spacing.xs,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: liquidGlassTheme.spacing.xxxl * 2,
+    gap: liquidGlassTheme.spacing.md,
+  },
+  emptyText: {
+    textAlign: "center",
+    color: liquidGlassTheme.colors.light.text.tertiary,
+  },
+  // Chat view styles
+  chatHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: liquidGlassTheme.spacing.sm,
+    paddingTop: liquidGlassTheme.spacing.lg + 8,
+    paddingBottom: liquidGlassTheme.spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: liquidGlassTheme.colors.light.border.subtle,
+    backgroundColor: liquidGlassTheme.colors.light.glass.navigation,
+  },
+  backButton: {
+    padding: liquidGlassTheme.spacing.sm,
+    marginRight: liquidGlassTheme.spacing.xs,
+  },
+  chatHeaderContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  chatHeaderInfo: {
+    marginLeft: liquidGlassTheme.spacing.md,
+  },
+  chatHeaderName: {
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    fontSize: liquidGlassTheme.typography.fontSize.headline,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  chatHeaderStatus: {
+    fontSize: liquidGlassTheme.typography.fontSize.caption1,
+    color: liquidGlassTheme.colors.brand.success,
+  },
+  thread: {
+    padding: liquidGlassTheme.spacing.lg,
+    flexGrow: 1,
+  },
+  bubbleRow: {
+    flexDirection: "row",
+    marginBottom: liquidGlassTheme.spacing.sm,
+  },
+  bubbleRowMine: {
+    justifyContent: "flex-end",
+  },
+  bubbleRowOther: {
+    justifyContent: "flex-start",
+  },
+  bubble: {
+    maxWidth: "80%",
+    padding: liquidGlassTheme.spacing.md,
+    borderRadius: liquidGlassTheme.borderRadius.lg,
+    ...liquidGlassTheme.shadows.sm,
+  },
+  bubbleMine: {
+    backgroundColor: liquidGlassTheme.colors.brand.primary,
+  },
+  bubbleOther: {
+    backgroundColor: liquidGlassTheme.colors.light.glass.card,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+  },
+  bubbleText: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    lineHeight: liquidGlassTheme.typography.lineHeight.normal,
+  },
+  bubbleTextMine: {
+    color: liquidGlassTheme.colors.light.text.inverse,
+  },
+  bubbleTextOther: {
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  time: {
+    fontSize: liquidGlassTheme.typography.fontSize.caption2,
+    marginTop: liquidGlassTheme.spacing.xs,
+    alignSelf: "flex-end",
+  },
+  timeMine: {
+    color: "rgba(255, 255, 255, 0.7)",
+  },
+  timeOther: {
+    color: liquidGlassTheme.colors.light.text.tertiary,
+  },
+  composer: {
+    paddingHorizontal: liquidGlassTheme.spacing.lg,
+    paddingTop: liquidGlassTheme.spacing.md,
+    paddingBottom: liquidGlassTheme.spacing.lg + 4,
+    borderTopWidth: 1,
+    borderTopColor: liquidGlassTheme.colors.light.border.subtle,
+    backgroundColor: liquidGlassTheme.colors.light.glass.navigation,
+  },
+  composerContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: liquidGlassTheme.spacing.sm,
+  },
   input: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#e2ddd4",
+    backgroundColor: liquidGlassTheme.colors.light.surfaceVariant,
+    borderRadius: liquidGlassTheme.borderRadius.md,
+    padding: liquidGlassTheme.spacing.md,
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    color: liquidGlassTheme.colors.light.text.primary,
   },
-  sendBtn: { backgroundColor: "#1a3d2e", borderRadius: 8, paddingHorizontal: 16, justifyContent: "center" },
-  sendText: { color: "#fff", fontWeight: "600" },
-  empty: { textAlign: "center", color: "#666", marginTop: 40 },
+  sendBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: liquidGlassTheme.colors.brand.primary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sendBtnDisabled: {
+    opacity: 0.5,
+    backgroundColor: liquidGlassTheme.colors.light.surfaceVariant,
+  },
 });

@@ -1,4 +1,5 @@
 import { getSupabase } from "../client";
+import { isValidCityZone, normalizeCitySlug, normalizeZoneSlug } from "../data/locations";
 import type { AccountRoleSlug, PropertyVerificationStatus } from "../types/models";
 
 export type ListingStatus = "draft" | "published" | "archived";
@@ -43,6 +44,23 @@ export type ListingFormInput = {
   agencyClientName: string | null;
   listingConditions: string;
 };
+
+function normalizeListingFormInput(
+  input: ListingFormInput,
+): { input: ListingFormInput; error: string | null } {
+  const city = normalizeCitySlug(input.city);
+  const zone = normalizeZoneSlug(city, input.location);
+  if (!city) {
+    return { input, error: "Selecciona una ciudad válida." };
+  }
+  if (!zone || !isValidCityZone(city, zone)) {
+    return { input, error: "Selecciona una zona válida." };
+  }
+  return {
+    input: { ...input, city, location: zone },
+    error: null,
+  };
+}
 
 export async function fetchMyListings(
   profileId: string,
@@ -92,6 +110,10 @@ export async function createListing(
   input: ListingFormInput,
   accountRole: AccountRoleSlug,
 ): Promise<{ id: string | null; error: string | null }> {
+  const normalized = normalizeListingFormInput(input);
+  if (normalized.error) return { id: null, error: normalized.error };
+  input = normalized.input;
+
   const hostId =
     accountRole === "anfitrion"
       ? ownerId
@@ -134,6 +156,10 @@ export async function updateListing(
   input: ListingFormInput,
   accountRole: AccountRoleSlug,
 ): Promise<{ error: string | null }> {
+  const normalized = normalizeListingFormInput(input);
+  if (normalized.error) return { error: normalized.error };
+  input = normalized.input;
+
   const hostId =
     accountRole === "anfitrion"
       ? ownerId

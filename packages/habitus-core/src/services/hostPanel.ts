@@ -9,9 +9,13 @@ export type ReviewApplication = {
   appliedAt: string | null;
   applicantName: string;
   applicantId: string;
+  applicantSlug: string;
   listingName: string;
   listingId: string;
   listingSlug: string;
+  listingVisibility: "public" | "private";
+  groupId: string | null;
+  groupName: string | null;
 };
 
 type ListingRow = {
@@ -97,23 +101,41 @@ export async function fetchApplicationsToReview(
 ): Promise<ReviewApplication[]> {
   const { data: owned, error: listErr } = await getSupabase()
     .from("habitus_listings")
-    .select("id, slug, name")
+    .select("id, slug, name, visibility")
     .or(`owner_profile_id.eq.${managerId},host_profile_id.eq.${managerId}`);
 
   if (listErr) throw listErr;
 
   const { data: assigned } = await getSupabase()
     .from("habitus_listing_assignments")
-    .select("listing_id, habitus_listings (id, slug, name)")
+    .select("listing_id, habitus_listings (id, slug, name, visibility)")
     .eq("host_profile_id", managerId);
 
-  const listingMap = new Map<string, { slug: string; name: string }>();
+  const listingMap = new Map<
+    string,
+    { slug: string; name: string; visibility: "public" | "private" }
+  >();
   for (const l of owned ?? []) {
-    listingMap.set(l.id, { slug: l.slug, name: l.name });
+    listingMap.set(l.id, {
+      slug: l.slug,
+      name: l.name,
+      visibility: l.visibility === "private" ? "private" : "public",
+    });
   }
   for (const a of assigned ?? []) {
-    const l = a.habitus_listings as unknown as { id: string; slug: string; name: string };
-    if (l) listingMap.set(l.id, { slug: l.slug, name: l.name });
+    const l = a.habitus_listings as unknown as {
+      id: string;
+      slug: string;
+      name: string;
+      visibility?: string | null;
+    };
+    if (l) {
+      listingMap.set(l.id, {
+        slug: l.slug,
+        name: l.name,
+        visibility: l.visibility === "private" ? "private" : "public",
+      });
+    }
   }
 
   const listingIds = [...listingMap.keys()];
@@ -122,8 +144,9 @@ export async function fetchApplicationsToReview(
   const { data, error } = await getSupabase()
     .from("habitus_applications")
     .select(
-      `id, status, progress_percent, applied_at, listing_id, profile_id,
-       habitus_profiles (display_name)`,
+      `id, status, progress_percent, applied_at, listing_id, profile_id, group_id,
+       habitus_profiles (display_name, slug),
+       habitus_groups (name)`,
     )
     .in("listing_id", listingIds)
     .order("applied_at", { ascending: false });
@@ -132,7 +155,8 @@ export async function fetchApplicationsToReview(
 
   return (data ?? []).map((row) => {
     const listing = listingMap.get(row.listing_id)!;
-    const profile = row.habitus_profiles as unknown as { display_name: string };
+    const profile = row.habitus_profiles as unknown as { display_name: string; slug: string | null };
+    const group = row.habitus_groups as unknown as { name: string } | null;
     return {
       id: row.id,
       status: row.status as string,
@@ -140,9 +164,13 @@ export async function fetchApplicationsToReview(
       appliedAt: row.applied_at,
       applicantName: profile?.display_name ?? "Solicitante",
       applicantId: row.profile_id,
+      applicantSlug: profile?.slug ?? row.profile_id,
       listingName: listing.name,
       listingId: row.listing_id,
       listingSlug: listing.slug,
+      listingVisibility: listing.visibility,
+      groupId: (row.group_id as string) ?? null,
+      groupName: group?.name ?? null,
     };
   });
 }

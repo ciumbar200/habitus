@@ -18,7 +18,7 @@ const PRIMARY_NAV: Record<string, PrimaryNavItem[]> = {
   inquilino: [
     { label: "Descubrir", path: "/descubrir", screen: "Discover", icon: "explore" },
     { label: "Compañeros", path: "/matches", screen: "Matches", icon: "group" },
-    { label: "Comunidad", path: "/comunidad", screen: "Community", icon: "groups" },
+    { label: "Grupos", path: "/grupos", screen: "Groups", icon: "groups" },
     { label: "Mensajes", path: "/messages", screen: "Messages", icon: "chat_bubble" },
     { label: "Perfil", path: "/profile", screen: "Profile", icon: "person" },
   ],
@@ -52,13 +52,12 @@ const PRIMARY_NAV: Record<string, PrimaryNavItem[]> = {
 
 /** Rutas secundarias (panel, escritorio): no van en la barra inferior. */
 const SECONDARY_NAV: Partial<Record<AccountRoleSlug, NavItem[]>> = {
-  inquilino: [{ label: "Grupos", path: "/grupos", icon: "groups" }],
   anfitrion: [
     { label: "Convivencia", path: "/panel/convivencia", icon: "group" },
     { label: "Comunidad", path: "/comunidad", icon: "groups" },
   ],
-  propietario: [{ label: "Comunidad", path: "/comunidad", icon: "groups" }],
-  agencia: [{ label: "Comunidad", path: "/comunidad", icon: "groups" }],
+  propietario: [{ label: "Inquilinos y grupos", path: "/panel/inquilinos", icon: "groups" }],
+  agencia: [{ label: "Inquilinos y grupos", path: "/panel/inquilinos", icon: "groups" }],
 };
 
 function primaryNavForRole(role: AccountRoleSlug | null | undefined): PrimaryNavItem[] {
@@ -120,6 +119,7 @@ export function canAccessPath(
   if (pathname === "/" || pathname === "/completar-rol") return true;
 
   if (pathname.startsWith("/comunidad")) return true;
+  if (pathname.startsWith("/invitar/grupo")) return true;
 
   if (role === "inquilino") {
     return (
@@ -154,6 +154,7 @@ export function canAccessPath(
     return (
       pathname.startsWith("/panel") ||
       pathname.startsWith("/comunidad") ||
+      pathname.startsWith("/miembro/") ||
       pathname.startsWith("/messages") ||
       pathname.startsWith("/profile") ||
       pathname.startsWith("/profile/") ||

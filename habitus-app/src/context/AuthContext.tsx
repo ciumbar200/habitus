@@ -14,11 +14,15 @@ import {
   normalizeImageUrl,
   profileNeedsCompatQuiz,
   translateAuthError,
+  ensureProfileForAuthUser,
+  peekPendingReferral,
+  recordSignupConsents,
   type AccountRoleSlug,
   type Profile,
 } from "@habitus/core";
 import { redirectAfterAuth } from "../lib/returnTo";
 import { supabase } from "../lib/supabase";
+import { notificationService } from "../services/notifications";
 
 type AuthResult = { error: string | null; redirect?: string };
 
@@ -85,7 +89,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     try {
-      const p = await loadProfile(session.user.id);
+      let p = await loadProfile(session.user.id);
+      if (!p) {
+        const referralCode = peekPendingReferral();
+        await ensureProfileForAuthUser(session.user, undefined, { referralCode });
+        p = await loadProfile(session.user.id);
+      } else {
+        const referralCode = peekPendingReferral();
+        if (referralCode) {
+          await ensureProfileForAuthUser(session.user, undefined, { referralCode });
+        }
+      }
       setProfile(p);
       if (!p?.accountRole || !profileNeedsCompatQuiz(p)) {
         setQuizComplete(true);
@@ -128,10 +142,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (session?.user.id) {
       setProfileReady(false);
       void refreshProfile();
+
+      // Initialize OneSignal and set external user ID
+      notificationService.initialize().then(() => {
+        notificationService.setExternalId(session.user.id);
+      });
     } else {
       setProfile(null);
       setQuizComplete(true);
       setProfileReady(true);
+
+      // Remove external ID on logout
+      notificationService.removeExternalId();
     }
   }, [session?.user.id, refreshProfile]);
 
@@ -166,6 +188,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       });
       if (error) return { error: translateAuthError(error.message) };
+
+      const referralCode = peekPendingReferral();
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user) {
+        await ensureProfileForAuthUser(data.session.user, accountRole, { referralCode });
+        await recordSignupConsents(data.session.user.id);
+      }
+
       return { error: null, redirect: "/onboarding" };
     },
     [],

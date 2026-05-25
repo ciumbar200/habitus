@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { loadRememberedEmail, saveRememberMe } from "../lib/rememberMe";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { isPropertyReturnPath } from "@habitus/core";
-import { saveReturnTo } from "../lib/returnTo";
-import { redirectAfterAuth } from "../lib/returnTo";
+import {
+  isPropertyReturnPath,
+  parseGroupSlugParam,
+  parseReferralCode,
+  persistPendingGroupSlug,
+  persistPendingReferral,
+} from "@habitus/core";
+import { saveReturnTo, redirectAfterAuth } from "../lib/returnTo";
 import { accessWantsSignup, parseAccessRole } from "../lib/accessLinks";
 import { Icon } from "../components/Icon";
 import { SocialAuthButtons } from "../components/SocialAuthButtons";
+import { AuthShell } from "../components/auth/AuthShell";
+import { AuthModeTabs } from "../components/auth/AuthModeTabs";
 import { useAuth } from "../context/AuthContext";
-import { es } from "@habitus/core";
-import { ACCOUNT_ROLES } from "@habitus/core";
+import { es, ACCOUNT_ROLES } from "@habitus/core";
 import type { AccountRoleSlug, OAuthProvider } from "@habitus/core";
 import { signInWithOAuth } from "../lib/oauth";
-import { Logo } from "../components/Logo";
 
 type AccessLocationState = { from?: string; signup?: boolean };
 
@@ -31,6 +36,7 @@ export function AccessPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   useEffect(() => {
     const saved = loadRememberedEmail();
@@ -53,7 +59,21 @@ export function AccessPage() {
 
     if (roleFromUrl) setAccountRole(roleFromUrl);
     else if (propertySignup || state?.signup) setAccountRole("inquilino");
+
+    const ref = parseReferralCode(searchParams);
+    if (ref) persistPendingReferral(ref);
+    const grupo = parseGroupSlugParam(searchParams);
+    if (grupo) {
+      persistPendingGroupSlug(grupo);
+      if (!roleFromUrl) setAccountRole("inquilino");
+    }
   }, [fromPath, location.state, searchParams]);
+
+  const handleModeChange = (next: "signin" | "signup") => {
+    setMode(next);
+    setError(null);
+    if (next === "signin") setAccountRole("");
+  };
 
   const handleOAuth = async (provider: OAuthProvider) => {
     setError(null);
@@ -76,6 +96,11 @@ export function AccessPage() {
 
     if (mode === "signup" && !accountRole) {
       setError(es.access.roleRequired);
+      return;
+    }
+
+    if (mode === "signup" && !consentAccepted) {
+      setError(es.access.signupConsentRequired);
       return;
     }
 
@@ -104,232 +129,228 @@ export function AccessPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center p-4">
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] h-[50%] w-[50%] rounded-full bg-teal-accent/5 blur-[120px]" />
-        <div className="absolute -right-[10%] -bottom-[20%] h-[50%] w-[50%] rounded-full bg-primary-fixed-dim/10 blur-[120px]" />
+    <AuthShell
+      title={mode === "signin" ? es.access.welcomeBack : es.access.createAccount}
+      subtitle={mode === "signin" ? es.access.signInSubtitle : es.access.joinSubtitle}
+    >
+      <AuthModeTabs
+        mode={mode}
+        onChange={handleModeChange}
+        signInLabel={es.common.signIn}
+        signUpLabel={es.access.signUp}
+      />
+
+      {fromPath && isPropertyReturnPath(fromPath) && (
+        <p className="auth-hint mb-5">{es.access.propertySignupHint}</p>
+      )}
+
+      {error && <p className="auth-error mb-5">{error}</p>}
+
+      <SocialAuthButtons disabled={loading} onProvider={handleOAuth} />
+
+      <div className="relative my-7">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-stone-200/90" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-stone-100 px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
+            {es.access.orEmail}
+          </span>
+        </div>
       </div>
 
-      <main className="grid min-h-[700px] w-full max-w-[1100px] overflow-hidden rounded-xl border border-border-light bg-surface-container-lowest shadow-[0px_4px_40px_rgba(15,23,42,0.08)] md:grid-cols-2">
-        <section className="relative hidden flex-col justify-between overflow-hidden bg-deep-navy p-12 md:flex">
-          <div className="absolute inset-0 opacity-40">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0YJr79J4tnvUTKOx2jAEeWIe2qmkTNtf9vMbyfrsIDZkVteGa89IcWEZDHgp7mbbivdd21SY2MWGCTWLmlkpsFt5XeEpAVChtWKgMgHWhNhDeL3kC3sxYYQBMKPvlqBcNNnB3Ho2BJHoBNu2nvOixyB57rCvuwZJYMP94jCrY4seUYLlz3cAMripCEHu_sN-CV0n1071DLutvVdC2RPdRfnH9GYkFb_sL_jo1Qp51P0AXHA_G6WWkV8iCAc74wqEuUAPRnpbLW0s"
-              alt=""
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-deep-navy via-deep-navy/40 to-transparent" />
-          <div className="relative z-10">
-            <Logo variant="dark" height={48} />
-            <p className="mt-4 max-w-sm text-body-lg text-on-primary-container">
-              {es.access.tagline}
-            </p>
-          </div>
-        </section>
-
-        <section className="flex flex-col justify-center bg-surface-container-lowest p-8 md:p-16 lg:p-20">
-          <div className="mb-10 text-center md:hidden">
-            <Logo variant="light" height={40} className="mx-auto" />
-          </div>
-
-          <div className="mx-auto w-full max-w-md">
-            <header className="mb-10">
-              <h2 className="mb-2 text-headline-lg text-deep-navy">
-                {mode === "signin" ? es.access.welcomeBack : es.access.createAccount}
-              </h2>
-              <p className="text-body-md text-warm-slate">
-                {mode === "signin" ? es.access.signInSubtitle : es.access.joinSubtitle}
-              </p>
-            </header>
-
-            {fromPath && isPropertyReturnPath(fromPath) && (
-              <p className="mb-4 rounded-lg bg-primary-container px-4 py-3 text-label-sm text-on-primary-container">
-                {es.access.propertySignupHint}
-              </p>
-            )}
-
-            {error && (
-              <p className="mb-4 rounded-lg bg-error-container px-4 py-3 text-label-sm text-on-error-container">
-                {error}
-              </p>
-            )}
-
-            <SocialAuthButtons disabled={loading} onProvider={handleOAuth} />
-
-            <div className="relative my-8">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border-light" />
-              </div>
-              <div className="relative flex justify-center">
-                <span className="bg-surface-container-lowest px-4 text-label-sm text-warm-slate">
-                  {es.access.orEmail}
-                </span>
-              </div>
+      <form
+        className="space-y-5"
+        onSubmit={handleSubmit}
+        aria-label={mode === "signin" ? es.common.signIn : es.access.createAccount}
+        name={mode === "signin" ? "login" : "signup"}
+      >
+        {mode === "signup" && (
+          <>
+            <div>
+              <label htmlFor="name" className="auth-label">
+                {es.common.fullName}
+              </label>
+              <input
+                id="name"
+                name="name"
+                data-testid="input-name"
+                type="text"
+                required
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="auth-input"
+              />
             </div>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {mode === "signup" && (
-                <>
-                  <div>
-                    <label htmlFor="name" className="mb-2 block text-label-md text-deep-navy">
-                      {es.common.fullName}
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      required
-                      autoComplete="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-lg border border-border-light bg-white px-4 py-3 text-body-md text-deep-navy focus:border-teal-accent focus:ring-2 focus:ring-teal-accent/20"
-                    />
-                  </div>
-
-                  <fieldset>
-                    <legend className="mb-2 block text-label-md text-deep-navy">
-                      {es.common.role}
-                      <span className="ml-1 text-error">*</span>
-                    </legend>
-                    <p className="mb-3 text-label-sm text-warm-slate">{es.access.accountRoleHint}</p>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      {ACCOUNT_ROLES.map((role) => {
-                        const selected = accountRole === role.slug;
-                        return (
-                          <label
-                            key={role.slug}
-                            className={`flex cursor-pointer gap-3 rounded-lg border p-3 transition-colors ${
-                              selected
-                                ? "border-teal-accent bg-teal-accent/5 ring-2 ring-teal-accent/30"
-                                : "border-border-light bg-white hover:border-teal-accent/50"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="accountRole"
-                              value={role.slug}
-                              checked={selected}
-                              onChange={() => setAccountRole(role.slug)}
-                              className="sr-only"
-                              required={!accountRole}
-                            />
-                            <span
-                              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-                                selected
-                                  ? "bg-teal-accent text-white"
-                                  : "bg-surface-container text-teal-accent"
-                              }`}
-                            >
-                              <Icon name={role.icon} className="text-[22px]" />
-                            </span>
-                            <span className="min-w-0">
-                              <span className="block text-label-md text-deep-navy">{role.label}</span>
-                              <span className="block text-label-sm leading-snug text-warm-slate">
-                                {role.description}
-                              </span>
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </fieldset>
-                </>
-              )}
-
-              <div>
-                <label htmlFor="email" className="mb-2 block text-label-md text-deep-navy">
-                  {es.common.email}
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nombre@empresa.com"
-                  className="w-full rounded-lg border border-border-light bg-white px-4 py-3 text-body-md text-deep-navy focus:border-teal-accent focus:ring-2 focus:ring-teal-accent/20"
-                />
-              </div>
-              {mode === "signin" && (
-                <label className="flex cursor-pointer items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="h-4 w-4 rounded border-border-light text-teal-accent focus:ring-teal-accent/20"
-                  />
-                  <span className="text-body-md text-warm-slate">{es.common.rememberMe}</span>
-                </label>
-              )}
-              <div>
-                <label htmlFor="password" className="mb-2 block text-label-md text-deep-navy">
-                  {es.common.password}
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    minLength={6}
-                    autoComplete={mode === "signin" ? "current-password" : "new-password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-lg border border-border-light bg-white px-4 py-3 text-body-md text-deep-navy focus:border-teal-accent focus:ring-2 focus:ring-teal-accent/20"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-outline"
-                    aria-label={showPassword ? es.access.hidePassword : es.access.showPassword}
-                  >
-                    <Icon name="visibility" className="text-[20px]" />
-                  </button>
-                </div>
-                {mode === "signin" && (
-                  <p className="mt-2 text-right">
-                    <Link
-                      to="/olvide-contrasena"
-                      className="text-label-sm text-teal-accent hover:underline"
-                    >
-                      {es.common.forgotPassword}
-                    </Link>
-                  </p>
-                )}
-              </div>
-              <button
-                type="submit"
-                disabled={loading || (mode === "signup" && !accountRole)}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-deep-navy py-4 text-label-md text-white disabled:opacity-60"
-              >
-                {loading
-                  ? es.common.pleaseWait
-                  : mode === "signin"
-                    ? es.common.signIn
-                    : es.access.signUp}
-                <Icon name="arrow_forward" className="text-[18px]" />
-              </button>
-            </form>
-
-            <footer className="mt-10 text-center">
-              <p className="text-body-md text-warm-slate">
-                {mode === "signin" ? es.access.notMember : es.access.hasAccount}{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode(mode === "signin" ? "signup" : "signin");
-                    setError(null);
-                    setAccountRole("");
-                  }}
-                  className="text-label-md text-teal-accent hover:underline"
-                >
-                  {mode === "signin" ? es.access.createAccountLink : es.access.signInLink}
-                </button>
+            <fieldset>
+              <legend className="auth-label">
+                {es.common.role}
+                <span className="ml-1 text-red-500">*</span>
+              </legend>
+              <p className="mb-3 text-[13px] leading-relaxed text-stone-500">
+                {es.access.accountRoleHint}
               </p>
-            </footer>
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {ACCOUNT_ROLES.map((role) => {
+                  const selected = accountRole === role.slug;
+                  return (
+                    <label
+                      key={role.slug}
+                      data-testid={`role-option-${role.slug}`}
+                      className={`flex cursor-pointer gap-3 rounded-xl border p-3.5 transition-all ${
+                        selected
+                          ? "border-stone-900 bg-stone-900 shadow-md"
+                          : "border-stone-200/80 bg-white hover:border-stone-300 hover:shadow-sm"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="accountRole"
+                        value={role.slug}
+                        checked={selected}
+                        onChange={() => setAccountRole(role.slug)}
+                        className="sr-only"
+                        required={!accountRole}
+                      />
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                          selected ? "bg-white/10 text-teal-accent" : "bg-stone-100 text-stone-600"
+                        }`}
+                      >
+                        <Icon name={role.icon} className="text-[20px]" />
+                      </span>
+                      <span className="min-w-0">
+                        <span
+                          className={`block text-[14px] font-semibold ${
+                            selected ? "text-white" : "text-stone-900"
+                          }`}
+                        >
+                          {role.label}
+                        </span>
+                        <span
+                          className={`mt-0.5 block text-[12px] leading-snug ${
+                            selected ? "text-stone-300" : "text-stone-500"
+                          }`}
+                        >
+                          {role.description}
+                        </span>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          </>
+        )}
+
+        <div>
+          <label htmlFor="email" className="auth-label">
+            {es.common.email}
+          </label>
+          <input
+            id="email"
+            name="email"
+            data-testid="input-email"
+            type="email"
+            required
+            autoComplete="email"
+            inputMode="email"
+            spellCheck={false}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="nombre@empresa.com"
+            className="auth-input"
+          />
+        </div>
+
+        {mode === "signin" && (
+          <label className="flex cursor-pointer items-center gap-2.5">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900/20"
+            />
+            <span className="text-[14px] text-stone-600">{es.common.rememberMe}</span>
+          </label>
+        )}
+
+        <div>
+          <label htmlFor="password" className="auth-label">
+            {es.common.password}
+          </label>
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              data-testid="input-password"
+              type={showPassword ? "text" : "password"}
+              required
+              minLength={6}
+              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="auth-input pr-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-1/2 right-3.5 -translate-y-1/2 rounded-lg p-1 text-stone-400 transition-colors hover:text-stone-700"
+              aria-label={showPassword ? es.access.hidePassword : es.access.showPassword}
+            >
+              <Icon name="visibility" className="text-[20px]" />
+            </button>
           </div>
-        </section>
-      </main>
-    </div>
+          {mode === "signin" && (
+            <p className="mt-2.5 text-right">
+              <Link
+                to="/olvide-contrasena"
+                className="text-[13px] font-medium text-stone-600 underline-offset-2 hover:text-stone-900 hover:underline"
+              >
+                {es.common.forgotPassword}
+              </Link>
+            </p>
+          )}
+        </div>
+
+        {mode === "signup" && (
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-stone-200/80 bg-white p-4">
+            <input
+              type="checkbox"
+              checked={consentAccepted}
+              onChange={(e) => setConsentAccepted(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900/20"
+              required
+            />
+            <span className="text-[13px] leading-relaxed text-stone-600">
+              {es.access.signupConsent}{" "}
+              <Link to="/privacidad" className="font-medium text-stone-900 underline-offset-2 hover:underline">
+                {es.legal.privacy}
+              </Link>
+              {" · "}
+              <Link to="/terminos" className="font-medium text-stone-900 underline-offset-2 hover:underline">
+                {es.legal.terms}
+              </Link>
+            </span>
+          </label>
+        )}
+
+        <button
+          type="submit"
+          data-testid="access-submit"
+          disabled={loading || (mode === "signup" && !accountRole)}
+          className="auth-btn-primary"
+        >
+          {loading
+            ? es.common.pleaseWait
+            : mode === "signin"
+              ? es.common.signIn
+              : es.access.signUp}
+          {!loading && <Icon name="arrow_forward" className="text-[18px]" />}
+        </button>
+      </form>
+    </AuthShell>
   );
 }

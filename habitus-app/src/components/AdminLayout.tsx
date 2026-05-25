@@ -13,7 +13,7 @@ export function AdminLayout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <header className="fixed top-0 z-50 h-16 w-full border-b border-border-light bg-surface-container-lowest">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-margin-mobile md:px-margin-desktop">
           <div className="flex items-center gap-3">

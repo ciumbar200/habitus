@@ -89,7 +89,9 @@ export const COMPAT_QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       { value: "barcelona", label: "Barcelona" },
       { value: "madrid", label: "Madrid" },
-      { value: "both", label: "Ambas" },
+      { value: "valencia", label: "Valencia" },
+      { value: "sevilla", label: "Sevilla" },
+      { value: "granada", label: "Granada" },
     ],
   },
   {
@@ -147,6 +149,6 @@ export const DEMO_QUIZ_BY_SLUG: Record<string, Record<string, string>> = {
     remote: "hybrid",
     budget: "medium",
     stay: "long",
-    preferredCity: "both",
+    preferredCity: "valencia",
   },
 };

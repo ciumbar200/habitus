@@ -70,7 +70,7 @@ export const HOW_IT_WORKS_ROLES: HowItWorksRoleConfig[] = [
       {
         num: "03",
         title: "Descubre con afinidad",
-        desc: "Explora alojamientos públicos en Barcelona y Madrid. Cada espacio muestra compatibilidad con anfitriones y compañeros.",
+        desc: "Explora alojamientos públicos en Barcelona, Madrid, Valencia, Sevilla y Granada. Filtra por ciudad y zona.",
         icon: MagnifyingGlass,
       },
       {

@@ -5,16 +5,25 @@ import {
   adminBulkSetIdentityStatus,
   adminSetIdentityStatus,
   es,
+  exportUsersCsv,
   fetchAdminUsers,
+  importUsersFromCsv,
+  mapUserCsvRecords,
+  fetchAdminImportHealth,
   setUserAdmin,
   setUserDiscoverable,
+  USERS_CSV_HEADERS,
+  usersCsvExample,
+  validateUserCsvRecords,
   type AccountRoleSlug,
   type AdminUserRow,
   type IdentityStatus,
 } from "@habitus/core";
 import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminToolbar";
+import { AdminCsvImport } from "../../components/admin/AdminCsvImport";
 import { IdentityBadge } from "../../components/IdentityBadge";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { supabase } from "../../lib/supabase";
 
 const selectClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm min-w-[120px]";
@@ -29,6 +38,8 @@ export function AdminUsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [bulkBusy, setBulkBusy] = useState(false);
+  const [exportBusy, setExportBusy] = useState(false);
+  const [importServerReady, setImportServerReady] = useState<boolean | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const [search, setSearch] = useState("");
@@ -47,6 +58,12 @@ export function AdminUsersPage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    fetchAdminImportHealth()
+      .then((h) => setImportServerReady(h.importUsersReady))
+      .catch(() => setImportServerReady(false));
+  }, []);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -155,6 +172,53 @@ export function AdminUsersPage() {
           {error}
         </p>
       )}
+
+      {importServerReady === false && (
+        <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-body-sm text-amber-950">
+          {es.admin.import.serverConfigError}
+        </p>
+      )}
+
+      <AdminCsvImport
+        title={es.admin.import.usersTitle}
+        hint={es.admin.import.usersHint}
+        exampleFilename="habitus-usuarios-ejemplo.csv"
+        exampleContent={usersCsvExample()}
+        headers={USERS_CSV_HEADERS}
+        mapRecords={mapUserCsvRecords}
+        validateRecords={(records) => {
+          const err = validateUserCsvRecords(records);
+          return err === "empty" ? es.admin.import.invalidFile : err;
+        }}
+        getAccessToken={async () => {
+          const { data } = await supabase.auth.getSession();
+          return data.session?.access_token ?? null;
+        }}
+        importRows={(rows, token) => importUsersFromCsv(rows, token ?? "")}
+        onComplete={() => load()}
+        importDisabled={importServerReady === false}
+        extraAction={{
+          label: es.admin.import.exportUsers,
+          busy: exportBusy,
+          onClick: async () => {
+            setExportBusy(true);
+            setError(null);
+            try {
+              const { data } = await supabase.auth.getSession();
+              const token = data.session?.access_token;
+              if (!token) {
+                setError(es.admin.import.authRequired);
+                return;
+              }
+              await exportUsersCsv(token);
+            } catch (e) {
+              setError(e instanceof Error ? e.message : es.common.errorLoad);
+            } finally {
+              setExportBusy(false);
+            }
+          },
+        }}
+      />
 
       <div className="mt-6 flex flex-wrap items-end gap-3">
         <AdminFilterField label={f.searchUsers} className="min-w-[220px] flex-1">

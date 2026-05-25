@@ -1,11 +1,24 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { PropertyCard } from "../components/PropertyCard";
 import { Icon } from "../components/Icon";
 import { LoadingState, ErrorState } from "../components/PageState";
+import { CityZoneSelect } from "../components/location/CityZoneSelect";
 import { useBookmarks } from "../hooks/useBookmarks";
 import { useAuth } from "../context/AuthContext";
-import { buildCategoryFilters, es, fetchCategories, fetchCompatQuiz, fetchProperties, fetchSearchPrefs, searchPrefsDiscoverLocation } from "@habitus/core";
-import type { Category, Property } from "@habitus/core";
+import {
+  buildCategoryFilters,
+  es,
+  fetchCategories,
+  fetchCompatQuiz,
+  fetchProperties,
+  fetchSearchPrefs,
+  getDefaultZoneForCity,
+  matchesCityZoneFilter,
+  type Category,
+  type MoonCitySlug,
+  type Property,
+} from "@habitus/core";
 import { isSupabaseConfigured } from "../lib/supabase";
 
 export function DiscoverPage() {
@@ -14,9 +27,11 @@ export function DiscoverPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [locationQ, setLocationQ] = useState("");
+  const [filterCity, setFilterCity] = useState<MoonCitySlug | "">("");
+  const [filterZone, setFilterZone] = useState("");
+  const [appliedCity, setAppliedCity] = useState<MoonCitySlug | "">("");
+  const [appliedZone, setAppliedZone] = useState("");
   const [budgetMax, setBudgetMax] = useState("");
-  const [appliedLocation, setAppliedLocation] = useState("");
   const [appliedBudget, setAppliedBudget] = useState("");
   const [moveInQ, setMoveInQ] = useState("");
   const [appliedMoveIn, setAppliedMoveIn] = useState("");
@@ -25,14 +40,10 @@ export function DiscoverPage() {
   const [error, setError] = useState<string | null>(null);
 
   function applyFilters(list: Property[]): Property[] {
-    const loc = appliedLocation.trim().toLowerCase();
     const max = parseInt(appliedBudget.replace(/\D/g, ""), 10);
     const moveIn = appliedMoveIn.trim();
     return list.filter((p) => {
-      if (loc) {
-        const hay = `${p.location} ${p.city}`.toLowerCase();
-        if (!hay.includes(loc)) return false;
-      }
+      if (!matchesCityZoneFilter(p.city, p.location, appliedCity, appliedZone)) return false;
       if (!Number.isNaN(max) && max > 0 && p.price > max) return false;
       if (moveIn && p.availableFrom && p.availableFrom > moveIn) return false;
       return true;
@@ -43,10 +54,12 @@ export function DiscoverPage() {
     if (!user?.id) return;
     fetchSearchPrefs(user.id)
       .then((prefs) => {
-        const loc = searchPrefsDiscoverLocation(prefs);
-        if (loc) {
-          setLocationQ(loc);
-          setAppliedLocation(loc);
+        if (prefs.city) {
+          setFilterCity(prefs.city);
+          setAppliedCity(prefs.city);
+          const zone = prefs.zone ?? getDefaultZoneForCity(prefs.city);
+          setFilterZone(zone);
+          setAppliedZone(prefs.zone ?? "");
         }
         if (prefs.budgetMax) {
           const b = String(prefs.budgetMax);
@@ -70,7 +83,10 @@ export function DiscoverPage() {
 
     fetchCategories()
       .then((cats) => setCategories(buildCategoryFilters(cats, es.discover.allCategories)))
-      .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad));
+      .catch((e) => {
+        console.error("Error fetching categories:", e);
+        setError(e instanceof Error ? e.message : es.common.errorLoad);
+      });
   }, []);
 
   useEffect(() => {
@@ -78,20 +94,27 @@ export function DiscoverPage() {
 
     setLoading(true);
     setError(null);
+
     const quizPromise = user?.id ? fetchCompatQuiz(user.id) : Promise.resolve({});
     quizPromise
       .then((quiz) => fetchProperties(activeCategory, quiz))
-      .then(setAllProperties)
-      .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
+      .then((props) => {
+        setAllProperties(props);
+      })
+      .catch((e) => {
+        console.error("Error fetching properties:", e);
+        setError(e instanceof Error ? e.message : es.common.errorLoad);
+      })
       .finally(() => setLoading(false));
   }, [activeCategory, user?.id]);
 
   useEffect(() => {
     setProperties(applyFilters(allProperties));
-  }, [allProperties, appliedLocation, appliedBudget, appliedMoveIn]);
+  }, [allProperties, appliedCity, appliedZone, appliedBudget, appliedMoveIn]);
 
   function runSearch() {
-    setAppliedLocation(locationQ.trim());
+    setAppliedCity(filterCity);
+    setAppliedZone(filterZone);
     setAppliedBudget(budgetMax.trim());
     setAppliedMoveIn(moveInQ.trim());
   }
@@ -104,60 +127,55 @@ export function DiscoverPage() {
   return (
     <main className="mx-auto max-w-7xl px-margin-mobile pb-32 pt-24 md:px-margin-desktop">
       <section className="mb-stack-lg">
-        <div className="flex flex-col items-center gap-2 rounded-xl border border-border-light bg-surface-container-lowest p-2 card-shadow md:flex-row md:gap-4 md:p-3">
-          <div className="flex w-full flex-1 items-center border-b border-border-light px-4 py-2 md:border-b-0 md:border-r">
-            <Icon name="location_on" className="mr-3 text-warm-slate" />
-            <div className="flex flex-col">
-              <label className="text-label-sm uppercase tracking-wider text-warm-slate">
-                {es.discover.location}
-              </label>
-              <input
-                type="text"
-                value={locationQ}
-                onChange={(e) => setLocationQ(e.target.value)}
-                placeholder={es.discover.locationPlaceholder}
-                className="border-none bg-transparent p-0 font-semibold text-deep-navy placeholder:text-outline focus:ring-0"
-              />
+        <div className="flex flex-col gap-4 rounded-xl border border-border-light bg-surface-container-lowest p-4 card-shadow">
+          <CityZoneSelect
+            city={filterCity}
+            zone={filterZone}
+            cityOptional
+            zoneOptional
+            onCityChange={setFilterCity}
+            onZoneChange={setFilterZone}
+          />
+          <div className="flex flex-col items-stretch gap-2 md:flex-row md:items-end md:gap-4">
+            <div className="flex flex-1 items-center border-b border-border-light px-2 py-2 md:border-b-0 md:border-r md:px-4">
+              <Icon name="payments" className="mr-3 text-warm-slate" />
+              <div className="flex flex-col">
+                <label className="text-label-sm uppercase tracking-wider text-warm-slate">
+                  {es.discover.budget}
+                </label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={budgetMax}
+                  onChange={(e) => setBudgetMax(e.target.value)}
+                  placeholder={es.discover.budgetPlaceholder}
+                  className="border-none bg-transparent p-0 font-semibold text-deep-navy placeholder:text-outline focus:ring-0"
+                />
+              </div>
             </div>
-          </div>
-          <div className="flex w-full flex-1 items-center border-b border-border-light px-4 py-2 md:border-b-0 md:border-r">
-            <Icon name="payments" className="mr-3 text-warm-slate" />
-            <div className="flex flex-col">
-              <label className="text-label-sm uppercase tracking-wider text-warm-slate">
-                {es.discover.budget}
-              </label>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={budgetMax}
-                onChange={(e) => setBudgetMax(e.target.value)}
-                placeholder={es.discover.budgetPlaceholder}
-                className="border-none bg-transparent p-0 font-semibold text-deep-navy placeholder:text-outline focus:ring-0"
-              />
+            <div className="flex flex-1 items-center px-2 py-2 md:px-4">
+              <Icon name="calendar_month" className="mr-3 text-warm-slate" />
+              <div className="flex flex-col">
+                <label className="text-label-sm uppercase tracking-wider text-warm-slate">
+                  {es.discover.moveIn}
+                </label>
+                <input
+                  type="date"
+                  value={moveInQ}
+                  onChange={(e) => setMoveInQ(e.target.value)}
+                  className="border-none bg-transparent p-0 font-semibold text-deep-navy placeholder:text-outline focus:ring-0"
+                />
+              </div>
             </div>
+            <button
+              type="button"
+              onClick={runSearch}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-deep-navy px-8 py-3 text-label-md text-on-primary transition-all hover:opacity-90 md:w-auto"
+            >
+              <Icon name="search" className="text-[20px]" />
+              {es.common.search}
+            </button>
           </div>
-          <div className="flex w-full flex-1 items-center px-4 py-2">
-            <Icon name="calendar_month" className="mr-3 text-warm-slate" />
-            <div className="flex flex-col">
-              <label className="text-label-sm uppercase tracking-wider text-warm-slate">
-                {es.discover.moveIn}
-              </label>
-              <input
-                type="date"
-                value={moveInQ}
-                onChange={(e) => setMoveInQ(e.target.value)}
-                className="border-none bg-transparent p-0 font-semibold text-deep-navy placeholder:text-outline focus:ring-0"
-              />
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={runSearch}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-deep-navy px-8 py-3 text-label-md text-on-primary transition-all hover:opacity-90 md:w-auto"
-          >
-            <Icon name="search" className="text-[20px]" />
-            {es.common.search}
-          </button>
         </div>
       </section>
 
@@ -184,9 +202,31 @@ export function DiscoverPage() {
       {!loading && !error && (
         <section className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-3">
           {properties.length === 0 ? (
-            <p className="col-span-full text-center text-body-md text-warm-slate">
-              {es.discover.emptyCategory}
-            </p>
+            <div className="col-span-full rounded-xl border border-dashed border-border-light bg-surface-container-lowest p-12 text-center">
+              <Icon name="home_work" className="mx-auto mb-4 text-5xl text-stone-300" />
+              <h3 className="mb-2 text-headline-md text-deep-navy">
+                No hay habitaciones disponibles en esta categoría
+              </h3>
+              <p className="mb-6 text-body-md text-warm-slate">
+                Prueba a cambiar de categoría o ajusta tus filtros de búsqueda. También puedes explorar todos los alojamientos disponibles.
+              </p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <button
+                  onClick={() => setActiveCategory("all")}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-deep-navy px-6 py-3 text-label-md text-white transition-opacity hover:opacity-90 active:opacity-70"
+                >
+                  <Icon name="refresh" />
+                  Ver todas las categorías
+                </button>
+                <Link
+                  to="/alojamientos"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-border-light px-6 py-3 text-label-md text-deep-navy transition-colors hover:bg-surface-container active:bg-surface-container-high"
+                >
+                  <Icon name="explore" />
+                  Explorar todos los alojamientos
+                </Link>
+              </div>
+            </div>
           ) : (
             properties.map((p) => (
               <PropertyCard

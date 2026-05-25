@@ -3,6 +3,8 @@ import {
   isValidReturnPath,
   profileNeedsOnboarding,
   profileNeedsCompatQuiz,
+  profileNeedsProfileSetup,
+  PROFILE_SETUP_PATH,
 } from "@habitus/core";
 import { saveReturnTo } from "../lib/returnTo";
 import { useAuth } from "../context/AuthContext";
@@ -42,6 +44,19 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
 
   if (quizPending && location.pathname !== "/cuestionario-compatibilidad") {
     return <Navigate to="/cuestionario-compatibilidad" replace />;
+  }
+
+  const inProfileSetup =
+    location.pathname === "/profile/editar" &&
+    (location.search.includes("setup=1") ||
+      (location.state as { fromProfileSetup?: boolean } | null)?.fromProfileSetup === true);
+
+  if (
+    profileNeedsProfileSetup(profile) &&
+    !inProfileSetup &&
+    location.pathname !== "/profile/editar"
+  ) {
+    return <Navigate to={PROFILE_SETUP_PATH} replace />;
   }
 
   return <>{children}</>;

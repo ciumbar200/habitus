@@ -5,23 +5,6 @@ import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
 import { Icon } from "../../components/Icon";
 import { ArrowRight } from "@phosphor-icons/react";
 
-const OWNER_TESTIMONIALS = [
-  {
-    name: "Roberto Sánchez",
-    role: "Propietario de 3 pisos",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
-    text: "Gestionaba 5 pisos compartidos y era un caos constante. Con : moon, los grupos están pre-validados y los conflictos se redujeron un 80%. Ahora tengo tiempo para buscar más propiedades.",
-    location: "Madrid"
-  },
-  {
-    name: "Inmobiliaria Horizon",
-    role: "Agencia, 40 propiedades",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80",
-    text: "Nuestra cartera de pisos compartidos generaba más problemas que beneficios. Desde que implementamos : moon, nuestros clientes propietarios están mucho más satisfechos.",
-    location: "Barcelona"
-  }
-];
-
 export function OwnerLandingPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-stone-100 to-white overflow-x-hidden">
@@ -30,8 +13,8 @@ export function OwnerLandingPage() {
         badge="Para propietarios"
         title={
           <>
-            Tu cartera de pisos,
-            <span className="block text-amber-200/90">bajo control.</span>
+            <span className="block">Tu cartera de pisos,</span>
+            <span className="hero-display-accent block">bajo control.</span>
           </>
         }
         subtitle={
@@ -70,13 +53,12 @@ export function OwnerLandingPage() {
         }
       />
 
-      {/* Owner Benefits */}
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-20">
             <div>
-              <p className="text-stone-500 font-medium mb-4 tracking-wider uppercase text-sm">Para propietarios</p>
-              <h2 className="font-serif text-4xl lg:text-5xl text-stone-900 mb-8">
+              <p className="section-eyebrow">Para propietarios</p>
+              <h2 className="section-title mb-8">
                 Gestión profesional<br />de convivencia
               </h2>
 
@@ -119,14 +101,12 @@ export function OwnerLandingPage() {
               </div>
             </div>
 
-            {/* Stats Dashboard */}
             <div className="bg-stone-900 rounded-3xl p-12 text-white overflow-hidden relative">
-              {/* Animated Background Elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/20 rounded-full blur-3xl animate-float" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
 
               <div className="relative">
-                <h3 className="font-serif text-2xl mb-8">Resultados con : moon</h3>
+                <h3 className="card-title-light mb-8">Panel de propietario</h3>
                 <div className="space-y-8">
                   {[
                     { label: "Menor rotación de inquilinos", value: "68%", color: "from-amber-400 to-orange-500" },
@@ -137,7 +117,7 @@ export function OwnerLandingPage() {
                     <div key={i} className="group">
                       <div className="flex justify-between mb-2">
                         <span className="text-stone-400">{stat.label}</span>
-                        <span className="font-serif text-2xl group-hover:scale-110 transition-transform duration-300">{stat.value}</span>
+                        <span className="font-sans text-xl font-bold tracking-[-0.02em] group-hover:scale-110 transition-transform duration-300 sm:text-2xl">{stat.value}</span>
                       </div>
                       <div className="h-2 bg-stone-800 rounded-full overflow-hidden">
                         <div
@@ -154,57 +134,9 @@ export function OwnerLandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-32 bg-gradient-to-br from-stone-100 to-stone-200">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-stone-600 font-medium mb-4 tracking-wider uppercase text-sm">Casos de éxito</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
-              Propietarios que modernizaron<br />su gestión
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {OWNER_TESTIMONIALS.map((testimonial, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl bg-white p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="h-16 w-16 rounded-full object-cover ring-4 ring-stone-200 shadow-lg group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div>
-                    <p className="font-serif text-lg text-stone-900">{testimonial.name}</p>
-                    <p className="text-sm text-stone-500">{testimonial.role}</p>
-                    <p className="text-xs text-emerald-600">{testimonial.location}</p>
-                  </div>
-                </div>
-
-                <blockquote className="text-stone-600 leading-relaxed mb-4">
-                  "{testimonial.text}"
-                </blockquote>
-
-                <div className="flex items-center gap-2 text-amber-600">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Agency Section */}
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="bg-gradient-to-br from-stone-100 to-stone-200 rounded-3xl p-12 lg:p-16 shadow-xl relative overflow-hidden">
-            {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-stone-300/50 rounded-full blur-3xl animate-float" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-200/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
 
@@ -213,7 +145,7 @@ export function OwnerLandingPage() {
                 <span className="inline-block px-4 py-2 rounded-full bg-white text-stone-700 text-sm font-medium mb-6 shadow-sm">
                   Para agencias inmobiliarias
                 </span>
-                <h2 className="font-serif text-4xl lg:text-5xl text-stone-900 mb-6">
+                <h2 className="section-title mb-6">
                   Gestiona la cartera<br />de tus clientes
                 </h2>
                 <p className="text-stone-600 text-lg mb-8">
@@ -252,20 +184,18 @@ export function OwnerLandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-32 bg-stone-900 text-white relative overflow-hidden">
-        {/* Animated Background */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-float" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         </div>
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="font-serif text-4xl lg:text-6xl mb-6">
+          <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6">
             Tu cartera, optimizada
           </h2>
-          <p className="text-xl text-stone-400 mb-10">
-            Únete a propietarios y agencias que ya modernizaron la gestión de sus pisos compartidos.
+          <p className="text-lg text-stone-400 mb-10 sm:text-xl">
+            Gestiona pisos compartidos con grupos pre-validados, anfitriones asignados y métricas claras.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

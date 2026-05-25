@@ -14,6 +14,9 @@ export function ListingsLegacyRedirect() {
   const city = params.get("city") ?? params.get("ciudad");
   if (city) next.set("ciudad", city.toLowerCase());
 
+  const zone = params.get("zone") ?? params.get("zona");
+  if (zone) next.set("zona", zone.toLowerCase());
+
   const q = next.toString();
   return <Navigate to={q ? `/alojamientos?${q}` : "/alojamientos"} replace />;
 }

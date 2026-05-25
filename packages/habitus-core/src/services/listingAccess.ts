@@ -44,40 +44,49 @@ export async function grantListingAccessToGroup(
   return error?.message ?? null;
 }
 
+export async function grantListingAccessToProfile(
+  listingId: string,
+  profileId: string,
+  ownerId: string,
+): Promise<string | null> {
+  const { error } = await getSupabase().from("habitus_listing_access").insert({
+    listing_id: listingId,
+    profile_id: profileId,
+    granted_by: ownerId,
+  });
+  return error?.message ?? null;
+}
+
 export async function revokeListingAccess(accessId: string): Promise<string | null> {
   const { error } = await getSupabase().from("habitus_listing_access").delete().eq("id", accessId);
   return error?.message ?? null;
 }
 
-export async function fetchOwnerGroupsForGrant(ownerId: string): Promise<
-  { id: string; name: string; slug: string; memberCount: number }[]
+export async function fetchOwnerGroupsForGrant(
+  _ownerId: string,
+  listingCity?: string | null,
+): Promise<
+  { id: string; name: string; slug: string; memberCount: number; targetMembers: number; city: string | null }[]
 > {
-  const { data: listings } = await getSupabase()
-    .from("habitus_listings")
-    .select("id")
-    .eq("owner_profile_id", ownerId);
+  const { data, error } = await getSupabase().rpc("habitus_formed_groups_for_manager", {
+    p_city: listingCity ?? null,
+  });
+  if (error) throw error;
+  if (!data || !Array.isArray(data)) return [];
 
-  if (!listings?.length) return [];
-
-  const { data: groups } = await getSupabase()
-    .from("habitus_groups")
-    .select("id, name, slug")
-    .in("status", ["forming", "ready", "active"])
-    .order("name")
-    .limit(50);
-
-  const result: { id: string; name: string; slug: string; memberCount: number }[] = [];
-  for (const g of groups ?? []) {
-    const { count } = await getSupabase()
-      .from("habitus_group_members")
-      .select("profile_id", { count: "exact", head: true })
-      .eq("group_id", g.id);
-    result.push({
-      id: g.id,
-      name: g.name,
-      slug: g.slug,
-      memberCount: count ?? 0,
-    });
-  }
-  return result;
+  return (data as {
+    id: string;
+    name: string;
+    slug: string;
+    memberCount: number;
+    targetMembers: number;
+    city: string | null;
+  }[]).map((g) => ({
+    id: g.id,
+    name: g.name,
+    slug: g.slug,
+    memberCount: g.memberCount,
+    targetMembers: g.targetMembers,
+    city: g.city ?? null,
+  }));
 }

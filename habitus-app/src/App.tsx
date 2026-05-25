@@ -1,9 +1,11 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
+import { ScrollReset } from "./components/ScrollReset";
 import { FunnelLayout } from "./components/FunnelLayout";
 import { PublicLayout } from "./components/PublicLayout";
 import { RequireAuth } from "./components/RequireAuth";
 import { RoleGate } from "./components/RoleGate";
+import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { DiscoverPage } from "./pages/DiscoverPage";
 import { PropertyDetailPage } from "./pages/PropertyDetailPage";
 import { MatchesPage } from "./pages/MatchesPage";
@@ -39,7 +41,12 @@ import { MemberPublicPage } from "./pages/MemberPublicPage";
 import { GroupDetailPage } from "./pages/GroupDetailPage";
 import { CreateGroupPage } from "./pages/CreateGroupPage";
 import { GroupsPage } from "./pages/GroupsPage";
+import { GroupInvitePage } from "./pages/GroupInvitePage";
+import { PanelInquilinosPage } from "./pages/panel/PanelInquilinosPage";
 import { ListingAccessPage } from "./pages/panel/ListingAccessPage";
+import { LegalPage } from "./pages/legal/LegalPage";
+import { BlogPage } from "./pages/blog/BlogPage";
+import { BlogPostPage } from "./pages/blog/BlogPostPage";
 
 function AuthShell() {
   return (
@@ -54,6 +61,8 @@ function AuthShell() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollReset />
+      <PWAInstallPrompt />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route index element={<LandingPage />} />
@@ -63,6 +72,12 @@ export default function App() {
           <Route path="propietarios" element={<OwnerLandingPage />} />
           <Route path="agencias" element={<AgencyLandingPage />} />
           <Route path="como-funciona" element={<HowItWorksPage />} />
+          <Route path="blog" element={<BlogPage />} />
+          <Route path="blog/:slug" element={<BlogPostPage />} />
+          <Route path="invitar/grupo/:slug" element={<GroupInvitePage />} />
+          <Route path="privacidad" element={<LegalPage kind="privacy" />} />
+          <Route path="terminos" element={<LegalPage kind="terms" />} />
+          <Route path="aviso-legal" element={<LegalPage kind="notice" />} />
         </Route>
 
         <Route element={<FunnelLayout />}>
@@ -175,6 +190,14 @@ export default function App() {
               element={
                 <RoleGate allow={["anfitrion", "propietario", "agencia"]}>
                   <ReviewApplicationsPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/inquilinos"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <PanelInquilinosPage />
                 </RoleGate>
               }
             />

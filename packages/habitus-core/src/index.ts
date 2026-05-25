@@ -31,12 +31,15 @@ export {
 } from "./lib/floorPropertyTypes";
 export {
   profileNeedsOnboarding,
+  profileNeedsProfileSetup,
   roleNeedsCompatQuiz,
   roleShowsLifestyleProfile,
   roleShowsTrustProfile,
   profileNeedsCompatQuiz,
   ageFromBirthDate,
   isValidOnboardingAge,
+  PROFILE_SETUP_PATH,
+  HOST_FIRST_LISTING_PATH,
 } from "./lib/onboarding";
 export {
   isValidReturnPath,
@@ -47,6 +50,30 @@ export { listingStatusLabel, listingStatusClass } from "./lib/listingStatus";
 export { listingCopyForRole, type ListingCopy } from "./lib/listingCopy";
 export { ALL_CATEGORY_SLUG, buildCategoryFilters } from "./lib/categories";
 export { PLACEHOLDER_IMAGE, normalizeImageUrl, imageUrlOrPlaceholder } from "./lib/media";
+export {
+  resolveSiteOrigin,
+  buildGroupInviteUrl,
+  buildReferralUrl,
+  copyToClipboard,
+  shareLink,
+  whatsAppShareUrl,
+  mailShareUrl,
+  shareGroupInviteText,
+  shareReferralText,
+  type SharePayload,
+} from "./lib/share";
+export {
+  PENDING_GROUP_SLUG_KEY,
+  PENDING_REFERRAL_KEY,
+  persistPendingGroupSlug,
+  consumePendingGroupSlug,
+  peekPendingGroupSlug,
+  persistPendingReferral,
+  consumePendingReferral,
+  peekPendingReferral,
+  parseReferralCode,
+  parseGroupSlugParam,
+} from "./lib/pendingInvite";
 
 export {
   COMPAT_QUIZ_QUESTIONS,
@@ -64,6 +91,32 @@ export {
 } from "./data/profileTags";
 
 export { LISTING_AMENITY_PRESETS } from "./data/listingAmenities";
+
+export {
+  MOON_CITIES,
+  MOON_ZONES_BY_CITY,
+  formatMoonLocation,
+  getCityLabel,
+  getDefaultZoneForCity,
+  getZoneLabel,
+  getZonesForCity,
+  isMoonCitySlug,
+  isValidCityZone,
+  matchesCityZoneFilter,
+  normalizeCitySlug,
+  normalizeZoneSlug,
+  type MoonCitySlug,
+  type MoonZone,
+} from "./data/locations";
+
+export {
+  USERS_CSV_HEADERS,
+  LISTINGS_CSV_HEADERS,
+  usersCsvExample,
+  listingsCsvExample,
+} from "./data/adminImportTemplates";
+
+export { parseCsv, parseCsvRecords, rowsToCsv, downloadCsv } from "./lib/csv";
 
 export {
   homePathForRole,
@@ -90,6 +143,7 @@ export {
   type AccountRoleOption,
 } from "./services/accountRoles";
 export * from "./services/admin";
+export * from "./services/adminImport";
 export * from "./services/applications";
 export * from "./services/blog";
 export * from "./services/bookmarks";
@@ -129,4 +183,11 @@ export {
 export * from "./services/properties";
 export * from "./services/groups";
 export * from "./services/listingAccess";
+export * from "./services/ownerTenants";
+export * from "./services/referrals";
+export * from "./services/consents";
+export * from "./services/expenses";
+export * from "./services/leases";
+export * from "./services/moonAccess";
+export * from "./services/notifications";
 export * from "./services/storage";

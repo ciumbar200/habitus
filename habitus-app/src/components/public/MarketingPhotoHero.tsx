@@ -21,32 +21,28 @@ export function MarketingPhotoHero({
   actions,
 }: MarketingPhotoHeroProps) {
   return (
-    <section className="relative min-h-[480px] overflow-hidden border-b border-stone-200 lg:min-h-[540px]">
+    <section className="relative min-h-[480px] overflow-hidden border-b border-stone-800/30 sm:min-h-[500px] lg:min-h-[540px]">
       <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-stone-950/88 via-stone-900/65 to-stone-900/30" />
       <div className="absolute inset-0 bg-gradient-to-t from-stone-950/45 via-transparent to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-28 lg:px-8 lg:pb-16 lg:pt-32">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-stone-100 backdrop-blur-sm ring-1 ring-white/20">
-            ✨ {badge}
-          </div>
-          <h1 className="mt-6 font-serif text-4xl font-medium tracking-tight text-white lg:text-5xl xl:text-6xl">
-            {title}
-          </h1>
-          <div className="mt-4 max-w-xl text-lg leading-relaxed text-stone-200">{subtitle}</div>
-          {actions && <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">{actions}</div>}
+      <div className="hero-shell-inner">
+        <div className="max-w-2xl min-w-0">
+          <div className="hero-badge">✨ {badge}</div>
+          <h1 className="hero-display">{title}</h1>
+          <div className="hero-subtitle">{subtitle}</div>
+          {actions && <div className="hero-actions">{actions}</div>}
         </div>
 
         {stats && stats.length > 0 && (
-          <div className="mt-10 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="hero-stats max-w-3xl">
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-white/15 bg-white/10 px-5 py-4 shadow-lg backdrop-blur-md"
+                className="rounded-xl border border-white/15 bg-white/10 px-4 py-3 shadow-lg backdrop-blur-md sm:px-5 sm:py-4"
               >
-                <p className="text-2xl font-semibold text-white">{stat.value}</p>
-                <p className="mt-1 text-sm text-stone-300">{stat.label}</p>
+                <p className="text-xl font-semibold text-white sm:text-2xl">{stat.value}</p>
+                <p className="mt-1 text-xs text-stone-300 sm:text-sm">{stat.label}</p>
               </div>
             ))}
           </div>

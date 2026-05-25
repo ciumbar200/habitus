@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { es, createGroup } from "@habitus/core";
+import { es, createGroup, getDefaultZoneForCity, type MoonCitySlug } from "@habitus/core";
 import { useAuth } from "../context/AuthContext";
+import { CityZoneSelect } from "../components/location/CityZoneSelect";
 
 export function CreateGroupPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [name, setName] = useState("");
-  const [city, setCity] = useState("Barcelona");
+  const [city, setCity] = useState<MoonCitySlug | "">("barcelona");
+  const [zone, setZone] = useState(getDefaultZoneForCity("barcelona"));
   const [targetMembers, setTargetMembers] = useState(3);
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +22,8 @@ export function CreateGroupPage() {
     setError(null);
     const { group, error: err } = await createGroup(user.id, {
       name: name.trim(),
-      city,
+      city: city || undefined,
+      zone,
       targetMembers,
       notes: notes.trim() || undefined,
     });
@@ -29,7 +32,7 @@ export function CreateGroupPage() {
       setError(err ?? es.common.errorLoad);
       return;
     }
-    navigate(`/grupos/${group.slug}`);
+    navigate(`/grupos/${group.slug}`, { state: { justCreated: true } });
   }
 
   return (
@@ -52,13 +55,12 @@ export function CreateGroupPage() {
             placeholder="Ej. Grupo Erasmus Gràcia"
           />
         </div>
-        <div>
-          <label className="mb-1.5 block text-label-md text-deep-navy">{es.groups.city}</label>
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="field-input">
-            <option value="Barcelona">Barcelona</option>
-            <option value="Madrid">Madrid</option>
-          </select>
-        </div>
+        <CityZoneSelect
+          city={city}
+          zone={zone}
+          onCityChange={setCity}
+          onZoneChange={setZone}
+        />
         <div>
           <label className="mb-1.5 block text-label-md text-deep-navy">{es.groups.targetMembers}</label>
           <input

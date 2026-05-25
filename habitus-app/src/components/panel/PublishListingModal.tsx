@@ -5,6 +5,7 @@ import { listingCopyForRole } from "@habitus/core";
 import { Icon } from "../Icon";
 import { ListingEditorForm, type ListingSaveResult } from "./ListingEditorForm";
 import { useAuth } from "../../context/AuthContext";
+import { useScrollLock } from "../../lib/useScrollLock";
 
 type PublishListingModalProps = {
   open: boolean;
@@ -23,14 +24,7 @@ export function PublishListingModal({
   const { profile } = useAuth();
   const copy = listingCopyForRole(profile?.accountRole);
 
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
+  useScrollLock(open);
 
   useEffect(() => {
     if (!open) return;

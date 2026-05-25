@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { LivingGroupCard } from "../components/LivingGroupCard";
 import { LoadingState, ErrorState } from "../components/PageState";
 import { useAuth } from "../context/AuthContext";
-import { es, fetchMyGroups, type LivingGroup } from "@habitus/core";
+import { es, fetchMyGroupsWithMembership, type MyGroupEntry } from "@habitus/core";
 import { Icon } from "../components/Icon";
 
 export function GroupsPage() {
   const { user } = useAuth();
-  const [groups, setGroups] = useState<LivingGroup[]>([]);
+  const [groups, setGroups] = useState<MyGroupEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ export function GroupsPage() {
       setLoading(false);
       return;
     }
-    fetchMyGroups(user.id)
+    fetchMyGroupsWithMembership(user.id)
       .then(setGroups)
       .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
       .finally(() => setLoading(false));
@@ -67,7 +67,7 @@ export function GroupsPage() {
 
       <div className="grid gap-4">
         {groups.map((g) => (
-          <LivingGroupCard key={g.id} group={g} />
+          <LivingGroupCard key={g.id} group={g} membershipPending={g.membershipPending} />
         ))}
       </div>
     </main>

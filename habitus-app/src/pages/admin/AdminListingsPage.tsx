@@ -9,12 +9,20 @@ import {
   fetchAdminHosts,
   fetchAdminListings,
   formatPrice,
+  formatMoonLocation,
+  getZonesForCity,
+  importListingsFromCsv,
   listingStatusLabel,
+  LISTINGS_CSV_HEADERS,
+  listingsCsvExample,
+  mapListingCsvRecords,
+  MOON_CITIES,
   setListingStatus,
   type AdminListingRow,
   type PropertyVerificationStatus,
 } from "@habitus/core";
 import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminToolbar";
+import { AdminCsvImport } from "../../components/admin/AdminCsvImport";
 import { PropertyVerificationBadge } from "../../components/PropertyVerificationBadge";
 import { LoadingState, ErrorState } from "../../components/PageState";
 import { useAuth } from "../../context/AuthContext";
@@ -37,6 +45,7 @@ export function AdminListingsPage() {
 
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  const [zone, setZone] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [verificationFilter, setVerificationFilter] = useState("");
@@ -62,18 +71,14 @@ export function AdminListingsPage() {
     load();
   }, [load]);
 
-  const cities = useMemo(
-    () =>
-      [...new Set(rows.map((r) => r.city).filter(Boolean) as string[])].sort((a, b) =>
-        a.localeCompare(b, "es"),
-      ),
-    [rows],
-  );
+  const cities = MOON_CITIES.map((c) => c.slug);
+  const zones = city ? getZonesForCity(city as (typeof cities)[number]) : [];
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return rows.filter((row) => {
       if (city && row.city !== city) return false;
+      if (zone && row.location !== zone) return false;
       if (statusFilter && row.status !== statusFilter) return false;
       if (categoryFilter && row.categorySlug !== categoryFilter) return false;
       if (verificationFilter && row.propertyVerificationStatus !== verificationFilter) return false;
@@ -85,7 +90,7 @@ export function AdminListingsPage() {
         (row.hostName?.toLowerCase().includes(q) ?? false)
       );
     });
-  }, [rows, search, city, statusFilter, categoryFilter, verificationFilter]);
+  }, [rows, search, city, zone, statusFilter, categoryFilter, verificationFilter]);
 
   const filteredIds = useMemo(() => new Set(filtered.map((r) => r.id)), [filtered]);
   const selectedInView = useMemo(
@@ -98,6 +103,7 @@ export function AdminListingsPage() {
   function clearFilters() {
     setSearch("");
     setCity("");
+    setZone("");
     setStatusFilter("");
     setCategoryFilter("");
     setVerificationFilter("");
@@ -209,7 +215,7 @@ export function AdminListingsPage() {
 
   const tl = es.admin.tableListings;
   const f = es.admin.filters;
-  const hasFilters = search || city || statusFilter || categoryFilter || verificationFilter;
+  const hasFilters = search || city || zone || statusFilter || categoryFilter || verificationFilter;
 
   return (
     <div>
@@ -220,6 +226,17 @@ export function AdminListingsPage() {
           {error}
         </p>
       )}
+
+      <AdminCsvImport
+        title={es.admin.import.listingsTitle}
+        hint={es.admin.import.listingsHint}
+        exampleFilename="habitus-espacios-ejemplo.csv"
+        exampleContent={listingsCsvExample()}
+        headers={LISTINGS_CSV_HEADERS}
+        mapRecords={mapListingCsvRecords}
+        importRows={(rows) => importListingsFromCsv(rows)}
+        onComplete={() => load()}
+      />
 
       <div className="mt-6 flex flex-wrap items-end gap-3">
         <AdminFilterField label={f.searchListings} className="min-w-[220px] flex-1">
@@ -232,11 +249,33 @@ export function AdminListingsPage() {
           />
         </AdminFilterField>
         <AdminFilterField label={f.city}>
-          <select value={city} onChange={(e) => setCity(e.target.value)} className={selectClass}>
+          <select
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              setZone("");
+            }}
+            className={selectClass}
+          >
             <option value="">{f.allCities}</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            {MOON_CITIES.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </AdminFilterField>
+        <AdminFilterField label={f.zone}>
+          <select
+            value={zone}
+            onChange={(e) => setZone(e.target.value)}
+            className={selectClass}
+            disabled={!city}
+          >
+            <option value="">{f.allZones}</option>
+            {zones.map((z) => (
+              <option key={z.slug} value={z.slug}>
+                {z.label}
               </option>
             ))}
           </select>
@@ -363,7 +402,7 @@ export function AdminListingsPage() {
                       {row.name}
                     </Link>
                     <p className="text-label-sm text-warm-slate">
-                      {row.city ?? "—"} · {formatPrice(row.priceMonthly, "EUR")}
+                      {formatMoonLocation(row.city, row.location) || "—"} · {formatPrice(row.priceMonthly, "EUR")}
                     </p>
                   </td>
                   <td className="px-4 py-3 text-warm-slate">

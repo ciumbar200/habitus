@@ -6,6 +6,8 @@ import {
   homePathForRole,
   questionsForRole,
   profileNeedsCompatQuiz,
+  profileNeedsProfileSetup,
+  PROFILE_SETUP_PATH,
   saveCompatQuiz,
   type CompatQuizAnswers,
 } from "@habitus/core";
@@ -47,7 +49,8 @@ export function CompatibilityQuizPage() {
     return <Navigate to={homePathForRole(role ?? profile?.accountRole)} replace />;
   }
   if (quizComplete && !editMode) {
-    return <Navigate to={homePathForRole(role)} replace />;
+    const dest = profileNeedsProfileSetup(profile) ? PROFILE_SETUP_PATH : homePathForRole(role);
+    return <Navigate to={dest} replace />;
   }
 
   const questions = questionsForRole(role);
@@ -69,8 +72,15 @@ export function CompatibilityQuizPage() {
     }
     markQuizComplete();
     await refreshProfile();
-    const dest = editMode ? "/profile/editar" : homePathForRole(role);
-    navigate(dest, { replace: true, state: editMode ? undefined : { fromQuizSave: true } });
+    const dest = editMode
+      ? "/profile/editar"
+      : profileNeedsProfileSetup(profile)
+        ? PROFILE_SETUP_PATH
+        : homePathForRole(role);
+    navigate(dest, {
+      replace: true,
+      state: editMode ? undefined : { fromQuizSave: true },
+    });
   }
 
   return (

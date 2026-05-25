@@ -4,6 +4,7 @@ import { MainTabs } from "./MainTabs";
 import { GroupsScreen } from "../screens/GroupsScreen";
 import { CreateGroupScreen } from "../screens/CreateGroupScreen";
 import { GroupDetailScreen } from "../screens/GroupDetailScreen";
+import { GroupExpensesScreen } from "../screens/GroupExpensesScreen";
 import { MemberPublicScreen } from "../screens/MemberPublicScreen";
 import { AdminDashboardScreen } from "../screens/admin/AdminDashboardScreen";
 
@@ -13,6 +14,7 @@ export type MainStackParamList = {
   Groups: undefined;
   CreateGroup: undefined;
   GroupDetail: { slug: string };
+  GroupExpenses: { groupId: string; groupName: string; slug: string };
   AdminDashboard: undefined;
 };
 
@@ -37,6 +39,11 @@ export function MainStack() {
         name="GroupDetail"
         component={GroupDetailScreen}
         options={{ title: es.groups.title }}
+      />
+      <Stack.Screen
+        name="GroupExpenses"
+        component={GroupExpensesScreen}
+        options={{ title: es.expenses.title }}
       />
       <Stack.Screen
         name="AdminDashboard"

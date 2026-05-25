@@ -1,0 +1,7 @@
+module.exports = {
+  resolver: {
+    blockList: {
+      block: /.*\/habitus-mobile\/node_modules\/.*\/node_modules\/.*/,
+    },
+  },
+};

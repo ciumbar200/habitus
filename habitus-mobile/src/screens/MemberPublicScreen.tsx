@@ -7,7 +7,12 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
+  Animated,
 } from "react-native";
+import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialIcons } from "@expo/vector-icons";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +20,7 @@ import {
   accountRoleLabel,
   es,
   fetchCompatQuiz,
-  fetchGroupsForProfile,
+  fetchPublicGroupsForProfile,
   fetchListingsByHost,
   fetchListingsByOwner,
   fetchPublicMember,
@@ -31,6 +36,7 @@ import type { MainTabParamList } from "../navigation/MainTabs";
 import { useAuth } from "../context/AuthContext";
 import { CompatibilityScore } from "../components/CompatibilityScore";
 import { isHabitusConfigured } from "../lib/supabase";
+import { liquidGlassTheme } from "../theme/liquidGlass";
 
 type Props = NativeStackScreenProps<MainStackParamList, "MemberPublic">;
 
@@ -46,6 +52,10 @@ export function MemberPublicScreen({ route }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [chatLoading, setChatLoading] = useState(false);
   const [hint, setHint] = useState<string | null>(null);
+
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const slideUpAnim = useState(new Animated.Value(20))[0];
 
   useEffect(() => {
     if (!isHabitusConfigured()) {
@@ -72,9 +82,23 @@ export function MemberPublicScreen({ route }: Props) {
           tasks.push(fetchListingsByOwner(m.uuid).then(setOwnerListings));
         }
         if (m.uuid && !m.isDemo) {
-          tasks.push(fetchGroupsForProfile(m.uuid).then(setGroups));
+          tasks.push(fetchPublicGroupsForProfile(m.uuid).then(setGroups));
         }
         await Promise.all(tasks);
+
+        // Animate in
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: liquidGlassTheme.animation.duration.normal,
+            useNativeDriver: true,
+          }),
+          Animated.spring(slideUpAnim, {
+            toValue: 0,
+            ...liquidGlassTheme.animation.spring.smooth,
+            useNativeDriver: true,
+          }),
+        ]).start();
       })
       .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
       .finally(() => setLoading(false));
@@ -102,7 +126,16 @@ export function MemberPublicScreen({ route }: Props) {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator color="#1a3d2e" />
+        <LinearGradient
+          colors={[
+            liquidGlassTheme.colors.gradients.primary[0],
+            liquidGlassTheme.colors.light.background,
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFill}
+        />
+        <ActivityIndicator size="large" color={liquidGlassTheme.colors.brand.primary} />
       </View>
     );
   }
@@ -120,126 +153,456 @@ export function MemberPublicScreen({ route }: Props) {
     member.accountRole === "anfitrion" ? es.member.hostSpaces : es.member.ownerSpaces;
 
   return (
-    <ScrollView contentContainerStyle={styles.root}>
-      <View style={styles.header}>
-        {member.image ? (
-          <Image source={{ uri: member.image }} style={styles.avatar} />
-        ) : (
-          <View style={[styles.avatar, styles.avatarPlaceholder]} />
-        )}
-        <View style={styles.headerBody}>
-          <Text style={styles.name}>{member.name}</Text>
-          {member.accountRole && (
-            <Text style={styles.role}>{accountRoleLabel(member.accountRole)}</Text>
-          )}
-          {member.compatibilityResult && (
-            <CompatibilityScore
-              score={member.compatibility}
-              result={member.compatibilityResult}
-              label={es.common.vibeMatch}
-            />
-          )}
-        </View>
-      </View>
+    <View style={styles.root}>
+      {/* Background gradient */}
+      <LinearGradient
+        colors={[
+          liquidGlassTheme.colors.gradients.primary[0],
+          liquidGlassTheme.colors.light.background,
+        ]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
 
-      {member.bio ? (
-        <Text style={styles.quote}>&ldquo;{member.bio}&rdquo;</Text>
-      ) : null}
+      {/* Animated orbs */}
+      <Animated.View style={[styles.orb1, { opacity: fadeAnim }]}>
+        <View style={styles.orbInner1} />
+      </Animated.View>
 
-      {roleShowsLifestyleProfile(member.accountRole) && member.tags.length > 0 && (
-        <View style={styles.tagRow}>
-          {member.tags.map((tag) => (
-            <Text key={tag} style={styles.tag}>
-              {tag}
-            </Text>
-          ))}
-        </View>
-      )}
-
-      {roleShowsTrustProfile(member.accountRole) && (
-        <Text style={styles.trustHint}>{es.member.trustHint}</Text>
-      )}
-
-      {hint && <Text style={styles.hint}>{hint}</Text>}
-
-      <Pressable
-        style={[styles.btn, chatLoading && styles.btnDisabled]}
-        onPress={() => void handleChat()}
-        disabled={chatLoading}
+      {/* Content */}
+      <Animated.View
+        style={[
+          styles.content,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideUpAnim }],
+          },
+        ]}
       >
-        <Text style={styles.btnText}>
-          {chatLoading ? es.common.pleaseWait : es.matches.startChat}
-        </Text>
-      </Pressable>
-
-      {listings.length > 0 && (
-        <>
-          <Text style={styles.section}>{listingsTitle}</Text>
-          {listings.map((p) => (
-            <View key={p.id} style={styles.listingCard}>
-              <Text style={styles.listingName}>{p.name}</Text>
-              <Text style={styles.listingMeta}>{p.location}</Text>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Profile header card */}
+          <View style={styles.profileCard}>
+            <BlurView intensity={20} tint="light" style={StyleSheet.absoluteFill} />
+            <View style={styles.profileCardContent}>
+              {member.image ? (
+                <Image source={{ uri: member.image }} style={styles.avatar} />
+              ) : (
+                <View style={styles.avatarPlaceholder}>
+                  <Text style={styles.avatarInitial}>
+                    {member.name.charAt(0).toUpperCase()}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.profileInfo}>
+                <Text style={styles.name}>{member.name}</Text>
+                {member.accountRole && (
+                  <View style={styles.roleBadge}>
+                    <MaterialIcons
+                      name={
+                        member.accountRole === "inquilino"
+                          ? "person"
+                          : member.accountRole === "anfitrion"
+                          ? "home"
+                          : member.accountRole === "propietario"
+                          ? "apartment"
+                          : "business"
+                      }
+                      size={14}
+                      color={liquidGlassTheme.colors.white}
+                    />
+                    <Text style={styles.roleText}>
+                      {accountRoleLabel(member.accountRole)}
+                    </Text>
+                  </View>
+                )}
+                {member.compatibilityResult && (
+                  <CompatibilityScore
+                    score={member.compatibility}
+                    result={member.compatibilityResult}
+                    label={es.common.vibeMatch}
+                  />
+                )}
+              </View>
             </View>
-          ))}
-        </>
-      )}
+          </View>
 
-      {groups.length > 0 && (
-        <>
-          <Text style={styles.section}>{es.member.groups}</Text>
-          {groups.map((g) => (
-            <View key={g.id} style={styles.listingCard}>
-              <Text style={styles.listingName}>{g.name}</Text>
-              <Text style={styles.listingMeta}>{g.city}</Text>
+          {/* Bio */}
+          {member.bio ? (
+            <View style={styles.quoteCard}>
+              <BlurView intensity={15} tint="light" style={StyleSheet.absoluteFill} />
+              <View style={styles.quoteContent}>
+                <MaterialIcons
+                  name="format-quote"
+                  size={20}
+                  color={liquidGlassTheme.colors.brand.primary}
+                />
+                <Text style={styles.quote}>"{member.bio}"</Text>
+              </View>
             </View>
-          ))}
-        </>
-      )}
-    </ScrollView>
+          ) : null}
+
+          {/* Lifestyle tags */}
+          {roleShowsLifestyleProfile(member.accountRole) && member.tags.length > 0 && (
+            <View style={styles.tagsSection}>
+              <Text style={styles.sectionTitle}>Estilo de vida</Text>
+              <View style={styles.tagRow}>
+                {member.tags.map((tag) => (
+                  <View key={tag} style={styles.tag}>
+                    <BlurView intensity={10} tint="light" style={StyleSheet.absoluteFill} />
+                    <Text style={styles.tagText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+
+          {/* Trust hint */}
+          {roleShowsTrustProfile(member.accountRole) && (
+            <View style={styles.trustCard}>
+              <BlurView intensity={15} tint="light" style={StyleSheet.absoluteFill} />
+              <View style={styles.trustContent}>
+                <MaterialIcons
+                  name="verified-user"
+                  size={20}
+                  color={liquidGlassTheme.colors.brand.secondary}
+                />
+                <Text style={styles.trustHint}>{es.member.trustHint}</Text>
+              </View>
+            </View>
+          )}
+
+          {/* Hint message */}
+          {hint && (
+            <View style={styles.hintCard}>
+              <BlurView intensity={15} tint="light" style={StyleSheet.absoluteFill} />
+              <Text style={styles.hint}>{hint}</Text>
+            </View>
+          )}
+
+          {/* Chat button */}
+          <Pressable
+            style={[styles.chatBtn, chatLoading && styles.chatBtnDisabled]}
+            onPress={() => void handleChat()}
+            disabled={chatLoading}
+          >
+            <LinearGradient
+              colors={liquidGlassTheme.colors.gradients.primary}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={StyleSheet.absoluteFill}
+            />
+            {chatLoading ? (
+              <ActivityIndicator color={liquidGlassTheme.colors.white} />
+            ) : (
+              <>
+                <MaterialIcons
+                  name="chat"
+                  size={20}
+                  color={liquidGlassTheme.colors.white}
+                />
+                <Text style={styles.chatBtnText}>
+                  {chatLoading ? es.common.pleaseWait : es.matches.startChat}
+                </Text>
+              </>
+            )}
+          </Pressable>
+
+          {/* Listings */}
+          {listings.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{listingsTitle}</Text>
+              {listings.map((p) => (
+                <View key={p.id} style={styles.listingCard}>
+                  <BlurView intensity={10} tint="light" style={StyleSheet.absoluteFill} />
+                  <View style={styles.listingContent}>
+                    <View style={styles.listingIcon}>
+                      <MaterialIcons
+                        name="home"
+                        size={20}
+                        color={liquidGlassTheme.colors.brand.primary}
+                      />
+                    </View>
+                    <View style={styles.listingInfo}>
+                      <Text style={styles.listingName}>{p.name}</Text>
+                      <Text style={styles.listingMeta}>{p.location}</Text>
+                    </View>
+                    <MaterialIcons
+                      name="chevron-right"
+                      size={20}
+                      color={liquidGlassTheme.colors.light.text.tertiary}
+                    />
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Groups */}
+          {groups.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{es.member.groups}</Text>
+              {groups.map((g) => (
+                <View key={g.id} style={styles.listingCard}>
+                  <BlurView intensity={10} tint="light" style={StyleSheet.absoluteFill} />
+                  <View style={styles.listingContent}>
+                    <View style={styles.listingIcon}>
+                      <MaterialIcons
+                        name="groups"
+                        size={20}
+                        color={liquidGlassTheme.colors.brand.secondary}
+                      />
+                    </View>
+                    <View style={styles.listingInfo}>
+                      <Text style={styles.listingName}>{g.name}</Text>
+                      <Text style={styles.listingMeta}>{g.city}</Text>
+                    </View>
+                    <MaterialIcons
+                      name="chevron-right"
+                      size={20}
+                      color={liquidGlassTheme.colors.light.text.tertiary}
+                    />
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+        </ScrollView>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { padding: 16, paddingBottom: 40, backgroundColor: "#f8f6f3" },
-  centered: { flex: 1, justifyContent: "center", alignItems: "center", padding: 16 },
-  header: { flexDirection: "row", gap: 14 },
-  avatar: { width: 88, height: 88, borderRadius: 12 },
-  avatarPlaceholder: { backgroundColor: "#ddd" },
-  headerBody: { flex: 1 },
-  name: { fontSize: 22, fontWeight: "700", color: "#1a3d2e" },
-  role: { color: "#2d6a4f", marginTop: 4 },
-  quote: { marginTop: 16, fontStyle: "italic", color: "#555", fontSize: 15 },
-  tagRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 12 },
-  tag: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#e8e4dc",
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-    fontSize: 12,
+  root: {
+    flex: 1,
+    backgroundColor: liquidGlassTheme.colors.light.background,
   },
-  trustHint: { marginTop: 12, color: "#666", fontSize: 14 },
-  hint: { marginTop: 12, color: "#666", backgroundColor: "#f0eeea", padding: 10, borderRadius: 8 },
-  btn: {
-    marginTop: 16,
-    backgroundColor: "#1a3d2e",
-    padding: 14,
-    borderRadius: 10,
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: liquidGlassTheme.spacing.xl,
+  },
+  error: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    color: liquidGlassTheme.colors.brand.error,
+    textAlign: "center",
+  },
+  orb1: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    top: -80,
+    right: -50,
+    borderRadius: 100,
+  },
+  orbInner1: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 100,
+    backgroundColor: liquidGlassTheme.colors.brand.secondary + "20",
+  },
+  content: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: liquidGlassTheme.spacing.lg,
+    paddingTop: liquidGlassTheme.spacing.xxl,
+    paddingBottom: liquidGlassTheme.spacing.xxl,
+  },
+  profileCard: {
+    borderRadius: liquidGlassTheme.borderRadius.xxl,
+    overflow: "hidden",
+    marginBottom: liquidGlassTheme.spacing.lg,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    ...liquidGlassTheme.shadows.xl,
+  },
+  profileCardContent: {
+    padding: liquidGlassTheme.spacing.xl,
     alignItems: "center",
   },
-  btnDisabled: { opacity: 0.6 },
-  btnText: { color: "#fff", fontWeight: "600" },
-  section: { fontSize: 17, fontWeight: "600", color: "#1a3d2e", marginTop: 24, marginBottom: 8 },
-  listingCard: {
-    backgroundColor: "#fff",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: "#e8e4dc",
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 4,
+    borderColor: liquidGlassTheme.colors.white,
+    marginBottom: liquidGlassTheme.spacing.md,
   },
-  listingName: { fontWeight: "600" },
-  listingMeta: { color: "#666", marginTop: 4, fontSize: 13 },
-  error: { color: "#b91c1c", textAlign: "center" },
+  avatarPlaceholder: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: liquidGlassTheme.colors.brand.primary + "20",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: liquidGlassTheme.spacing.md,
+  },
+  avatarInitial: {
+    fontSize: 36,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.brand.primary,
+  },
+  profileInfo: {
+    alignItems: "center",
+    gap: liquidGlassTheme.spacing.sm,
+  },
+  name: {
+    fontSize: liquidGlassTheme.typography.fontSize.title2,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  roleBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: liquidGlassTheme.spacing.xs,
+    paddingHorizontal: liquidGlassTheme.spacing.md,
+    paddingVertical: liquidGlassTheme.spacing.xs,
+    borderRadius: liquidGlassTheme.borderRadius.xl,
+    backgroundColor: liquidGlassTheme.colors.brand.primary,
+  },
+  roleText: {
+    fontSize: liquidGlassTheme.typography.fontSize.footnote,
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    color: liquidGlassTheme.colors.white,
+  },
+  quoteCard: {
+    borderRadius: liquidGlassTheme.borderRadius.lg,
+    overflow: "hidden",
+    marginBottom: liquidGlassTheme.spacing.md,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+  },
+  quoteContent: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: liquidGlassTheme.spacing.sm,
+    padding: liquidGlassTheme.spacing.md,
+  },
+  quote: {
+    flex: 1,
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    fontStyle: "italic",
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  tagsSection: {
+    marginBottom: liquidGlassTheme.spacing.lg,
+  },
+  sectionTitle: {
+    fontSize: liquidGlassTheme.typography.fontSize.headline,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.light.text.primary,
+    marginBottom: liquidGlassTheme.spacing.sm,
+  },
+  tagRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: liquidGlassTheme.spacing.sm,
+  },
+  tag: {
+    borderRadius: liquidGlassTheme.borderRadius.xl,
+    paddingHorizontal: liquidGlassTheme.spacing.md,
+    paddingVertical: liquidGlassTheme.spacing.sm,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    overflow: "hidden",
+  },
+  tagText: {
+    fontSize: liquidGlassTheme.typography.fontSize.footnote,
+    fontWeight: liquidGlassTheme.typography.fontWeight.medium,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  trustCard: {
+    borderRadius: liquidGlassTheme.borderRadius.md,
+    overflow: "hidden",
+    marginBottom: liquidGlassTheme.spacing.md,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    backgroundColor: liquidGlassTheme.colors.brand.secondary + "10",
+  },
+  trustContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: liquidGlassTheme.spacing.sm,
+    padding: liquidGlassTheme.spacing.md,
+  },
+  trustHint: {
+    flex: 1,
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    color: liquidGlassTheme.colors.light.text.secondary,
+  },
+  hintCard: {
+    borderRadius: liquidGlassTheme.borderRadius.md,
+    overflow: "hidden",
+    marginBottom: liquidGlassTheme.spacing.md,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    backgroundColor: liquidGlassTheme.colors.light.surfaceVariant + "60",
+  },
+  hint: {
+    fontSize: liquidGlassTheme.typography.fontSize.footnote,
+    color: liquidGlassTheme.colors.light.text.secondary,
+    padding: liquidGlassTheme.spacing.md,
+  },
+  chatBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: liquidGlassTheme.spacing.sm,
+    borderRadius: liquidGlassTheme.borderRadius.button,
+    paddingVertical: liquidGlassTheme.spacing.md + 2,
+    marginBottom: liquidGlassTheme.spacing.lg,
+    overflow: "hidden",
+    ...liquidGlassTheme.shadows.md,
+  },
+  chatBtnDisabled: {
+    opacity: 0.6,
+  },
+  chatBtnText: {
+    fontSize: liquidGlassTheme.typography.fontSize.headline,
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    color: liquidGlassTheme.colors.light.text.inverse,
+  },
+  section: {
+    marginBottom: liquidGlassTheme.spacing.lg,
+  },
+  listingCard: {
+    borderRadius: liquidGlassTheme.borderRadius.md,
+    overflow: "hidden",
+    marginBottom: liquidGlassTheme.spacing.sm,
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+  },
+  listingContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: liquidGlassTheme.spacing.md,
+    gap: liquidGlassTheme.spacing.md,
+  },
+  listingIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: liquidGlassTheme.colors.brand.primary + "15",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  listingInfo: {
+    flex: 1,
+  },
+  listingName: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  listingMeta: {
+    fontSize: liquidGlassTheme.typography.fontSize.footnote,
+    color: liquidGlassTheme.colors.light.text.tertiary,
+    marginTop: 2,
+  },
 });

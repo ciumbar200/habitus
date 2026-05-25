@@ -1,0 +1,42 @@
+{
+  "name": ": moon shared living",
+  "short_name": ": moon",
+  "description": "Vivienda compartida con compatibilidad real en Barcelona y Madrid",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#0c0a09",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/brand/moon-logo-black.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/brand/moon-logo-black.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "housing"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Explorar alojamientos",
+      "short_name": "Explorar",
+      "description": "Ver habitaciones y pisos disponibles",
+      "url": "/alojamientos",
+      "icons": [{ "src": "/brand/moon-logo-black.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Mi perfil",
+      "short_name": "Perfil",
+      "description": "Ver y editar tu perfil",
+      "url": "/profile",
+      "icons": [{ "src": "/brand/moon-logo-black.png", "sizes": "96x96" }]
+    }
+  ]
+}

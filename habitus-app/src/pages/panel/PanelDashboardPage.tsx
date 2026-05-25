@@ -112,6 +112,15 @@ export function PanelDashboardPage() {
               <Icon name="assignment" />
               {es.panel.applications}
             </Link>
+            {(role === "propietario" || role === "agencia") && (
+              <Link
+                to="/panel/inquilinos"
+                className="inline-flex items-center gap-2 rounded-lg border border-border-light px-6 py-3 text-label-md text-deep-navy hover:bg-surface-container"
+              >
+                <Icon name="groups" />
+                {es.panel.ownerTenantsTitle}
+              </Link>
+            )}
             <Link
               to="/panel/espacios"
               className="inline-flex items-center gap-2 rounded-lg border border-border-light px-6 py-3 text-label-md text-deep-navy hover:bg-surface-container"

@@ -11,7 +11,7 @@ import {
   accountRoleLabel,
   es,
   fetchCompatQuiz,
-  fetchGroupsForProfile,
+  fetchPublicGroupsForProfile,
   fetchListingsByHost,
   fetchListingsByOwner,
   fetchPublicMember,
@@ -71,7 +71,7 @@ export function MemberPublicPage() {
           tasks.push(fetchListingsByOwner(m.uuid).then(setOwnerListings));
         }
         if (m.uuid && !m.isDemo) {
-          tasks.push(fetchGroupsForProfile(m.uuid).then(setGroups));
+          tasks.push(fetchPublicGroupsForProfile(m.uuid).then(setGroups));
         }
         await Promise.all(tasks);
       })

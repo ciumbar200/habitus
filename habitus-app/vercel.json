@@ -2,5 +2,18 @@
   "installCommand": "cd .. && npm install && cd habitus-app",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/((?!assets/).*)", "destination": "/index.html" }]
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "moonsharedliving.com" }],
+      "destination": "https://www.moonsharedliving.com/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets/|api/|brand/|blog/|.*\\.(?:jpg|jpeg|png|webp|svg|ico|gif|woff2?|txt|xml|json|js|css|map)$).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

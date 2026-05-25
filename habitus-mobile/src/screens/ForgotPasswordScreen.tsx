@@ -5,14 +5,17 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
+  Animated,
 } from "react-native";
+import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { es, requestPasswordReset } from "@habitus/core";
 import { makeRedirectUri } from "expo-auth-session";
 import { AuthField } from "../components/auth/AuthField";
 import { AuthScreenLayout } from "../components/auth/AuthScreenLayout";
-import { colors } from "../theme/colors";
-import { fontStyles } from "../theme/fonts";
+import { liquidGlassTheme } from "../theme/liquidGlass";
 
 type Props = { onBack: () => void };
 
@@ -21,6 +24,25 @@ export function ForgotPasswordScreen({ onBack }: Props) {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const slideAnim = useState(new Animated.Value(20))[0];
+
+  useState(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: liquidGlassTheme.animation.duration.normal,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: liquidGlassTheme.animation.duration.normal,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  });
 
   async function submit() {
     setBusy(true);
@@ -34,40 +56,102 @@ export function ForgotPasswordScreen({ onBack }: Props) {
 
   return (
     <AuthScreenLayout compactBrand>
-      <Pressable style={styles.backRow} onPress={onBack}>
-        <MaterialIcons name="arrow-back" size={20} color={colors.deepNavy} />
-        <Text style={styles.backText}>{es.common.back}</Text>
-      </Pressable>
+      <Animated.View
+        style={{
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        }}
+      >
+        {/* Back button */}
+        <Pressable style={styles.backRow} onPress={onBack}>
+          <BlurView intensity={20} tint="light" style={styles.iconBlur}>
+            <MaterialIcons
+              name="arrow-back"
+              size={20}
+              color={liquidGlassTheme.colors.light.text.primary}
+            />
+          </BlurView>
+          <Text style={styles.backText}>{es.common.back}</Text>
+        </Pressable>
 
-      <Text style={styles.title}>{es.access.forgotTitle}</Text>
-      <Text style={styles.subtitle}>{es.access.forgotSubtitle}</Text>
-
-      {sent ? (
-        <Text style={styles.successText}>{es.access.forgotSent}</Text>
-      ) : (
-        <>
-          {error ? (
-            <View style={styles.errorBanner}>
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-          ) : null}
-          <AuthField
-            label={es.common.email}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder="nombre@empresa.com"
+        {/* Title section */}
+        <View style={styles.titleSection}>
+          <MaterialIcons
+            name="lock-reset"
+            size={48}
+            color={liquidGlassTheme.colors.brand.primary}
           />
-          <Pressable style={styles.primaryBtn} onPress={submit} disabled={busy}>
-            {busy ? (
-              <ActivityIndicator color={colors.white} />
-            ) : (
-              <Text style={styles.primaryBtnText}>{es.access.forgotSubmit}</Text>
+          <Text style={styles.title}>{es.access.forgotTitle}</Text>
+          <Text style={styles.subtitle}>{es.access.forgotSubtitle}</Text>
+        </View>
+
+        {/* Success state */}
+        {sent ? (
+          <View style={styles.successCard}>
+            <BlurView intensity={20} tint="light" style={StyleSheet.absoluteFill} />
+            <View style={styles.successCardContent}>
+              <MaterialIcons
+                name="check-circle"
+                size={48}
+                color={liquidGlassTheme.colors.brand.success}
+              />
+              <Text style={styles.successTitle}>¡Email enviado!</Text>
+              <Text style={styles.successText}>{es.access.forgotSent}</Text>
+              <Pressable style={styles.backBtn} onPress={onBack}>
+                <Text style={styles.backBtnText}>Volver al inicio de sesión</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : (
+          <>
+            {/* Error banner */}
+            {error && (
+              <View style={styles.errorBanner}>
+                <MaterialIcons
+                  name="error-outline"
+                  size={20}
+                  color={liquidGlassTheme.colors.brand.error}
+                />
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
             )}
-          </Pressable>
-        </>
-      )}
+
+            {/* Email input */}
+            <View style={styles.inputContainer}>
+              <AuthField
+                label={es.common.email}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                placeholder="nombre@empresa.com"
+              />
+            </View>
+
+            {/* Submit button */}
+            <Pressable style={styles.submitBtn} onPress={submit} disabled={busy}>
+              <LinearGradient
+                colors={liquidGlassTheme.colors.gradients.primary}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={StyleSheet.absoluteFill}
+              />
+              {busy ? (
+                <ActivityIndicator color={liquidGlassTheme.colors.white} />
+              ) : (
+                <>
+                  <MaterialIcons
+                    name="send"
+                    size={20}
+                    color={liquidGlassTheme.colors.white}
+                  />
+                  <Text style={styles.submitBtnText}>{es.access.forgotSubmit}</Text>
+                </>
+              )}
+            </Pressable>
+          </>
+        )}
+      </Animated.View>
     </AuthScreenLayout>
   );
 }
@@ -76,39 +160,104 @@ const styles = StyleSheet.create({
   backRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    marginBottom: 16,
-    marginTop: -8,
+    gap: liquidGlassTheme.spacing.xs,
+    marginBottom: liquidGlassTheme.spacing.lg,
+    marginTop: -liquidGlassTheme.spacing.xs,
   },
-  backText: { fontSize: 14, color: colors.deepNavy, ...fontStyles.label },
+  iconBlur: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+  },
+  backText: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    fontWeight: liquidGlassTheme.typography.fontWeight.medium,
+    color: liquidGlassTheme.colors.light.text.primary,
+  },
+  titleSection: {
+    alignItems: "center",
+    marginBottom: liquidGlassTheme.spacing.xl,
+  },
   title: {
-    fontSize: 24,
-    lineHeight: 32,
-    color: colors.deepNavy,
-    marginBottom: 4,
-    ...fontStyles.title,
+    fontSize: liquidGlassTheme.typography.fontSize.title1,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.light.text.primary,
+    marginTop: liquidGlassTheme.spacing.md,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 16,
-    color: colors.warmSlate,
-    marginBottom: 16,
-    lineHeight: 22,
-    ...fontStyles.body,
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    color: liquidGlassTheme.colors.light.text.secondary,
+    textAlign: "center",
+    paddingHorizontal: liquidGlassTheme.spacing.lg,
   },
-  successText: { fontSize: 15, color: colors.warmSlate, lineHeight: 22, ...fontStyles.body },
-  errorBanner: {
-    backgroundColor: colors.errorContainer,
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
+  successCard: {
+    borderRadius: liquidGlassTheme.borderRadius.xl,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: liquidGlassTheme.colors.light.border.subtle,
+    ...liquidGlassTheme.shadows.lg,
   },
-  errorText: { fontSize: 14, color: colors.onErrorContainer },
-  primaryBtn: {
-    backgroundColor: colors.deepNavy,
-    borderRadius: 8,
-    paddingVertical: 14,
+  successCardContent: {
+    padding: liquidGlassTheme.spacing.xxl,
     alignItems: "center",
-    marginTop: 4,
   },
-  primaryBtnText: { color: colors.white, fontSize: 15, ...fontStyles.button },
+  successTitle: {
+    fontSize: liquidGlassTheme.typography.fontSize.title3,
+    fontWeight: liquidGlassTheme.typography.fontWeight.bold,
+    color: liquidGlassTheme.colors.light.text.primary,
+    marginTop: liquidGlassTheme.spacing.md,
+  },
+  successText: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    color: liquidGlassTheme.colors.light.text.secondary,
+    textAlign: "center",
+    marginTop: liquidGlassTheme.spacing.sm,
+  },
+  backBtn: {
+    marginTop: liquidGlassTheme.spacing.xl,
+    paddingVertical: liquidGlassTheme.spacing.sm,
+  },
+  backBtnText: {
+    fontSize: liquidGlassTheme.typography.fontSize.callout,
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    color: liquidGlassTheme.colors.brand.primary,
+  },
+  errorBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: liquidGlassTheme.spacing.sm,
+    backgroundColor: liquidGlassTheme.colors.brand.error + "10",
+    paddingHorizontal: liquidGlassTheme.spacing.md,
+    paddingVertical: liquidGlassTheme.spacing.sm,
+    borderRadius: liquidGlassTheme.borderRadius.md,
+    marginBottom: liquidGlassTheme.spacing.md,
+  },
+  errorText: {
+    flex: 1,
+    fontSize: liquidGlassTheme.typography.fontSize.footnote,
+    color: liquidGlassTheme.colors.brand.error,
+  },
+  inputContainer: {
+    marginBottom: liquidGlassTheme.spacing.xl,
+  },
+  submitBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: liquidGlassTheme.spacing.sm,
+    borderRadius: liquidGlassTheme.borderRadius.button,
+    paddingVertical: liquidGlassTheme.spacing.md + 2,
+    overflow: "hidden",
+    ...liquidGlassTheme.shadows.md,
+  },
+  submitBtnText: {
+    fontSize: liquidGlassTheme.typography.fontSize.headline,
+    fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
+    color: liquidGlassTheme.colors.light.text.inverse,
+  },
 });

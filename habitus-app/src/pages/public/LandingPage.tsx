@@ -4,7 +4,7 @@ import { fetchCompatQuiz, homePathForRole } from "@habitus/core";
 import { redirectAfterAuth } from "../../lib/returnTo";
 import { useAuth } from "../../context/AuthContext";
 import { LoadingState } from "../../components/PageState";
-import { ArrowRight, Briefcase, Users, Shield, Heart, ChatCircle, House, Target, User, Buildings, Star } from "@phosphor-icons/react";
+import { ArrowRight, Briefcase, Users, Shield, Heart, ChatCircle, House, Target, User, Buildings } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { LandingMainHero, type HeroListingSlide } from "../../components/public/LandingMainHero";
 
@@ -47,30 +47,6 @@ const HERO_LISTINGS: HeroListingSlide[] = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "María García",
-    role: "Diseñadora, 28",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
-    text: "Llegué de Valencia sin conocer a nadie. Encontré un piso en Gracia con dos compañeras que ahora son amigas. El cuestionario de compatibilidad realmente funciona.",
-    location: "Barcelona"
-  },
-  {
-    name: "Carlos Ruiz",
-    role: "Profesional, 35",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
-    text: "Después de mi separación, necesitaba volver a empezar. : moon me conectó con personas en situación similar. No es solo alquilar, es construir comunidad.",
-    location: "Madrid"
-  },
-  {
-    name: "Elena Chen",
-    role: "Estudiante, 24",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
-    text: "Mi experiencia anterior de piso compartida fue un desastre. Con : moon sabía exactamente qué esperar antes de mudarme. Me siento en casa.",
-    location: "Barcelona"
-  }
-];
-
 export function LandingPage() {
   const { user, profile, loading, profileReady } = useAuth();
   const [dest, setDest] = useState<string | null>(null);
@@ -109,9 +85,8 @@ export function LandingPage() {
         badge="Barcelona · Madrid"
         title={
           <>
-            Elige con quién
-            <span className="block text-orange-200">vives</span>
-            <span className="block">no solo dónde.</span>
+            <span className="block">Elige con quién vives,</span>
+            <span className="hero-display-accent block">no solo dónde.</span>
           </>
         }
         subtitle={
@@ -130,20 +105,20 @@ export function LandingPage() {
           <>
             <Link
               to="/alojamientos"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-medium text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100 sm:px-8 sm:py-4 sm:text-base"
             >
               Explorar hogares
               <ArrowRight weight="bold" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to={accessSignupUrl("inquilino")}
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 sm:px-8 sm:py-4 sm:text-base"
             >
               Crear cuenta gratis
             </Link>
             <Link
               to={howItWorksUrl("inquilino")}
-              className="hidden items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 md:inline-flex"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 sm:px-8 sm:py-4 sm:text-base md:inline-flex"
             >
               Cómo funciona
             </Link>
@@ -151,55 +126,12 @@ export function LandingPage() {
         }
       />
 
-      {/* Testimonials Section - EMPATHY */}
-      <section className="py-32 bg-white">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-terracotta font-medium mb-4 tracking-wider uppercase text-sm">Historias reales</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
-              Personas como tú<br />encontraron su lugar
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((testimonial, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl bg-gradient-to-br from-stone-50 to-stone-100 p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="h-16 w-16 rounded-full object-cover ring-4 ring-white shadow-lg"
-                  />
-                  <div>
-                    <p className="font-serif text-lg text-stone-900">{testimonial.name}</p>
-                    <p className="text-sm text-stone-500">{testimonial.role} · {testimonial.location}</p>
-                  </div>
-                </div>
-
-                <blockquote className="text-stone-600 leading-relaxed mb-4">
-                  "{testimonial.text}"
-                </blockquote>
-
-                <div className="flex items-center gap-1 text-terracotta">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} weight="fill" />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Value Props with Icons */}
       <section className="py-32 bg-stone-100">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <p className="text-emerald-700 font-medium mb-4 tracking-wider uppercase text-sm">Por qué : moon</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-stone-900">
+            <p className="section-eyebrow">Por qué : moon</p>
+            <h2 className="section-title">
               Vivir acompañado,<br />sin sorpresas
             </h2>
           </div>
@@ -238,7 +170,7 @@ export function LandingPage() {
                 <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${prop.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                   <prop.icon size={32} weight="thin" className={prop.iconColor} />
                 </div>
-                <h3 className="font-serif text-2xl text-stone-900 mb-3">{prop.title}</h3>
+                <h3 className="card-title mb-3">{prop.title}</h3>
                 <p className="text-stone-600 leading-relaxed">{prop.desc}</p>
               </div>
             ))}
@@ -251,8 +183,8 @@ export function LandingPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <p className="text-terracotta font-medium mb-4 tracking-wider uppercase text-sm">Cómo funciona</p>
-              <h2 className="font-serif text-4xl lg:text-5xl text-stone-900 mb-8">
+              <p className="section-eyebrow">Cómo funciona</p>
+              <h2 className="section-title mb-8">
                 4 pasos hacia<br />tu nuevo hogar
               </h2>
               <Link
@@ -298,11 +230,11 @@ export function LandingPage() {
                     key={i}
                     className="flex gap-6 group hover:bg-stone-50 rounded-2xl p-4 -mx-4 transition-all duration-300"
                   >
-                    <span className="font-serif text-5xl text-stone-200 group-hover:text-terracotta/30 transition-colors font-medium">
+                    <span className="step-number group-hover:text-stone-300 transition-colors">
                       {step.num}
                     </span>
                     <div className="flex-1">
-                      <h3 className="font-serif text-xl text-stone-900 mb-1">{step.title}</h3>
+                      <h3 className="card-title mb-1">{step.title}</h3>
                       <p className="text-stone-600">{step.desc}</p>
                     </div>
                     <div className="h-12 w-12 rounded-full bg-stone-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -317,7 +249,7 @@ export function LandingPage() {
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-terracotta/20 to-emerald-700/20 p-12 flex items-center justify-center">
                 <div className="text-center">
                   <House size={64} weight="fill" className="text-stone-700 mx-auto mb-4 animate-float-slow" />
-                  <p className="font-serif text-2xl text-stone-700">Tu comunidad te espera</p>
+                  <p className="card-title text-stone-700">Tu comunidad te espera</p>
                   <Link
                     to={accessSignupUrl("inquilino")}
                     className="inline-flex items-center gap-2 mt-6 text-terracotta font-medium hover:gap-4 transition-all group"
@@ -342,7 +274,7 @@ export function LandingPage() {
 
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-serif text-4xl lg:text-5xl">
+            <h2 className="section-title-light">
               ¿Cómo usas : moon?
             </h2>
             <p className="mt-6 text-stone-400 text-lg">
@@ -369,7 +301,7 @@ export function LandingPage() {
                   <div className="text-4xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 text-terracotta">
                     <item.icon size={40} weight="fill" />
                   </div>
-                  <h3 className="font-serif text-2xl mb-2">{item.title}</h3>
+                  <h3 className="card-title-light mb-2">{item.title}</h3>
                   <p className="text-stone-400 text-sm">{item.desc}</p>
                   <ArrowRight
                     weight="bold"
@@ -402,11 +334,11 @@ export function LandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="font-serif text-4xl lg:text-6xl text-white mb-6 animate-fade-in-up">
+          <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6 animate-fade-in-up">
             Tu próximo hogar<br />te espera
           </h2>
-          <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-            Únete a miles de personas que ya encontraron su lugar y compañeros con : moon.
+          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto sm:text-xl animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            Crea tu perfil, explora espacios compatibles y da el paso con confianza.
           </p>
           <Link
             to={accessSignupUrl("inquilino")}
@@ -416,22 +348,6 @@ export function LandingPage() {
             Crear cuenta gratis
             <ArrowRight weight="bold" className="w-6 h-6" />
           </Link>
-
-          {/* Social Proof */}
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm animate-fade-in" style={{ animationDelay: '600ms' }}>
-            <div className="flex items-center gap-2">
-              <Users size={24} weight="fill" />
-              <span>2,500+ miembros</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <House size={24} weight="fill" />
-              <span>800+ espacios</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Star size={24} weight="fill" />
-              <span>4.8/5 satisfacción</span>
-            </div>
-          </div>
         </div>
       </section>
     </main>

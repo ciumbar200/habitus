@@ -1,4 +1,5 @@
 import { DEMO_QUIZ_BY_SLUG } from "../data/compatibilityQuiz";
+import { getCityLabel, normalizeCitySlug } from "../data/locations";
 import type {
   CompatQuizAnswers,
   CompatibilityDimension,
@@ -57,13 +58,16 @@ function budgetVsPrice(budget?: string, price?: number): { score: number; detail
 
 function cityScore(preferred?: string, city?: string): { score: number; detail: string } {
   if (!city) return { score: 70, detail: "Ciudad del espacio no especificada." };
-  const c = city.toLowerCase();
-  const isBcn = c.includes("barcelona");
-  const isMad = c.includes("madrid");
-  if (!preferred || preferred === "both") return { score: 95, detail: `Ubicación en ${city}, compatible con tu búsqueda.` };
-  if (preferred === "barcelona" && isBcn) return { score: 100, detail: "Coincide con tu preferencia por Barcelona." };
-  if (preferred === "madrid" && isMad) return { score: 100, detail: "Coincide con tu preferencia por Madrid." };
-  return { score: 30, detail: `Prefieres otra ciudad; este espacio está en ${city}.` };
+  const listingCity = normalizeCitySlug(city);
+  const preferredCity = preferred ? normalizeCitySlug(preferred) : "";
+  const cityLabel = listingCity ? getCityLabel(listingCity) : city;
+  if (!preferredCity) {
+    return { score: 95, detail: `Ubicación en ${cityLabel}, compatible con tu búsqueda.` };
+  }
+  if (preferredCity === listingCity) {
+    return { score: 100, detail: `Coincide con tu preferencia por ${cityLabel}.` };
+  }
+  return { score: 30, detail: `Prefieres otra ciudad; este espacio está en ${cityLabel}.` };
 }
 
 function hostTenantExtras(

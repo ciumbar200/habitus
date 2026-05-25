@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { LoadingState, ErrorState } from "../../components/PageState";
 import { useAuth } from "../../context/AuthContext";
 import {
   applicationStatusClass,
   applicationStatusLabel,
-  formatAppliedDate,
-} from "@habitus/core";
-import { es } from "@habitus/core";
-import { listingCopyForRole } from "@habitus/core";
-import {
+  createLeaseDraft,
+  es,
   fetchApplicationsToReview,
+  fetchConfirmedGroupMembers,
+  formatAppliedDate,
+  listingCopyForRole,
+  startConversationWith,
   updateApplicationStatus,
+  updateLeaseStatus,
   type ReviewApplication,
 } from "@habitus/core";
 
@@ -22,12 +25,15 @@ const ACTIONS: { status: string; progress: number; label: string }[] = [
 ];
 
 export function ReviewApplicationsPage() {
+  const navigate = useNavigate();
   const { user, profile } = useAuth();
   const copy = listingCopyForRole(profile?.accountRole);
   const [apps, setApps] = useState<ReviewApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [chatBusyId, setChatBusyId] = useState<string | null>(null);
+  const [leaseMsg, setLeaseMsg] = useState<string | null>(null);
 
   const reload = () => {
     if (!user?.id) return;
@@ -53,12 +59,59 @@ export function ReviewApplicationsPage() {
     reload();
   };
 
+  const handleGenerateLease = async (app: ReviewApplication) => {
+    if (!user?.id) return;
+    setBusyId(app.id);
+    setLeaseMsg(null);
+    try {
+      const members = app.groupId
+        ? await fetchConfirmedGroupMembers(app.groupId)
+        : [{ profileId: app.applicantId }];
+      const tenantIds = members.map((m) => m.profileId);
+      const { leaseId, error: createErr } = await createLeaseDraft({
+        listingId: app.listingId,
+        ownerId: user.id,
+        groupId: app.groupId,
+        applicationId: app.id,
+        tenantProfileIds: tenantIds,
+      });
+      if (createErr || !leaseId) {
+        setError(createErr ?? es.common.errorLoad);
+        setBusyId(null);
+        return;
+      }
+      await updateLeaseStatus(leaseId, "pending_signatures");
+      setLeaseMsg(es.leases.generateSuccess);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : es.common.errorLoad);
+    }
+    setBusyId(null);
+  };
+
+  const handleChat = async (applicantId: string) => {
+    setChatBusyId(applicantId);
+    try {
+      const convId = await startConversationWith(applicantId);
+      navigate(`/messages?c=${convId}`);
+    } catch {
+      setError(es.matches.chatError);
+    } finally {
+      setChatBusyId(null);
+    }
+  };
+
   return (
     <main className="mx-auto max-w-7xl px-margin-mobile pb-32 pt-24 md:px-margin-desktop">
       <h1 className="mb-stack-lg text-headline-lg text-deep-navy">{es.panel.applications}</h1>
 
       {loading && <LoadingState message={es.common.loadingApplications} />}
       {error && <ErrorState message={error} />}
+
+      {leaseMsg && (
+        <p className="mb-4 rounded-lg bg-teal-accent/10 px-4 py-3 text-body-sm text-deep-navy">
+          {leaseMsg}
+        </p>
+      )}
 
       {!loading && !error && apps.length === 0 && (
         <p className="text-body-md text-warm-slate">{es.panel.noApplications}</p>
@@ -76,6 +129,16 @@ export function ReviewApplicationsPage() {
                 <h2 className="text-headline-md text-deep-navy">{app.applicantName}</h2>
                 <p className="mt-1 text-body-md text-warm-slate">
                   {copy.listColumn}: <strong>{app.listingName}</strong>
+                </p>
+                {app.groupName && (
+                  <p className="text-body-sm text-teal-accent">
+                    {es.application.applyAsGroup}: {app.groupName}
+                  </p>
+                )}
+                <p className="text-label-sm text-warm-slate">
+                  {app.listingVisibility === "public"
+                    ? es.property.publicBadge
+                    : es.property.privateBadge}
                 </p>
                 {app.appliedAt && (
                   <p className="text-label-sm text-warm-slate">
@@ -98,6 +161,20 @@ export function ReviewApplicationsPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
+              <Link
+                to={`/miembro/${app.applicantSlug}`}
+                className="rounded-lg border border-border-light px-3 py-2 text-label-sm text-deep-navy hover:bg-surface-container"
+              >
+                {es.common.view}
+              </Link>
+              <button
+                type="button"
+                disabled={chatBusyId === app.applicantId}
+                onClick={() => handleChat(app.applicantId)}
+                className="rounded-lg border border-deep-navy px-3 py-2 text-label-sm text-deep-navy hover:bg-surface-container disabled:opacity-60"
+              >
+                {chatBusyId === app.applicantId ? es.common.pleaseWait : es.matches.startChat}
+              </button>
               {ACTIONS.map((action) => (
                 <button
                   key={action.status}
@@ -116,6 +193,16 @@ export function ReviewApplicationsPage() {
                 </button>
               ))}
             </div>
+            {app.status === "approved" && (
+              <button
+                type="button"
+                disabled={busyId === app.id}
+                onClick={() => handleGenerateLease(app)}
+                className="mt-3 rounded-lg border border-deep-navy px-4 py-2 text-label-sm text-deep-navy hover:bg-surface-container disabled:opacity-60"
+              >
+                {es.leases.generate}
+              </button>
+            )}
           </article>
         ))}
       </div>

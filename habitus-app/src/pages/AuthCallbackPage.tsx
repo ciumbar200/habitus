@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  peekPendingReferral,
   ensureProfileForAuthUser,
   es,
   fetchCompatQuiz,
@@ -40,8 +41,12 @@ async function loadProfileForRedirect(userId: string) {
 export function AuthCallbackPage() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+  const handledRef = useRef(false);
 
   useEffect(() => {
+    if (handledRef.current) return;
+    handledRef.current = true;
+
     let cancelled = false;
 
     async function finish() {
@@ -59,6 +64,8 @@ export function AuthCallbackPage() {
           if (!cancelled) setError(exchangeErr.message);
           return;
         }
+        // Limpia ?code= de la URL para evitar reintentos al navegar atrás.
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
 
       const { data, error: sessionError } = await supabase.auth.getSession();
@@ -69,10 +76,12 @@ export function AuthCallbackPage() {
 
       const pending = consumePendingOAuthSignup();
       const role = pending.accountRole as AccountRoleSlug | null;
+      const referralCode = peekPendingReferral();
 
       const sync = await ensureProfileForAuthUser(
         data.session.user,
         pending.isSignUp ? role : undefined,
+        { referralCode },
       );
       if (sync.error) {
         if (!cancelled) setError(sync.error);
@@ -86,7 +95,7 @@ export function AuthCallbackPage() {
       }
     }
 
-    finish();
+    void finish();
     return () => {
       cancelled = true;
     };

@@ -16,22 +16,25 @@ import {
   fetchCategories,
   fetchListingForEdit,
   FLOOR_PROPERTY_TYPES,
+  getDefaultZoneForCity,
   listingCopyForRole,
   slugify,
   updateListing,
   type ListingFormInput,
   type ListingStatus,
+  type MoonCitySlug,
 } from "@habitus/core";
 import type { SpacesStackParamList } from "../../navigation/SpacesStack";
 import { useAuth } from "../../context/AuthContext";
+import { CityZoneSelect } from "../../components/location/CityZoneSelect";
 
 type Props = NativeStackScreenProps<SpacesStackParamList, "ListingEditor">;
 
 const emptyForm = (): ListingFormInput => ({
   name: "",
   slug: "",
-  location: "",
-  city: "Barcelona",
+  location: getDefaultZoneForCity("barcelona"),
+  city: "barcelona",
   priceMonthly: 800,
   currency: "EUR",
   roomType: "Habitación",
@@ -201,16 +204,15 @@ export function ListingEditorScreen({ navigation, route }: Props) {
           autoCapitalize="none"
         />
       </Field>
-      <Field label={f.location}>
-        <TextInput
-          style={styles.input}
-          value={form.location}
-          onChangeText={(t) => set("location", t)}
-        />
-      </Field>
-      <Field label={f.city}>
-        <TextInput style={styles.input} value={form.city} onChangeText={(t) => set("city", t)} />
-      </Field>
+      <CityZoneSelect
+        city={(form.city || "") as MoonCitySlug | ""}
+        zone={form.location}
+        onCityChange={(city) => {
+          set("city", city);
+          if (city) set("location", getDefaultZoneForCity(city));
+        }}
+        onZoneChange={(zone) => set("location", zone)}
+      />
       <Field label={f.price}>
         <TextInput
           style={styles.input}

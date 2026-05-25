@@ -13,8 +13,11 @@ if (!url || !key) {
 const client = createClient(url ?? "https://placeholder.supabase.co", key ?? "placeholder", {
   auth: {
     flowType: "pkce",
-    detectSessionInUrl: true,
+    // Solo intercambiamos el code en /auth/callback (evita carrera con StrictMode).
+    detectSessionInUrl: false,
     persistSession: true,
+    storage: typeof window !== "undefined" ? window.localStorage : undefined,
+    autoRefreshToken: true,
   },
 });
 

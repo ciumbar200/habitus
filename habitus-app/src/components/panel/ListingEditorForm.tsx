@@ -10,6 +10,7 @@ import {
   fetchListingAmenitiesForEdit,
   fetchListingForEdit,
   fetchListingGalleryUrls,
+  getDefaultZoneForCity,
   LISTING_AMENITY_PRESETS,
   listingCopyForRole,
   replaceListingAmenities,
@@ -20,10 +21,12 @@ import {
   type Category,
   type ListingFormInput,
   type ListingStatus,
+  type MoonCitySlug,
   type PropertyVerificationStatus,
 } from "@habitus/core";
 import type { AccountRoleSlug } from "@habitus/core";
 import { useAuth } from "../../context/AuthContext";
+import { CityZoneSelect } from "../location/CityZoneSelect";
 import { CoverImageUpload } from "../CoverImageUpload";
 import { ListingGalleryUpload } from "../ListingGalleryUpload";
 import { PropertyVerificationBadge } from "../PropertyVerificationBadge";
@@ -33,8 +36,8 @@ import { LoadingState } from "../PageState";
 const emptyForm = (): ListingFormInput => ({
   name: "",
   slug: "",
-  location: "",
-  city: "Barcelona",
+  location: getDefaultZoneForCity("barcelona"),
+  city: "barcelona",
   priceMonthly: 850,
   currency: "EUR",
   roomType: "Habitación doble",
@@ -177,7 +180,7 @@ export function ListingEditorForm({ listingId, onSuccess, onCancel, onDeleted }:
         return;
       }
       if (!form.location.trim() || !form.city.trim()) {
-        setError("Indica la dirección y la ciudad antes de publicar.");
+        setError("Indica la ciudad y la zona antes de publicar.");
         return;
       }
     }
@@ -295,22 +298,15 @@ export function ListingEditorForm({ listingId, onSuccess, onCancel, onDeleted }:
             className="field-input"
           />
         </Field>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Field label={f.location}>
-            <input
-              value={form.location}
-              onChange={(e) => set("location", e.target.value)}
-              className="field-input"
-            />
-          </Field>
-          <Field label={f.city}>
-            <input
-              value={form.city}
-              onChange={(e) => set("city", e.target.value)}
-              className="field-input"
-            />
-          </Field>
-        </div>
+        <CityZoneSelect
+          city={(form.city || "") as MoonCitySlug | ""}
+          zone={form.location}
+          onCityChange={(city) => {
+            set("city", city);
+            if (city) set("location", getDefaultZoneForCity(city));
+          }}
+          onZoneChange={(zone) => set("location", zone)}
+        />
         <div className="grid gap-4 md:grid-cols-2">
           <Field label={f.price}>
             <input

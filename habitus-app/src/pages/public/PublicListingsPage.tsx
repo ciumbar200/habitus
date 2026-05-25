@@ -6,7 +6,12 @@ import {
   fetchCategories,
   fetchCompatQuiz,
   fetchProperties,
+  getZonesForCity,
+  isMoonCitySlug,
+  matchesCityZoneFilter,
+  MOON_CITIES,
   type Category,
+  type MoonCitySlug,
   type Property,
 } from "@habitus/core";
 import { PropertyCard } from "../../components/PropertyCard";
@@ -19,7 +24,7 @@ import { useBookmarks } from "../../hooks/useBookmarks";
 import { isSupabaseConfigured } from "../../lib/supabase";
 
 type SortKey = "compatibilidad" | "precio_asc" | "precio_desc" | "recientes";
-type CityKey = "" | "barcelona" | "madrid";
+type CityKey = MoonCitySlug | "";
 type PriceKey = "" | "400" | "400-600" | "600-800" | "800-1000" | "1000+";
 
 const PL = es.publicListings;
@@ -41,13 +46,15 @@ function parsePriceBand(band: PriceKey): { min: number; max: number | null } {
   }
 }
 
-function filterProperties(list: Property[], city: CityKey, priceBand: PriceKey): Property[] {
+function filterProperties(
+  list: Property[],
+  city: CityKey,
+  zone: string,
+  priceBand: PriceKey,
+): Property[] {
   const { min, max } = parsePriceBand(priceBand);
   return list.filter((p) => {
-    if (city) {
-      const hay = `${p.city ?? ""} ${p.location}`.toLowerCase();
-      if (!hay.includes(city)) return false;
-    }
+    if (!matchesCityZoneFilter(p.city, p.location, city, zone)) return false;
     if (p.price < min) return false;
     if (max !== null && p.price > max) return false;
     return true;
@@ -82,7 +89,9 @@ export function PublicListingsPage() {
   const { isListingSaved, toggleListing } = useBookmarks();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const city = (searchParams.get("ciudad") ?? "") as CityKey;
+  const cityRaw = searchParams.get("ciudad") ?? "";
+  const city: CityKey = isMoonCitySlug(cityRaw) ? cityRaw : "";
+  const zone = searchParams.get("zona") ?? "";
   const priceBand = (searchParams.get("precio") ?? "") as PriceKey;
   const sort = (searchParams.get("orden") ?? "compatibilidad") as SortKey;
   const category = searchParams.get("categoria") ?? "all";
@@ -130,8 +139,8 @@ export function PublicListingsPage() {
   }, [category, user?.id]);
 
   const properties = useMemo(
-    () => sortProperties(filterProperties(allProperties, city, priceBand), sort),
-    [allProperties, city, priceBand, sort],
+    () => sortProperties(filterProperties(allProperties, city, zone, priceBand), sort),
+    [allProperties, city, zone, priceBand, sort],
   );
 
   const compatAvg = useMemo(() => avgCompat(properties), [properties]);
@@ -140,7 +149,7 @@ export function PublicListingsPage() {
   return (
     <main className="pb-20">
       {/* Hero con foto — estilo : moon */}
-      <section className="relative min-h-[420px] overflow-hidden border-b border-stone-200 lg:min-h-[480px]">
+      <section className="relative min-h-[440px] overflow-hidden border-b border-stone-800/30 sm:min-h-[480px] lg:min-h-[520px]">
         <img
           src={LISTINGS_HERO_IMAGE}
           alt=""
@@ -149,19 +158,17 @@ export function PublicListingsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/85 via-stone-900/60 to-stone-900/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/40 via-transparent to-transparent" />
 
-        <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-28 lg:px-8 lg:pb-16 lg:pt-32">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-emerald-100 backdrop-blur-sm ring-1 ring-white/20">
-              ✨ {PL.badge}
-            </div>
-            <h1 className="mt-6 font-serif text-4xl font-medium tracking-tight text-white lg:text-5xl xl:text-6xl">
-              {PL.title}
-              <span className="block text-emerald-300">{PL.titleAccent}</span>
+        <div className="hero-shell-inner">
+          <div className="max-w-2xl min-w-0">
+            <div className="hero-badge">✨ {PL.badge}</div>
+            <h1 className="hero-display">
+              <span className="block">{PL.title}</span>
+              <span className="hero-display-accent block">{PL.titleAccent}</span>
             </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-stone-200">{PL.subtitle}</p>
+            <p className="hero-subtitle">{PL.subtitle}</p>
           </div>
 
-          <div className="mt-10 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="hero-stats max-w-3xl">
             <StatPill
               label={PL.statAvailable}
               value={loading ? "…" : String(properties.length)}
@@ -188,19 +195,42 @@ export function PublicListingsPage() {
               {(
                 [
                   ["", PL.cityAll],
-                  ["barcelona", PL.cityBarcelona],
-                  ["madrid", PL.cityMadrid],
+                  ...MOON_CITIES.map((c) => [c.slug, c.label] as const),
                 ] as const
               ).map(([val, label]) => (
                 <FilterChip
                   key={val || "all"}
                   active={city === val}
-                  onClick={() => patchParams({ ciudad: val || null })}
+                  onClick={() =>
+                    patchParams({
+                      ciudad: val || null,
+                      zona: null,
+                    })
+                  }
                 >
                   {label}
                 </FilterChip>
               ))}
             </FilterGroup>
+
+            {city && (
+              <FilterGroup label={PL.zone}>
+                {(
+                  [
+                    ["", PL.zoneAll],
+                    ...getZonesForCity(city).map((z) => [z.slug, z.label] as const),
+                  ] as const
+                ).map(([val, label]) => (
+                  <FilterChip
+                    key={val || "all-zones"}
+                    active={zone === val}
+                    onClick={() => patchParams({ zona: val || null })}
+                  >
+                    {label}
+                  </FilterChip>
+                ))}
+              </FilterGroup>
+            )}
 
             <FilterGroup label={PL.price}>
               {(

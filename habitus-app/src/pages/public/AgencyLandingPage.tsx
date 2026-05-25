@@ -5,32 +5,13 @@ import {
   Buildings,
   ChartLineUp,
   CheckCircle,
-  MapPin,
   Shield,
-  Star,
   Users,
   UserCircle,
 } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { AGENCY_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
-
-const AGENCY_TESTIMONIALS = [
-  {
-    name: "Inmobiliaria Horizon",
-    role: "40 propiedades en cartera",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80",
-    text: "Gestionábamos pisos compartidos con demasiada fricción. : moon nos da una vista unificada por cliente, anfitriones asignados y solicitudes filtradas por compatibilidad.",
-    location: "Barcelona",
-  },
-  {
-    name: "Grupo Norte Living",
-    role: "Agencia boutique, Madrid",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
-    text: "Nuestros propietarios institucionales piden menos rotación y más control. Con : moon entregamos informes claros y grupos pre-validados antes de cada entrada.",
-    location: "Madrid",
-  },
-];
 
 export function AgencyLandingPage() {
   return (
@@ -40,8 +21,8 @@ export function AgencyLandingPage() {
         badge="Para agencias inmobiliarias"
         title={
           <>
-            La cartera de tus clientes,
-            <span className="block text-orange-200">en un solo panel.</span>
+            <span className="block">La cartera de tus clientes,</span>
+            <span className="hero-display-accent block">en un solo panel.</span>
           </>
         }
         subtitle={
@@ -84,10 +65,8 @@ export function AgencyLandingPage() {
       <section className="bg-white py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto mb-20 max-w-3xl text-center">
-            <p className="mb-4 text-sm font-medium uppercase tracking-wider text-stone-500">
-              Ventajas para agencias
-            </p>
-            <h2 className="font-serif text-4xl text-stone-900 lg:text-5xl">Opera convivencia a escala</h2>
+            <p className="section-eyebrow">Ventajas para agencias</p>
+            <h2 className="section-title">Opera convivencia a escala</h2>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
@@ -131,54 +110,8 @@ export function AgencyLandingPage() {
                   <benefit.icon size={40} weight="thin" className={benefit.color} />
                 </div>
                 <div className="flex-1">
-                  <h3 className="mb-2 font-serif text-2xl text-stone-900">{benefit.title}</h3>
+                  <h3 className="card-title mb-2">{benefit.title}</h3>
                   <p className="leading-relaxed text-stone-600">{benefit.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-gradient-to-br from-stone-100 to-stone-200 py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto mb-16 max-w-3xl text-center">
-            <p className="mb-4 text-sm font-medium uppercase tracking-wider text-stone-600">
-              Casos de éxito
-            </p>
-            <h2 className="font-serif text-4xl text-stone-900 lg:text-5xl">
-              Agencias que ya operan con : moon
-            </h2>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-2">
-            {AGENCY_TESTIMONIALS.map((testimonial) => (
-              <div
-                key={testimonial.name}
-                className="group relative rounded-3xl bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="mb-6 flex items-center gap-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="h-16 w-16 rounded-full object-cover shadow-lg ring-4 ring-stone-200 transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div>
-                    <p className="font-serif text-lg text-stone-900">{testimonial.name}</p>
-                    <p className="text-sm text-stone-500">{testimonial.role}</p>
-                    <div className="mt-1 flex items-center gap-1 text-xs text-stone-600">
-                      <MapPin size={12} weight="fill" />
-                      {testimonial.location}
-                    </div>
-                  </div>
-                </div>
-                <blockquote className="mb-4 leading-relaxed text-stone-600">
-                  &ldquo;{testimonial.text}&rdquo;
-                </blockquote>
-                <div className="flex items-center gap-1 text-amber-600">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} weight="fill" />
-                  ))}
                 </div>
               </div>
             ))}
@@ -189,7 +122,8 @@ export function AgencyLandingPage() {
       <section className="bg-white py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto mb-16 max-w-3xl text-center">
-            <h2 className="font-serif text-4xl text-stone-900 lg:text-5xl">Tu camino como agencia</h2>
+            <p className="section-eyebrow">Proceso</p>
+            <h2 className="section-title">Tu camino como agencia</h2>
           </div>
 
           <div className="grid gap-8 md:grid-cols-4">
@@ -201,14 +135,14 @@ export function AgencyLandingPage() {
             ].map((step) => (
               <div key={step.num} className="group text-center">
                 <div className="relative mb-4 inline-block">
-                  <span className="font-serif text-6xl text-stone-200 transition-colors group-hover:text-stone-300">
+                  <span className="step-number group-hover:text-stone-300 transition-colors">
                     {step.num}
                   </span>
                   <div className="absolute -right-2 -top-2 flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12">
                     <step.icon size={20} weight="bold" className="text-stone-700" />
                   </div>
                 </div>
-                <h3 className="mb-2 font-serif text-xl text-stone-900">{step.title}</h3>
+                <h3 className="card-title mb-2">{step.title}</h3>
                 <p className="text-sm text-stone-600">{step.desc}</p>
               </div>
             ))}
@@ -226,13 +160,13 @@ export function AgencyLandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="mb-6 font-serif text-4xl lg:text-6xl">
+          <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6">
             Moderniza la gestión
             <br />
             de pisos compartidos
           </h2>
-          <p className="mb-10 text-xl text-stone-400">
-            Únete a agencias que ya reducen rotación y conflictos con compatibilidad real.
+          <p className="mb-10 text-lg text-stone-400 sm:text-xl">
+            Opera carteras multi-cliente con compatibilidad real, anfitriones asignados y métricas por inmueble.
           </p>
           <Link
             to={accessSignupUrl("agencia")}

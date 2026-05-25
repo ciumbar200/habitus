@@ -5,6 +5,10 @@ import { IdentityBadge } from "../components/IdentityBadge";
 import { Icon } from "../components/Icon";
 import { PublishListingModal } from "../components/panel/PublishListingModal";
 import { LoadingState, ErrorState } from "../components/PageState";
+import { NotificationSettings } from "../components/NotificationSettings";
+import { LeaseCard } from "../components/LeaseCard";
+import { ReferralCard } from "../components/ReferralCard";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 import { useAuth } from "../context/AuthContext";
 import {
   accountRoleLabel,
@@ -14,13 +18,14 @@ import {
   fetchApplications,
   fetchApplicationsToReview,
   fetchMyGroups,
+  fetchMyLeases,
   fetchPanelStats,
   formatAppliedDate,
   homePathForRole,
   listingCopyForRole,
   profileNeedsCompatQuiz,
 } from "@habitus/core";
-import type { Application, LivingGroup, ReviewApplication } from "@habitus/core";
+import type { Application, LivingGroup, Lease, ReviewApplication } from "@habitus/core";
 import { isSupabaseConfigured } from "../lib/supabase";
 
 export function ProfilePage() {
@@ -32,6 +37,7 @@ export function ProfilePage() {
   const [incoming, setIncoming] = useState<ReviewApplication[]>([]);
   const [stats, setStats] = useState({ listings: 0, applications: 0, published: 0 });
   const [groups, setGroups] = useState<LivingGroup[]>([]);
+  const [leases, setLeases] = useState<Lease[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [publishOpen, setPublishOpen] = useState(false);
@@ -57,6 +63,7 @@ export function ProfilePage() {
             throw e;
           }),
         fetchMyGroups(user.id).then(setGroups),
+        fetchMyLeases(user.id).then(setLeases),
       );
     } else if (isManager && role) {
       tasks.push(
@@ -444,6 +451,10 @@ export function ProfilePage() {
         </div>
       </div>
 
+      {(role === "inquilino" || role === "anfitrion") && user?.id && (
+        <ReferralCard profileId={user.id} />
+      )}
+
       {role === "inquilino" && (
         <section className="mb-stack-lg">
           <div className="mb-4 flex items-center justify-between">
@@ -469,6 +480,17 @@ export function ProfilePage() {
         </section>
       )}
 
+      {role === "inquilino" && leases.length > 0 && (
+        <section className="mb-stack-lg">
+          <h3 className="mb-4 text-headline-md text-deep-navy">{es.leases.title}</h3>
+          <div className="space-y-4">
+            {leases.map((lease) => (
+              <LeaseCard key={lease.id} lease={lease} />
+            ))}
+          </div>
+        </section>
+      )}
+
       {canPublish && (
         <PublishListingModal
           open={publishOpen}
@@ -480,6 +502,14 @@ export function ProfilePage() {
           }}
         />
       )}
+
+      {/* Notification Settings Section */}
+      <section className="mb-stack-lg">
+        <h3 className="mb-4 text-headline-md text-deep-navy">Configuración</h3>
+        <ErrorBoundary inline>
+          <NotificationSettings />
+        </ErrorBoundary>
+      </section>
     </main>
   );
 }

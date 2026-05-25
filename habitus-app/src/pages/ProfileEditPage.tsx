@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import {
   completeIdentityVerificationDemo,
   deleteOwnAccount,
@@ -7,18 +7,21 @@ import {
   computeProfileScore,
   es,
   fetchProfileEditData,
+  homePathForRole,
+  HOST_FIRST_LISTING_PATH,
   isQuizComplete,
   normalizeLifestyleTags,
   PROFILE_LIFESTYLE_TAGS,
+  getDefaultZoneForCity,
   questionsForRole,
   roleNeedsCompatQuiz,
   roleShowsLifestyleProfile,
   roleShowsTrustProfile,
   updateProfile,
-  type SearchCity,
   type SearchPrefs,
 } from "@habitus/core";
 import { AvatarUpload } from "../components/AvatarUpload";
+import { CityZoneSelect } from "../components/location/CityZoneSelect";
 import { IdentityBadge } from "../components/IdentityBadge";
 import { Icon } from "../components/Icon";
 import { LoadingState } from "../components/PageState";
@@ -44,7 +47,9 @@ function Section({
 
 export function ProfileEditPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, profile, loading: authLoading, refreshProfile, signOut } = useAuth();
+  const setupMode = searchParams.get("setup") === "1";
   const role = profile?.accountRole;
 
   const [displayName, setDisplayName] = useState("");
@@ -54,6 +59,7 @@ export function ProfileEditPage() {
   const [isDiscoverable, setIsDiscoverable] = useState(false);
   const [searchPrefs, setSearchPrefs] = useState<SearchPrefs>({
     city: "",
+    zone: null,
     budgetMax: null,
     moveIn: null,
     roomType: null,
@@ -141,16 +147,25 @@ export function ProfileEditPage() {
     );
   }
 
-  function setCity(city: SearchCity) {
-    setSearchPrefs((p) => ({ ...p, city }));
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!user?.id) return;
     setBusy(true);
     setError(null);
     setSuccess(false);
+
+    if (setupMode) {
+      if (!avatarUrl) {
+        setBusy(false);
+        setError(ep.avatarRequired);
+        return;
+      }
+      if (bioQuote.trim().length < 30) {
+        setBusy(false);
+        setError(ep.bioMinLength);
+        return;
+      }
+    }
 
     const result = await updateProfile(
       user.id,
@@ -173,6 +188,14 @@ export function ProfileEditPage() {
     }
     setSuccess(true);
     await refreshProfile();
+    if (setupMode) {
+      if (role === "anfitrion") {
+        navigate(HOST_FIRST_LISTING_PATH, { replace: true });
+        return;
+      }
+      navigate(homePathForRole(role), { replace: true });
+      return;
+    }
     window.setTimeout(() => navigate("/profile", { replace: true }), 800);
   }
 
@@ -180,16 +203,24 @@ export function ProfileEditPage() {
     <main className="mx-auto max-w-3xl px-margin-mobile pb-32 pt-24 md:px-margin-desktop">
       <div className="mb-stack-lg flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <Link
-            to="/profile"
-            className="mb-2 inline-flex items-center gap-1 text-label-md text-teal-accent hover:underline"
-          >
-            <Icon name="arrow_back" className="text-[18px]" />
-            {es.common.back}
-          </Link>
-          <h1 className="text-headline-lg text-deep-navy">{ep.title}</h1>
+          {!setupMode && (
+            <Link
+              to="/profile"
+              className="mb-2 inline-flex items-center gap-1 text-label-md text-teal-accent hover:underline"
+            >
+              <Icon name="arrow_back" className="text-[18px]" />
+              {es.common.back}
+            </Link>
+          )}
+          <h1 className="text-headline-lg text-deep-navy">
+            {setupMode ? es.onboarding.profileTitle : ep.title}
+          </h1>
           <p className="mt-2 text-body-md text-warm-slate">
-            {showTrust ? ep.publisherSubtitle : ep.subtitle}
+            {setupMode
+              ? es.onboarding.profileBody
+              : showTrust
+                ? ep.publisherSubtitle
+                : ep.subtitle}
           </p>
         </div>
 
@@ -273,32 +304,22 @@ export function ProfileEditPage() {
 
         {isInquilino && (
           <Section title={ep.searchSection} hint={ep.searchSectionHint}>
-            <div>
-              <span className="mb-2 block text-label-md text-deep-navy">{ep.preferredCity}</span>
-              <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    ["", ep.cityAny],
-                    ["barcelona", ep.cityBarcelona],
-                    ["madrid", ep.cityMadrid],
-                    ["both", ep.cityBoth],
-                  ] as const
-                ).map(([val, label]) => (
-                  <button
-                    key={val || "any"}
-                    type="button"
-                    onClick={() => setCity(val)}
-                    className={`rounded-full px-4 py-2 text-label-md transition-colors ${
-                      searchPrefs.city === val
-                        ? "bg-deep-navy text-white"
-                        : "border border-border-light bg-white text-deep-navy hover:bg-surface-container"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <CityZoneSelect
+              city={searchPrefs.city}
+              zone={searchPrefs.zone ?? (searchPrefs.city ? getDefaultZoneForCity(searchPrefs.city) : "")}
+              cityOptional
+              zoneOptional
+              onCityChange={(city) =>
+                setSearchPrefs((p) => ({
+                  ...p,
+                  city,
+                  zone: city ? getDefaultZoneForCity(city) : null,
+                }))
+              }
+              onZoneChange={(zone) =>
+                setSearchPrefs((p) => ({ ...p, zone: zone || null }))
+              }
+            />
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-2 block text-label-md text-deep-navy">{ep.budgetMax}</label>
@@ -483,17 +504,24 @@ export function ProfileEditPage() {
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-deep-navy px-8 py-4 text-label-md text-white disabled:opacity-60 sm:flex-none"
           >
             <Icon name="save" className="text-[20px]" />
-            {busy ? es.common.pleaseWait : es.common.save}
+            {busy
+              ? es.common.pleaseWait
+              : setupMode
+                ? es.onboarding.continue
+                : es.common.save}
           </button>
-          <Link
-            to="/profile"
-            className="inline-flex items-center justify-center rounded-lg border border-border-light px-8 py-4 text-label-md text-deep-navy hover:bg-surface-container"
-          >
-            {es.common.cancel}
-          </Link>
+          {!setupMode && (
+            <Link
+              to="/profile"
+              className="inline-flex items-center justify-center rounded-lg border border-border-light px-8 py-4 text-label-md text-deep-navy hover:bg-surface-container"
+            >
+              {es.common.cancel}
+            </Link>
+          )}
         </div>
       </form>
 
+      {!setupMode && (
       <section className="mt-8 rounded-xl border border-error/30 bg-error-container/10 p-stack-md">
         <h2 className="text-headline-md text-error">{es.account.dangerZone}</h2>
         <p className="mt-2 text-body-md text-warm-slate">{es.account.deleteAccountHint}</p>
@@ -507,6 +535,7 @@ export function ProfileEditPage() {
           {deleteBusy ? es.common.pleaseWait : es.account.deleteAccount}
         </button>
       </section>
+      )}
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { es } from "@habitus/core";
+import { es, formatMoonLocation } from "@habitus/core";
 import type { Property } from "@habitus/core";
 import { Icon } from "./Icon";
 import { CompatibilityScore } from "./CompatibilityScore";
@@ -87,7 +87,7 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
               <h3 className="text-headline-md text-deep-navy">{property.name}</h3>
               <p className="flex items-center gap-1 text-body-md text-warm-slate">
                 <Icon name="location_on" className="text-[16px]" />
-                {property.location}
+                {formatMoonLocation(property.city, property.location)}
               </p>
             </div>
             <div className="text-right">

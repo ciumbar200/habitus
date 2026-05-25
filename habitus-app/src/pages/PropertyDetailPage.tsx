@@ -10,16 +10,17 @@ import { LoadingState, ErrorState } from "../components/PageState";
 import { useAuth } from "../context/AuthContext";
 import { useBookmarks } from "../hooks/useBookmarks";
 import { saveReturnTo } from "../lib/returnTo";
-import { formatAvailableDate, formatPrice } from "@habitus/core";
+import { formatAvailableDate, formatMoonLocation, formatPrice } from "@habitus/core";
 import { es } from "@habitus/core";
 import {
   fetchCompatQuiz,
   fetchPropertyBySlug,
   fetchPropertyImages,
   getListingUuidBySlug,
+  fetchMyFormedGroups,
 } from "@habitus/core";
 import { createApplication } from "@habitus/core";
-import type { Property } from "@habitus/core";
+import type { Property, LivingGroup } from "@habitus/core";
 import { isSupabaseConfigured } from "../lib/supabase";
 
 export function PropertyDetailPage() {
@@ -33,6 +34,8 @@ export function PropertyDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [applying, setApplying] = useState(false);
   const [applyMsg, setApplyMsg] = useState<string | null>(null);
+  const [formedGroups, setFormedGroups] = useState<LivingGroup[]>([]);
+  const [selectedGroupId, setSelectedGroupId] = useState<string>("");
 
   const propertyPath = slug ? `/property/${slug}` : null;
 
@@ -70,13 +73,23 @@ export function PropertyDetailPage() {
       .finally(() => setLoading(false));
   }, [slug, user?.id]);
 
+  useEffect(() => {
+    if (!user?.id || profile?.accountRole !== "inquilino") {
+      setFormedGroups([]);
+      return;
+    }
+    fetchMyFormedGroups(user.id)
+      .then(setFormedGroups)
+      .catch(() => setFormedGroups([]));
+  }, [user?.id, profile?.accountRole]);
+
   function goToAccess(signup = false) {
     if (!propertyPath) return;
     saveReturnTo(propertyPath);
     navigate("/access", { state: { from: propertyPath, signup } });
   }
 
-  const handleApply = async () => {
+  const handleApply = async (groupId?: string | null) => {
     if (!user) {
       goToAccess(true);
       return;
@@ -92,7 +105,11 @@ export function PropertyDetailPage() {
       return;
     }
 
-    const { error: err } = await createApplication(user.id, listingId);
+    const { error: err } = await createApplication(
+      user.id,
+      listingId,
+      groupId ?? (selectedGroupId || null),
+    );
     setApplying(false);
     if (err) {
       setApplyMsg(err);
@@ -166,7 +183,7 @@ export function PropertyDetailPage() {
             </button>
             <div className="absolute bottom-6 left-6 text-white">
               <h1 className="text-headline-lg md:text-display-lg">{property.name}</h1>
-              <p className="text-body-md opacity-90">{property.location}</p>
+              <p className="text-body-md opacity-90">{formatMoonLocation(property.city, property.location)}</p>
             </div>
           </div>
           {secondaryImages[0] && (
@@ -255,7 +272,7 @@ export function PropertyDetailPage() {
             <h2 className="mb-4 text-headline-md text-deep-navy">{es.property.about}</h2>
             <p className="text-body-lg leading-relaxed text-on-surface-variant">
               {property.description ??
-                `En ${property.location}, ${property.name} ofrece una experiencia de co-living curada para profesionales.`}
+                `En ${formatMoonLocation(property.city, property.location)}, ${property.name} ofrece una experiencia de co-living curada para profesionales.`}
             </p>
           </div>
 
@@ -297,10 +314,29 @@ export function PropertyDetailPage() {
             {applyMsg && (
               <p className="mb-3 text-label-sm text-teal-accent">{applyMsg}</p>
             )}
+            {user && formedGroups.length > 0 && (
+              <div className="mb-4">
+                <label className="mb-2 block text-label-sm text-deep-navy">
+                  {es.application.selectGroup}
+                </label>
+                <select
+                  className="field-input w-full"
+                  value={selectedGroupId}
+                  onChange={(e) => setSelectedGroupId(e.target.value)}
+                >
+                  <option value="">{es.application.applySolo}</option>
+                  {formedGroups.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {g.name} ({g.memberCount} {es.groups.members.toLowerCase()})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <button
               type="button"
               disabled={applying}
-              onClick={handleApply}
+              onClick={() => handleApply()}
               className="mb-3 w-full rounded-lg bg-deep-navy py-4 text-label-md text-on-primary transition-opacity hover:opacity-90 disabled:opacity-60"
             >
               {applying

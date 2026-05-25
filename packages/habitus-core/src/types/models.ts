@@ -166,6 +166,7 @@ export type LivingGroup = {
   creatorId: string;
   listingId: string | null;
   city: string | null;
+  zone: string | null;
   status: "forming" | "ready" | "active" | "archived";
   targetMembers: number;
   notes: string | null;
