@@ -10,6 +10,18 @@ export {
   type SearchPrefs,
   type SearchCity,
 } from "./types/searchPrefs";
+export {
+  EMPTY_HERO_SEARCH,
+  normalizeHeroSearchDraft,
+  heroDraftFromSearchPrefs,
+  budgetMaxToPriceBand,
+  accommodationToCategory,
+  categoryToAccommodation,
+  buildPublicListingsUrl,
+  parseHeroSearchFromListingsUrl,
+  type HeroSearchDraft,
+  type HeroAccommodation,
+} from "./lib/heroSearch";
 
 export { es } from "./i18n/es";
 

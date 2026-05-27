@@ -6,46 +6,8 @@ import { useAuth } from "../../context/AuthContext";
 import { LoadingState } from "../../components/PageState";
 import { ArrowRight, Briefcase, Users, Shield, Heart, ChatCircle, House, Target, User, Buildings } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
-import { LandingMainHero, type HeroListingSlide } from "../../components/public/LandingMainHero";
-
-const HERO_LISTINGS: HeroListingSlide[] = [
-  {
-    url: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80",
-    alt: "Salón luminoso en piso compartido de Gracia",
-    title: "Piso en Gracia",
-    location: "Barcelona",
-    affinity: "94%",
-    tags: [
-      { label: "Ritmo", value: "Tranquilo" },
-      { label: "Horarios", value: "Similar" },
-      { label: "Valores", value: "Muy alineados" },
-    ],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
-    alt: "Habitación en apartamento moderno de Madrid",
-    title: "Habitación en Chamberí",
-    location: "Madrid",
-    affinity: "91%",
-    tags: [
-      { label: "Ritmo", value: "Activo" },
-      { label: "Horarios", value: "Flexibles" },
-      { label: "Valores", value: "Alineados" },
-    ],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
-    alt: "Cocina compartida con compañeros de piso",
-    title: "Casa en Poblenou",
-    location: "Barcelona",
-    affinity: "89%",
-    tags: [
-      { label: "Ritmo", value: "Social" },
-      { label: "Horarios", value: "Diurnos" },
-      { label: "Valores", value: "Compatibles" },
-    ],
-  },
-];
+import { LandingMainHero } from "../../components/public/LandingMainHero";
+import { HeroSearchForm } from "../../components/public/HeroSearchForm";
 
 export function LandingPage() {
   const { user, profile, loading, profileReady } = useAuth();
@@ -82,7 +44,7 @@ export function LandingPage() {
   return (
     <main className="min-h-screen bg-stone-50 overflow-x-hidden">
       <LandingMainHero
-        badge="Barcelona · Madrid"
+        badge="España · 5 ciudades"
         title={
           <>
             <span className="block">Elige con quién vives,</span>
@@ -100,7 +62,7 @@ export function LandingPage() {
           { value: "100%", label: "Identidad verificada" },
           { value: "24/7", label: "Soporte humano" },
         ]}
-        listings={HERO_LISTINGS}
+        aside={<HeroSearchForm />}
         actions={
           <>
             <Link
