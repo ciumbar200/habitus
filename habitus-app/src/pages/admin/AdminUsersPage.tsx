@@ -5,9 +5,10 @@ import {
   adminBulkSetIdentityStatus,
   adminSetIdentityStatus,
   adminSetAccountRole,
+  adminSuspendUser,
   es,
   exportUsersCsv,
-  fetchAdminUsers,
+  fetchAdminUsersExtended,
   importUsersFromCsv,
   mapUserCsvRecords,
   fetchAdminImportHealth,
@@ -17,7 +18,7 @@ import {
   usersCsvExample,
   validateUserCsvRecords,
   type AccountRoleSlug,
-  type AdminUserRow,
+  type AdminUserExtended,
   type IdentityStatus,
 } from "@habitus/core";
 import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminToolbar";
@@ -25,6 +26,7 @@ import { AdminCsvImport } from "../../components/admin/AdminCsvImport";
 import { IdentityBadge } from "../../components/IdentityBadge";
 import { LoadingState, ErrorState } from "../../components/PageState";
 import { supabase } from "../../lib/supabase";
+import { Link } from "react-router-dom";
 
 const selectClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm min-w-[120px]";
@@ -34,7 +36,7 @@ const inputClass =
 const ROLES: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia", "embajador"];
 
 export function AdminUsersPage() {
-  const [rows, setRows] = useState<AdminUserRow[]>([]);
+  const [rows, setRows] = useState<AdminUserExtended[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -46,11 +48,12 @@ export function AdminUsersPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [identityFilter, setIdentityFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const load = useCallback(() => {
     setLoading(true);
     setError(null);
-    fetchAdminUsers()
+    fetchAdminUsersExtended()
       .then(setRows)
       .catch((e) => setError(e instanceof Error ? e.message : es.common.errorLoad))
       .finally(() => setLoading(false));
@@ -71,10 +74,16 @@ export function AdminUsersPage() {
     return rows.filter((row) => {
       if (roleFilter && row.accountRole !== roleFilter) return false;
       if (identityFilter && row.identityStatus !== identityFilter) return false;
+      if (statusFilter === "suspended" && !row.suspendedAt) return false;
+      if (statusFilter === "deleted" && !row.deletedAt) return false;
+      if (statusFilter === "active" && (row.suspendedAt || row.deletedAt)) return false;
       if (!q) return true;
-      return row.displayName.toLowerCase().includes(q);
+      return (
+        row.displayName.toLowerCase().includes(q) ||
+        row.email.toLowerCase().includes(q)
+      );
     });
-  }, [rows, search, roleFilter, identityFilter]);
+  }, [rows, search, roleFilter, identityFilter, statusFilter]);
 
   const filteredIds = useMemo(() => new Set(filtered.map((r) => r.id)), [filtered]);
   const selectedInView = useMemo(
@@ -88,6 +97,7 @@ export function AdminUsersPage() {
     setSearch("");
     setRoleFilter("");
     setIdentityFilter("");
+    setStatusFilter("");
   }
 
   function toggleRow(id: string) {
@@ -111,7 +121,7 @@ export function AdminUsersPage() {
     setSelected(new Set());
   }
 
-  async function toggleAdmin(row: AdminUserRow) {
+  async function toggleAdmin(row: AdminUserExtended) {
     setBusyId(row.id);
     const err = await setUserAdmin(row.id, !row.isAdmin);
     if (err) setError(err);
@@ -119,7 +129,7 @@ export function AdminUsersPage() {
     setBusyId(null);
   }
 
-  async function toggleAmbassador(row: AdminUserRow) {
+  async function toggleAmbassador(row: AdminUserExtended) {
     setBusyId(row.id);
     const newRole = row.accountRole === "embajador" ? null : "embajador";
     const err = await adminSetAccountRole(row.id, newRole);
@@ -131,7 +141,7 @@ export function AdminUsersPage() {
     setBusyId(null);
   }
 
-  async function toggleDiscoverable(row: AdminUserRow) {
+  async function toggleDiscoverable(row: AdminUserExtended) {
     setBusyId(row.id);
     const err = await setUserDiscoverable(row.id, !row.isDiscoverable);
     if (err) setError(err);
@@ -142,7 +152,7 @@ export function AdminUsersPage() {
     setBusyId(null);
   }
 
-  async function setIdentity(row: AdminUserRow, status: IdentityStatus) {
+  async function setIdentity(row: AdminUserExtended, status: IdentityStatus) {
     setBusyId(row.id);
     setError(null);
     const err = await adminSetIdentityStatus(row.id, status);
@@ -151,7 +161,21 @@ export function AdminUsersPage() {
     setBusyId(null);
   }
 
-  async function runBulk<T extends Partial<AdminUserRow>>(
+  async function toggleSuspend(row: AdminUserExtended) {
+    setBusyId(row.id);
+    const suspend = !row.suspendedAt;
+    const err = await adminSuspendUser(row.id, suspend);
+    if (err) setError(err);
+    else
+      setRows((prev) =>
+        prev.map((r) =>
+          r.id === row.id ? { ...r, suspendedAt: suspend ? new Date().toISOString() : null } : r,
+        ),
+      );
+    setBusyId(null);
+  }
+
+  async function runBulk<T extends Partial<AdminUserExtended>>(
     action: () => Promise<string | null>,
     patch: T,
   ) {
@@ -174,7 +198,7 @@ export function AdminUsersPage() {
   if (error && rows.length === 0) return <ErrorState message={error} />;
 
   const f = es.admin.filters;
-  const hasFilters = search || roleFilter || identityFilter;
+  const hasFilters = search || roleFilter || identityFilter || statusFilter;
 
   return (
     <div>
@@ -269,6 +293,18 @@ export function AdminUsersPage() {
             <option value="verified">{es.identity.verified}</option>
           </select>
         </AdminFilterField>
+        <AdminFilterField label="Estado">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className={selectClass}
+          >
+            <option value="">Todos</option>
+            <option value="active">Activa</option>
+            <option value="suspended">Suspendida</option>
+            <option value="deleted">Eliminada</option>
+          </select>
+        </AdminFilterField>
         {hasFilters && (
           <button
             type="button"
@@ -329,9 +365,11 @@ export function AdminUsersPage() {
               <tr>
                 <th className="w-10 px-3 py-3" />
                 <th className="px-4 py-3 text-label-md text-deep-navy">{es.admin.table.name}</th>
+                <th className="px-4 py-3 text-label-md text-deep-navy">{es.admin.userDetail.email}</th>
                 <th className="px-4 py-3 text-label-md text-deep-navy">{es.admin.table.role}</th>
                 <th className="px-4 py-3 text-label-md text-deep-navy">{es.admin.table.identity}</th>
                 <th className="px-4 py-3 text-label-md text-deep-navy">{es.admin.table.score}</th>
+                <th className="px-4 py-3 text-label-md text-deep-navy">Estado</th>
                 <th className="px-4 py-3 text-label-md text-deep-navy">
                   {es.admin.table.discoverable}
                 </th>
@@ -349,7 +387,15 @@ export function AdminUsersPage() {
                       className="h-4 w-4 rounded border-border-light"
                     />
                   </td>
-                  <td className="px-4 py-3 font-medium text-deep-navy">{row.displayName}</td>
+                  <td className="px-4 py-3 font-medium text-deep-navy">
+                    <Link
+                      to={`/admin/usuarios/${row.id}`}
+                      className="hover:text-teal-accent hover:underline"
+                    >
+                      {row.displayName}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3 text-[12px] text-warm-slate">{row.email}</td>
                   <td className="px-4 py-3 text-warm-slate">
                     <span>{row.accountRole ? accountRoleLabel(row.accountRole) : "—"}</span>
                     <div className="mt-1">
@@ -393,6 +439,22 @@ export function AdminUsersPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-warm-slate">{row.profileScore}%</td>
+                  <td className="px-4 py-3">
+                    <button
+                      type="button"
+                      disabled={busyId === row.id || bulkBusy}
+                      onClick={() => toggleSuspend(row)}
+                      className={`rounded-lg border px-2 py-0.5 text-[11px] transition-colors disabled:opacity-50 ${
+                        row.deletedAt
+                          ? "border-error/30 text-error"
+                          : row.suspendedAt
+                          ? "border-amber-400 bg-amber-50 text-amber-700"
+                          : "border-border-light text-teal-accent hover:bg-surface-container"
+                      }`}
+                    >
+                      {row.deletedAt ? "Eliminada" : row.suspendedAt ? "Suspendida" : "Activa"}
+                    </button>
+                  </td>
                   <td className="px-4 py-3">
                     <button
                       type="button"

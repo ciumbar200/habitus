@@ -86,6 +86,39 @@ export type AdminListingRow = {
   canAssignHost: boolean;
 };
 
+export type AdminUserExtended = {
+  id: string;
+  email: string;
+  displayName: string;
+  accountRole: AccountRoleSlug | null;
+  adminRole: "support" | "super" | null;
+  isAdmin: boolean;
+  isDiscoverable: boolean;
+  identityStatus: IdentityStatus;
+  profileScore: number;
+  suspendedAt: string | null;
+  deletedAt: string | null;
+  city: string | null;
+  onboardingCompletedAt: string | null;
+  createdAt: string;
+};
+
+export type AdminIntroduction = {
+  id: string;
+  adminId: string;
+  profileId: string;
+  profileName?: string;
+  listingId: string | null;
+  listingName?: string;
+  groupId: string | null;
+  compatibilityScore: number | null;
+  internalNotes: string | null;
+  status: "proposed" | "notified" | "accepted" | "rejected" | "expired";
+  applicationId: string | null;
+  notifiedAt: string | null;
+  createdAt: string;
+};
+
 type ListingDbRow = {
   id: string;
   slug: string;
@@ -672,5 +705,156 @@ export async function submitReport(input: {
     target_id: input.targetId,
     reason: input.reason,
   });
+  return error?.message ?? null;
+}
+
+// ─── Extended user management ────────────────────────────────────────────────
+
+export async function fetchAdminUsersExtended(): Promise<AdminUserExtended[]> {
+  const { data, error } = await getSupabase().rpc("habitus_admin_get_users_with_email");
+  if (error) throw error;
+  return ((data ?? []) as Record<string, unknown>[]).map((r) => ({
+    id: r.id as string,
+    email: (r.email as string) ?? "",
+    displayName: (r.display_name as string) ?? "",
+    accountRole: (r.account_role as AccountRoleSlug | null) ?? null,
+    adminRole: (r.admin_role as "support" | "super" | null) ?? null,
+    isAdmin: Boolean(r.is_admin),
+    isDiscoverable: Boolean(r.is_discoverable),
+    identityStatus: ((r.identity_status as string) ?? "none") as IdentityStatus,
+    profileScore: Number(r.profile_score ?? 0),
+    suspendedAt: (r.suspended_at as string | null) ?? null,
+    deletedAt: (r.deleted_at as string | null) ?? null,
+    city: (r.city as string | null) ?? null,
+    onboardingCompletedAt: (r.onboarding_completed_at as string | null) ?? null,
+    createdAt: (r.created_at as string) ?? "",
+  }));
+}
+
+export async function adminSuspendUser(
+  userId: string,
+  suspend: boolean,
+): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_profiles")
+    .update({ suspended_at: suspend ? new Date().toISOString() : null })
+    .eq("id", userId);
+  return error?.message ?? null;
+}
+
+// ─── Ambassadors ─────────────────────────────────────────────────────────────
+
+export type AdminAmbassador = {
+  id: string;
+  displayName: string;
+  email: string;
+  referralCode: string | null;
+  qualifiedCount: number;
+  createdAt: string;
+};
+
+export async function fetchAdminAmbassadors(): Promise<AdminAmbassador[]> {
+  const { data, error } = await getSupabase().rpc("habitus_admin_get_users_with_email");
+  if (error) throw error;
+  const ambassadors = ((data ?? []) as Record<string, unknown>[]).filter(
+    (r) => r.account_role === "embajador",
+  );
+  if (ambassadors.length === 0) return [];
+
+  const ids = ambassadors.map((r) => r.id as string);
+  const { data: profiles } = await getSupabase()
+    .from("habitus_profiles")
+    .select("id, referral_code")
+    .in("id", ids);
+
+  const { data: referralCounts } = await getSupabase()
+    .from("habitus_referrals")
+    .select("referrer_id")
+    .in("referrer_id", ids)
+    .eq("status", "qualified");
+
+  const codeMap = new Map((profiles ?? []).map((p) => [p.id, p.referral_code as string | null]));
+  const countMap = new Map<string, number>();
+  for (const row of referralCounts ?? []) {
+    countMap.set(row.referrer_id, (countMap.get(row.referrer_id) ?? 0) + 1);
+  }
+
+  return ambassadors.map((r) => ({
+    id: r.id as string,
+    displayName: (r.display_name as string) ?? "",
+    email: (r.email as string) ?? "",
+    referralCode: codeMap.get(r.id as string) ?? null,
+    qualifiedCount: countMap.get(r.id as string) ?? 0,
+    createdAt: (r.created_at as string) ?? "",
+  }));
+}
+
+// ─── Admin introductions (curated matching) ───────────────────────────────────
+
+export async function fetchAdminIntroductions(): Promise<AdminIntroduction[]> {
+  const { data, error } = await getSupabase()
+    .from("admin_introductions")
+    .select(
+      "id, admin_id, profile_id, listing_id, group_id, compatibility_score, internal_notes, status, application_id, notified_at, created_at, habitus_profiles!profile_id(display_name), habitus_listings!listing_id(name)",
+    )
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return (data ?? []).map((r) => {
+    const profile = r.habitus_profiles as { display_name?: string } | null;
+    const listing = r.habitus_listings as { name?: string } | null;
+    return {
+      id: r.id,
+      adminId: r.admin_id,
+      profileId: r.profile_id,
+      profileName: profile?.display_name,
+      listingId: r.listing_id,
+      listingName: listing?.name,
+      groupId: r.group_id,
+      compatibilityScore: r.compatibility_score,
+      internalNotes: r.internal_notes,
+      status: r.status as AdminIntroduction["status"],
+      applicationId: r.application_id,
+      notifiedAt: r.notified_at,
+      createdAt: r.created_at,
+    };
+  });
+}
+
+export async function createAdminIntroduction(input: {
+  adminId: string;
+  profileId: string;
+  listingId?: string;
+  groupId?: string;
+  compatibilityScore?: number;
+  internalNotes?: string;
+  notify: boolean;
+}): Promise<{ id: string; error: string | null }> {
+  const { data, error } = await getSupabase()
+    .from("admin_introductions")
+    .insert({
+      admin_id: input.adminId,
+      profile_id: input.profileId,
+      listing_id: input.listingId ?? null,
+      group_id: input.groupId ?? null,
+      compatibility_score: input.compatibilityScore ?? null,
+      internal_notes: input.internalNotes ?? null,
+      status: input.notify ? "notified" : "proposed",
+      notified_at: input.notify ? new Date().toISOString() : null,
+    })
+    .select("id")
+    .single();
+  if (error) return { id: "", error: error.message };
+  return { id: (data as { id: string }).id, error: null };
+}
+
+export async function updateIntroductionStatus(
+  id: string,
+  status: AdminIntroduction["status"],
+): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("admin_introductions")
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq("id", id);
   return error?.message ?? null;
 }

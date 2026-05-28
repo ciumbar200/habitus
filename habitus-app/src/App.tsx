@@ -35,8 +35,16 @@ import { AdminLayout } from "./components/AdminLayout";
 import { AdminGate } from "./components/AdminGate";
 import { AdminDashboardPage } from "./pages/admin/AdminDashboardPage";
 import { AdminUsersPage } from "./pages/admin/AdminUsersPage";
+import { AdminUserDetailPage } from "./pages/admin/AdminUserDetailPage";
 import { AdminListingsPage } from "./pages/admin/AdminListingsPage";
 import { AdminReportsPage } from "./pages/admin/AdminReportsPage";
+import { AdminEmbajadoresPage } from "./pages/admin/AdminEmbajadoresPage";
+import { AdminMatchingPage } from "./pages/admin/AdminMatchingPage";
+import { AdminSolicitudesPage } from "./pages/admin/AdminSolicitudesPage";
+import { AdminGruposPage } from "./pages/admin/AdminGruposPage";
+import { AdminAuditoriaPage } from "./pages/admin/AdminAuditoriaPage";
+import { AdminNotificacionesPage } from "./pages/admin/AdminNotificacionesPage";
+import { AdminConfiguracionPage } from "./pages/admin/AdminConfiguracionPage";
 import { MemberPublicPage } from "./pages/MemberPublicPage";
 import { GroupDetailPage } from "./pages/GroupDetailPage";
 import { CreateGroupPage } from "./pages/CreateGroupPage";
@@ -246,8 +254,16 @@ export default function App() {
         >
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/usuarios" element={<AdminUsersPage />} />
+          <Route path="/admin/usuarios/:id" element={<AdminUserDetailPage />} />
+          <Route path="/admin/embajadores" element={<AdminEmbajadoresPage />} />
+          <Route path="/admin/matching" element={<AdminMatchingPage />} />
+          <Route path="/admin/solicitudes" element={<AdminSolicitudesPage />} />
           <Route path="/admin/espacios" element={<AdminListingsPage />} />
+          <Route path="/admin/grupos" element={<AdminGruposPage />} />
           <Route path="/admin/reportes" element={<AdminReportsPage />} />
+          <Route path="/admin/notificaciones" element={<AdminNotificacionesPage />} />
+          <Route path="/admin/configuracion" element={<AdminConfiguracionPage />} />
+          <Route path="/admin/auditoria" element={<AdminAuditoriaPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
