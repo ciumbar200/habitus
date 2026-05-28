@@ -844,6 +844,116 @@ export async function adminSuspendUser(
   return error?.message ?? null;
 }
 
+// ─── Admin: operator API keys (all users) ────────────────────────────────────
+
+export type AdminApiKeyRow = {
+  id: string;
+  profileId: string;
+  profileName: string;
+  label: string;
+  keyPrefix: string;
+  scopes: string[];
+  lastUsedAt: string | null;
+  revokedAt: string | null;
+  createdAt: string;
+};
+
+export async function fetchAdminApiKeys(): Promise<AdminApiKeyRow[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_operator_api_keys")
+    .select("id, profile_id, label, key_prefix, scopes, last_used_at, revoked_at, created_at, habitus_profiles!profile_id(display_name)")
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const profile = row.habitus_profiles as { display_name?: string } | null;
+    return {
+      id: row.id,
+      profileId: row.profile_id,
+      profileName: profile?.display_name ?? "—",
+      label: row.label,
+      keyPrefix: row.key_prefix,
+      scopes: (row.scopes as string[]) ?? [],
+      lastUsedAt: row.last_used_at ?? null,
+      revokedAt: row.revoked_at ?? null,
+      createdAt: row.created_at,
+    };
+  });
+}
+
+export async function adminRevokeApiKey(keyId: string): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_operator_api_keys")
+    .update({ revoked_at: new Date().toISOString() })
+    .eq("id", keyId)
+    .is("revoked_at", null);
+  return error?.message ?? null;
+}
+
+// ─── Admin: blog & events ─────────────────────────────────────────────────────
+
+export type AdminBlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  isPublished: boolean;
+  createdAt: string;
+};
+
+export type AdminEvent = {
+  id: string;
+  title: string;
+  isPublished: boolean;
+  startsAt: string;
+};
+
+export async function fetchAdminBlogPosts(): Promise<AdminBlogPost[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_blog_posts")
+    .select("id, slug, title, is_published, created_at")
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    slug: row.slug as string,
+    title: (row.title as string) ?? "Sin título",
+    isPublished: Boolean(row.is_published),
+    createdAt: row.created_at as string,
+  }));
+}
+
+export async function adminToggleBlogPost(id: string, publish: boolean): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_blog_posts")
+    .update({ is_published: publish })
+    .eq("id", id);
+  return error?.message ?? null;
+}
+
+export async function fetchAdminEvents(): Promise<AdminEvent[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_community_events")
+    .select("id, title, is_published, starts_at")
+    .order("starts_at", { ascending: false })
+    .limit(50);
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    title: (row.title as string) ?? "Sin título",
+    isPublished: Boolean(row.is_published),
+    startsAt: row.starts_at as string,
+  }));
+}
+
+export async function adminToggleEvent(id: string, publish: boolean): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_community_events")
+    .update({ is_published: publish })
+    .eq("id", id);
+  return error?.message ?? null;
+}
+
 export async function adminBroadcastNotification(
   params: { title: string; body: string; type?: string; roleFilter?: string; cityFilter?: string; dryRun?: boolean },
   accessToken: string,
