@@ -969,6 +969,41 @@ export async function createAdminIntroduction(input: {
   return { id: (data as { id: string }).id, error: null };
 }
 
+// ─── Audit log ────────────────────────────────────────────────────────────────
+
+export type AdminAuditEntry = {
+  id: string;
+  adminId: string;
+  adminName: string;
+  action: string;
+  targetType: string;
+  targetId: string;
+  payload: Record<string, unknown>;
+  createdAt: string;
+};
+
+export async function fetchAdminAuditLog(limit = 200): Promise<AdminAuditEntry[]> {
+  const { data, error } = await getSupabase()
+    .from("admin_audit_log")
+    .select("id, admin_id, action, target_type, target_id, payload, created_at, habitus_profiles!admin_id(display_name)")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const admin = row.habitus_profiles as { display_name?: string } | null;
+    return {
+      id: row.id,
+      adminId: row.admin_id,
+      adminName: admin?.display_name ?? "—",
+      action: row.action,
+      targetType: row.target_type,
+      targetId: row.target_id,
+      payload: (row.payload ?? {}) as Record<string, unknown>,
+      createdAt: row.created_at,
+    };
+  });
+}
+
 export async function updateIntroductionStatus(
   id: string,
   status: AdminIntroduction["status"],
