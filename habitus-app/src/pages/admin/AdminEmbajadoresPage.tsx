@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  adminInviteAmbassador,
   adminSetAccountRole,
   buildReferralUrl,
   es,
@@ -9,6 +10,7 @@ import {
 } from "@habitus/core";
 import { Icon } from "../../components/Icon";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { supabase } from "../../lib/supabase";
 
 export function AdminEmbajadoresPage() {
   const [ambassadors, setAmbassadors] = useState<AdminAmbassador[]>([]);
@@ -17,6 +19,7 @@ export function AdminEmbajadoresPage() {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteName, setInviteName] = useState("");
   const [inviteBusy, setInviteBusy] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -74,12 +77,23 @@ export function AdminEmbajadoresPage() {
     if (!inviteEmail.trim() || inviteBusy) return;
     setInviteBusy(true);
     setError(null);
-    // Buscar usuario por email en la lista extendida y asignar rol
-    // (creación de usuario nuevo requiere API route con service role — pendiente ADM-09)
-    setFeedback("Funcionalidad de invitación por email próximamente. Por ahora, crea el usuario en Supabase Studio y asigna el rol desde la ficha de usuario.");
-    setInviteEmail("");
+    const { data: session } = await supabase.auth.getSession();
+    const token = session.session?.access_token;
+    if (!token) { setError("No autenticado."); setInviteBusy(false); return; }
+    const { referralCode, error: inviteErr } = await adminInviteAmbassador(
+      inviteEmail.trim(),
+      inviteName.trim() || undefined,
+      token,
+    );
+    if (inviteErr) {
+      setError(inviteErr);
+    } else {
+      setFeedback(`${es.admin.inviteSuccess} Código: ${referralCode ?? "—"}`);
+      setInviteEmail("");
+      setInviteName("");
+      setTimeout(() => { setFeedback(null); load(); }, 3000);
+    }
     setInviteBusy(false);
-    setTimeout(() => setFeedback(null), 6000);
   }
 
   if (loading) return <LoadingState />;
@@ -102,13 +116,23 @@ export function AdminEmbajadoresPage() {
         onSubmit={handleInvite}
         className="mt-6 flex flex-wrap items-end gap-3 rounded-xl border border-border-light bg-surface-container-lowest p-4"
       >
-        <div className="flex-1 min-w-[200px]">
+        <div className="min-w-[180px] flex-1">
           <label className="mb-1 block text-label-sm text-warm-slate">{es.admin.inviteEmail}</label>
           <input
             type="email"
             value={inviteEmail}
             onChange={(e) => setInviteEmail(e.target.value)}
             placeholder="email@ejemplo.com"
+            className="w-full rounded-lg border border-border-light px-3 py-2 text-label-sm"
+          />
+        </div>
+        <div className="min-w-[140px]">
+          <label className="mb-1 block text-label-sm text-warm-slate">{es.admin.inviteName}</label>
+          <input
+            type="text"
+            value={inviteName}
+            onChange={(e) => setInviteName(e.target.value)}
+            placeholder="Nombre"
             className="w-full rounded-lg border border-border-light px-3 py-2 text-label-sm"
           />
         </div>

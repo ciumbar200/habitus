@@ -708,6 +708,53 @@ export async function submitReport(input: {
   return error?.message ?? null;
 }
 
+// ─── Admin groups ────────────────────────────────────────────────────────────
+
+export type AdminGroupRow = {
+  id: string;
+  slug: string;
+  name: string;
+  city: string | null;
+  status: string;
+  memberCount: number;
+  creatorName: string;
+  createdAt: string;
+};
+
+export async function fetchAdminGroups(): Promise<AdminGroupRow[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_groups")
+    .select("id, slug, name, city, status, created_at, habitus_profiles!creator_id(display_name), habitus_group_members(id)")
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const creator = row.habitus_profiles as { display_name?: string } | null;
+    const members = row.habitus_group_members as { id: string }[] | null;
+    return {
+      id: row.id,
+      slug: row.slug,
+      name: row.name,
+      city: row.city,
+      status: row.status,
+      memberCount: members?.length ?? 0,
+      creatorName: creator?.display_name ?? "—",
+      createdAt: row.created_at,
+    };
+  });
+}
+
+export async function adminSetGroupStatus(
+  groupId: string,
+  status: string,
+): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_groups")
+    .update({ status })
+    .eq("id", groupId);
+  return error?.message ?? null;
+}
+
 // ─── Admin applications pipeline ─────────────────────────────────────────────
 
 export type AdminApplicationRow = {
@@ -795,6 +842,25 @@ export async function adminSuspendUser(
     .update({ suspended_at: suspend ? new Date().toISOString() : null })
     .eq("id", userId);
   return error?.message ?? null;
+}
+
+export async function adminInviteAmbassador(
+  email: string,
+  name: string | undefined,
+  accessToken: string,
+  apiBase = "",
+): Promise<{ referralCode: string | null; error: string | null }> {
+  const res = await fetch(`${apiBase}/api/admin/invite-ambassador`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ email, name }),
+  });
+  const json = (await res.json()) as { ok?: boolean; referralCode?: string | null; error?: string };
+  if (!res.ok || !json.ok) return { referralCode: null, error: json.error ?? "Error al invitar." };
+  return { referralCode: json.referralCode ?? null, error: null };
 }
 
 // ─── Ambassadors ─────────────────────────────────────────────────────────────
