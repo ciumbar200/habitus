@@ -40,8 +40,10 @@ export type HowItWorksRoleConfig = {
   extras?: { title: string; items: string[] };
 };
 
+type PublicRoleSlug = Exclude<AccountRoleSlug, "embajador">;
+
 // Icon mapping for each role step
-const ROLE_ICONS: Record<AccountRoleSlug, StepIcon[]> = {
+const ROLE_ICONS: Record<PublicRoleSlug, StepIcon[]> = {
   inquilino: [User, Users, MagnifyingGlass, ChatCircle, CheckCircle],
   anfitrion: [UserCircle, CheckCircle, House, Funnel, Users],
   propietario: [Shield, Buildings, UserCircle, Users, ChartLineUp],
@@ -49,7 +51,7 @@ const ROLE_ICONS: Record<AccountRoleSlug, StepIcon[]> = {
 };
 
 // Visual configuration (non-translatable)
-const ROLE_VISUAL_CONFIG: Record<AccountRoleSlug, {
+const ROLE_VISUAL_CONFIG: Record<PublicRoleSlug, {
   accent: string;
   accentMuted: string;
   accentRing: string;
@@ -92,7 +94,7 @@ const ROLE_VISUAL_CONFIG: Record<AccountRoleSlug, {
  */
 export function getHowItWorksRoles(t: I18n): HowItWorksRoleConfig[] {
   const hw = t.public.howItWorksPage;
-  const roles: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia"];
+  const roles: PublicRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia"];
 
   return roles.map((slug) => {
     const roleData = hw[slug];

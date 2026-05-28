@@ -167,7 +167,7 @@ export function AdminMatchingPage() {
                 <option value="">— seleccionar —</option>
                 {filteredListings.map((l) => (
                   <option key={l.id} value={l.id}>
-                    {l.name} · {l.city ?? "?"} · {l.price}€
+                    {l.name} · {l.city ?? "?"} · {l.priceMonthly}€
                   </option>
                 ))}
               </select>

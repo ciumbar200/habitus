@@ -130,6 +130,7 @@ export const en = {
     propietarioHint:
       "Publish your spaces, review formed groups and tenants in your cities, and contact them before receiving applications.",
     agenciaHint: "Manage colivings, multiple rooms or professional inventory from an operator panel.",
+    embajadorHint: "Share your referral code and help grow the : moon community.",
     ownerTenantsTitle: "Tenants and groups",
     ownerTenantsSubtitle:
       "Formed groups in your cities, compatible tenants and recent applications. Contact before or after they apply to your spaces.",
@@ -1228,6 +1229,7 @@ export const en = {
     anfitrion: "Host",
     propietario: "Owner",
     agencia: "Operator",
+    embajador: "Ambassador",
   },
   legal: {
     privacy: "Privacy",

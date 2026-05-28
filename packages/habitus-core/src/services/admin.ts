@@ -708,6 +708,61 @@ export async function submitReport(input: {
   return error?.message ?? null;
 }
 
+// ─── Admin applications pipeline ─────────────────────────────────────────────
+
+export type AdminApplicationRow = {
+  id: string;
+  profileId: string;
+  profileName: string;
+  listingId: string;
+  listingName: string;
+  listingCity: string | null;
+  groupId: string | null;
+  status: string;
+  progress: number;
+  appliedAt: string;
+  source: string | null;
+};
+
+export async function fetchAdminApplications(): Promise<AdminApplicationRow[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_applications")
+    .select(
+      "id, profile_id, listing_id, group_id, status, progress_percent, applied_at, source, habitus_profiles!profile_id(display_name), habitus_listings!listing_id(name, city)",
+    )
+    .order("applied_at", { ascending: false })
+    .limit(300);
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const profile = row.habitus_profiles as { display_name?: string } | null;
+    const listing = row.habitus_listings as { name?: string; city?: string | null } | null;
+    return {
+      id: row.id,
+      profileId: row.profile_id,
+      profileName: profile?.display_name ?? "—",
+      listingId: row.listing_id,
+      listingName: listing?.name ?? "—",
+      listingCity: listing?.city ?? null,
+      groupId: row.group_id ?? null,
+      status: row.status,
+      progress: row.progress_percent ?? 0,
+      appliedAt: row.applied_at,
+      source: (row as Record<string, unknown>).source as string | null ?? null,
+    };
+  });
+}
+
+export async function adminSetApplicationStatus(
+  applicationId: string,
+  status: string,
+): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_applications")
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq("id", applicationId);
+  return error?.message ?? null;
+}
+
 // ─── Extended user management ────────────────────────────────────────────────
 
 export async function fetchAdminUsersExtended(): Promise<AdminUserExtended[]> {

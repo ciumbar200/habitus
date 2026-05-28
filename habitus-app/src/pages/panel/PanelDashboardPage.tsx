@@ -72,6 +72,7 @@ export function PanelDashboardPage() {
     anfitrion: t.panel.anfitrionHint,
     propietario: t.panel.propietarioHint,
     agencia: t.panel.agenciaHint,
+    embajador: t.panel.embajadorHint,
   }[role];
 
   return (

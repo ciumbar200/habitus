@@ -130,6 +130,7 @@ export const es = {
     propietarioHint:
       "Publica tus pisos, revisa grupos formados e inquilinos en tu ciudad, y contacta antes de recibir solicitudes.",
     agenciaHint: "Gestiona colivings, varias habitaciones o inventario profesional desde un panel de operador.",
+    embajadorHint: "Comparte tu código de referido y ayuda a crecer a la comunidad : moon.",
     ownerTenantsTitle: "Inquilinos y grupos",
     ownerTenantsSubtitle:
       "Grupos formados en tus ciudades, inquilinos compatibles y solicitudes recientes. Contacta antes o después de que soliciten tu piso.",
@@ -1228,6 +1229,7 @@ export const es = {
     anfitrion: "Anfitrión",
     propietario: "Propietario",
     agencia: "Operador",
+    embajador: "Embajador",
   },
   legal: {
     privacy: "Privacidad",
