@@ -844,6 +844,34 @@ export async function adminSuspendUser(
   return error?.message ?? null;
 }
 
+export async function adminBroadcastNotification(
+  params: { title: string; body: string; type?: string; roleFilter?: string; cityFilter?: string; dryRun?: boolean },
+  accessToken: string,
+  apiBase = "",
+): Promise<{ count: number; dryRun: boolean; error: string | null }> {
+  const res = await fetch(`${apiBase}/api/admin/broadcast-notification`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(params),
+  });
+  const json = (await res.json()) as { ok?: boolean; count?: number; dryRun?: boolean; error?: string };
+  if (!res.ok || !json.ok) return { count: 0, dryRun: params.dryRun ?? false, error: json.error ?? "Error." };
+  return { count: json.count ?? 0, dryRun: json.dryRun ?? false, error: null };
+}
+
+export async function adminHardDeleteUsers(
+  accessToken: string,
+  apiBase = "",
+): Promise<{ deleted: number; error: string | null }> {
+  const res = await fetch(`${apiBase}/api/admin/hard-delete-users`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const json = (await res.json()) as { ok?: boolean; deleted?: number; error?: string };
+  if (!res.ok || !json.ok) return { deleted: 0, error: json.error ?? "Error." };
+  return { deleted: json.deleted ?? 0, error: null };
+}
+
 export async function adminInviteAmbassador(
   email: string,
   name: string | undefined,
