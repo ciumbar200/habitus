@@ -724,13 +724,13 @@ export type AdminGroupRow = {
 export async function fetchAdminGroups(): Promise<AdminGroupRow[]> {
   const { data, error } = await getSupabase()
     .from("habitus_groups")
-    .select("id, slug, name, city, status, created_at, habitus_profiles!creator_id(display_name), habitus_group_members(id)")
+    .select("id, slug, name, city, status, created_at, habitus_profiles!creator_id(display_name), habitus_group_members(profile_id)")
     .order("created_at", { ascending: false })
     .limit(200);
   if (error) throw error;
   return (data ?? []).map((row) => {
     const creator = row.habitus_profiles as { display_name?: string } | null;
-    const members = row.habitus_group_members as { id: string }[] | null;
+    const members = row.habitus_group_members as { profile_id: string }[] | null;
     return {
       id: row.id,
       slug: row.slug,
