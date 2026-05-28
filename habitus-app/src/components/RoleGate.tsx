@@ -10,13 +10,12 @@ type RoleGateProps = {
 
 export function RoleGate({ children, allow }: RoleGateProps) {
   const { profile } = useAuth();
+  const { pathname: path } = useLocation();
   const role = profile?.accountRole;
 
   if (allow && role && !allow.includes(role)) {
     return <Navigate to={homePathForRole(role)} replace />;
   }
-
-  const { pathname: path } = useLocation();
   if (role && !canAccessPath(role, path, { isAdmin: profile?.isAdmin })) {
     return <Navigate to={homePathForRole(role)} replace />;
   }

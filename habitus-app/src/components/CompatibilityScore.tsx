@@ -1,7 +1,7 @@
 import { useState, type MouseEvent } from "react";
-import { es } from "@habitus/core";
 import type { CompatibilityResult } from "@habitus/core";
 import { Icon } from "./Icon";
+import { useI18n } from "../lib/I18nContext";
 
 type CompatibilityScoreProps = {
   score: number | null | undefined;
@@ -23,6 +23,7 @@ export function CompatibilityScore({
   className = "",
   stopPropagation = false,
 }: CompatibilityScoreProps) {
+  const t = useI18n();
   const [open, setOpen] = useState(defaultOpen);
   const canExpand = Boolean(result?.dimensions?.length);
   const display = score != null ? `${score}%` : "—";
@@ -42,7 +43,7 @@ export function CompatibilityScore({
         onClick={toggle}
         disabled={!canExpand}
         aria-expanded={open}
-        aria-label={canExpand ? es.compat.tapForBreakdown : undefined}
+        aria-label={canExpand ? t.compat.tapForBreakdown : undefined}
         className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-label-sm font-bold backdrop-blur-md transition-opacity ${
           canExpand ? "cursor-pointer hover:opacity-90" : "cursor-default"
         } ${
@@ -74,14 +75,14 @@ export function CompatibilityScore({
         <p
           className={`mt-1 text-[10px] ${variant === "gradient" ? "text-white/85" : "text-warm-slate"}`}
         >
-          {es.compat.tapForBreakdown}
+          {t.compat.tapForBreakdown}
         </p>
       )}
       {score != null && !canExpand && (
         <p
           className={`mt-1 text-[10px] ${variant === "gradient" ? "text-white/85" : "text-warm-slate"}`}
         >
-          {es.compat.quizRequiredInquilino}
+          {t.compat.quizRequiredInquilino}
         </p>
       )}
     </div>
@@ -95,13 +96,14 @@ export function CompatibilityBreakdownPanel({
   result: CompatibilityResult;
   className?: string;
 }) {
+  const t = useI18n();
   return (
     <div
       className={`rounded-xl border border-border-light bg-surface p-4 text-left card-shadow ${className}`}
       role="region"
-      aria-label={es.compat.breakdownTitle}
+      aria-label={t.compat.breakdownTitle}
     >
-      <p className="mb-3 text-label-md font-semibold text-deep-navy">{es.compat.breakdownTitle}</p>
+      <p className="mb-3 text-label-md font-semibold text-deep-navy">{t.compat.breakdownTitle}</p>
       {result.summary ? (
         <p className="mb-4 text-body-sm text-warm-slate">{result.summary}</p>
       ) : null}

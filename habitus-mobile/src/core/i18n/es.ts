@@ -175,7 +175,10 @@ export const es = {
     cityAny: "Cualquiera",
     cityBarcelona: "Barcelona",
     cityMadrid: "Madrid",
-    cityBoth: "Barcelona y Madrid",
+    cityValencia: "Valencia",
+    citySevilla: "Sevilla",
+    cityGranada: "Granada",
+    cityBoth: "Todas las ciudades",
     budgetMax: "Presupuesto máximo (€/mes)",
     budgetPlaceholder: "950",
     moveIn: "Fecha de entrada deseada",
@@ -207,7 +210,7 @@ export const es = {
   },
   discover: {
     location: "Ubicación",
-    locationPlaceholder: "Barcelona o Madrid",
+    locationPlaceholder: "Elige tu ciudad",
     budget: "Presupuesto",
     budgetPlaceholder: "750 € – 1.000 €",
     moveIn: "Entrada",
@@ -219,7 +222,7 @@ export const es = {
   publicListings: {
     metaTitle: "alojamientos compatibles — : moon shared living",
     metaDescription:
-      "Descubre habitaciones y pisos compartidos en Barcelona y Madrid con compatibilidad real. Filtra por ciudad, precio y estilo de convivencia.",
+      "Descubre habitaciones y pisos compartidos en Barcelona, Madrid, Valencia, Sevilla y Granada con compatibilidad real. Filtra por ciudad, precio y estilo de convivencia.",
     badge: "Encuentra tu lugar ideal",
     title: "Hogares compatibles",
     titleAccent: "con personas como tú",
@@ -399,7 +402,7 @@ export const es = {
     createAccount: "Crear cuenta",
     joinSubtitle: "Únete a la comunidad : moon",
     tagline:
-      "Comparte vivienda con personas compatibles. Menos gasto, más apoyo y un hogar donde encajar — en Barcelona y Madrid.",
+      "Comparte vivienda con personas compatibles. Menos gasto, más apoyo y un hogar donde encajar — en 5 ciudades de España.",
     orEmail: "O continúa con el correo",
     continueGoogle: "Continuar con Google",
     continueFacebook: "Continuar con Facebook",
@@ -443,7 +446,7 @@ export const es = {
     heroLine2: "no solo dónde.",
     heroLine3: "Vive acompañado.",
     heroSubtitle:
-      "Para estudiantes, expats, separados o cualquiera que comparta piso, : moon conecta personas compatibles para alquilar juntos, convivir mejor y sentir hogar desde el primer día — barcelona y madrid.",
+      "Para estudiantes, expats, separados o cualquiera que comparta piso, : moon conecta personas compatibles para alquilar juntos, convivir mejor y sentir hogar desde el primer día.",
     heroTrust: [
       "Matching por hábitos, valores y ritmo de vida",
       "Grupos para alquilar piso entero con reparto justo",
@@ -523,7 +526,7 @@ export const es = {
     continue: "Continuar",
     finish: "Ir a mi espacio",
     point1: "Matching por hábitos y valores, no solo por precio",
-    point2: "Barcelona y Madrid — más ciudades pronto",
+    point2: "Barcelona, Madrid, Valencia, Sevilla y Granada",
     point3: "Gratis durante el primer año",
     goQuiz: "Hacer cuestionario ahora",
     goProfile: "Completar perfil",

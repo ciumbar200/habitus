@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -54,7 +54,7 @@ export function MemberPublicScreen({ route }: Props) {
   const [hint, setHint] = useState<string | null>(null);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideUpAnim = useState(new Animated.Value(20))[0];
 
   useEffect(() => {

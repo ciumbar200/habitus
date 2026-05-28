@@ -1,5 +1,9 @@
 import { getSupabase } from "../client";
 import type { ListingAccessGrant } from "../types/models";
+import {
+  fetchConfirmedGroupMemberIds,
+  notifyListingAccessGranted,
+} from "./notifications";
 
 export async function fetchListingAccess(listingId: string): Promise<ListingAccessGrant[]> {
   const { data, error } = await getSupabase()
@@ -41,7 +45,23 @@ export async function grantListingAccessToGroup(
     group_id: groupId,
     granted_by: ownerId,
   });
-  return error?.message ?? null;
+  if (error) return error.message;
+
+  const [{ data: listing }, { data: group }, memberIds] = await Promise.all([
+    getSupabase().from("habitus_listings").select("name").eq("id", listingId).maybeSingle(),
+    getSupabase().from("habitus_groups").select("name").eq("id", groupId).maybeSingle(),
+    fetchConfirmedGroupMemberIds(groupId),
+  ]);
+
+  void notifyListingAccessGranted({
+    listingId,
+    listingName: (listing?.name as string) ?? "un piso privado",
+    groupId,
+    groupName: (group?.name as string) ?? "tu grupo",
+    memberProfileIds: memberIds,
+  });
+
+  return null;
 }
 
 export async function grantListingAccessToProfile(

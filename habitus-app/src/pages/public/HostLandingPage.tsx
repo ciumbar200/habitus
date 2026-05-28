@@ -3,29 +3,33 @@ import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { HOST_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
 import { ArrowRight, CheckCircle, Users, Shield, ChatCircle, House, User } from "@phosphor-icons/react";
+import { useI18n } from "../../lib/I18nContext";
 
 export function HostLandingPage() {
+  const t = useI18n();
+  const hl = t.public.hostLanding;
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-white overflow-x-hidden">
       <MarketingPhotoHero
         image={HOST_HERO_IMAGE}
-        badge="Para anfitriones"
+        badge={hl.badge}
         title={
           <>
-            <span className="block">Gestiona tu piso con</span>
-            <span className="hero-display-accent block">personas que encajan.</span>
+            <span className="block">{hl.heroLine1}</span>
+            <span className="hero-display-accent block">{hl.heroLine2}</span>
           </>
         }
         subtitle={
           <>
-            Publica tu habitación, indica tu estilo de convivencia y recibe solicitudes de inquilinos compatibles.
-            <span className="mt-2 block text-stone-300">Menos rotación, más tranquilidad.</span>
+            {hl.heroSubtitle}
+            <span className="mt-2 block text-stone-300">{hl.heroAudience}</span>
           </>
         }
         stats={[
-          { value: "87%", label: "Menos conflictos" },
-          { value: "2.5×", label: "Permanencia media" },
-          { value: "24/7", label: "Soporte humano" },
+          { value: hl.stat3Value, label: hl.stat1 },
+          { value: hl.stat4Value, label: hl.stat2 },
+          { value: "24/7", label: hl.stat3 },
         ]}
         actions={
           <>
@@ -33,14 +37,14 @@ export function HostLandingPage() {
               to={accessSignupUrl("anfitrion")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-8 py-4 font-medium text-white shadow-lg shadow-emerald-900/30 transition-all hover:-translate-y-0.5 hover:bg-emerald-500"
             >
-              Ser anfitrión
+              {hl.ctaMain}
               <ArrowRight weight="bold" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to={howItWorksUrl("anfitrion")}
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
             >
-              Cómo funciona
+              {hl.ctaSecondary}
             </Link>
           </>
         }
@@ -49,37 +53,37 @@ export function HostLandingPage() {
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <p className="section-eyebrow">Ventajas para anfitriones</p>
-            <h2 className="section-title">Convivencia sin estrés</h2>
+            <p className="section-eyebrow">{hl.benefitsTitle}</p>
+            <h2 className="section-title">{hl.benefitsSubtitle}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
                 icon: CheckCircle,
-                title: "Filtra por compatibilidad",
-                desc: "El cuestionario de hábitos asegura que los solicitantes encajen con tu estilo de vida.",
+                title: hl.benefit1Title,
+                desc: hl.benefit1Text,
                 color: "text-emerald-600",
                 bg: "bg-emerald-100"
               },
               {
                 icon: ChatCircle,
-                title: "Conoce antes de aceptar",
-                desc: "Chatea con candidatos, revisa sus perfiles completos y toma decisiones informadas.",
+                title: hl.benefit2Title,
+                desc: hl.benefit2Text,
                 color: "text-blue-600",
                 bg: "bg-blue-100"
               },
               {
                 icon: Shield,
-                title: "Menos rotación",
-                desc: "Las buenas elecciones de convivencia significan inquilinos que se quedan más tiempo.",
+                title: hl.benefit3Title,
+                desc: hl.benefit3Text,
                 color: "text-amber-600",
                 bg: "bg-amber-100"
               },
               {
                 icon: Users,
-                title: "Apoyo humano",
-                desc: "El equipo : moon te acompaña en momentos de duda sobre convivencia.",
+                title: hl.benefit4Title,
+                desc: hl.benefit4Text,
                 color: "text-purple-600",
                 bg: "bg-purple-100"
               }
@@ -104,23 +108,23 @@ export function HostLandingPage() {
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="section-eyebrow">Proceso</p>
-            <h2 className="section-title">Tu camino al anfitrión</h2>
+            <p className="section-eyebrow">{hl.processTitle}</p>
+            <h2 className="section-title">{hl.processSubtitle}</h2>
             <Link
               to={howItWorksUrl("anfitrion")}
               className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 hover:underline"
             >
-              Ver guía paso a paso
+              {hl.processGuide}
               <ArrowRight weight="bold" className="h-4 w-4" />
             </Link>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { num: "01", title: "Crea tu perfil", desc: "Define tu estilo como anfitrión.", icon: User },
-              { num: "02", title: "Cuestionario", desc: "Completa el de convivencia.", icon: CheckCircle },
-              { num: "03", title: "Publica", desc: "Sube fotos y detalles.", icon: House },
-              { num: "04", title: "Elige", desc: "Revisa solicitudes compatibles.", icon: Users }
+              { num: "01", title: hl.step1Title, desc: hl.step1Text, icon: User },
+              { num: "02", title: hl.step2Title, desc: hl.step2Text, icon: CheckCircle },
+              { num: "03", title: hl.step3Title, desc: hl.step3Text, icon: House },
+              { num: "04", title: hl.step4Title, desc: hl.step4Text, icon: Users }
             ].map((step, i) => (
               <div key={i} className="text-center group">
                 <div className="relative inline-block mb-4">
@@ -142,16 +146,16 @@ export function HostLandingPage() {
       <section className="py-32 bg-gradient-to-br from-stone-50 to-white">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="section-title lg:text-5xl xl:text-[3.25rem] mb-6">
-            Comparte tu espacio<br />con tranquilidad
+            {hl.finalCtaTitle}<br />{hl.finalCtaSubtitle}
           </h2>
           <p className="text-lg text-stone-600 mb-10 sm:text-xl">
-            Publica tu habitación, filtra por compatibilidad y gestiona la convivencia con apoyo humano.
+            {hl.finalCtaText}
           </p>
           <Link
             to={accessSignupUrl("anfitrion")}
             className="group inline-flex items-center gap-3 rounded-full bg-emerald-700 px-10 py-5 text-white font-medium text-lg hover:bg-emerald-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
           >
-            Ser anfitrión gratis
+            {hl.finalCtaButton}
             <ArrowRight weight="bold" className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

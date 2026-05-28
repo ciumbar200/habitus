@@ -26,7 +26,7 @@ export function BlogPage() {
               Guías y recursos<br />para compartir piso
             </h1>
             <p className="text-lg text-stone-600 mt-4">
-              Artículos útiles basados en experiencias reales de cientos de personas buscando habitación en Barcelona y Madrid.
+              Artículos útiles basados en experiencias reales de cientos de personas buscando habitación en nuestras ciudades.
             </p>
           </div>
         </div>

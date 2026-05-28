@@ -23,7 +23,8 @@ export function toSupabaseProvider(provider: OAuthProvider): Provider {
   return provider;
 }
 
-export function displayNameFromAuthUser(user: User): string {
+export function displayNameFromAuthUser(user: User | null | undefined): string {
+  if (!user) return "Usuario";
   const meta = user.user_metadata ?? {};
   const raw =
     meta.full_name ??
@@ -36,7 +37,8 @@ export function displayNameFromAuthUser(user: User): string {
   return String(raw).trim();
 }
 
-export function avatarFromAuthUser(user: User): string | null {
+export function avatarFromAuthUser(user: User | null | undefined): string | null {
+  if (!user) return null;
   const meta = user.user_metadata ?? {};
   const url = meta.avatar_url ?? meta.picture ?? null;
   return typeof url === "string" ? url : null;
@@ -47,6 +49,10 @@ export async function ensureProfileForAuthUser(
   accountRole?: AccountRoleSlug | null,
   options?: { referralCode?: string | null },
 ): Promise<{ error: string | null; created?: boolean }> {
+  if (!user) {
+    return { error: "No hay usuario autenticado." };
+  }
+
   const { data: existing, error: readErr } = await getSupabase()
     .from("habitus_profiles")
     .select("id, display_name, account_role, avatar_url, slug")

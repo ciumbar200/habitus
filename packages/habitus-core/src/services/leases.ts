@@ -1,4 +1,5 @@
 import { getSupabase } from "../client";
+import { notifyLeasePendingSignature } from "./notifications";
 
 export type LeaseStatus = "draft" | "pending_signatures" | "active" | "ended" | "cancelled";
 
@@ -148,7 +149,35 @@ export async function updateLeaseStatus(
     .from("habitus_leases")
     .update({ status, updated_at: new Date().toISOString() })
     .eq("id", leaseId);
-  return error?.message ?? null;
+
+  if (error) return error.message;
+
+  if (status === "pending_signatures") {
+    const [{ data: lease }, { data: parties }] = await Promise.all([
+      getSupabase()
+        .from("habitus_leases")
+        .select("listing_id, habitus_listings (name)")
+        .eq("id", leaseId)
+        .maybeSingle(),
+      getSupabase()
+        .from("habitus_lease_parties")
+        .select("profile_id")
+        .eq("lease_id", leaseId),
+    ]);
+
+    const listing = lease?.habitus_listings as unknown as { name: string } | null;
+    const partyIds = (parties ?? []).map((p) => p.profile_id as string);
+
+    if (partyIds.length) {
+      void notifyLeasePendingSignature({
+        leaseId,
+        listingName: listing?.name ?? "tu contrato",
+        partyProfileIds: partyIds,
+      });
+    }
+  }
+
+  return null;
 }
 
 export async function markPartySigned(leaseId: string, profileId: string): Promise<string | null> {

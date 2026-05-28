@@ -23,7 +23,8 @@ export {
   type HeroAccommodation,
 } from "./lib/heroSearch";
 
-export { es } from "./i18n/es";
+export { es, en, ca, getI18n, translations } from "./i18n";
+export type { I18n, LanguageCode } from "./i18n";
 
 export {
   formatPrice,

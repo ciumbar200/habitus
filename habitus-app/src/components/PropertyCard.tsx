@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { es, formatMoonLocation } from "@habitus/core";
+import { formatMoonLocation } from "@habitus/core";
 import type { Property } from "@habitus/core";
 import { Icon } from "./Icon";
 import { CompatibilityScore } from "./CompatibilityScore";
 import { HostProfileCard } from "./HostProfileCard";
 import { PropertyVerificationBadge } from "./PropertyVerificationBadge";
+import { translateAmenityLabel } from "../lib/amenities";
+import { useI18n } from "../lib/I18nContext";
 
 type PropertyCardProps = {
   property: Property;
@@ -14,6 +16,7 @@ type PropertyCardProps = {
 
 export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCardProps) {
   const navigate = useNavigate();
+  const t = useI18n();
 
   const handleBookmark = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -27,8 +30,8 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
 
   const compatLabel =
     property.compatibilityMode === "owner_only"
-      ? es.property.compatOwnerOnly.slice(0, 28) + "…"
-      : es.common.compatible;
+      ? t.property.compatOwnerOnly.slice(0, 28) + "…"
+      : t.common.compatible;
 
   return (
     <article className="group overflow-hidden rounded-xl border border-border-light bg-surface-container-lowest card-shadow transition-all duration-300 hover:-translate-y-1">
@@ -44,19 +47,19 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
               <CompatibilityScore
                 score={property.compatibility}
                 result={property.compatibilityResult}
-                label={es.common.compatible}
+                label={t.common.compatible}
                 stopPropagation
               />
             ) : (
               <span className="inline-flex items-center gap-1 rounded-full bg-surface/90 px-3 py-1 text-label-sm font-bold text-deep-navy backdrop-blur-md">
                 <Icon name="groups" className="text-[14px] text-teal-accent" />
-                {property.categoryLabel ?? es.groups.title.split(" ")[0]}
+                {property.categoryLabel ?? t.groups.title.split(" ")[0]}
               </span>
             )}
           </div>
           {property.visibility === "private" && (
             <span className="absolute bottom-4 left-4 rounded-full bg-deep-navy/90 px-2 py-0.5 text-label-sm text-white backdrop-blur-md">
-              {es.property.privateBadge}
+              {t.property.privateBadge}
             </span>
           )}
           {property.propertyVerificationStatus === "verified" && (
@@ -67,7 +70,7 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
           <button
             type="button"
             onClick={handleBookmark}
-            aria-label={isSaved ? es.common.saved : es.common.save}
+            aria-label={isSaved ? t.common.saved : t.common.save}
             className={`absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-surface/90 backdrop-blur-md transition-colors ${
               isSaved ? "text-teal-accent" : "text-deep-navy hover:text-teal-accent"
             }`}
@@ -91,11 +94,18 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
               </p>
             </div>
             <div className="text-right">
-              <p className="text-headline-md text-teal-accent">
-                {property.currencySymbol}
-                {property.price.toLocaleString("es-ES")}
+              {/* Spacest-style: Price with fee indicator */}
+              <div className="flex items-baseline gap-1 justify-end">
+                <p className="text-headline-md text-teal-accent">
+                  {property.currencySymbol}
+                  {property.price.toLocaleString("es-ES")}
+                </p>
+                <span className="text-label-sm text-warm-slate">/mes</span>
+              </div>
+              {/* Fee transparency - Spacest style */}
+              <p className="text-xs text-stone-400">
+                + {property.currencySymbol}{Math.round(property.price * 0.08).toLocaleString("es-ES")} tarifa
               </p>
-              <p className="text-label-sm text-warm-slate">{es.common.perMonth}</p>
             </div>
           </div>
 
@@ -106,7 +116,7 @@ export function PropertyCard({ property, isSaved, onToggleBookmark }: PropertyCa
                 className="flex items-center gap-1 rounded-lg bg-surface-container px-3 py-1 text-label-sm text-deep-navy"
               >
                 <Icon name={a.icon} className="text-[14px]" />
-                {a.label}
+                {translateAmenityLabel(a, t)}
               </span>
             ))}
           </div>

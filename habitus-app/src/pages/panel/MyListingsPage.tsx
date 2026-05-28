@@ -103,7 +103,7 @@ export function MyListingsPage() {
               </p>
               {l.agencyClientName && (
                 <p className="text-label-sm text-warm-slate">
-                  Cliente: {l.agencyClientName}
+                  Cliente u operador: {l.agencyClientName}
                 </p>
               )}
             </div>

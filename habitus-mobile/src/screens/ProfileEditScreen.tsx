@@ -111,7 +111,7 @@ export function ProfileEditScreen({ navigation }: Props) {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (!user?.id) return;

@@ -7,7 +7,7 @@ type IconProps = {
   name: string;
   className?: string;
   size?: number;
-  weight?: "thin" | "light" | "regular" | "bold" | "fill";
+  weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
   /** Compatibilidad con uso previo: activa weight="fill" */
   filled?: boolean;
 };
@@ -139,7 +139,11 @@ export function Icon({
   }>>)[phosphorName];
 
   if (!IconComponent) {
-    const Fallback = PhosphorIcons.Question;
+    const Fallback = PhosphorIcons.Question as ComponentType<{
+      size?: number;
+      weight?: IconProps["weight"];
+      className?: string;
+    }>;
     return <Fallback size={size} weight={weight} className={className} aria-hidden />;
   }
 

@@ -1,0 +1,90 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explorar" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e13] [cursor=pointer]:
+          - /url: /operadores
+        - link "Documentación" [ref=e14] [cursor=pointer]:
+          - /url: /documentacion
+        - link "Ayuda" [ref=e15] [cursor=pointer]:
+          - /url: /ayuda
+        - button "Change language" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: 🇪🇸
+          - generic [ref=e21]: ES
+        - link "Iniciar sesión" [ref=e22] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - paragraph [ref=e25]: Ayuda
+      - heading "Ayuda" [level=1] [ref=e26]
+      - paragraph [ref=e27]: Preguntas y respuestas ampliadas para inquilinos, propietarios, anfitriones y operadores. La idea es que entiendas el flujo sin tener que abrir soporte.
+    - generic [ref=e29]:
+      - article [ref=e30]:
+        - heading "Inquilinos" [level=2] [ref=e31]
+        - generic [ref=e32]:
+          - group [ref=e33]:
+            - generic "¿Puedo buscar habitación, coliving o grupo?" [ref=e34] [cursor=pointer]
+          - group [ref=e35]:
+            - generic "¿Tengo que completar el cuestionario?" [ref=e36] [cursor=pointer]
+      - article [ref=e37]:
+        - heading "Propietarios" [level=2] [ref=e38]
+        - generic [ref=e39]:
+          - group [ref=e40]:
+            - generic "¿Recibo grupos ya formados?" [ref=e41] [cursor=pointer]
+          - group [ref=e42]:
+            - generic "¿Puedo publicar un piso privado?" [ref=e43] [cursor=pointer]
+      - article [ref=e44]:
+        - heading "Anfitriones" [level=2] [ref=e45]
+        - generic [ref=e46]:
+          - group [ref=e47]:
+            - generic "¿Sirve para publicar una habitación?" [ref=e48] [cursor=pointer]
+          - group [ref=e49]:
+            - generic "¿Qué veo en las solicitudes?" [ref=e50] [cursor=pointer]
+      - article [ref=e51]:
+        - heading "Operadores" [level=2] [ref=e52]
+        - generic [ref=e53]:
+          - group [ref=e54]:
+            - generic "¿Puedo gestionar varias unidades?" [ref=e55] [cursor=pointer]
+          - group [ref=e56]:
+            - generic "¿Puedo usar API keys?" [ref=e57] [cursor=pointer]
+  - contentinfo [ref=e58]:
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - 'img ": moon shared living" [ref=e62]'
+        - paragraph [ref=e63]: Vivienda compartida con compatibilidad, en España.
+      - generic [ref=e64]:
+        - link "Inicio" [ref=e65] [cursor=pointer]:
+          - /url: /
+        - link "Explorar" [ref=e66] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e67] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e68] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e69] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e70] [cursor=pointer]:
+          - /url: /operadores
+        - link "Documentación" [ref=e71] [cursor=pointer]:
+          - /url: /documentacion
+        - link "Ayuda" [ref=e72] [cursor=pointer]:
+          - /url: /ayuda
+        - link "Privacidad" [ref=e73] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Términos" [ref=e74] [cursor=pointer]:
+          - /url: /terminos
+        - link "Aviso legal" [ref=e75] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e76]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

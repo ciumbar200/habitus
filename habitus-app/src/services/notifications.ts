@@ -5,7 +5,8 @@
 
 import { useEffect, useState } from 'react';
 
-export const ONESIGNAL_APP_ID = '8ab2d231-41db-49a5-9543-eac1df3986b4';
+export const ONESIGNAL_APP_ID =
+  import.meta.env.VITE_ONESIGNAL_APP_ID ?? "8ab2d231-41db-49a5-9543-eac1df3986b4";
 
 type OneSignalInstance = {
   Notifications: {
@@ -60,6 +61,10 @@ function runWithOneSignal<T>(fn: (oneSignal: OneSignalInstance) => Promise<T> | 
   });
 }
 
+function isOneSignalEnabled(): boolean {
+  return typeof window !== 'undefined' && window.location.hostname === 'moonsharedliving.com';
+}
+
 class NotificationService {
   private ready = false;
   private permission: NotificationPermission = 'default';
@@ -79,6 +84,7 @@ class NotificationService {
   /** Espera a que el SDK esté inicializado (index.html). */
   async initialize(): Promise<boolean> {
     if (typeof window === 'undefined') return false;
+    if (!isOneSignalEnabled()) return false;
     if (this.ready) return true;
 
     try {
@@ -95,6 +101,7 @@ class NotificationService {
   }
 
   async requestPermission(): Promise<boolean> {
+    if (!isOneSignalEnabled()) return false;
     if (!this.isSupported) return false;
     if (this.permission === 'granted') return true;
     if (this.permission === 'denied') return false;
@@ -114,6 +121,7 @@ class NotificationService {
   }
 
   async getSubscription(): Promise<OneSignalUser | null> {
+    if (!isOneSignalEnabled()) return null;
     await this.initialize();
     try {
       return await runWithOneSignal((OneSignal) => {
@@ -129,6 +137,7 @@ class NotificationService {
   }
 
   async isSubscribed(): Promise<boolean> {
+    if (!isOneSignalEnabled()) return false;
     try {
       await this.initialize();
       return await runWithOneSignal(
@@ -141,6 +150,7 @@ class NotificationService {
   }
 
   async setExternalId(externalId: string): Promise<void> {
+    if (!isOneSignalEnabled()) return;
     await this.initialize();
     try {
       await runWithOneSignal((OneSignal) => OneSignal.login(externalId));
@@ -150,6 +160,7 @@ class NotificationService {
   }
 
   async removeExternalId(): Promise<void> {
+    if (!isOneSignalEnabled()) return;
     await this.initialize();
     try {
       await runWithOneSignal((OneSignal) => OneSignal.logout());

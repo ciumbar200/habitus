@@ -1,6 +1,6 @@
-import { es } from "@habitus/core";
 import type { IdentityStatus } from "@habitus/core";
 import { Icon } from "./Icon";
+import { useI18n } from "../lib/I18nContext";
 
 type IdentityBadgeProps = {
   status: IdentityStatus;
@@ -15,12 +15,13 @@ const styles: Record<IdentityStatus, string> = {
 };
 
 export function IdentityBadge({ status, size = "md", className = "" }: IdentityBadgeProps) {
+  const t = useI18n();
   const label =
     status === "verified"
-      ? es.identity.verified
+      ? t.identity.verified
       : status === "pending"
-        ? es.identity.pending
-        : es.identity.notVerified;
+        ? t.identity.pending
+        : t.identity.notVerified;
 
   const icon =
     status === "verified" ? "verified_user" : status === "pending" ? "hourglass_top" : "shield";

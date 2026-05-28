@@ -3,7 +3,8 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ArrowRight, CheckCircle } from "@phosphor-icons/react";
 import type { AccountRoleSlug } from "@habitus/core";
 import { accessSignupUrl, howItWorksUrl, parseAccessRole } from "../../lib/accessLinks";
-import { HOW_IT_WORKS_ROLES, type HowItWorksRoleConfig } from "../../lib/howItWorksContent";
+import { getHowItWorksRoles, type HowItWorksRoleConfig } from "../../lib/howItWorksContent";
+import { useI18n } from "../../lib/I18nContext";
 
 const HEADER_OFFSET = 112;
 
@@ -15,8 +16,11 @@ function scrollToRole(role: AccountRoleSlug) {
 }
 
 export function HowItWorksPage() {
+  const t = useI18n();
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const hw = t.public.howItWorksPage;
+  const roles = useMemo(() => getHowItWorksRoles(t), [t]);
 
   const activeRole = useMemo(() => {
     const fromQuery = parseAccessRole(searchParams.get("role"));
@@ -35,20 +39,19 @@ export function HowItWorksPage() {
       {/* Intro */}
       <section className="border-b border-stone-200 bg-white pt-28">
         <div className="mx-auto max-w-7xl px-6 pb-10 lg:px-8">
-          <p className="section-eyebrow text-terracotta">Guía por rol</p>
+          <p className="section-eyebrow text-terracotta">{hw.eyebrow}</p>
           <h1 className="section-title mt-3">
-            cómo funciona : moon
+            {hw.title}
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
-            Misma plataforma, distintos caminos: elige tu rol y sigue los pasos. Compatibilidad, grupos e identidad
-            verificada en el centro de cada flujo.
+            {hw.subtitle}
           </p>
         </div>
 
         {/* Role nav — sticky */}
         <div className="sticky top-16 z-40 border-t border-stone-100 bg-white/95 backdrop-blur-md">
           <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-3 lg:px-8">
-            {HOW_IT_WORKS_ROLES.map((role) => {
+            {roles.map((role) => {
               const isActive = activeRole === role.slug;
               return (
                 <Link
@@ -73,16 +76,16 @@ export function HowItWorksPage() {
         <div className="grid gap-6 md:grid-cols-3">
           {[
             {
-              title: "Compatibilidad real",
-              text: "Cuestionario de estilo de vida con desglose claro de afinidad entre personas y espacios.",
+              title: hw.pillar1Title,
+              text: hw.pillar1Text,
             },
             {
-              title: "Grupos que alquilan juntos",
-              text: "Formad equipo, repartid el alquiler y desbloquead pisos privados cuando encajáis.",
+              title: hw.pillar2Title,
+              text: hw.pillar2Text,
             },
             {
-              title: "Identidad y confianza",
-              text: "Verificación demo, perfiles completos y mensajes antes de dar el paso.",
+              title: hw.pillar3Title,
+              text: hw.pillar3Text,
             },
           ].map((pillar) => (
             <div key={pillar.title} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
@@ -94,19 +97,19 @@ export function HowItWorksPage() {
       </section>
 
       {/* Per-role sections */}
-      {HOW_IT_WORKS_ROLES.map((role) => (
-        <RoleSection key={role.slug} config={role} highlighted={activeRole === role.slug} />
+      {roles.map((role) => (
+        <RoleSection key={role.slug} config={role} highlighted={activeRole === role.slug} t={t} />
       ))}
 
       <section className="mx-auto max-w-3xl px-6 pt-8 text-center lg:px-8">
         <p className="text-sm text-stone-500">
-          : moon no es un seguro ni un servicio de mediación legal. fase beta gratuita — sin monetización activa.
+          {hw.betaNote}
         </p>
         <Link
           to="/alojamientos"
           className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:underline"
         >
-          Explorar alojamientos sin cuenta
+          {hw.exploreListings}
           <ArrowRight weight="bold" className="h-4 w-4" />
         </Link>
       </section>
@@ -117,10 +120,14 @@ export function HowItWorksPage() {
 function RoleSection({
   config,
   highlighted,
+  t,
 }: {
   config: HowItWorksRoleConfig;
   highlighted: boolean;
+  t: ReturnType<typeof useI18n>;
 }) {
+  const hw = t.public.howItWorksPage;
+
   return (
     <section
       id={`role-${config.slug}`}
@@ -132,7 +139,7 @@ function RoleSection({
         <div className="grid items-start gap-16 lg:grid-cols-[1fr_1.2fr]">
           <div>
             <p className={`section-eyebrow ${config.accent}`}>
-              Para {config.labelPlural}
+              {hw.forRoleLabel.replace("{role}", config.labelPlural)}
             </p>
             <h2 className="section-title mt-3 lg:text-4xl">{config.headline}</h2>
             <p className="mt-4 text-stone-600 leading-relaxed">{config.intro}</p>
@@ -140,7 +147,7 @@ function RoleSection({
               to={config.landingPath}
               className={`mt-4 inline-flex text-sm font-medium ${config.accentMuted} hover:underline`}
             >
-              Ver landing de {config.label.toLowerCase()}
+              {hw.viewRoleLanding.replace("{role}", config.label.toLowerCase())}
               <ArrowRight weight="bold" className="ml-1 h-4 w-4" />
             </Link>
             <Link
@@ -193,8 +200,8 @@ function RoleSection({
                   ))}
                 </ul>
                 {config.slug === "propietario" && (
-                  <Link to="/agencias" className={`mt-4 inline-flex text-sm font-medium ${config.accentMuted} hover:underline`}>
-                    Conocer flujo para agencias →
+                  <Link to="/operadores" className={`mt-4 inline-flex text-sm font-medium ${config.accentMuted} hover:underline`}>
+                    {hw.knowAgencyFlow}
                   </Link>
                 )}
               </div>

@@ -1,0 +1,258 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explorar" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Com funciona" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Amfitrions" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietaris" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agències" [ref=e13] [cursor=pointer]:
+          - /url: /agencias
+        - button "Change language" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: 🏴󠁥󠁳󠁣󠁴󠁿
+          - generic [ref=e19]: CA
+        - link "Iniciar sessió" [ref=e20] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e21]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: ✨ Per a propietaris
+        - heading "La teva cartera de pisos, grups pre-validats" [level=1] [ref=e28]:
+          - generic [ref=e29]: La teva cartera de pisos,
+          - generic [ref=e30]: grups pre-validats
+        - generic [ref=e31]:
+          - text: Publica els teus immobles, assigna amfitrions i rep sol·licituds de grups i inquilins ja filtrats per compatibilitat.
+          - generic [ref=e32]: Menys rotació, més tranquil·litat.
+        - generic [ref=e33]:
+          - link "Soc propietari" [ref=e34] [cursor=pointer]:
+            - /url: /access?signup=1&role=propietario
+            - text: Soc propietari
+            - img [ref=e35]
+          - link "Com funciona" [ref=e37] [cursor=pointer]:
+            - /url: /como-funciona?role=propietario
+          - link "Agències" [ref=e38] [cursor=pointer]:
+            - /url: /agencias
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: 100%
+          - paragraph [ref=e42]: Identitat verificada
+        - generic [ref=e43]:
+          - paragraph [ref=e44]: Score
+          - paragraph [ref=e45]: Compatibilitat grupal
+        - generic [ref=e46]:
+          - paragraph [ref=e47]: 24/7
+          - paragraph [ref=e48]: Suport humà
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - generic [ref=e52]:
+          - img [ref=e53]
+          - generic [ref=e55]: Serveis garantits
+        - heading "Protegim la teva inversió" [level=2] [ref=e56]
+        - paragraph [ref=e57]: Garanties i serveis pensats per reduir risc, temps de gestió i incidències.
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - img [ref=e61]
+          - heading "Lloguer protegit" [level=3] [ref=e64]
+          - paragraph [ref=e65]: Redueix l'impacte dels impagaments amb processos de verificació, seguiment i suport operatiu.
+          - generic [ref=e66]:
+            - paragraph [ref=e67]: Risc d'impagament reduït
+            - paragraph [ref=e68]: fins a 3 mesos
+        - generic [ref=e69]:
+          - img [ref=e71]
+          - heading "Cobertura de danys" [level=3] [ref=e74]
+          - paragraph [ref=e75]: Protecció addicional sobre la fiança per a incidències documentades durant l'estada.
+          - generic [ref=e76]:
+            - paragraph [ref=e77]: Cobertura màxima per incidència
+            - paragraph [ref=e78]: 1.000 €
+        - generic [ref=e79]:
+          - img [ref=e81]
+          - heading "Serveis professionals" [level=3] [ref=e84]
+          - paragraph [ref=e85]: Fotografia, publicació optimitzada i suport administratiu per accelerar l'ocupació.
+          - generic [ref=e86]:
+            - paragraph [ref=e87]: Temps estalviat al mes
+            - paragraph [ref=e88]: ~12 hores
+      - generic [ref=e89]:
+        - paragraph [ref=e90]: Estalvi anual estimat amb Moon
+        - paragraph [ref=e91]: 4.700 €+
+        - paragraph [ref=e92]: Basat en impagaments evitats, danys coberts i temps de gestió estalviat.
+        - link "Calcular el meu estalvi" [ref=e93] [cursor=pointer]:
+          - /url: /access?signup=1&role=propietario
+          - text: Calcular el meu estalvi
+          - img [ref=e94]
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - img [ref=e100]
+          - generic [ref=e102]: Espais verificats per Moon
+        - heading "La teva confiança és la nostra prioritat" [level=2] [ref=e103]
+        - paragraph [ref=e104]: Cada espai de Moon passa pel nostre procés de verificació per garantir que el que veus és el que trobaràs.
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - paragraph [ref=e107]: 100%
+          - paragraph [ref=e108]: Espais visitats
+        - generic [ref=e109]:
+          - paragraph [ref=e110]: "0"
+          - paragraph [ref=e111]: Incidències greus
+        - generic [ref=e112]:
+          - paragraph [ref=e113]: 24h
+          - paragraph [ref=e114]: Temps de resposta
+        - generic [ref=e115]:
+          - paragraph [ref=e116]: 4.9★
+          - paragraph [ref=e117]: Valoració mitjana
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - generic [ref=e120]: "1"
+          - img [ref=e122]
+          - heading "Visita presencial" [level=3] [ref=e125]
+          - paragraph [ref=e126]: El nostre equip visita cada espai personalment.
+          - generic [ref=e127]:
+            - img [ref=e128]
+            - generic [ref=e130]: Verificat
+        - generic [ref=e131]:
+          - generic [ref=e132]: "2"
+          - img [ref=e134]
+          - heading "Fotos verificades" [level=3] [ref=e137]
+          - paragraph [ref=e138]: Comprovem que les fotos coincideixen amb la realitat.
+          - generic [ref=e139]:
+            - img [ref=e140]
+            - generic [ref=e142]: Verificat
+        - generic [ref=e143]:
+          - generic [ref=e144]: "3"
+          - img [ref=e146]
+          - heading "Amfitrions verificats" [level=3] [ref=e149]
+          - paragraph [ref=e150]: Verifiquem la identitat dels amfitrions.
+          - generic [ref=e151]:
+            - img [ref=e152]
+            - generic [ref=e154]: Verificat
+        - generic [ref=e155]:
+          - generic [ref=e156]: "4"
+          - img [ref=e158]
+          - heading "Acompanyament Moon" [level=3] [ref=e161]
+          - paragraph [ref=e162]: Et donem suport si sorgeix una incidència durant l'estada.
+          - generic [ref=e163]:
+            - img [ref=e164]
+            - generic [ref=e166]: Verificat
+      - generic [ref=e167]:
+        - paragraph [ref=e168]: Ets propietari? També verifiquem la teva identitat i la dels teus inquilins.
+        - link "Veure serveis per a propietaris" [ref=e169] [cursor=pointer]:
+          - /url: /propietarios
+          - text: Veure serveis per a propietaris
+          - img [ref=e170]
+    - generic [ref=e174]:
+      - generic [ref=e175]:
+        - paragraph [ref=e176]: Per a propietaris
+        - heading "Gestió professional de convivència" [level=2] [ref=e177]:
+          - text: Gestió professional
+          - text: de convivència
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - img [ref=e181]
+            - generic [ref=e184]:
+              - heading "Amfitrions assignats" [level=3] [ref=e185]
+              - paragraph [ref=e186]: Designa qui gestiona la convivència a cada pis. Tu mantens el control i ells actuen.
+          - generic [ref=e187]:
+            - img [ref=e189]
+            - generic [ref=e192]:
+              - heading "Grups prevalidats" [level=3] [ref=e193]
+              - paragraph [ref=e194]: Els grups d'inquilins passen pel qüestionari de compatibilitat abans de sol·licitar.
+          - generic [ref=e195]:
+            - img [ref=e197]
+            - generic [ref=e200]:
+              - heading "Vistes per rol" [level=3] [ref=e201]
+              - paragraph [ref=e202]: "Panell de propietari amb mètriques: sol·licituds, ingressos estimats i estat de cada pis."
+          - generic [ref=e203]:
+            - img [ref=e205]
+            - generic [ref=e208]:
+              - heading "Verificació opcional" [level=3] [ref=e209]
+              - paragraph [ref=e210]: Confirma identitat i titularitat per generar més confiança als teus anuncis.
+      - generic [ref=e214]:
+        - heading "Panell de propietari" [level=3] [ref=e215]
+        - generic [ref=e216]:
+          - generic [ref=e218]:
+            - generic [ref=e219]: Menys rotació d'inquilins
+            - generic [ref=e220]: 68%
+          - generic [ref=e224]:
+            - generic [ref=e225]: Reducció de conflictes
+            - generic [ref=e226]: 73%
+          - generic [ref=e230]:
+            - generic [ref=e231]: Sol·licituds més qualificades
+            - generic [ref=e232]: 3x
+          - generic [ref=e236]:
+            - generic [ref=e237]: Temps de gestió estalviat
+            - generic [ref=e238]: 12h/mes
+    - generic [ref=e246]:
+      - generic [ref=e247]:
+        - generic [ref=e248]: Per a agències immobiliàries
+        - heading "Gestiona la cartera dels teus clients" [level=2] [ref=e249]:
+          - text: Gestiona la cartera
+          - text: dels teus clients
+        - paragraph [ref=e250]: Dashboard multi-client, assignació d'amfitrions i control total sobre les propietats que gestiones.
+        - 'link "Conèixer : moon per a agències" [ref=e251] [cursor=pointer]':
+          - /url: /agencias
+          - text: "Conèixer : moon per a agències"
+          - img [ref=e252]
+      - generic [ref=e254]:
+        - heading "Funcions per a agències" [level=4] [ref=e255]
+        - list [ref=e256]:
+          - listitem [ref=e257]:
+            - generic [ref=e258]: ✓
+            - text: Vista agregada de tota la cartera
+          - listitem [ref=e259]:
+            - generic [ref=e260]: ✓
+            - text: Gestió independent per client
+          - listitem [ref=e261]:
+            - generic [ref=e262]: ✓
+            - text: Assignació d'amfitrions per pis
+          - listitem [ref=e263]:
+            - generic [ref=e264]: ✓
+            - text: Informes d'ocupació i mètriques
+          - listitem [ref=e265]:
+            - generic [ref=e266]: ✓
+            - text: Sol·licituds organitzades per propietat
+    - generic [ref=e271]:
+      - heading "Els teus pisos,, millors inquilins" [level=2] [ref=e272]:
+        - text: Els teus pisos,,
+        - text: millors inquilins
+      - paragraph [ref=e273]: Publica els teus immobles, rep grups pre-validats i redueix la rotació amb compatibilitat real.
+      - generic [ref=e274]:
+        - link "Registrar-me com a propietari" [ref=e275] [cursor=pointer]:
+          - /url: /access?signup=1&role=propietario
+          - text: Registrar-me com a propietari
+          - img [ref=e276]
+        - link "Agències" [ref=e278] [cursor=pointer]:
+          - /url: /access?signup=1&role=agencia
+          - text: Agències
+          - img [ref=e279]
+  - contentinfo [ref=e281]:
+    - generic [ref=e283]:
+      - generic [ref=e284]:
+        - 'img ": moon shared living" [ref=e285]'
+        - paragraph [ref=e286]: Habitatge compartit amb compatibilitat, a Espanya.
+      - generic [ref=e287]:
+        - link "Inici" [ref=e288] [cursor=pointer]:
+          - /url: /
+        - link "Explorar" [ref=e289] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Com funciona" [ref=e290] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Amfitrions" [ref=e291] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietaris" [ref=e292] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agències" [ref=e293] [cursor=pointer]:
+          - /url: /agencias
+        - link "Privacitat" [ref=e294] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Termes" [ref=e295] [cursor=pointer]:
+          - /url: /terminos
+        - link "Avís legal" [ref=e296] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e297]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

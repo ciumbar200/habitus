@@ -1,4 +1,6 @@
 import { getSupabase } from "../client";
+import { applicationStatusLabel } from "../lib/format";
+import { notifyApplicationStatusChanged } from "./notifications";
 import type { OwnerListing, ListingStatus } from "./ownerListings";
 import { fetchMyListings } from "./ownerListings";
 
@@ -180,6 +182,12 @@ export async function updateApplicationStatus(
   status: string,
   progressPercent: number,
 ): Promise<{ error: string | null }> {
+  const { data: app } = await getSupabase()
+    .from("habitus_applications")
+    .select("profile_id, habitus_listings (name)")
+    .eq("id", applicationId)
+    .maybeSingle();
+
   const { error } = await getSupabase()
     .from("habitus_applications")
     .update({
@@ -190,6 +198,18 @@ export async function updateApplicationStatus(
     .eq("id", applicationId);
 
   if (error) return { error: error.message };
+
+  if (app?.profile_id) {
+    const listing = app.habitus_listings as unknown as { name: string } | null;
+    void notifyApplicationStatusChanged({
+      applicationId,
+      applicantId: app.profile_id as string,
+      listingName: listing?.name ?? "tu solicitud",
+      status,
+      statusLabel: applicationStatusLabel(status),
+    });
+  }
+
   return { error: null };
 }
 

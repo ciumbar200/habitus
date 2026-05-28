@@ -1,6 +1,6 @@
 import type { AccountRoleSlug } from "../types/models";
 
-/** Textos de publicación según rol: anfitrión → habitación; propietario/agencia → piso. */
+/** Textos de publicación según rol. El slug legacy `agencia` se muestra como operador. */
 export type ListingCopy = {
   statsListings: string;
   myListings: string;
@@ -60,9 +60,21 @@ const piso: ListingCopy = {
 
 const agencia: ListingCopy = {
   ...piso,
-  myListings: "Cartera de pisos",
-  publishCta: "Añadir piso a la cartera",
-  goToListings: "Ver cartera",
+  statsListings: "Unidades",
+  myListings: "Inventario",
+  newListing: "Nueva unidad",
+  editListing: "Editar unidad",
+  publishModalTitle: "Publicar inventario",
+  noListings: "Aún no has publicado inventario profesional.",
+  createFirst: "Publica tu primera unidad",
+  publishCta: "Añadir inventario",
+  incomingApplications: "Solicitudes en tu inventario",
+  noIncomingApplications: "Aún no hay solicitudes en tu inventario publicado.",
+  goToListings: "Ver inventario",
+  formName: "Nombre de la unidad",
+  formPublish: "Publicar unidad",
+  listColumn: "Unidad",
+  convivenciaTitle: "Compatibilidad de residentes",
 };
 
 export function listingCopyForRole(role: AccountRoleSlug | null | undefined): ListingCopy {

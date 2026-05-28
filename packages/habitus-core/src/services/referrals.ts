@@ -47,3 +47,30 @@ export async function buildReferralLinkForProfile(
   if (!code) return null;
   return { code, url: buildReferralUrl(code, siteOrigin) };
 }
+
+export type ReferredUser = {
+  referredId: string;
+  displayName: string;
+  accountRole: string | null;
+  joinedAt: string;
+  status: string;
+};
+
+export async function fetchAmbassadorReferrals(profileId: string): Promise<ReferredUser[]> {
+  const { data, error } = await getSupabase()
+    .from("habitus_referrals")
+    .select("referred_id, status, created_at, habitus_profiles!referred_id(display_name, account_role)")
+    .eq("referrer_id", profileId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const profile = row.habitus_profiles as { display_name?: string; account_role?: string | null } | null;
+    return {
+      referredId: row.referred_id,
+      displayName: profile?.display_name ?? "—",
+      accountRole: profile?.account_role ?? null,
+      joinedAt: row.created_at,
+      status: row.status,
+    };
+  });
+}

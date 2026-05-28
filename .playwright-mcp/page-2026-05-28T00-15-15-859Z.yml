@@ -1,0 +1,87 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explorar" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e13] [cursor=pointer]:
+          - /url: /operadores
+        - link "Documentación" [ref=e14] [cursor=pointer]:
+          - /url: /documentacion
+        - link "Ayuda" [ref=e15] [cursor=pointer]:
+          - /url: /ayuda
+        - button "Change language" [ref=e17]:
+          - img [ref=e18]
+          - generic [ref=e20]: 🇪🇸
+          - generic [ref=e21]: ES
+        - link "Iniciar sesión" [ref=e22] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - paragraph [ref=e25]: Documentación
+      - heading "Documentación" [level=1] [ref=e26]
+      - paragraph [ref=e27]: Documentación práctica para operadores y desarrolladores que quieren conectar inventario, automatizar importaciones y preparar integraciones externas con MOON.
+    - generic [ref=e28]:
+      - article [ref=e29]:
+        - heading "API para developers" [level=2] [ref=e30]
+        - paragraph [ref=e31]: Cada operador puede generar claves desde su perfil. La clave se muestra una sola vez y sirve como credencial técnica para importaciones, sincronizaciones y futuros endpoints de operador.
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: 1. Crea una clave en tu perfil de operador.
+          - paragraph [ref=e34]: 2. Guarda el secreto fuera del navegador y úsalo en tus automatizaciones.
+          - paragraph [ref=e35]: 3. Revoca la clave cuando dejes de usarla.
+      - article [ref=e36]:
+        - heading "Autenticación" [level=2] [ref=e37]
+        - paragraph [ref=e38]:
+          - text: El panel usa sesión Supabase para gestionar las claves. El endpoint actual de claves es
+          - code [ref=e39]: /api/operator/api-keys
+          - text: .
+        - generic [ref=e40]: "curl -X POST http://127.0.0.1:5173/api/operator/api-keys \\ -H \"Authorization: Bearer <supabase_session_token>\" \\ -H \"Content-Type: application/json\" \\ -d '{\"label\":\"Importaciones Moon\"}'"
+      - article [ref=e41]:
+        - heading "Permisos" [level=2] [ref=e42]
+        - list [ref=e43]:
+          - listitem [ref=e44]: Leer inventario
+          - listitem [ref=e45]: Crear y actualizar inventario
+          - listitem [ref=e46]: Consultar solicitudes
+      - article [ref=e47]:
+        - heading "Siguientes pasos" [level=2] [ref=e48]
+        - paragraph [ref=e49]: Esta base ya permite gestionar credenciales. El siguiente paso natural es publicar endpoints de operador para importaciones y consulta de inventario usando estas claves.
+        - link "Ir al perfil" [ref=e50] [cursor=pointer]:
+          - /url: /profile
+  - contentinfo [ref=e51]:
+    - generic [ref=e53]:
+      - generic [ref=e54]:
+        - 'img ": moon shared living" [ref=e55]'
+        - paragraph [ref=e56]: Vivienda compartida con compatibilidad, en España.
+      - generic [ref=e57]:
+        - link "Inicio" [ref=e58] [cursor=pointer]:
+          - /url: /
+        - link "Explorar" [ref=e59] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e60] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e61] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e62] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e63] [cursor=pointer]:
+          - /url: /operadores
+        - link "Documentación" [ref=e64] [cursor=pointer]:
+          - /url: /documentacion
+        - link "Ayuda" [ref=e65] [cursor=pointer]:
+          - /url: /ayuda
+        - link "Privacidad" [ref=e66] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Términos" [ref=e67] [cursor=pointer]:
+          - /url: /terminos
+        - link "Aviso legal" [ref=e68] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e69]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

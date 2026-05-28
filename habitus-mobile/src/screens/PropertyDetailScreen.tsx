@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -54,7 +54,7 @@ export function PropertyDetailScreen({ navigation, route }: Props) {
   const [applyMsg, setApplyMsg] = useState<string | null>(null);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideUpAnim = useState(new Animated.Value(30))[0];
   const scaleAnim = useState(new Animated.Value(0.9))[0];
 

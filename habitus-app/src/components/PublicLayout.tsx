@@ -1,25 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { es } from "@habitus/core";
 import { useAuth } from "../context/AuthContext";
 import { useScrollLock } from "../lib/useScrollLock";
+import { useI18n } from "../lib/I18nContext";
 import { Header } from "./Header";
 import { BottomNav, bottomNavClearance } from "./BottomNav";
 import { Logo } from "./Logo";
 import { Icon } from "./Icon";
+import { LanguageSelector } from "./LanguageSelector";
 
-const PUBLIC_NAV_LINKS = [
-  { to: "/alojamientos", label: es.publicListings.exploreNav },
-  { to: "/como-funciona", label: "Cómo funciona" },
-  { to: "/anfitriones", label: "Anfitriones" },
-  { to: "/propietarios", label: "Propietarios" },
-  { to: "/agencias", label: "Agencias" },
-] as const;
+function usePublicNavLinks() {
+  const t = useI18n();
+  return useMemo(() => [
+    { to: "/alojamientos", label: t.publicListings.exploreNav },
+    { to: "/como-funciona", label: t.public.howItWorks },
+    { to: "/anfitriones", label: t.public.hosts },
+    { to: "/propietarios", label: t.public.owners },
+    { to: "/operadores", label: t.public.agencies },
+    { to: "/documentacion", label: t.public.documentation },
+    { to: "/ayuda", label: t.public.help },
+  ] as const, [t]);
+}
 
 export function PublicLayout() {
   const { user, loading, profileReady } = useAuth();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const t = useI18n();
+  const PUBLIC_NAV_LINKS = usePublicNavLinks();
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -45,7 +53,7 @@ export function PublicLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen overflow-x-hidden bg-stone-50">
       <header className="glass-header fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)]">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link to="/" className="inline-flex items-center">
@@ -63,27 +71,30 @@ export function PublicLayout() {
                 {item.label}
               </Link>
             ))}
+            <LanguageSelector />
             <Link
               to="/access"
               className="rounded-full bg-white px-5 py-2 text-sm text-stone-900 transition-colors hover:bg-stone-100"
             >
-              {es.common.signIn}
+              {t.common.signIn}
             </Link>
           </nav>
 
           {/* Mobile: acceso rápido + hamburguesa */}
           <div className="flex items-center gap-2 md:hidden">
+            <LanguageSelector />
             <Link
               to="/access"
-              className="rounded-full bg-white px-4 py-2 text-sm font-medium text-stone-900 transition-colors hover:bg-stone-100"
+              className="rounded-full bg-white px-3.5 py-2.5 text-sm font-semibold text-stone-900 transition-colors hover:bg-stone-100 sm:px-4"
             >
-              {es.common.signIn}
+              <span className="sm:hidden">{t.common.signInShort}</span>
+              <span className="hidden sm:inline">{t.common.signIn}</span>
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm transition-all active:bg-white/20"
-              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-label={mobileMenuOpen ? t.public.closeMenu : t.public.openMenu}
               aria-expanded={mobileMenuOpen}
             >
               <div className="flex flex-col gap-1.5">
@@ -121,7 +132,7 @@ export function PublicLayout() {
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex h-10 w-10 items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-                  aria-label="Cerrar menú"
+                  aria-label={t.public.closeMenu}
                 >
                   <Icon name="x" className="text-xl" />
                 </button>
@@ -155,7 +166,7 @@ export function PublicLayout() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex w-full items-center justify-center rounded-full bg-white py-3 text-sm font-medium text-stone-900"
                 >
-                  {es.common.signIn}
+                  {t.common.signIn}
                 </Link>
               </div>
             </div>
@@ -170,11 +181,11 @@ export function PublicLayout() {
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <div className="text-center md:text-left">
               <Logo variant="light" height={32} className="mx-auto md:mx-0" />
-              <p className="mt-2 text-sm text-stone-500">vivienda compartida con compatibilidad</p>
+              <p className="mt-2 text-sm text-stone-500">{t.public.footerTagline}</p>
             </div>
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm">
               <Link to="/" className="text-stone-600 transition-colors hover:text-stone-900">
-                Inicio
+                {t.public.home}
               </Link>
               {PUBLIC_NAV_LINKS.map((item) => (
                 <Link
@@ -186,17 +197,17 @@ export function PublicLayout() {
                 </Link>
               ))}
               <Link to="/privacidad" className="text-stone-600 transition-colors hover:text-stone-900">
-                {es.legal.privacy}
+                {t.legal.privacy}
               </Link>
               <Link to="/terminos" className="text-stone-600 transition-colors hover:text-stone-900">
-                {es.legal.terms}
+                {t.legal.terms}
               </Link>
               <Link to="/aviso-legal" className="text-stone-600 transition-colors hover:text-stone-900">
-                {es.legal.notice}
+                {t.legal.notice}
               </Link>
             </div>
             <p className="text-sm text-stone-400">
-              © 2026 {es.brandProduct} · barcelona · madrid · valencia · sevilla · granada
+              © 2026 {t.brandProduct} · {t.public.footerTagline}
             </p>
           </div>
         </div>

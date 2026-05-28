@@ -15,6 +15,7 @@ import { SocialAuthButtons } from "../components/SocialAuthButtons";
 import { AuthShell } from "../components/auth/AuthShell";
 import { AuthModeTabs } from "../components/auth/AuthModeTabs";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../lib/I18nContext";
 import { es, ACCOUNT_ROLES } from "@habitus/core";
 import type { AccountRoleSlug, OAuthProvider } from "@habitus/core";
 import { signInWithOAuth } from "../lib/oauth";
@@ -27,6 +28,7 @@ export function AccessPage() {
   const [searchParams] = useSearchParams();
   const fromPath = (location.state as AccessLocationState | null)?.from;
   const { signIn, signUp } = useAuth();
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -136,8 +138,8 @@ export function AccessPage() {
       <AuthModeTabs
         mode={mode}
         onChange={handleModeChange}
-        signInLabel={es.common.signIn}
-        signUpLabel={es.access.signUp}
+        signInLabel={t.access.signInTab}
+        signUpLabel={t.access.signUpTab}
       />
 
       {fromPath && isPropertyReturnPath(fromPath) && (
@@ -153,7 +155,7 @@ export function AccessPage() {
           <div className="w-full border-t border-stone-200/90" />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-stone-100 px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
+          <span className="bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400">
             {es.access.orEmail}
           </span>
         </div>
@@ -260,7 +262,7 @@ export function AccessPage() {
             spellCheck={false}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="nombre@empresa.com"
+            placeholder="tu@email.com"
             className="auth-input"
           />
         </div>

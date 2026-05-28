@@ -1,4 +1,5 @@
 import { getSupabase } from "../client";
+import { notifyNewMessage } from "./notifications";
 import { normalizeImageUrl } from "../lib/media";
 import type { Conversation, Message } from "../types/models";
 
@@ -120,6 +121,24 @@ export async function sendMessage(
     .from("habitus_conversations")
     .update({ updated_at: new Date().toISOString() })
     .eq("id", conversationId);
+
+  const { data: participants } = await getSupabase()
+    .from("habitus_conversation_participants")
+    .select("profile_id, habitus_profiles (display_name)")
+    .eq("conversation_id", conversationId);
+
+  const recipient = (participants ?? []).find((p) => p.profile_id !== senderId);
+  const sender = (participants ?? []).find((p) => p.profile_id === senderId);
+  const senderProfile = sender?.habitus_profiles as unknown as { display_name: string } | null;
+
+  if (recipient?.profile_id) {
+    void notifyNewMessage({
+      conversationId,
+      recipientId: recipient.profile_id as string,
+      senderName: senderProfile?.display_name ?? "Alguien",
+      preview: body.trim(),
+    });
+  }
 }
 
 export async function startConversationWith(otherProfileId: string): Promise<string> {

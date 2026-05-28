@@ -1,6 +1,12 @@
 import { getSupabase } from "../client";
 import { slugify } from "../lib/slug";
 import { normalizeCitySlug, normalizeZoneSlug, isValidCityZone } from "../data/locations";
+import {
+  fetchGroupLeadProfileIds,
+  notifyGroupJoinRequest,
+  notifyGroupMemberAccepted,
+  notifyGroupMemberRejected,
+} from "./notifications";
 import type { LivingGroup, LivingGroupMember } from "../types/models";
 
 export type CreateGroupInput = {
@@ -255,7 +261,32 @@ export async function requestJoinGroup(groupId: string): Promise<string | null> 
     p_group_id: groupId,
   });
   if (error) return error.message;
-  return (data as string | null) ?? null;
+  const rpcError = (data as string | null) ?? null;
+  if (rpcError) return rpcError;
+
+  const {
+    data: { user },
+  } = await getSupabase().auth.getUser();
+  if (!user) return null;
+
+  const [{ data: group }, { data: profile }, leads] = await Promise.all([
+    getSupabase().from("habitus_groups").select("name, slug").eq("id", groupId).maybeSingle(),
+    getSupabase().from("habitus_profiles").select("display_name").eq("id", user.id).maybeSingle(),
+    fetchGroupLeadProfileIds(groupId),
+  ]);
+
+  if (group && leads.length) {
+    void notifyGroupJoinRequest({
+      groupId,
+      groupSlug: group.slug as string,
+      groupName: group.name as string,
+      leadProfileIds: leads.filter((id) => id !== user.id),
+      requesterName: (profile?.display_name as string) ?? "Alguien",
+      requesterId: user.id,
+    });
+  }
+
+  return null;
 }
 
 export async function acceptGroupMember(groupId: string, profileId: string): Promise<string | null> {
@@ -264,7 +295,25 @@ export async function acceptGroupMember(groupId: string, profileId: string): Pro
     p_profile_id: profileId,
   });
   if (error) return error.message;
-  return (data as string | null) ?? null;
+  const rpcError = (data as string | null) ?? null;
+  if (rpcError) return rpcError;
+
+  const { data: group } = await getSupabase()
+    .from("habitus_groups")
+    .select("name, slug")
+    .eq("id", groupId)
+    .maybeSingle();
+
+  if (group) {
+    void notifyGroupMemberAccepted({
+      groupId,
+      groupSlug: group.slug as string,
+      groupName: group.name as string,
+      profileId,
+    });
+  }
+
+  return null;
 }
 
 export async function rejectGroupMember(groupId: string, profileId: string): Promise<string | null> {
@@ -273,7 +322,24 @@ export async function rejectGroupMember(groupId: string, profileId: string): Pro
     p_profile_id: profileId,
   });
   if (error) return error.message;
-  return (data as string | null) ?? null;
+  const rpcError = (data as string | null) ?? null;
+  if (rpcError) return rpcError;
+
+  const { data: group } = await getSupabase()
+    .from("habitus_groups")
+    .select("name")
+    .eq("id", groupId)
+    .maybeSingle();
+
+  if (group) {
+    void notifyGroupMemberRejected({
+      groupId,
+      profileId,
+      groupName: group.name as string,
+    });
+  }
+
+  return null;
 }
 
 export async function createGroup(

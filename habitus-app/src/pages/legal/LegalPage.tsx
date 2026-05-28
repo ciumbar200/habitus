@@ -39,7 +39,7 @@ const CONTENT: Record<LegalPageProps["kind"], { title: string; sections: { h: st
       sections: [
         {
           h: "Objeto",
-          p: ": moon shared living es una plataforma tecnológica de vivienda compartida. No somos agencia inmobiliaria salvo acuerdo expreso.",
+          p: ": moon shared living es una plataforma tecnológica de matching para vivienda compartida y coliving. No prestamos intermediación inmobiliaria tradicional salvo acuerdo expreso.",
         },
         {
           h: "Uso de la plataforma",

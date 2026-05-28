@@ -1,0 +1,92 @@
+ M habitus-app/.env.example
+ M habitus-app/api/notify/event.ts
+ M habitus-app/eslint.config.js
+ M habitus-app/index.html
+ M habitus-app/package.json
+ D habitus-app/public/sw.js
+ M habitus-app/src/App.tsx
+ D habitus-app/src/assets/marketing/habitus-agency-hero.jpg
+ D habitus-app/src/assets/marketing/habitus-hero.jpg
+ D habitus-app/src/assets/marketing/habitus-host-hero.jpg
+ D habitus-app/src/assets/marketing/habitus-listings-hero.jpg
+ D habitus-app/src/assets/marketing/habitus-owner-hero.jpg
+ M habitus-app/src/components/Header.tsx
+ M habitus-app/src/components/Icon.tsx
+ M habitus-app/src/components/NotificationSettings.tsx
+ M habitus-app/src/components/PropertyCard.tsx
+ M habitus-app/src/components/PublicLayout.tsx
+ M habitus-app/src/components/RoleGate.tsx
+ M habitus-app/src/components/UserMenu.tsx
+ M habitus-app/src/components/auth/AuthShell.tsx
+ M habitus-app/src/components/public/HeroSearchForm.tsx
+ M habitus-app/src/lib/howItWorksContent.ts
+ M habitus-app/src/main.tsx
+ M habitus-app/src/pages/AccessPage.tsx
+ M habitus-app/src/pages/DiscoverPage.tsx
+ M habitus-app/src/pages/MemberPublicPage.tsx
+ M habitus-app/src/pages/admin/AdminListingsPage.tsx
+ M habitus-app/src/pages/blog/BlogPage.tsx
+ M habitus-app/src/pages/panel/PanelConvivenciaPage.tsx
+ M habitus-app/src/pages/panel/PanelInquilinosPage.tsx
+ M habitus-app/src/pages/public/AgencyLandingPage.tsx
+ M habitus-app/src/pages/public/HostLandingPage.tsx
+ M habitus-app/src/pages/public/HowItWorksPage.tsx
+ M habitus-app/src/pages/public/LandingPage.tsx
+ M habitus-app/src/pages/public/OwnerLandingPage.tsx
+ M habitus-app/src/pages/public/PublicListingsPage.tsx
+ M habitus-app/src/services/notifications.ts
+ M habitus-app/supabase/migrations/20260521700000_owner_groups_tenants.sql
+ M habitus-app/tsconfig.app.json
+ M habitus-mobile/package.json
+ M habitus-mobile/src/core/i18n/es.ts
+ M habitus-mobile/src/lib/supabase.ts
+ M habitus-mobile/src/navigation/MainTabs.tsx
+ M habitus-mobile/src/screens/CompatibilityQuizScreen.tsx
+ M habitus-mobile/src/screens/ForgotPasswordScreen.tsx
+ M habitus-mobile/src/screens/GroupDetailScreen.tsx
+ M habitus-mobile/src/screens/LoginScreen.tsx
+ M habitus-mobile/src/screens/MemberPublicScreen.tsx
+ M habitus-mobile/src/screens/ProfileEditScreen.tsx
+ M habitus-mobile/src/screens/PropertyDetailScreen.tsx
+ M package-lock.json
+ M package.json
+ M packages/habitus-core/src/i18n/es.ts
+ M packages/habitus-core/src/index.ts
+ M packages/habitus-core/src/services/applications.ts
+ M packages/habitus-core/src/services/auth.ts
+ M packages/habitus-core/src/services/expenses.ts
+ M packages/habitus-core/src/services/groups.ts
+ M packages/habitus-core/src/services/hostPanel.ts
+ M packages/habitus-core/src/services/leases.ts
+ M packages/habitus-core/src/services/listingAccess.ts
+ M packages/habitus-core/src/services/messages.ts
+ M packages/habitus-core/src/services/notifications.ts
+?? .codex-restore/
+?? .vercelignore
+?? AGENTS.md
+?? competitor-profiles/
+?? docs/brevo-email-templates.md
+?? docs/notifications-deploy-checklist.md
+?? docs/notifications-vercel-env.md
+?? docs/spacest-implementations.md
+?? habitus-app/src/components/LanguageSelector.tsx
+?? habitus-app/src/components/NotificationBell.tsx
+?? habitus-app/src/components/NotificationToasts.tsx
+?? habitus-app/src/components/SimpleTenantCard.tsx
+?? habitus-app/src/components/public/FeeTransparency.tsx
+?? habitus-app/src/components/public/HeroAsidePanel.tsx
+?? habitus-app/src/components/public/HeroListingCarousel.tsx
+?? habitus-app/src/components/public/HeroReferralHint.tsx
+?? habitus-app/src/components/public/VerificationSection.tsx
+?? habitus-app/src/components/public/heroListingSlides.ts
+?? habitus-app/src/lib/I18nContext.tsx
+?? habitus-app/src/lib/i18n.ts
+?? habitus-app/src/lib/notificationsUi.ts
+?? habitus-app/src/pages/NotificationsPage.tsx
+?? habitus-app/src/pages/public/CityLandingPage.tsx
+?? habitus-app/supabase/migrations/20260521800000_notifications.sql
+?? moon-growth-dashboard/
+?? moon-growth/
+?? packages/habitus-core/src/i18n/ca.ts
+?? packages/habitus-core/src/i18n/en.ts
+?? packages/habitus-core/src/i18n/index.ts

@@ -20,7 +20,7 @@ export function LandingMainHero({
   aside,
 }: LandingMainHeroProps) {
   return (
-    <section className="relative min-h-[560px] overflow-hidden border-b border-stone-800/30 sm:min-h-[520px] lg:min-h-[580px]">
+    <section className="relative overflow-x-hidden border-b border-stone-800/30 max-lg:min-h-0 lg:min-h-[580px]">
       <img
         src={LANDING_HERO_IMAGE}
         alt=""
@@ -30,7 +30,7 @@ export function LandingMainHero({
       <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-transparent to-transparent" />
 
       <div className="hero-shell-inner">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid min-w-0 items-center gap-8 max-lg:gap-6 lg:grid-cols-2 lg:gap-16">
           <div className="min-w-0">
             <div className="hero-badge">✨ {badge}</div>
             <h1 className="hero-display">{title}</h1>
@@ -53,7 +53,7 @@ export function LandingMainHero({
           </div>
 
           {aside && (
-            <div className="relative mx-auto w-full max-w-md lg:max-w-none lg:justify-self-end">
+            <div className="relative mx-auto min-w-0 w-full max-w-md lg:max-w-none lg:justify-self-end">
               <div className="absolute -top-3 -left-3 right-3 bottom-3 -z-10 hidden rounded-3xl bg-amber-400/20 rotate-3 blur-[1px] sm:block" />
               <div className="absolute -top-1.5 -left-1.5 right-1.5 bottom-1.5 -z-10 hidden rounded-3xl bg-emerald-400/15 -rotate-2 blur-[1px] sm:block" />
               {aside}

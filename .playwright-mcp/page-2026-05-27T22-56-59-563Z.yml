@@ -1,0 +1,298 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explore" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "How it works" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Hosts" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Owners" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agencies" [ref=e13] [cursor=pointer]:
+          - /url: /agencias
+        - button "Change language" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: 🇬🇧
+          - generic [ref=e19]: EN
+        - link "Sign in" [ref=e20] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - paragraph [ref=e24]: Role guide
+        - 'heading "how : moon works" [level=1] [ref=e25]'
+        - paragraph [ref=e26]: "Same platform, different paths: choose your role and follow the steps. Compatibility, groups and verified identity at the center of each flow."
+      - generic [ref=e28]:
+        - link "Tenant" [ref=e29] [cursor=pointer]:
+          - /url: /como-funciona?role=inquilino
+        - link "Host" [ref=e30] [cursor=pointer]:
+          - /url: /como-funciona?role=anfitrion
+        - link "Owner" [ref=e31] [cursor=pointer]:
+          - /url: /como-funciona?role=propietario
+        - link "Agency" [ref=e32] [cursor=pointer]:
+          - /url: /como-funciona?role=agencia
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - heading "Real compatibility" [level=2] [ref=e36]
+        - paragraph [ref=e37]: Lifestyle questionnaire with clear breakdown of affinity between people and spaces.
+      - generic [ref=e38]:
+        - heading "Groups renting together" [level=2] [ref=e39]
+        - paragraph [ref=e40]: Form a team, split the rent and unlock private flats when you match.
+      - generic [ref=e41]:
+        - heading "Identity and trust" [level=2] [ref=e42]
+        - paragraph [ref=e43]: Demo verification, complete profiles and messages before taking the step.
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: For Tenants
+        - heading "Find home and roommates who match" [level=2] [ref=e49]
+        - paragraph [ref=e50]: "For students, expats, professionals or anyone starting over: co-living profile, groups for renting entire flats and rooms with visible host."
+        - link "View tenant landing" [ref=e51] [cursor=pointer]:
+          - /url: /
+          - text: View tenant landing
+          - img [ref=e52]
+        - link "Create account as tenant" [ref=e54] [cursor=pointer]:
+          - /url: /access?signup=1&role=inquilino
+          - text: Create account as tenant
+          - img [ref=e55]
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e59]: "01"
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - img [ref=e63]
+              - heading "Profile and questionnaire" [level=3] [ref=e65]
+            - paragraph [ref=e66]: Tell us about your routines, habits and preferences. Verify your identity (demo) to build trust from first contact.
+        - generic [ref=e67]:
+          - generic [ref=e68]: "02"
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - img [ref=e72]
+              - heading "Group or individual search" [level=3] [ref=e74]
+            - paragraph [ref=e75]: Form a team to rent an entire flat with transparent split, or look for a room in occupied flats.
+        - generic [ref=e76]:
+          - generic [ref=e77]: "03"
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - img [ref=e81]
+              - heading "Discover with affinity" [level=3] [ref=e83]
+            - paragraph [ref=e84]: Explore public listings in Barcelona, Madrid, Valencia, Seville and Granada. Filter by city and area.
+        - generic [ref=e85]:
+          - generic [ref=e86]: "04"
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - img [ref=e90]
+              - heading "Connect and apply" [level=3] [ref=e92]
+            - paragraph [ref=e93]: Chat, review complete profiles and send applications only where affinity makes sense.
+        - generic [ref=e94]:
+          - generic [ref=e95]: "05"
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - img [ref=e99]
+              - heading "Move in with clarity" [level=3] [ref=e101]
+            - paragraph [ref=e102]: "Enter knowing what to expect: house rules, people involved and aligned expectations before signing."
+        - generic [ref=e103]:
+          - heading "Group renting, without chaos" [level=3] [ref=e104]
+          - list [ref=e105]:
+            - listitem [ref=e106]:
+              - img [ref=e107]
+              - text: Create or join a group compatible by lifestyle
+            - listitem [ref=e109]:
+              - img [ref=e110]
+              - text: Split the rent with weights per room
+            - listitem [ref=e112]:
+              - img [ref=e113]
+              - text: Apply for public or private flats unlocked for your group
+    - generic [ref=e117]:
+      - generic [ref=e118]:
+        - paragraph [ref=e119]: For undefined
+        - heading "Manage living in your flat" [level=2] [ref=e120]
+        - paragraph [ref=e121]: "You live in the flat and want compatible roommates: publish your room, define how you live and choose applicants with data, not just intuition."
+        - link "View host landing" [ref=e122] [cursor=pointer]:
+          - /url: /anfitriones
+          - text: View host landing
+          - img [ref=e123]
+        - link "Register as host" [ref=e125] [cursor=pointer]:
+          - /url: /access?signup=1&role=anfitrion
+          - text: Register as host
+          - img [ref=e126]
+      - generic [ref=e128]:
+        - generic [ref=e129]:
+          - generic [ref=e130]: "01"
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - img [ref=e134]
+              - heading "Host profile" [level=3] [ref=e136]
+            - paragraph [ref=e137]: Present who you are, your role in the flat and what type of living you're looking for.
+        - generic [ref=e138]:
+          - generic [ref=e139]: "02"
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - img [ref=e143]
+              - heading "Co-living questionnaire" [level=3] [ref=e145]
+            - paragraph [ref=e146]: "Schedules, cleaning, visits, noise… : moon translates your answers into compatibility signals."
+        - generic [ref=e147]:
+          - generic [ref=e148]: "03"
+          - generic [ref=e149]:
+            - generic [ref=e150]:
+              - img [ref=e152]
+              - heading "Publish your space" [level=3] [ref=e154]
+            - paragraph [ref=e155]: Photos, available room, house rules and amenities. Your listing is the flat's presentation card.
+        - generic [ref=e156]:
+          - generic [ref=e157]: "04"
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - img [ref=e161]
+              - heading "Receive filtered applications" [level=3] [ref=e163]
+            - paragraph [ref=e164]: Candidates ordered by affinity. Fewer irrelevant messages, more meaningful conversations.
+        - generic [ref=e165]:
+          - generic [ref=e166]: "05"
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - img [ref=e170]
+              - heading "Choose and live better" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Meet profiles, chat and accept when it matches. Less rotation, less daily friction.
+    - generic [ref=e176]:
+      - generic [ref=e177]:
+        - paragraph [ref=e178]: For Owners
+        - heading "Your portfolio, pre-validated groups" [level=2] [ref=e179]
+        - paragraph [ref=e180]: "You have one or several shared flats: publish properties, assign hosts and receive applications from groups and tenants already filtered by compatibility."
+        - link "View owner landing" [ref=e181] [cursor=pointer]:
+          - /url: /propietarios
+          - text: View owner landing
+          - img [ref=e182]
+        - link "Register as owner" [ref=e184] [cursor=pointer]:
+          - /url: /access?signup=1&role=propietario
+          - text: Register as owner
+          - img [ref=e185]
+      - generic [ref=e187]:
+        - generic [ref=e188]:
+          - generic [ref=e189]: "01"
+          - generic [ref=e190]:
+            - generic [ref=e191]:
+              - img [ref=e193]
+              - heading "Registration and verification" [level=3] [ref=e195]
+            - paragraph [ref=e196]: Owner account with verified identity (demo). Trust base for tenants and agencies.
+        - generic [ref=e197]:
+          - generic [ref=e198]: "02"
+          - generic [ref=e199]:
+            - generic [ref=e200]:
+              - img [ref=e202]
+              - heading "Register properties" [level=3] [ref=e204]
+            - paragraph [ref=e205]: Add flats, rooms, conditions and documentation. Define if the listing is public or private.
+        - generic [ref=e206]:
+          - generic [ref=e207]: "03"
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - img [ref=e211]
+              - heading "Assign hosts" [level=3] [ref=e213]
+            - paragraph [ref=e214]: Link the person who lives in the flat and manages day-to-day living.
+        - generic [ref=e215]:
+          - generic [ref=e216]: "04"
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - img [ref=e220]
+              - heading "Receive qualified groups" [level=3] [ref=e222]
+            - paragraph [ref=e223]: Applications with group compatibility breakdown. Fewer surprises, less rotation.
+        - generic [ref=e224]:
+          - generic [ref=e225]: "05"
+          - generic [ref=e226]:
+            - generic [ref=e227]:
+              - img [ref=e229]
+              - heading "Supervise with peace of mind" [level=3] [ref=e231]
+            - paragraph [ref=e232]: Panel with status of each property, pending applications and living history.
+        - generic [ref=e233]:
+          - heading "Manage many flats?" [level=3] [ref=e234]
+          - list [ref=e235]:
+            - listitem [ref=e236]:
+              - img [ref=e237]
+              - text: Agencies can operate your portfolio from a multi-client panel
+            - listitem [ref=e239]:
+              - img [ref=e240]
+              - text: Same compatibility filters and hosts assigned per property
+          - link "Know agency flow →" [ref=e242] [cursor=pointer]:
+            - /url: /agencias
+    - generic [ref=e245]:
+      - generic [ref=e246]:
+        - paragraph [ref=e247]: For Agencies
+        - heading "Operate shared living portfolios" [level=2] [ref=e248]
+        - paragraph [ref=e249]: "For real estate agencies and professional managers: publish on behalf of owners, assign hosts and deliver clear reports per flat and per client."
+        - link "View agency landing" [ref=e250] [cursor=pointer]:
+          - /url: /agencias
+          - text: View agency landing
+          - img [ref=e251]
+        - link "Register agency" [ref=e253] [cursor=pointer]:
+          - /url: /access?signup=1&role=agencia
+          - text: Register agency
+          - img [ref=e254]
+      - generic [ref=e256]:
+        - generic [ref=e257]:
+          - generic [ref=e258]: "01"
+          - generic [ref=e259]:
+            - generic [ref=e260]:
+              - img [ref=e262]
+              - heading "Agency account" [level=3] [ref=e264]
+            - paragraph [ref=e265]: Professional profile registration. Invite the team and organize owners under your portfolio.
+        - generic [ref=e266]:
+          - generic [ref=e267]: "02"
+          - generic [ref=e268]:
+            - generic [ref=e269]:
+              - img [ref=e271]
+              - heading "Publish per client" [level=3] [ref=e273]
+            - paragraph [ref=e274]: "Listings linked to the correct owner: photos, conditions, public or private visibility."
+        - generic [ref=e275]:
+          - generic [ref=e276]: "03"
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - img [ref=e280]
+              - heading "Hosts per flat" [level=3] [ref=e282]
+            - paragraph [ref=e283]: Assign living references in each property to filter candidates on the ground.
+        - generic [ref=e284]:
+          - generic [ref=e285]: "04"
+          - generic [ref=e286]:
+            - generic [ref=e287]:
+              - img [ref=e289]
+              - heading "Applications with affinity" [level=3] [ref=e291]
+            - paragraph [ref=e292]: Groups and tenants arrive with compatibility score. Prioritize stable entries.
+        - generic [ref=e293]:
+          - generic [ref=e294]: "05"
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - img [ref=e298]
+              - heading "Reports and retention" [level=3] [ref=e300]
+            - paragraph [ref=e301]: "Metrics per property and owner: fewer incidents, more portfolio satisfaction."
+    - generic [ref=e302]:
+      - paragraph [ref=e303]: ": moon is not an insurance or legal mediation service. free beta phase — no active monetization."
+      - link "Explore listings without account" [ref=e304] [cursor=pointer]:
+        - /url: /alojamientos
+        - text: Explore listings without account
+        - img [ref=e305]
+  - contentinfo [ref=e307]:
+    - generic [ref=e309]:
+      - generic [ref=e310]:
+        - 'img ": moon shared living" [ref=e311]'
+        - paragraph [ref=e312]: Shared living with compatibility, in Spain.
+      - generic [ref=e313]:
+        - link "Home" [ref=e314] [cursor=pointer]:
+          - /url: /
+        - link "Explore" [ref=e315] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "How it works" [ref=e316] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Hosts" [ref=e317] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Owners" [ref=e318] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agencies" [ref=e319] [cursor=pointer]:
+          - /url: /agencias
+        - link "Privacy" [ref=e320] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Terms" [ref=e321] [cursor=pointer]:
+          - /url: /terminos
+        - link "Legal notice" [ref=e322] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e323]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

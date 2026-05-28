@@ -1,6 +1,6 @@
-import { es } from "@habitus/core";
 import type { PropertyVerificationStatus } from "@habitus/core";
 import { Icon } from "./Icon";
+import { useI18n } from "../lib/I18nContext";
 
 type PropertyVerificationBadgeProps = {
   status: PropertyVerificationStatus;
@@ -19,7 +19,8 @@ export function PropertyVerificationBadge({
   size = "md",
   className = "",
 }: PropertyVerificationBadgeProps) {
-  const pv = es.propertyVerification;
+  const t = useI18n();
+  const pv = t.propertyVerification;
   const label =
     status === "verified"
       ? pv.verified

@@ -16,6 +16,59 @@ export type AdminStats = {
   upcomingEvents: number;
 };
 
+export type AdminMarketplaceDashboard = {
+  roles: {
+    tenants: {
+      registered: number;
+      incompleteProfiles: number;
+      activeUsers: number;
+      usersWithoutMatch: number;
+      citiesTracked: number;
+      withBudget: number;
+      withMoveIn: number;
+    };
+    owners: {
+      total: number;
+      listingsPublished: number;
+      listingsPending: number;
+      groupsInterested: number;
+      groupsAccepted: number;
+      lowConversionListings: number;
+    };
+    hosts: {
+      total: number;
+      roomsPublished: number;
+      candidatesReceived: number;
+      pendingApplications: number;
+      occupiedRooms: number;
+      incompleteListings: number;
+    };
+    operators: {
+      total: number;
+      inventoryPublished: number;
+      activeUnits: number;
+      applicationsReceived: number;
+      conversionRate: number | null;
+      responsePending: number;
+      potentialCommissions: number;
+    };
+  };
+  assistedMatching: { from: string; to: string; count: number; criteria: string }[];
+  funnel: {
+    applicationsCreated: number;
+    matchesSent: number;
+    matchesAccepted: number;
+    reservationsPending: number;
+    confirmedEntries: number;
+    matchesLost: number;
+    potentialContractValue: number;
+    estimatedCommission: number;
+    confirmedCommission: number;
+    pendingCommission: number;
+    currency: string;
+  };
+};
+
 export type AdminListingRow = {
   id: string;
   slug: string;
@@ -81,6 +134,183 @@ export async function fetchAdminStats(): Promise<AdminStats> {
   };
 }
 
+export async function fetchAdminMarketplaceDashboard(): Promise<AdminMarketplaceDashboard> {
+  const [profilesRes, listingsRes, appsRes, groupsRes] = await Promise.all([
+    getSupabase()
+      .from("habitus_profiles")
+      .select("id, account_role, profile_score, is_discoverable, search_prefs, updated_at"),
+    getSupabase()
+      .from("habitus_listings")
+      .select(
+        "id, status, city, price_monthly, currency, owner_profile_id, host_profile_id, created_at",
+      ),
+    getSupabase()
+      .from("habitus_applications")
+      .select(
+        `id, status, listing_id, profile_id, applied_at,
+         habitus_listings (owner_profile_id, host_profile_id, price_monthly, currency, city)`,
+      ),
+    getSupabase().from("habitus_groups").select("id, status, city, listing_id"),
+  ]);
+
+  if (profilesRes.error) throw profilesRes.error;
+  if (listingsRes.error) throw listingsRes.error;
+  if (appsRes.error) throw appsRes.error;
+  if (groupsRes.error) throw groupsRes.error;
+
+  const profiles = (profilesRes.data ?? []) as {
+    id: string;
+    account_role: AccountRoleSlug | null;
+    profile_score: number | null;
+    is_discoverable: boolean | null;
+    search_prefs: unknown;
+    updated_at: string | null;
+  }[];
+  const roleByProfile = new Map(profiles.map((p) => [p.id, p.account_role]));
+  const listings = (listingsRes.data ?? []) as unknown as {
+    id: string;
+    status: string;
+    city: string | null;
+    price_monthly: number | null;
+    currency: string | null;
+    owner_profile_id: string | null;
+    host_profile_id: string | null;
+    created_at: string | null;
+  }[];
+  const applications = (appsRes.data ?? []) as unknown as {
+    id: string;
+    status: string;
+    listing_id: string;
+    profile_id: string | null;
+    applied_at: string | null;
+    habitus_listings:
+      | {
+          owner_profile_id: string | null;
+          host_profile_id: string | null;
+          price_monthly: number | null;
+          currency: string | null;
+          city: string | null;
+        }
+      | null;
+  }[];
+  const groups = (groupsRes.data ?? []) as {
+    id: string;
+    status: string | null;
+    city: string | null;
+    listing_id: string | null;
+  }[];
+
+  const tenants = profiles.filter((p) => p.account_role === "inquilino");
+  const owners = profiles.filter((p) => p.account_role === "propietario");
+  const hosts = profiles.filter((p) => p.account_role === "anfitrion");
+  const operators = profiles.filter((p) => p.account_role === "agencia");
+  const tenantApprovedIds = new Set(
+    applications.filter((a) => a.status === "approved" && a.profile_id).map((a) => a.profile_id),
+  );
+  const tenantCities = new Set<string>();
+  let tenantsWithBudget = 0;
+  let tenantsWithMoveIn = 0;
+  for (const tenant of tenants) {
+    const prefs = tenant.search_prefs as Record<string, unknown> | null;
+    if (typeof prefs?.city === "string" && prefs.city) tenantCities.add(prefs.city);
+    if (typeof prefs?.budgetMax === "number" && prefs.budgetMax > 0) tenantsWithBudget += 1;
+    if (typeof prefs?.moveIn === "string" && prefs.moveIn) tenantsWithMoveIn += 1;
+  }
+
+  const ownerListings = listings.filter((l) => roleByProfile.get(l.owner_profile_id ?? "") === "propietario");
+  const operatorListings = listings.filter((l) => roleByProfile.get(l.owner_profile_id ?? "") === "agencia");
+  const hostListings = listings.filter((l) => roleByProfile.get(l.owner_profile_id ?? "") === "anfitrion");
+  const appsByListing = new Map<string, typeof applications>();
+  for (const app of applications) {
+    const current = appsByListing.get(app.listing_id) ?? [];
+    current.push(app);
+    appsByListing.set(app.listing_id, current);
+  }
+
+  const pendingStatuses = ["submitted", "interview_scheduled", "final_review"];
+  const operatorApps = applications.filter(
+    (a) => roleByProfile.get(a.habitus_listings?.owner_profile_id ?? "") === "agencia",
+  );
+  const hostApps = applications.filter(
+    (a) => roleByProfile.get(a.habitus_listings?.owner_profile_id ?? "") === "anfitrion",
+  );
+  const annualContractValue = applications
+    .filter((a) => a.status !== "rejected")
+    .reduce((sum, a) => sum + Number(a.habitus_listings?.price_monthly ?? 0) * 12, 0);
+  const pendingCommission = applications
+    .filter((a) => pendingStatuses.includes(a.status))
+    .reduce((sum, a) => sum + Number(a.habitus_listings?.price_monthly ?? 0), 0);
+  const confirmedCommission = applications
+    .filter((a) => a.status === "approved")
+    .reduce((sum, a) => sum + Number(a.habitus_listings?.price_monthly ?? 0), 0);
+
+  return {
+    roles: {
+      tenants: {
+        registered: tenants.length,
+        incompleteProfiles: tenants.filter((p) => (p.profile_score ?? 0) < 60).length,
+        activeUsers: tenants.filter((p) => p.is_discoverable).length,
+        usersWithoutMatch: tenants.length - tenantApprovedIds.size,
+        citiesTracked: tenantCities.size,
+        withBudget: tenantsWithBudget,
+        withMoveIn: tenantsWithMoveIn,
+      },
+      owners: {
+        total: owners.length,
+        listingsPublished: ownerListings.filter((l) => l.status === "published").length,
+        listingsPending: ownerListings.filter((l) => l.status === "draft").length,
+        groupsInterested: groups.filter((g) => g.listing_id).length,
+        groupsAccepted: groups.filter((g) => g.status === "active").length,
+        lowConversionListings: ownerListings.filter((l) => (appsByListing.get(l.id) ?? []).length === 0)
+          .length,
+      },
+      hosts: {
+        total: hosts.length,
+        roomsPublished: hostListings.filter((l) => l.status === "published").length,
+        candidatesReceived: hostApps.length,
+        pendingApplications: hostApps.filter((a) => pendingStatuses.includes(a.status)).length,
+        occupiedRooms: hostApps.filter((a) => a.status === "approved").length,
+        incompleteListings: hostListings.filter((l) => l.status === "draft").length,
+      },
+      operators: {
+        total: operators.length,
+        inventoryPublished: operatorListings.length,
+        activeUnits: operatorListings.filter((l) => l.status === "published").length,
+        applicationsReceived: operatorApps.length,
+        conversionRate: operatorApps.length
+          ? Math.round((operatorApps.filter((a) => a.status === "approved").length / operatorApps.length) * 100)
+          : null,
+        responsePending: operatorApps.filter((a) => pendingStatuses.includes(a.status)).length,
+        potentialCommissions: operatorApps.reduce(
+          (sum, a) => sum + Number(a.habitus_listings?.price_monthly ?? 0),
+          0,
+        ),
+      },
+    },
+    assistedMatching: [
+      { from: "Inquilino", to: "habitaciones compatibles", count: hostListings.length, criteria: "ciudad, presupuesto, fecha y convivencia" },
+      { from: "Inquilino", to: "colivings compatibles", count: operatorListings.length, criteria: "ciudad, presupuesto, fecha y duración" },
+      { from: "Inquilino", to: "grupos compatibles", count: groups.length, criteria: "ciudad, zona y objetivo de búsqueda" },
+      { from: "Grupo", to: "pisos compatibles", count: ownerListings.length, criteria: "ciudad, presupuesto y tamaño del grupo" },
+      { from: "Habitación", to: "candidatos compatibles", count: tenants.length, criteria: "perfil de convivencia y presupuesto" },
+      { from: "Operador", to: "candidatos por unidad", count: operatorApps.length, criteria: "unidad, estado de solicitud y match" },
+    ],
+    funnel: {
+      applicationsCreated: applications.length,
+      matchesSent: applications.filter((a) => a.status !== "draft").length,
+      matchesAccepted: applications.filter((a) => a.status === "approved").length,
+      reservationsPending: applications.filter((a) => a.status === "final_review").length,
+      confirmedEntries: applications.filter((a) => a.status === "approved").length,
+      matchesLost: applications.filter((a) => a.status === "rejected").length,
+      potentialContractValue: annualContractValue,
+      estimatedCommission: pendingCommission + confirmedCommission,
+      confirmedCommission,
+      pendingCommission,
+      currency: applications[0]?.habitus_listings?.currency ?? listings[0]?.currency ?? "EUR",
+    },
+  };
+}
+
 export async function fetchAdminUsers(): Promise<AdminUserRow[]> {
   const { data, error } = await getSupabase()
     .from("habitus_profiles")
@@ -118,6 +348,17 @@ export async function setUserAdmin(userId: string, isAdmin: boolean): Promise<st
   const { error } = await getSupabase()
     .from("habitus_profiles")
     .update({ is_admin: isAdmin })
+    .eq("id", userId);
+  return error?.message ?? null;
+}
+
+export async function adminSetAccountRole(
+  userId: string,
+  role: string | null,
+): Promise<string | null> {
+  const { error } = await getSupabase()
+    .from("habitus_profiles")
+    .update({ account_role: role })
     .eq("id", userId);
   return error?.message ?? null;
 }

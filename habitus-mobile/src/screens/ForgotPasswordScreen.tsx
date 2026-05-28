@@ -26,7 +26,7 @@ export function ForgotPasswordScreen({ onBack }: Props) {
   const [busy, setBusy] = useState(false);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useState(new Animated.Value(20))[0];
 
   useState(() => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -33,7 +33,7 @@ export function CompatibilityQuizScreen() {
   const role = profile?.accountRole;
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useState(new Animated.Value(0))[0];
 
   useEffect(() => {

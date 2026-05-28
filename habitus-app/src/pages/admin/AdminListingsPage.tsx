@@ -71,8 +71,7 @@ export function AdminListingsPage() {
     load();
   }, [load]);
 
-  const cities = MOON_CITIES.map((c) => c.slug);
-  const zones = city ? getZonesForCity(city as (typeof cities)[number]) : [];
+  const zones = city ? getZonesForCity(city as (typeof MOON_CITIES)[number]["slug"]) : [];
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();

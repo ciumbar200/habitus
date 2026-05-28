@@ -76,7 +76,7 @@ export type Application = {
   progress: number;
 };
 
-export type AccountRoleSlug = "inquilino" | "anfitrion" | "propietario" | "agencia";
+export type AccountRoleSlug = "inquilino" | "anfitrion" | "propietario" | "agencia" | "embajador";
 
 export type Profile = {
   id: string;

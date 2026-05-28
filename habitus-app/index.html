@@ -6,6 +6,7 @@
     <link rel="apple-touch-icon" href="/brand/moon-logo-black.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#0c0a09" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content=": moon" />
@@ -14,24 +15,25 @@
     <!-- OneSignal Web SDK v16 (init único aquí; ver notifications.ts) -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
+      var isOneSignalHost = window.location.hostname === "moonsharedliving.com";
       window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function (OneSignal) {
+      if (isOneSignalHost) OneSignalDeferred.push(async function (OneSignal) {
+        var appId = "%VITE_ONESIGNAL_APP_ID%" || "8ab2d231-41db-49a5-9543-eac1df3986b4";
         await OneSignal.init({
-          appId: "8ab2d231-41db-49a5-9543-eac1df3986b4",
+          appId: appId,
           notifyButton: { enable: false },
           promptOptions: {
             slidedown: {
               prompts: [
                 {
                   type: "push",
-                  autoPrompt: true,
+                  autoPrompt: false,
                   text: {
                     actionMessage:
-                      "Necesitamos tu permiso para enviarte notificaciones sobre nuevos compañeros, mensajes y actualizaciones.",
+                      "Activa las notificaciones para mensajes, solicitudes y actualizaciones de tu piso.",
                     acceptButton: "PERMITIR",
                     cancelButton: "AHORA NO",
                   },
-                  delay: { pageViews: 1, timeDelay: 10 },
                 },
               ],
             },
@@ -45,7 +47,7 @@
     </script>
 
     <title>: moon shared living — vivienda compartida con compatibilidad</title>
-    <meta name="description" content="Habitaciones y pisos compartidos con compatibilidad real en Barcelona y Madrid. Encuentra hogares y compañeros afines en moonsharedliving.com." />
+    <meta name="description" content="Elige con quién vives, no solo dónde. Habitaciones compartidas con compatibilidad real en varias ciudades de España — para inquilinos y anfitriones en moonsharedliving.com." />
     <script type="module" src="/src/main.tsx"></script>
   </head>
   <body>

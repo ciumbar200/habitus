@@ -38,9 +38,13 @@ const PRIMARY_NAV: Record<string, PrimaryNavItem[]> = {
   ],
   agencia: [
     { label: "Panel", path: "/panel", screen: "Panel", icon: "dashboard" },
-    { label: "Cartera de pisos", path: "/panel/espacios", screen: "Spaces", icon: "business_center" },
+    { label: "Inventario", path: "/panel/espacios", screen: "Spaces", icon: "business_center" },
     { label: "Solicitudes", path: "/panel/solicitudes", screen: "Applications", icon: "assignment" },
     { label: "Mensajes", path: "/messages", screen: "Messages", icon: "chat_bubble" },
+    { label: "Perfil", path: "/profile", screen: "Profile", icon: "person" },
+  ],
+  embajador: [
+    { label: "Mi programa", path: "/embajadores", screen: "Embajadores", icon: "star" },
     { label: "Perfil", path: "/profile", screen: "Profile", icon: "person" },
   ],
   default: [
@@ -57,7 +61,7 @@ const SECONDARY_NAV: Partial<Record<AccountRoleSlug, NavItem[]>> = {
     { label: "Comunidad", path: "/comunidad", icon: "groups" },
   ],
   propietario: [{ label: "Inquilinos y grupos", path: "/panel/inquilinos", icon: "groups" }],
-  agencia: [{ label: "Inquilinos y grupos", path: "/panel/inquilinos", icon: "groups" }],
+  agencia: [{ label: "Candidatos y grupos", path: "/panel/inquilinos", icon: "groups" }],
 };
 
 function primaryNavForRole(role: AccountRoleSlug | null | undefined): PrimaryNavItem[] {
@@ -159,6 +163,15 @@ export function canAccessPath(
       pathname.startsWith("/profile") ||
       pathname.startsWith("/profile/") ||
       pathname.startsWith("/property/")
+    );
+  }
+
+  if (role === "embajador") {
+    return (
+      pathname.startsWith("/embajadores") ||
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/messages") ||
+      pathname.startsWith("/notifications")
     );
   }
 

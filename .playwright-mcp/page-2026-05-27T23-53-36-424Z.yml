@@ -1,0 +1,140 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explorar" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e13] [cursor=pointer]:
+          - /url: /operadores
+        - button "Change language" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: 🇪🇸
+          - generic [ref=e19]: ES
+        - link "Iniciar sesión" [ref=e20] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e21]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: ✨ Para operadores
+        - heading "Llena tus habitaciones con residentes compatibles" [level=1] [ref=e28]:
+          - generic [ref=e29]: Llena tus habitaciones con
+          - generic [ref=e30]: residentes compatibles
+        - generic [ref=e31]:
+          - text: MOON ayuda a operadores de coliving, gestores de habitaciones y propietarios profesionales a publicar inventario, recibir candidatos cualificados y gestionar solicitudes desde un solo panel.
+          - generic [ref=e32]: Coliving, habitaciones, unidades e inventario profesional.
+        - generic [ref=e33]:
+          - link "Empezar como operador" [ref=e34] [cursor=pointer]:
+            - /url: /access?signup=1&role=agencia
+            - text: Empezar como operador
+            - img [ref=e35]
+          - link "Cómo funciona" [ref=e37] [cursor=pointer]:
+            - /url: /como-funciona?role=agencia
+          - link "Propietarios" [ref=e38] [cursor=pointer]:
+            - /url: /propietarios
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: Inventario
+          - paragraph [ref=e42]: Pipeline centralizado
+        - generic [ref=e43]:
+          - paragraph [ref=e44]: Matches
+          - paragraph [ref=e45]: Candidatos por unidad
+        - generic [ref=e46]:
+          - paragraph [ref=e47]: 24/7
+          - paragraph [ref=e48]: Soporte dedicado
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - paragraph [ref=e52]: Ventajas para operadores
+        - heading "Inventario, candidatos y conversión" [level=2] [ref=e53]
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - img [ref=e57]
+          - generic [ref=e59]:
+            - heading "Publica tu inventario" [level=3] [ref=e60]
+            - paragraph [ref=e61]: Sube habitaciones, colivings, precios, disponibilidad, fotos y condiciones.
+        - generic [ref=e62]:
+          - img [ref=e64]
+          - generic [ref=e66]:
+            - heading "Recibe candidatos compatibles" [level=3] [ref=e67]
+            - paragraph [ref=e68]: Cada solicitud llega con perfil de convivencia, presupuesto, fecha de entrada, duración y preferencias.
+        - generic [ref=e69]:
+          - img [ref=e71]
+          - generic [ref=e73]:
+            - heading "Gestiona tu pipeline" [level=3] [ref=e74]
+            - paragraph [ref=e75]: Revisa candidatos, acepta o rechaza matches y sigue cada oportunidad desde el primer contacto hasta la entrada.
+        - generic [ref=e76]:
+          - img [ref=e78]
+          - generic [ref=e80]:
+            - heading "Mejora ocupación y reduce conflictos" [level=3] [ref=e81]
+            - paragraph [ref=e82]: "MOON no solo genera leads: ayuda a encontrar residentes que encajan mejor con cada vivienda."
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - paragraph [ref=e86]: Proceso
+        - heading "Tu camino como operador" [level=2] [ref=e87]
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - text: "01"
+            - img [ref=e92]
+          - heading "Cuenta operador" [level=3] [ref=e94]
+          - paragraph [ref=e95]: Crea un perfil profesional y prepara tu equipo.
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - text: "02"
+            - img [ref=e99]
+          - heading "Añade inventario" [level=3] [ref=e101]
+          - paragraph [ref=e102]: Habitaciones, colivings, unidades, precios y disponibilidad.
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - text: "03"
+            - img [ref=e106]
+          - heading "Recibe leads cualificados" [level=3] [ref=e108]
+          - paragraph [ref=e109]: Candidatos con perfil, presupuesto, fechas y compatibilidad.
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - text: "04"
+            - img [ref=e113]
+          - heading "Convierte solicitudes" [level=3] [ref=e115]
+          - paragraph [ref=e116]: Gestiona matches hasta reserva, confirmación y entrada.
+    - generic [ref=e121]:
+      - heading "Convierte solicitudes, en ocupación real" [level=2] [ref=e122]:
+        - text: Convierte solicitudes,
+        - text: en ocupación real
+      - paragraph [ref=e123]: Empieza publicando tu inventario y convierte solicitudes compatibles en ocupación real.
+      - link "Publicar inventario" [ref=e124] [cursor=pointer]:
+        - /url: /access?signup=1&role=agencia
+        - text: Publicar inventario
+        - img [ref=e125]
+  - contentinfo [ref=e127]:
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - 'img ": moon shared living" [ref=e131]'
+        - paragraph [ref=e132]: Vivienda compartida con compatibilidad, en España.
+      - generic [ref=e133]:
+        - link "Inicio" [ref=e134] [cursor=pointer]:
+          - /url: /
+        - link "Explorar" [ref=e135] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e136] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e137] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e138] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e139] [cursor=pointer]:
+          - /url: /operadores
+        - link "Privacidad" [ref=e140] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Términos" [ref=e141] [cursor=pointer]:
+          - /url: /terminos
+        - link "Aviso legal" [ref=e142] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e143]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

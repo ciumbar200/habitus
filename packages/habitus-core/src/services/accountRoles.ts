@@ -1,4 +1,4 @@
-export type AccountRoleSlug = "inquilino" | "anfitrion" | "propietario" | "agencia";
+export type AccountRoleSlug = "inquilino" | "anfitrion" | "propietario" | "agencia" | "embajador";
 
 export type AccountRoleOption = {
   slug: AccountRoleSlug;
@@ -28,8 +28,8 @@ export const ACCOUNT_ROLES: AccountRoleOption[] = [
   },
   {
     slug: "agencia",
-    label: "Agencia",
-    description: "Gestiono viviendas para clientes y busco inquilinos que encajen en cada espacio.",
+    label: "Operador",
+    description: "Gestiono colivings, varias habitaciones o inventario profesional y quiero candidatos compatibles.",
     icon: "business_center",
   },
 ];

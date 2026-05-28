@@ -1,0 +1,254 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explore" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "How it works" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Hosts" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Owners" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agencies" [ref=e13] [cursor=pointer]:
+          - /url: /agencias
+        - button "Change language" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: 🇬🇧
+          - generic [ref=e19]: EN
+        - link "Sign in" [ref=e20] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e21]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: ✨ Spain · 5 cities
+        - heading "Choose who you live with, not just where." [level=1] [ref=e29]:
+          - generic [ref=e30]: Choose who you live with,
+          - generic [ref=e31]: not just where.
+        - generic [ref=e32]:
+          - text: Share housing with people compatible by habits, values and lifestyle pace.
+          - generic [ref=e33]: Students, expats, professionals.
+        - generic [ref=e34]:
+          - link "Create free account" [ref=e35] [cursor=pointer]:
+            - /url: /access?signup=1&role=inquilino
+            - text: Create free account
+            - img [ref=e36]
+          - link "How it works" [ref=e38] [cursor=pointer]:
+            - /url: /como-funciona?role=inquilino
+          - link "Explore without signing up" [ref=e39] [cursor=pointer]:
+            - /url: /alojamientos
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: 92%
+            - paragraph [ref=e43]: Average compatibility
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: 100%
+            - paragraph [ref=e46]: Verified identity
+          - generic [ref=e47]:
+            - paragraph [ref=e48]: 24/7
+            - paragraph [ref=e49]: Human support
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e58]:
+                - img [ref=e59]
+                - combobox [ref=e61]:
+                  - option "City" [selected]
+                  - option "Barcelona"
+                  - option "Madrid"
+                  - option "Valencia"
+                  - option "Sevilla"
+                  - option "Granada"
+              - generic [ref=e63]:
+                - img [ref=e64]
+                - textbox [ref=e66]
+              - generic [ref=e68]:
+                - generic [ref=e69]: €
+                - textbox "Max" [ref=e70]
+                - generic [ref=e71]: /mo
+              - button "Search" [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e75]: Search
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e78]: "Type:"
+                - generic [ref=e79]:
+                  - button "Entire home" [ref=e80]:
+                    - img [ref=e81]
+                    - text: Entire home
+                  - button "Room" [ref=e83]:
+                    - img [ref=e84]
+                    - text: Room
+                  - button "Form a group" [ref=e86]:
+                    - img [ref=e87]
+                    - text: Form a group
+              - generic [ref=e89]:
+                - generic [ref=e90]: "Stay:"
+                - generic [ref=e91]:
+                  - spinbutton "Stay length in months" [ref=e92]: "7"
+                  - generic [ref=e93]: months
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - img [ref=e96]
+              - text: Verified spaces
+            - generic [ref=e98]:
+              - img [ref=e99]
+              - text: No hidden fees
+            - generic [ref=e101]:
+              - img [ref=e102]
+              - text: 24h response
+        - 'link "Bright living room in a shared flat in Gràcia Room in a modern Madrid apartment Shared kitchen with flatmates View property 1 View property 2 View property 3 Flat in Gràcia Barcelona · 94% affinity Pace: Calm Schedules: Similar Values: Highly aligned View similar listings →" [ref=e105] [cursor=pointer]':
+          - /url: /alojamientos?ciudad=barcelona&zona=gracia
+          - generic [ref=e106]:
+            - img "Bright living room in a shared flat in Gràcia" [ref=e107]
+            - img "Room in a modern Madrid apartment" [ref=e108]
+            - img "Shared kitchen with flatmates" [ref=e109]
+            - generic [ref=e111]:
+              - button "View property 1" [ref=e112]
+              - button "View property 2" [ref=e113]
+              - button "View property 3" [ref=e114]
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - img [ref=e118]
+                - generic [ref=e120]:
+                  - paragraph [ref=e121]: Flat in Gràcia
+                  - paragraph [ref=e122]: Barcelona · 94% affinity
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - generic [ref=e125]: "Pace:"
+                  - text: Calm
+                - generic [ref=e126]:
+                  - generic [ref=e127]: "Schedules:"
+                  - text: Similar
+                - generic [ref=e128]:
+                  - generic [ref=e129]: "Values:"
+                  - text: Highly aligned
+              - paragraph [ref=e130]: View similar listings →
+        - paragraph [ref=e131]:
+          - button "I have a listing referral code" [ref=e132]
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - paragraph [ref=e136]: "Why : moon"
+        - heading "Living together, without surprises" [level=2] [ref=e137]
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - img [ref=e141]
+          - heading "Real compatibility" [level=3] [ref=e143]
+          - paragraph [ref=e144]: Habits and values questionnaire. Affinity with roommates, hosts and spaces — with clear breakdown.
+        - generic [ref=e145]:
+          - img [ref=e147]
+          - heading "Groups that rent together" [level=3] [ref=e149]
+          - paragraph [ref=e150]: Form a team, split rent transparently and make a better impression on owners.
+        - generic [ref=e151]:
+          - img [ref=e153]
+          - heading "Verified identity" [level=3] [ref=e155]
+          - paragraph [ref=e156]: Identity verification, complete profiles and messages before taking the step.
+    - generic [ref=e159]:
+      - generic [ref=e160]:
+        - paragraph [ref=e161]: How it works
+        - heading "4 steps to your new home" [level=2] [ref=e162]
+        - link "View complete guide for tenants" [ref=e163] [cursor=pointer]:
+          - /url: /como-funciona?role=inquilino
+          - text: View complete guide for tenants
+          - img [ref=e164]
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]: "01"
+            - generic [ref=e169]:
+              - heading "Create your profile" [level=3] [ref=e170]
+              - paragraph [ref=e171]: Tell us your lifestyle, routines and living preferences.
+            - img [ref=e173]
+          - generic [ref=e175]:
+            - generic [ref=e176]: "02"
+            - generic [ref=e177]:
+              - heading "Discover spaces" [level=3] [ref=e178]
+              - paragraph [ref=e179]: Explore homes with your affinity for the people who already live there.
+            - img [ref=e181]
+          - generic [ref=e183]:
+            - generic [ref=e184]: "03"
+            - generic [ref=e185]:
+              - heading "Connect" [level=3] [ref=e186]
+              - paragraph [ref=e187]: Chat with hosts and send applications to places you like.
+            - img [ref=e189]
+          - generic [ref=e191]:
+            - generic [ref=e192]: "04"
+            - generic [ref=e193]:
+              - heading "Move in" [level=3] [ref=e194]
+              - paragraph [ref=e195]: Sign your digital contract and live with compatible roommates.
+            - img [ref=e197]
+      - generic [ref=e201]:
+        - img [ref=e202]
+        - paragraph [ref=e204]: Your community awaits
+        - link "Start now" [ref=e205] [cursor=pointer]:
+          - /url: /access?signup=1&role=inquilino
+          - text: Start now
+          - img [ref=e206]
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - 'heading "How do you use : moon?" [level=2] [ref=e214]'
+        - paragraph [ref=e215]: "Different roles, same mission: better living"
+      - generic [ref=e216]:
+        - link "Tenant Looking for a home and compatible roommates" [ref=e217] [cursor=pointer]:
+          - /url: /access?signup=1&role=inquilino
+          - generic [ref=e219]:
+            - img [ref=e221]
+            - heading "Tenant" [level=3] [ref=e223]
+            - paragraph [ref=e224]: Looking for a home and compatible roommates
+            - img [ref=e225]
+        - link "Hosts Manage living in my home" [ref=e227] [cursor=pointer]:
+          - /url: /anfitriones
+          - generic [ref=e229]:
+            - img [ref=e231]
+            - heading "Hosts" [level=3] [ref=e233]
+            - paragraph [ref=e234]: Manage living in my home
+            - img [ref=e235]
+        - link "Owners Publish and manage my properties" [ref=e237] [cursor=pointer]:
+          - /url: /propietarios
+          - generic [ref=e239]:
+            - img [ref=e241]
+            - heading "Owners" [level=3] [ref=e243]
+            - paragraph [ref=e244]: Publish and manage my properties
+            - img [ref=e245]
+        - link "Agencies Operate my clients' portfolio" [ref=e247] [cursor=pointer]:
+          - /url: /agencias
+          - generic [ref=e249]:
+            - img [ref=e251]
+            - heading "Agencies" [level=3] [ref=e253]
+            - paragraph [ref=e254]: Operate my clients' portfolio
+            - img [ref=e255]
+    - generic [ref=e279]:
+      - heading "Your next home awaits" [level=2] [ref=e280]
+      - paragraph [ref=e281]: Create your profile, explore compatible spaces and take the step with confidence.
+      - link "Create free account" [ref=e282] [cursor=pointer]:
+        - /url: /access?signup=1&role=inquilino
+        - text: Create free account
+        - img [ref=e283]
+  - contentinfo [ref=e285]:
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - 'img ": moon shared living" [ref=e289]'
+        - paragraph [ref=e290]: Shared living with compatibility, in Spain.
+      - generic [ref=e291]:
+        - link "Home" [ref=e292] [cursor=pointer]:
+          - /url: /
+        - link "Explore" [ref=e293] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "How it works" [ref=e294] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Hosts" [ref=e295] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Owners" [ref=e296] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Agencies" [ref=e297] [cursor=pointer]:
+          - /url: /agencias
+        - link "Privacy" [ref=e298] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Terms" [ref=e299] [cursor=pointer]:
+          - /url: /terminos
+        - link "Legal notice" [ref=e300] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e301]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

@@ -149,7 +149,7 @@ export async function importUsersFromCsv(
         row: rowNum,
         label,
         ok: false,
-        message: "account_role debe ser inquilino, anfitrion, propietario o agencia.",
+        message: "account_role debe ser inquilino, anfitrion, propietario u operador (slug legacy: agencia).",
       });
       continue;
     }

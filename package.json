@@ -3,13 +3,12 @@
   "private": true,
   "workspaces": [
     "packages/habitus-core",
-    "habitus-mobile",
     "habitus-app"
   ],
   "scripts": {
     "dev": "npm run dev:web",
     "dev:web": "npm run dev -w habitus-app",
-    "dev:mobile": "npm run dev -w habitus-mobile",
+    "dev:mobile": "npm run dev --prefix habitus-mobile",
     "dev:dashboard": "npm run dev --prefix moon-growth-dashboard",
     "build:web": "npm run build -w habitus-app",
     "build:dashboard": "npm run build --prefix moon-growth-dashboard",
@@ -19,5 +18,12 @@
     "vite": "6.3.5",
     "@vitejs/plugin-react": "4.7.0"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "sileo": "^0.1.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
+  }
 }

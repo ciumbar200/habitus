@@ -12,30 +12,33 @@ import {
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { AGENCY_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
+import { useI18n } from "../../lib/I18nContext";
 
 export function AgencyLandingPage() {
+  const t = useI18n();
+  const al = t.public.agencyLanding;
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-gradient-to-b from-stone-100 to-white">
       <MarketingPhotoHero
         image={AGENCY_HERO_IMAGE}
-        badge="Para agencias inmobiliarias"
+        badge={al.badge}
         title={
           <>
-            <span className="block">La cartera de tus clientes,</span>
-            <span className="hero-display-accent block">en un solo panel.</span>
+            <span className="block">{al.heroLine1}</span>
+            <span className="hero-display-accent block">{al.heroLine2}</span>
           </>
         }
         subtitle={
           <>
-            Publica y opera pisos compartidos para múltiples propietarios con compatibilidad, anfitriones
-            asignados y métricas por inmueble.
-            <span className="mt-2 block text-stone-300">Menos incidencias, más retención de cartera.</span>
+            {al.heroSubtitle}
+            <span className="mt-2 block text-stone-300">{al.heroAudience}</span>
           </>
         }
         stats={[
-          { value: "Multi", label: "Cliente por cartera" },
-          { value: "3×", label: "Solicitudes cualificadas" },
-          { value: "24/7", label: "Soporte humano" },
+          { value: al.stat3Value, label: al.stat1 },
+          { value: al.stat4Value, label: al.stat2 },
+          { value: "24/7", label: al.stat3 },
         ]}
         actions={
           <>
@@ -43,20 +46,20 @@ export function AgencyLandingPage() {
               to={accessSignupUrl("agencia")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 font-medium text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100"
             >
-              Registrar agencia
+              {al.ctaMain}
               <ArrowRight weight="bold" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to={howItWorksUrl("agencia")}
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
             >
-              Cómo funciona
+              {al.ctaSecondary}
             </Link>
             <Link
               to="/propietarios"
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
             >
-              Soy propietario
+              {t.public.owners}
             </Link>
           </>
         }
@@ -65,37 +68,37 @@ export function AgencyLandingPage() {
       <section className="bg-white py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto mb-20 max-w-3xl text-center">
-            <p className="section-eyebrow">Ventajas para agencias</p>
-            <h2 className="section-title">Opera convivencia a escala</h2>
+            <p className="section-eyebrow">{al.benefitsTitle}</p>
+            <h2 className="section-title">{al.benefitsSubtitle}</h2>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
             {[
               {
                 icon: Buildings,
-                title: "Cartera multi-cliente",
-                desc: "Separa propiedades por propietario con vistas agregadas y permisos claros para tu equipo.",
+                title: al.benefit1Title,
+                desc: al.benefit1Text,
                 color: "text-stone-700",
                 bg: "bg-stone-100",
               },
               {
                 icon: UserCircle,
-                title: "Anfitriones por piso",
-                desc: "Asigna quién gestiona la convivencia en cada inmueble sin perder visibilidad desde agencia.",
+                title: al.benefit2Title,
+                desc: al.benefit2Text,
                 color: "text-emerald-700",
                 bg: "bg-emerald-100",
               },
               {
                 icon: CheckCircle,
-                title: "Grupos pre-validados",
-                desc: "Los inquilinos pasan por cuestionario de compatibilidad antes de solicitar un espacio.",
+                title: al.benefit3Title,
+                desc: al.benefit3Text,
                 color: "text-amber-700",
                 bg: "bg-amber-100",
               },
               {
                 icon: ChartLineUp,
-                title: "Métricas por propiedad",
-                desc: "Ocupación, solicitudes pendientes e ingresos estimados en un panel pensado para operaciones.",
+                title: al.benefit4Title,
+                desc: al.benefit4Text,
                 color: "text-blue-700",
                 bg: "bg-blue-100",
               },
@@ -122,16 +125,16 @@ export function AgencyLandingPage() {
       <section className="bg-white py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto mb-16 max-w-3xl text-center">
-            <p className="section-eyebrow">Proceso</p>
-            <h2 className="section-title">Tu camino como agencia</h2>
+            <p className="section-eyebrow">{al.processTitle}</p>
+            <h2 className="section-title">{al.processSubtitle}</h2>
           </div>
 
           <div className="grid gap-8 md:grid-cols-4">
             {[
-              { num: "01", title: "Alta de agencia", desc: "Perfil y cartera inicial.", icon: Briefcase },
-              { num: "02", title: "Importa pisos", desc: "Por cliente y zona.", icon: Buildings },
-              { num: "03", title: "Asigna anfitriones", desc: "Convivencia delegada.", icon: Users },
-              { num: "04", title: "Opera solicitudes", desc: "Filtra por compatibilidad.", icon: Shield },
+              { num: "01", title: al.step1Title, desc: al.step1Text, icon: Briefcase },
+              { num: "02", title: al.step2Title, desc: al.step2Text, icon: Buildings },
+              { num: "03", title: al.step3Title, desc: al.step3Text, icon: Users },
+              { num: "04", title: al.step4Title, desc: al.step4Text, icon: Shield },
             ].map((step) => (
               <div key={step.num} className="group text-center">
                 <div className="relative mb-4 inline-block">
@@ -161,18 +164,18 @@ export function AgencyLandingPage() {
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6">
-            Moderniza la gestión
+            {al.finalCtaTitle},
             <br />
-            de pisos compartidos
+            {al.finalCtaSubtitle}
           </h2>
           <p className="mb-10 text-lg text-stone-400 sm:text-xl">
-            Opera carteras multi-cliente con compatibilidad real, anfitriones asignados y métricas por inmueble.
+            {al.finalCtaText}
           </p>
           <Link
             to={accessSignupUrl("agencia")}
             className="group inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-lg font-medium text-stone-900 shadow-xl transition-all hover:-translate-y-1 hover:bg-stone-100 hover:shadow-2xl"
           >
-            Registrar agencia gratis
+            {al.finalCtaButton}
             <ArrowRight weight="bold" className="h-6 w-6 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

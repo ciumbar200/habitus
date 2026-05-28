@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
       manifest: {
         name: ': moon shared living',
         short_name: ': moon',
-        description: 'Vivienda compartida con compatibilidad real — Barcelona, Madrid, Valencia, Sevilla y Granada',
+        description: 'Vivienda compartida con compatibilidad real — varias ciudades en España',
         theme_color: '#0c0a09',
         background_color: '#fafaf9',
         display: 'standalone',

@@ -10,8 +10,11 @@ Contraseña común para todos: `HabitusDemo2026!`
 | anfitrion | `demo-anfitrion@e2e.habitus.local` |
 | propietario | `demo-propietario@e2e.habitus.local` |
 | agencia | `demo-agencia@e2e.habitus.local` |
+| embajador | `demo-embajador@e2e.habitus.local` |
 | admin (is_admin) | `demo-admin@e2e.habitus.local` |
 
 Inicia sesión en `/access` con cualquiera de estos correos.
 
 **Admin:** `demo-admin@e2e.habitus.local` — tras login, entra en `/admin`.
+
+**Embajador:** `demo-embajador@e2e.habitus.local` — crea este usuario desde Supabase Studio o el panel admin con ese email y contraseña, luego asígnale el rol `embajador` desde `/admin/usuarios`.

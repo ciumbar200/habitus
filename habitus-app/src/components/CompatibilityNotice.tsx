@@ -1,6 +1,6 @@
-import { es } from "@habitus/core";
 import type { CompatibilityMode } from "@habitus/core";
 import { Icon } from "./Icon";
+import { useI18n } from "../lib/I18nContext";
 
 type CompatibilityNoticeProps = {
   mode: CompatibilityMode;
@@ -8,10 +8,11 @@ type CompatibilityNoticeProps = {
 };
 
 export function CompatibilityNotice({ mode, className = "" }: CompatibilityNoticeProps) {
+  const t = useI18n();
   if (mode === "host") return null;
 
   const text =
-    mode === "owner_only" ? es.property.compatOwnerOnly : es.property.compatNone;
+    mode === "owner_only" ? t.property.compatOwnerOnly : t.property.compatNone;
 
   return (
     <div

@@ -22,12 +22,12 @@ import { LISTINGS_HERO_IMAGE } from "../../lib/brandAssets";
 import { useAuth } from "../../context/AuthContext";
 import { useBookmarks } from "../../hooks/useBookmarks";
 import { isSupabaseConfigured } from "../../lib/supabase";
+import { useI18n } from "../../lib/I18nContext";
 
 type SortKey = "compatibilidad" | "precio_asc" | "precio_desc" | "recientes";
 type CityKey = MoonCitySlug | "";
 type PriceKey = "" | "400" | "400-600" | "600-800" | "800-1000" | "1000+";
 
-const PL = es.publicListings;
 
 function parsePriceBand(band: PriceKey): { min: number; max: number | null } {
   switch (band) {
@@ -83,6 +83,9 @@ function avgCompat(list: Property[]): number | null {
 }
 
 export function PublicListingsPage() {
+  const t = useI18n();
+  const PL = t.publicListings;
+
   usePageMeta(PL.metaTitle, PL.metaDescription);
 
   const { user } = useAuth();

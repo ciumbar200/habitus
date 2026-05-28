@@ -16,7 +16,7 @@ import {
   type ReviewApplication,
   type Roommate,
 } from "@habitus/core";
-import { RoommateCard } from "../../components/RoommateCard";
+import { SimpleTenantCard } from "../../components/SimpleTenantCard";
 import { LoadingState, ErrorState } from "../../components/PageState";
 import { Icon } from "../../components/Icon";
 import { useAuth } from "../../context/AuthContext";
@@ -198,9 +198,9 @@ export function PanelInquilinosPage() {
             {matches.length === 0 ? (
               <p className="mt-6 text-body-md text-warm-slate">{es.compat.noHostMatches}</p>
             ) : (
-              <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {matches.map((r) => (
-                  <RoommateCard
+                  <SimpleTenantCard
                     key={r.uuid ?? r.slug}
                     roommate={r}
                     onConversationStarted={(id) => navigate(`/messages?c=${id}`)}

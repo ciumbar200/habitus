@@ -8,6 +8,7 @@ import { LoadingState, ErrorState } from "../components/PageState";
 import { NotificationSettings } from "../components/NotificationSettings";
 import { LeaseCard } from "../components/LeaseCard";
 import { ReferralCard } from "../components/ReferralCard";
+import { OperatorApiKeyManager } from "../components/profile/OperatorApiKeyManager";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -450,6 +451,8 @@ export function ProfilePage() {
           )}
         </div>
       </div>
+
+      {role === "agencia" && user?.id && <OperatorApiKeyManager profileId={user.id} />}
 
       {(role === "inquilino" || role === "anfitrion") && user?.id && (
         <ReferralCard profileId={user.id} />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ActivityIndicator,
   Linking,
@@ -57,7 +57,7 @@ export function GroupDetailScreen({ route, navigation }: Props) {
   const [busy, setBusy] = useState<string | null>(null);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const load = useCallback(async () => {
     const g = await fetchGroupBySlug(slug);

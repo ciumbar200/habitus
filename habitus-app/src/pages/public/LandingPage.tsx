@@ -3,16 +3,26 @@ import { Link, Navigate } from "react-router-dom";
 import { fetchCompatQuiz, homePathForRole } from "@habitus/core";
 import { redirectAfterAuth } from "../../lib/returnTo";
 import { useAuth } from "../../context/AuthContext";
+import { useI18n } from "../../lib/I18nContext";
 import { LoadingState } from "../../components/PageState";
-import { ArrowRight, Briefcase, Users, Shield, Heart, ChatCircle, House, Target, User, Buildings } from "@phosphor-icons/react";
+import { ArrowRight, Users, Shield, Heart, ChatCircle, House, Target, User } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { LandingMainHero } from "../../components/public/LandingMainHero";
-import { HeroSearchForm } from "../../components/public/HeroSearchForm";
+import { HeroAsidePanel } from "../../components/public/HeroAsidePanel";
+
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+  animationDelay: `${Math.random() * 5}s`,
+  animationDuration: `${5 + Math.random() * 5}s`,
+}));
 
 export function LandingPage() {
   const { user, profile, loading, profileReady } = useAuth();
   const [dest, setDest] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const t = useI18n();
 
   useEffect(() => {
     if (loading || (user && !profileReady)) return;
@@ -44,45 +54,39 @@ export function LandingPage() {
   return (
     <main className="min-h-screen bg-stone-50 overflow-x-hidden">
       <LandingMainHero
-        badge="España · 5 ciudades"
+        badge={t.public.landing.badge}
         title={
           <>
-            <span className="block">Elige con quién vives,</span>
-            <span className="hero-display-accent block">no solo dónde.</span>
+            <span className="block">{t.public.landing.heroLine1}</span>
+            <span className="hero-display-accent block">{t.public.landing.heroLine2}</span>
           </>
         }
         subtitle={
           <>
-            Comparte piso con personas compatibles por hábitos, valores y ritmo de vida.
-            <span className="mt-2 block text-stone-300">Estudiantes, expats, profesionales.</span>
+            {t.public.landing.heroSubtitle}
+            <span className="mt-2 block text-stone-300">{t.public.landing.heroAudience}</span>
           </>
         }
         stats={[
-          { value: "92%", label: "Compatibilidad media" },
-          { value: "100%", label: "Identidad verificada" },
-          { value: "24/7", label: "Soporte humano" },
+          { value: "92%", label: t.public.landing.statCompat },
+          { value: "100%", label: t.public.landing.statVerified },
+          { value: "24/7", label: t.public.landing.statSupport },
         ]}
-        aside={<HeroSearchForm />}
+        aside={<HeroAsidePanel />}
         actions={
           <>
             <Link
-              to="/alojamientos"
+              to={accessSignupUrl("inquilino")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100 sm:px-8 sm:py-4 sm:text-base"
             >
-              Explorar hogares
+              {t.public.landing.ctaStartFree}
               <ArrowRight weight="bold" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to={accessSignupUrl("inquilino")}
+              to={accessSignupUrl("anfitrion")}
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 sm:px-8 sm:py-4 sm:text-base"
             >
-              Crear cuenta gratis
-            </Link>
-            <Link
-              to={howItWorksUrl("inquilino")}
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20 sm:px-8 sm:py-4 sm:text-base md:inline-flex"
-            >
-              Cómo funciona
+              {t.public.landing.ctaPublishSpace}
             </Link>
           </>
         }
@@ -92,9 +96,9 @@ export function LandingPage() {
       <section className="py-32 bg-stone-100">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <p className="section-eyebrow">Por qué : moon</p>
+            <p className="section-eyebrow">{t.public.landing.pillarsTitle}</p>
             <h2 className="section-title">
-              Vivir acompañado,<br />sin sorpresas
+              {t.public.landing.pillarsSubtitle}
             </h2>
           </div>
 
@@ -102,24 +106,24 @@ export function LandingPage() {
             {[
               {
                 icon: Target,
-                title: "Compatibilidad real",
-                desc: "Cuestionario de hábitos y valores. Afinidad con compañeros, anfitriones y espacios — con desglose claro.",
+                title: t.public.landing.pillar1Title,
+                desc: t.public.landing.pillar1Text,
                 color: "from-amber-100 to-orange-50",
                 iconColor: "text-amber-600",
                 iconBg: "bg-amber-100"
               },
               {
                 icon: Users,
-                title: "Grupos que alquilan juntos",
-                desc: "Forma equipo, reparte el alquiler con transparencia y presentaos mejor al propietario.",
+                title: t.public.landing.pillar2Title,
+                desc: t.public.landing.pillar2Text,
                 color: "from-emerald-100 to-teal-50",
                 iconColor: "text-emerald-600",
                 iconBg: "bg-emerald-100"
               },
               {
                 icon: Shield,
-                title: "Identidad verificada",
-                desc: "Verificación de identidad, perfiles completos y mensajes antes de dar el paso.",
+                title: t.public.landing.pillar3Title,
+                desc: t.public.landing.pillar3Text,
                 color: "from-blue-100 to-indigo-50",
                 iconColor: "text-blue-600",
                 iconBg: "bg-blue-100"
@@ -145,15 +149,15 @@ export function LandingPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <p className="section-eyebrow">Cómo funciona</p>
+              <p className="section-eyebrow">{t.public.landing.howItWorks}</p>
               <h2 className="section-title mb-8">
-                4 pasos hacia<br />tu nuevo hogar
+                {t.public.landing.stepsTitle}
               </h2>
               <Link
                 to={howItWorksUrl("inquilino")}
                 className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:underline"
               >
-                Ver guía completa para inquilinos
+                {t.public.landing.stepsGuide}
                 <ArrowRight weight="bold" className="h-4 w-4" />
               </Link>
 
@@ -161,31 +165,27 @@ export function LandingPage() {
                 {[
                   {
                     num: "01",
-                    title: "Crea tu perfil",
-                    desc: "Cuéntanos tu estilo de vida, rutinas y preferencias de convivencia.",
+                    title: t.public.landing.step1Title,
+                    desc: t.public.landing.step1Text,
                     icon: User,
-                    image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=100&q=80"
                   },
                   {
                     num: "02",
-                    title: "Descubre espacios",
-                    desc: "Explora pisos con tu afinidad para las personas que ya viven allí.",
+                    title: t.public.landing.step2Title,
+                    desc: t.public.landing.step2Text,
                     icon: House,
-                    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=100&q=80"
                   },
                   {
                     num: "03",
-                    title: "Conecta",
-                    desc: "Chatea con anfitriones y envía solicitudes a los lugares que te gusten.",
+                    title: t.public.landing.step3Title,
+                    desc: t.public.landing.step3Text,
                     icon: ChatCircle,
-                    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80"
                   },
                   {
                     num: "04",
-                    title: "Múdate",
-                    desc: "Firma tu contrato digital y convive con compañeros compatibles.",
+                    title: t.public.landing.step4Title,
+                    desc: t.public.landing.step4Text,
                     icon: Heart,
-                    image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=100&q=80"
                   }
                 ].map((step, i) => (
                   <div
@@ -211,12 +211,12 @@ export function LandingPage() {
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-terracotta/20 to-emerald-700/20 p-12 flex items-center justify-center">
                 <div className="text-center">
                   <House size={64} weight="fill" className="text-stone-700 mx-auto mb-4 animate-float-slow" />
-                  <p className="card-title text-stone-700">Tu comunidad te espera</p>
+                  <p className="card-title text-stone-700">{t.public.landing.communityWait}</p>
                   <Link
                     to={accessSignupUrl("inquilino")}
                     className="inline-flex items-center gap-2 mt-6 text-terracotta font-medium hover:gap-4 transition-all group"
                   >
-                    Empezar ahora
+                    {t.public.landing.startNow}
                     <ArrowRight weight="bold" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -237,19 +237,17 @@ export function LandingPage() {
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="section-title-light">
-              ¿Cómo usas : moon?
+              {t.public.landing.rolesTitle}
             </h2>
             <p className="mt-6 text-stone-400 text-lg">
-              Distintos roles, misma misión: convivencia mejor
+              {t.public.landing.rolesSubtitle}
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
             {[
-              { href: accessSignupUrl("inquilino"), icon: User, title: "Inquilino", desc: "Busco piso y compañeros compatibles" },
-              { href: "/anfitriones", icon: Users, title: "Anfitrión", desc: "Gestiono convivencia en mi piso" },
-              { href: "/propietarios", icon: Buildings, title: "Propietario", desc: "Publico y administro mis pisos" },
-              { href: "/agencias", icon: Briefcase, title: "Agencia", desc: "Opero la cartera de mis clientes" },
+              { href: accessSignupUrl("inquilino"), icon: User, title: t.public.landing.roleTenantTitle, desc: t.public.landing.roleTenantDesc },
+              { href: "/anfitriones", icon: Users, title: t.public.landing.roleHostTitle, desc: t.public.landing.roleHostDesc },
             ].map((item) => (
               <Link
                 key={item.title}
@@ -281,15 +279,15 @@ export function LandingPage() {
       <section className="py-32 bg-gradient-to-br from-terracotta to-orange-600 relative overflow-hidden">
         {/* Animated Particles */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {PARTICLES.map((p) => (
             <div
-              key={i}
+              key={p.id}
               className="absolute w-2 h-2 bg-white/20 rounded-full animate-float-particle"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${5 + Math.random() * 5}s`
+                left: p.left,
+                top: p.top,
+                animationDelay: p.animationDelay,
+                animationDuration: p.animationDuration,
               }}
             />
           ))}
@@ -297,19 +295,29 @@ export function LandingPage() {
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6 animate-fade-in-up">
-            Tu próximo hogar<br />te espera
+            {t.public.landing.ctaBlockTitle}
           </h2>
           <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto sm:text-xl animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-            Crea tu perfil, explora espacios compatibles y da el paso con confianza.
+            {t.public.landing.ctaBlockSubtitle}
           </p>
-          <Link
-            to={accessSignupUrl("inquilino")}
-            className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-stone-900 font-medium text-lg hover:bg-stone-100 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up"
-            style={{ animationDelay: '400ms' }}
+          <div
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up"
+            style={{ animationDelay: "400ms" }}
           >
-            Crear cuenta gratis
-            <ArrowRight weight="bold" className="w-6 h-6" />
-          </Link>
+            <Link
+              to={accessSignupUrl("inquilino")}
+              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-stone-900 font-medium text-lg hover:bg-stone-100 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+            >
+              {t.public.landing.ctaStartFree}
+              <ArrowRight weight="bold" className="w-6 h-6" />
+            </Link>
+            <Link
+              to={accessSignupUrl("anfitrion")}
+              className="inline-flex items-center gap-3 rounded-full border-2 border-white/40 bg-white/10 px-10 py-5 font-medium text-lg text-white backdrop-blur-sm transition-all hover:-translate-y-1 hover:bg-white/20"
+            >
+              {t.public.landing.ctaPublishSpace}
+            </Link>
+          </div>
         </div>
       </section>
     </main>

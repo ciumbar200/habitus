@@ -1,0 +1,254 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - 'link ": moon shared living" [ref=e6] [cursor=pointer]':
+        - /url: /
+        - 'img ": moon shared living" [ref=e7]'
+      - navigation [ref=e8]:
+        - link "Explorar" [ref=e9] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e10] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e11] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e12] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e13] [cursor=pointer]:
+          - /url: /operadores
+        - button "Change language" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e18]: 🇪🇸
+          - generic [ref=e19]: ES
+        - link "Iniciar sesión" [ref=e20] [cursor=pointer]:
+          - /url: /access
+  - main [ref=e21]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: ✨ España · vivienda compartida y coliving
+        - heading "Encuentra o publica vivienda compartida con matching real." [level=1] [ref=e29]:
+          - generic [ref=e30]: Encuentra o publica vivienda compartida
+          - generic [ref=e31]: con matching real.
+        - generic [ref=e32]:
+          - text: MOON conecta inquilinos, propietarios, anfitriones y operadores de coliving para crear hogares compartidos más compatibles, seguros y fáciles de gestionar.
+          - generic [ref=e33]: Habitaciones, coliving, grupos y pisos completos.
+        - generic [ref=e34]:
+          - link "Busco vivienda" [ref=e35] [cursor=pointer]:
+            - /url: /access?signup=1&role=inquilino
+            - text: Busco vivienda
+            - img [ref=e36]
+          - link "Publicar espacio" [ref=e38] [cursor=pointer]:
+            - /url: /access?signup=1&role=anfitrion
+          - link "Soy operador" [ref=e39] [cursor=pointer]:
+            - /url: /operadores
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - paragraph [ref=e42]: 92%
+            - paragraph [ref=e43]: Compatibilidad media
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: 100%
+            - paragraph [ref=e46]: Identidad verificada
+          - generic [ref=e47]:
+            - paragraph [ref=e48]: 24/7
+            - paragraph [ref=e49]: Soporte humano
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e58]:
+                - img [ref=e59]
+                - combobox [ref=e61]:
+                  - option "Ciudad" [selected]
+                  - option "Barcelona"
+                  - option "Madrid"
+                  - option "Valencia"
+                  - option "Sevilla"
+                  - option "Granada"
+              - generic [ref=e63]:
+                - img [ref=e64]
+                - textbox [ref=e66]
+              - generic [ref=e68]:
+                - generic [ref=e69]: €
+                - textbox "Máx." [ref=e70]
+                - generic [ref=e71]: /mes
+              - button "Buscar" [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e75]: Buscar
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e78]: "Tipo:"
+                - generic [ref=e79]:
+                  - button "Piso completo" [ref=e80]:
+                    - img [ref=e81]
+                    - text: Piso completo
+                  - button "Habitación" [ref=e83]:
+                    - img [ref=e84]
+                    - text: Habitación
+                  - button "Formar grupo" [ref=e86]:
+                    - img [ref=e87]
+                    - text: Formar grupo
+              - generic [ref=e89]:
+                - generic [ref=e90]: "Estancia:"
+                - generic [ref=e91]:
+                  - spinbutton "Meses de estancia" [ref=e92]: "7"
+                  - generic [ref=e93]: meses
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - img [ref=e96]
+              - text: Espacios verificados
+            - generic [ref=e98]:
+              - img [ref=e99]
+              - text: Sin comisiones ocultas
+            - generic [ref=e101]:
+              - img [ref=e102]
+              - text: Respuesta 24h
+        - 'link "Salón luminoso en piso compartido de Gràcia Habitación en apartamento moderno de Madrid Cocina compartida con compañeros de piso Ver propiedad 1 Ver propiedad 2 Ver propiedad 3 Piso en Gràcia Barcelona · 94% afinidad Ritmo: Tranquilo Horarios: Similar Valores: Muy alineados Ver alojamientos similares →" [ref=e105] [cursor=pointer]':
+          - /url: /alojamientos?ciudad=barcelona&zona=gracia
+          - generic [ref=e106]:
+            - img "Salón luminoso en piso compartido de Gràcia" [ref=e107]
+            - img "Habitación en apartamento moderno de Madrid" [ref=e108]
+            - img "Cocina compartida con compañeros de piso" [ref=e109]
+            - generic [ref=e111]:
+              - button "Ver propiedad 1" [ref=e112]
+              - button "Ver propiedad 2" [ref=e113]
+              - button "Ver propiedad 3" [ref=e114]
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - img [ref=e118]
+                - generic [ref=e120]:
+                  - paragraph [ref=e121]: Piso en Gràcia
+                  - paragraph [ref=e122]: Barcelona · 94% afinidad
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - generic [ref=e125]: "Ritmo:"
+                  - text: Tranquilo
+                - generic [ref=e126]:
+                  - generic [ref=e127]: "Horarios:"
+                  - text: Similar
+                - generic [ref=e128]:
+                  - generic [ref=e129]: "Valores:"
+                  - text: Muy alineados
+              - paragraph [ref=e130]: Ver alojamientos similares →
+        - paragraph [ref=e131]:
+          - button "Tengo código de referencia del anuncio" [ref=e132]
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - paragraph [ref=e136]: "Por qué : moon"
+        - heading "Vivir acompañado, sin sorpresas" [level=2] [ref=e137]
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - img [ref=e141]
+          - heading "Compatibilidad real" [level=3] [ref=e143]
+          - paragraph [ref=e144]: Cuestionario de hábitos y valores. Afinidad con compañeros, anfitriones y espacios — con desglose claro.
+        - generic [ref=e145]:
+          - img [ref=e147]
+          - heading "Grupos que alquilan juntos" [level=3] [ref=e149]
+          - paragraph [ref=e150]: Forma equipo, reparte el alquiler con transparencia y presentaos mejor al propietario.
+        - generic [ref=e151]:
+          - img [ref=e153]
+          - heading "Identidad verificada" [level=3] [ref=e155]
+          - paragraph [ref=e156]: Verificación de identidad, perfiles completos y mensajes antes de dar el paso.
+    - generic [ref=e159]:
+      - generic [ref=e160]:
+        - paragraph [ref=e161]: Cómo funciona
+        - heading "4 pasos hacia tu nuevo hogar" [level=2] [ref=e162]
+        - link "Ver guía completa para inquilinos" [ref=e163] [cursor=pointer]:
+          - /url: /como-funciona?role=inquilino
+          - text: Ver guía completa para inquilinos
+          - img [ref=e164]
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]: "01"
+            - generic [ref=e169]:
+              - heading "Crea tu perfil" [level=3] [ref=e170]
+              - paragraph [ref=e171]: Cuéntanos tu estilo de vida, rutinas y preferencias de convivencia.
+            - img [ref=e173]
+          - generic [ref=e175]:
+            - generic [ref=e176]: "02"
+            - generic [ref=e177]:
+              - heading "Descubre espacios" [level=3] [ref=e178]
+              - paragraph [ref=e179]: Explora pisos con tu afinidad para las personas que ya viven allí.
+            - img [ref=e181]
+          - generic [ref=e183]:
+            - generic [ref=e184]: "03"
+            - generic [ref=e185]:
+              - heading "Conecta" [level=3] [ref=e186]
+              - paragraph [ref=e187]: Chatea con anfitriones y envía solicitudes a los lugares que te gusten.
+            - img [ref=e189]
+          - generic [ref=e191]:
+            - generic [ref=e192]: "04"
+            - generic [ref=e193]:
+              - heading "Múdate" [level=3] [ref=e194]
+              - paragraph [ref=e195]: Firma tu contrato digital y convive con compañeros compatibles.
+            - img [ref=e197]
+      - generic [ref=e201]:
+        - img [ref=e202]
+        - paragraph [ref=e204]: Tu comunidad te espera
+        - link "Empezar ahora" [ref=e205] [cursor=pointer]:
+          - /url: /access?signup=1&role=inquilino
+          - text: Empezar ahora
+          - img [ref=e206]
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - heading "¿Qué quieres hacer en MOON?" [level=2] [ref=e214]
+        - paragraph [ref=e215]: "Distintos roles, misma misión: vivienda compartida con matching real"
+      - generic [ref=e216]:
+        - link "Buscar habitación, coliving o grupo Para inquilinos que quieren encontrar dónde y con quién vivir." [ref=e217] [cursor=pointer]:
+          - /url: /access?signup=1&role=inquilino
+          - generic [ref=e219]:
+            - img [ref=e221]
+            - heading "Buscar habitación, coliving o grupo" [level=3] [ref=e223]
+            - paragraph [ref=e224]: Para inquilinos que quieren encontrar dónde y con quién vivir.
+            - img [ref=e225]
+        - link "Publicar piso completo Para propietarios que quieren recibir grupos compatibles." [ref=e227] [cursor=pointer]:
+          - /url: /propietarios
+          - generic [ref=e229]:
+            - img [ref=e231]
+            - heading "Publicar piso completo" [level=3] [ref=e233]
+            - paragraph [ref=e234]: Para propietarios que quieren recibir grupos compatibles.
+            - img [ref=e235]
+        - link "Publicar habitación Para anfitriones que quieren encontrar el inquilino adecuado." [ref=e237] [cursor=pointer]:
+          - /url: /anfitriones
+          - generic [ref=e239]:
+            - img [ref=e241]
+            - heading "Publicar habitación" [level=3] [ref=e243]
+            - paragraph [ref=e244]: Para anfitriones que quieren encontrar el inquilino adecuado.
+            - img [ref=e245]
+        - link "Gestionar coliving o varias habitaciones Para operadores que quieren llenar unidades y gestionar candidatos." [ref=e247] [cursor=pointer]:
+          - /url: /operadores
+          - generic [ref=e249]:
+            - img [ref=e251]
+            - heading "Gestionar coliving o varias habitaciones" [level=3] [ref=e253]
+            - paragraph [ref=e254]: Para operadores que quieren llenar unidades y gestionar candidatos.
+            - img [ref=e255]
+    - generic [ref=e279]:
+      - heading "Tu próximo hogar te espera" [level=2] [ref=e280]
+      - paragraph [ref=e281]: Crea tu perfil, explora espacios compatibles y da el paso con confianza.
+      - link "Busco vivienda" [ref=e282] [cursor=pointer]:
+        - /url: /access?signup=1&role=inquilino
+        - text: Busco vivienda
+        - img [ref=e283]
+  - contentinfo [ref=e285]:
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - 'img ": moon shared living" [ref=e289]'
+        - paragraph [ref=e290]: Vivienda compartida con compatibilidad, en España.
+      - generic [ref=e291]:
+        - link "Inicio" [ref=e292] [cursor=pointer]:
+          - /url: /
+        - link "Explorar" [ref=e293] [cursor=pointer]:
+          - /url: /alojamientos
+        - link "Cómo funciona" [ref=e294] [cursor=pointer]:
+          - /url: /como-funciona
+        - link "Anfitriones" [ref=e295] [cursor=pointer]:
+          - /url: /anfitriones
+        - link "Propietarios" [ref=e296] [cursor=pointer]:
+          - /url: /propietarios
+        - link "Operadores" [ref=e297] [cursor=pointer]:
+          - /url: /operadores
+        - link "Privacidad" [ref=e298] [cursor=pointer]:
+          - /url: /privacidad
+        - link "Términos" [ref=e299] [cursor=pointer]:
+          - /url: /terminos
+        - link "Aviso legal" [ref=e300] [cursor=pointer]:
+          - /url: /aviso-legal
+      - paragraph [ref=e301]: "© 2026 : moon shared living · barcelona · madrid · valencia · sevilla · granada"

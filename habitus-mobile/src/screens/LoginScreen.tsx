@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 import {
@@ -49,7 +49,7 @@ export function LoginScreen() {
   const [busy, setBusy] = useState(false);
 
   // Animation values
-  const fadeAnim = useRef(new Animated.Value(0)).current[0];
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useState(new Animated.Value(30))[0];
 
   useEffect(() => {
@@ -314,18 +314,21 @@ export function LoginScreen() {
                 )}
               </Pressable>
 
-              <Text style={styles.footer}>
-                {isLogin ? es.access.notMember : es.access.hasAccount}{" "}
-                <Text
-                  style={styles.footerLink}
+              <View style={styles.footerContainer}>
+                <Text style={styles.footer}>
+                  {isLogin ? es.access.notMember : es.access.hasAccount}{" "}
+                </Text>
+                <Pressable
                   onPress={() => {
                     setMode(isLogin ? "signup" : "login");
                     setError(null);
                   }}
                 >
-                  {isLogin ? es.access.createAccountLink : es.access.signInLink}
-                </Text>
-              </Text>
+                  <Text style={styles.footerLink}>
+                    {isLogin ? es.access.createAccountLink : es.access.signInLink}
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </Animated.View>
@@ -508,9 +511,13 @@ const styles = StyleSheet.create({
     fontWeight: liquidGlassTheme.typography.fontWeight.semiBold,
     letterSpacing: -0.3,
   },
-  footer: {
-    textAlign: "center",
+  footerContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: liquidGlassTheme.spacing.xl,
+  },
+  footer: {
     fontSize: liquidGlassTheme.typography.fontSize.callout,
     color: liquidGlassTheme.colors.light.text.secondary,
     lineHeight: liquidGlassTheme.typography.lineHeight.normal,

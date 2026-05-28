@@ -11,17 +11,22 @@ import {
 } from "@habitus/core";
 import type { ReviewApplication, Roommate } from "@habitus/core";
 import { RoommateCard } from "../../components/RoommateCard";
+import { SimpleTenantCard } from "../../components/SimpleTenantCard";
 import { LoadingState, ErrorState } from "../../components/PageState";
 import { useAuth } from "../../context/AuthContext";
 import { isSupabaseConfigured } from "../../lib/supabase";
 
 export function PanelConvivenciaPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [apps, setApps] = useState<ReviewApplication[]>([]);
   const [matches, setMatches] = useState<Roommate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Owners should see simplified tenant cards (no lifestyle compatibility)
+  const isOwner = profile?.accountRole === "propietario";
+  const TenantCard = isOwner ? SimpleTenantCard : RoommateCard;
 
   useEffect(() => {
     if (!user?.id || !isSupabaseConfigured) {
@@ -65,15 +70,27 @@ export function PanelConvivenciaPage() {
 
       {!loading && !error && matches.length > 0 && (
         <section className="mb-stack-lg">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {matches.map((r) => (
-              <RoommateCard
-                key={r.uuid ?? r.slug}
-                roommate={r}
-                onConversationStarted={(id) => navigate(`/messages?c=${id}`)}
-              />
-            ))}
-          </div>
+          {isOwner ? (
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {matches.map((r) => (
+                <TenantCard
+                  key={r.uuid ?? r.slug}
+                  roommate={r}
+                  onConversationStarted={(id) => navigate(`/messages?c=${id}`)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {matches.map((r) => (
+                <TenantCard
+                  key={r.uuid ?? r.slug}
+                  roommate={r}
+                  onConversationStarted={(id) => navigate(`/messages?c=${id}`)}
+                />
+              ))}
+            </div>
+          )}
         </section>
       )}
 

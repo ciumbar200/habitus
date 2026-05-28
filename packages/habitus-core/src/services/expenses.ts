@@ -1,5 +1,6 @@
 import { getSupabase } from "../client";
 import { computeFairSplit } from "./groups";
+import { fetchConfirmedGroupMemberIds, notifyExpenseAdded } from "./notifications";
 
 export type ExpenseCategory =
   | "rent"
@@ -179,7 +180,19 @@ export async function createHouseholdExpense(input: CreateExpenseInput): Promise
   }));
 
   const { error: splitErr } = await getSupabase().from("habitus_expense_splits").insert(splitInserts);
-  return splitErr?.message ?? null;
+  if (splitErr) return splitErr.message;
+
+  const memberIds = await fetchConfirmedGroupMemberIds(input.groupId);
+  void notifyExpenseAdded({
+    expenseId: expense.id as string,
+    groupId: input.groupId,
+    label: input.label.trim(),
+    amount: input.amountCents / 100,
+    memberProfileIds: memberIds.length ? memberIds : input.members.map((m) => m.profileId),
+    actorId: input.createdBy,
+  });
+
+  return null;
 }
 
 export async function deleteHouseholdExpense(expenseId: string): Promise<string | null> {

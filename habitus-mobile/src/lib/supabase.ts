@@ -3,10 +3,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
 import { initHabitus, isHabitusConfigured } from "@habitus/core";
 
-const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+// Hardcoded Supabase credentials for iOS build
+const url = "https://qectypyfbjlhabdmxigk.supabase.co";
+const key = "sb_publishable_wg8kTpMZ3ZA2BhfSG04MLA_sTDXZbv4";
 
-const client = createClient(url ?? "https://placeholder.supabase.co", key ?? "placeholder", {
+const client = createClient(url, key, {
   auth: {
     storage: AsyncStorage,
     autoRefreshToken: true,
@@ -15,7 +16,7 @@ const client = createClient(url ?? "https://placeholder.supabase.co", key ?? "pl
   },
 });
 
-initHabitus(client, { configured: Boolean(url && key) });
+initHabitus(client, { configured: true });
 
 export const supabase = client;
 export { isHabitusConfigured };

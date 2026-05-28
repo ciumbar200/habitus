@@ -46,7 +46,14 @@ import { PanelInquilinosPage } from "./pages/panel/PanelInquilinosPage";
 import { ListingAccessPage } from "./pages/panel/ListingAccessPage";
 import { LegalPage } from "./pages/legal/LegalPage";
 import { BlogPage } from "./pages/blog/BlogPage";
+import { NotificationsPage } from "./pages/NotificationsPage";
+import { EmbajadoresPage } from "./pages/embajadores/EmbajadoresPage";
 import { BlogPostPage } from "./pages/blog/BlogPostPage";
+import { DocumentationPage } from "./pages/public/DocumentationPage";
+import { HelpPage } from "./pages/public/HelpPage";
+import { Toaster } from "sileo";
+import { NotificationToasts } from "./components/NotificationToasts";
+import { I18nProvider } from "./lib/I18nContext";
 
 function AuthShell() {
   return (
@@ -60,17 +67,24 @@ function AuthShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollReset />
-      <PWAInstallPrompt />
-      <Routes>
+    <I18nProvider>
+      <BrowserRouter>
+        <Toaster position="top-right" offset={{ top: 72, right: 16 }} theme="light" />
+        <NotificationToasts />
+        <ScrollReset />
+        <PWAInstallPrompt />
+        <Routes>
         <Route element={<PublicLayout />}>
           <Route index element={<LandingPage />} />
           <Route path="alojamientos" element={<PublicListingsPage />} />
           <Route path="listings" element={<ListingsLegacyRedirect />} />
           <Route path="anfitriones" element={<HostLandingPage />} />
           <Route path="propietarios" element={<OwnerLandingPage />} />
-          <Route path="agencias" element={<AgencyLandingPage />} />
+          <Route path="operadores" element={<AgencyLandingPage />} />
+          <Route path="agencias" element={<Navigate to="/operadores" replace />} />
+          <Route path="documentacion" element={<DocumentationPage />} />
+          <Route path="docs" element={<Navigate to="/documentacion" replace />} />
+          <Route path="ayuda" element={<HelpPage />} />
           <Route path="como-funciona" element={<HowItWorksPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:slug" element={<BlogPostPage />} />
@@ -117,6 +131,7 @@ export default function App() {
               }
             />
             <Route path="messages" element={<MessagesPage />} />
+            <Route path="notifications" element={<NotificationsPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="profile/editar" element={<ProfileEditPage />} />
             <Route path="comunidad" element={<CommunityPage />} />
@@ -209,6 +224,14 @@ export default function App() {
                 </RoleGate>
               }
             />
+            <Route
+              path="embajadores"
+              element={
+                <RoleGate allow={["embajador"]}>
+                  <EmbajadoresPage />
+                </RoleGate>
+              }
+            />
           </Route>
         </Route>
 
@@ -228,7 +251,8 @@ export default function App() {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </I18nProvider>
   );
 }

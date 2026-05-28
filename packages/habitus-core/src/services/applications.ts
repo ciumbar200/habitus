@@ -1,6 +1,6 @@
 import { formatMoonLocation } from "../data/locations";
 import { getSupabase } from "../client";
-import { queueNotificationEvent } from "./notifications";
+import { notifyApplicationSubmitted } from "./notifications";
 import {
   applicationStatusClass,
   applicationStatusLabel,
@@ -59,45 +59,65 @@ export async function createApplication(
   };
   if (groupId) payload.group_id = groupId;
 
-  const { error } = await getSupabase().from("habitus_applications").insert(payload);
+  const { data: inserted, error } = await getSupabase()
+    .from("habitus_applications")
+    .insert(payload)
+    .select("id")
+    .single();
 
   if (error) {
     if (error.code === "23505") {
       return { error: "Ya tienes una solicitud activa para este espacio." };
     }
     if (error.code === "42703" || error.message.includes("group_id")) {
-      const { error: fallbackErr } = await getSupabase().from("habitus_applications").insert({
-        profile_id: profileId,
-        listing_id: listingId,
-        status: "submitted",
-        progress_percent: 25,
-        applied_at: new Date().toISOString(),
-      });
+      const { data: fallbackRow, error: fallbackErr } = await getSupabase()
+        .from("habitus_applications")
+        .insert({
+          profile_id: profileId,
+          listing_id: listingId,
+          status: "submitted",
+          progress_percent: 25,
+          applied_at: new Date().toISOString(),
+        })
+        .select("id")
+        .single();
       if (fallbackErr) {
         if (fallbackErr.code === "23505") {
           return { error: "Ya tienes una solicitud activa para este espacio." };
         }
         return { error: fallbackErr.message };
       }
-      void queueNotificationEvent({
-        type: "application_submitted",
-        profileIds: [profileId],
-        title: "Solicitud enviada",
-        body: "Tu solicitud de alquiler ha sido registrada.",
-      });
+      void emitApplicationSubmitted(fallbackRow.id, profileId, listingId);
       return { error: null };
     }
     return { error: error.message };
   }
 
-  void queueNotificationEvent({
-    type: "application_submitted",
-    profileIds: [profileId],
-    title: "Solicitud enviada",
-    body: "Tu solicitud de alquiler ha sido registrada.",
-  });
-
+  void emitApplicationSubmitted(inserted.id, profileId, listingId);
   return { error: null };
+}
+
+async function emitApplicationSubmitted(
+  applicationId: string,
+  applicantId: string,
+  listingId: string,
+): Promise<void> {
+  const [{ data: listing }, { data: applicant }] = await Promise.all([
+    getSupabase().from("habitus_listings").select("name").eq("id", listingId).maybeSingle(),
+    getSupabase()
+      .from("habitus_profiles")
+      .select("display_name")
+      .eq("id", applicantId)
+      .maybeSingle(),
+  ]);
+
+  await notifyApplicationSubmitted({
+    applicationId,
+    listingId,
+    listingName: (listing?.name as string) ?? "un espacio",
+    applicantId,
+    applicantName: (applicant?.display_name as string) ?? "Un inquilino",
+  });
 }
 
 export async function fetchApplicationById(

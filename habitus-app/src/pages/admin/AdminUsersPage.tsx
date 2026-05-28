@@ -4,6 +4,7 @@ import {
   adminBulkSetDiscoverable,
   adminBulkSetIdentityStatus,
   adminSetIdentityStatus,
+  adminSetAccountRole,
   es,
   exportUsersCsv,
   fetchAdminUsers,
@@ -30,7 +31,7 @@ const selectClass =
 const inputClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm w-full min-w-[200px]";
 
-const ROLES: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia"];
+const ROLES: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia", "embajador"];
 
 export function AdminUsersPage() {
   const [rows, setRows] = useState<AdminUserRow[]>([]);
@@ -115,6 +116,18 @@ export function AdminUsersPage() {
     const err = await setUserAdmin(row.id, !row.isAdmin);
     if (err) setError(err);
     else setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, isAdmin: !r.isAdmin } : r)));
+    setBusyId(null);
+  }
+
+  async function toggleAmbassador(row: AdminUserRow) {
+    setBusyId(row.id);
+    const newRole = row.accountRole === "embajador" ? null : "embajador";
+    const err = await adminSetAccountRole(row.id, newRole);
+    if (err) setError(err);
+    else
+      setRows((prev) =>
+        prev.map((r) => (r.id === row.id ? { ...r, accountRole: newRole as AccountRoleSlug | null } : r)),
+      );
     setBusyId(null);
   }
 
@@ -338,7 +351,21 @@ export function AdminUsersPage() {
                   </td>
                   <td className="px-4 py-3 font-medium text-deep-navy">{row.displayName}</td>
                   <td className="px-4 py-3 text-warm-slate">
-                    {row.accountRole ? accountRoleLabel(row.accountRole) : "—"}
+                    <span>{row.accountRole ? accountRoleLabel(row.accountRole) : "—"}</span>
+                    <div className="mt-1">
+                      <button
+                        type="button"
+                        disabled={busyId === row.id || bulkBusy}
+                        onClick={() => toggleAmbassador(row)}
+                        className={`rounded-lg px-2 py-0.5 text-[11px] disabled:opacity-50 ${
+                          row.accountRole === "embajador"
+                            ? "border border-teal-accent text-teal-accent"
+                            : "border border-border-light text-warm-slate"
+                        }`}
+                      >
+                        {row.accountRole === "embajador" ? "✓ Embajador" : "Hacer embajador"}
+                      </button>
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <IdentityBadge status={row.identityStatus} size="sm" />

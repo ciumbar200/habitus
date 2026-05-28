@@ -13,6 +13,7 @@ import { CommunityScreen } from "../screens/CommunityScreen";
 import { GroupsScreen } from "../screens/GroupsScreen";
 import { ApplicationsScreen } from "../screens/panel/ApplicationsScreen";
 import { liquidGlassTheme } from "../theme/liquidGlass";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export type MainTabParamList = {
   Discover: undefined;
@@ -44,6 +45,22 @@ export function MainTabs() {
   const { profile } = useAuth();
   const tabs = mobileTabsForRole(profile?.accountRole);
 
+  // Icon mapping for tabs
+  const getIcon = (screen: string, focused: boolean) => {
+    const icons: Record<string, string> = {
+      Discover: focused ? "explore" : "explore-off",
+      Matches: focused ? "favorite" : "favorite-border",
+      Community: focused ? "people" : "people-outline",
+      Groups: focused ? "group" : "group-outlined",
+      Messages: focused ? "chat-bubble" : "chat-bubble-outline",
+      Profile: focused ? "person" : "person-outline",
+      Panel: focused ? "dashboard" : "dashboard-outlined",
+      Spaces: focused ? "home" : "home-outlined",
+      Applications: focused ? "assignment" : "assignment-outlined",
+    };
+    return icons[screen] || "circle";
+  };
+
   return (
     <>
       <ReturnToPropertyHandler />
@@ -53,8 +70,8 @@ export function MainTabs() {
           tabBarActiveTintColor: liquidGlassTheme.colors.brand.primary,
           tabBarInactiveTintColor: liquidGlassTheme.colors.light.text.tertiary,
           tabBarStyle: {
-            backgroundColor: liquidGlassTheme.colors.light.glass.navigation,
-            borderTopColor: liquidGlassTheme.colors.light.border.subtle,
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderTopColor: "rgba(0, 0, 0, 0.06)",
             borderTopWidth: 1,
             height: 85,
             paddingBottom: 5,
@@ -78,7 +95,16 @@ export function MainTabs() {
               key={tab.screen}
               name={tab.screen as keyof MainTabParamList}
               component={Screen}
-              options={{ title: tab.label }}
+              options={{
+                title: tab.label,
+                tabBarIcon: ({ focused }) => (
+                  <MaterialIcons
+                    name={getIcon(tab.screen, focused) as any}
+                    size={24}
+                    color={focused ? liquidGlassTheme.colors.brand.primary : liquidGlassTheme.colors.light.text.tertiary}
+                  />
+                ),
+              }}
             />
           );
         })}

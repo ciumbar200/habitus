@@ -21,6 +21,8 @@ import {
 } from "@habitus/core";
 import { isSupabaseConfigured } from "../lib/supabase";
 
+type PropertyTypeFilter = "all" | "room" | "entire";
+
 export function DiscoverPage() {
   const { user } = useAuth();
   const { isListingSaved, toggleListing } = useBookmarks();
@@ -35,6 +37,7 @@ export function DiscoverPage() {
   const [appliedBudget, setAppliedBudget] = useState("");
   const [moveInQ, setMoveInQ] = useState("");
   const [appliedMoveIn, setAppliedMoveIn] = useState("");
+  const [propertyType, setPropertyType] = useState<PropertyTypeFilter>("all");
   const [allProperties, setAllProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,6 +49,9 @@ export function DiscoverPage() {
       if (!matchesCityZoneFilter(p.city, p.location, appliedCity, appliedZone)) return false;
       if (!Number.isNaN(max) && max > 0 && p.price > max) return false;
       if (moveIn && p.availableFrom && p.availableFrom > moveIn) return false;
+      // Property type filter
+      if (propertyType === "room" && p.categorySlug !== "habitacion") return false;
+      if (propertyType === "entire" && p.categorySlug === "habitacion") return false;
       return true;
     });
   }
@@ -110,7 +116,7 @@ export function DiscoverPage() {
 
   useEffect(() => {
     setProperties(applyFilters(allProperties));
-  }, [allProperties, appliedCity, appliedZone, appliedBudget, appliedMoveIn]);
+  }, [allProperties, appliedCity, appliedZone, appliedBudget, appliedMoveIn, propertyType]);
 
   function runSearch() {
     setAppliedCity(filterCity);
@@ -176,6 +182,45 @@ export function DiscoverPage() {
               {es.common.search}
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Property Type Filter */}
+      <section className="mb-stack-lg">
+        <div className="inline-flex rounded-lg border border-border-light bg-surface-container-lowest p-1">
+          <button
+            type="button"
+            onClick={() => setPropertyType("all")}
+            className={`rounded-md px-4 py-2 text-label-sm font-medium transition-colors ${
+              propertyType === "all"
+                ? "bg-deep-navy text-white"
+                : "text-deep-navy hover:bg-surface-container"
+            }`}
+          >
+            {es.discover.propertyTypeAll}
+          </button>
+          <button
+            type="button"
+            onClick={() => setPropertyType("room")}
+            className={`rounded-md px-4 py-2 text-label-sm font-medium transition-colors ${
+              propertyType === "room"
+                ? "bg-deep-navy text-white"
+                : "text-deep-navy hover:bg-surface-container"
+            }`}
+          >
+            {es.discover.propertyTypeRoom}
+          </button>
+          <button
+            type="button"
+            onClick={() => setPropertyType("entire")}
+            className={`rounded-md px-4 py-2 text-label-sm font-medium transition-colors ${
+              propertyType === "entire"
+                ? "bg-deep-navy text-white"
+                : "text-deep-navy hover:bg-surface-container"
+            }`}
+          >
+            {es.discover.propertyTypeEntire}
+          </button>
         </div>
       </section>
 
