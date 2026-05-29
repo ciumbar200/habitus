@@ -67,4 +67,11 @@ CREATE POLICY habitus_notification_prefs_upsert ON public.habitus_notification_p
   WITH CHECK (profile_id = auth.uid());
 
 -- Realtime para badge in-app
-ALTER PUBLICATION supabase_realtime ADD TABLE public.habitus_notifications;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'habitus_notifications'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.habitus_notifications;
+  END IF;
+END $$;
