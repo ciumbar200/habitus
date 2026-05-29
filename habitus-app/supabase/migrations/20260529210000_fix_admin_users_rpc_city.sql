@@ -11,20 +11,23 @@
 -- `42804: structure of query does not match function result type`. Both are
 -- fixed here: NULL::text for the missing city, and profile_score::integer.
 
-CREATE OR REPLACE FUNCTION public.habitus_admin_get_users_with_email()
- RETURNS TABLE(id uuid, email text, display_name text, account_role text, admin_role text, is_admin boolean, is_discoverable boolean, identity_status text, profile_score integer, suspended_at timestamp with time zone, deleted_at timestamp with time zone, city text, onboarding_completed_at timestamp with time zone, created_at timestamp with time zone)
+CREATE OR REPLACE FUNCTION public.habitus_admin_get_users_with_email(p_limit integer DEFAULT 500)
+ RETURNS TABLE(id uuid, email text, display_name text, account_role text, is_discoverable boolean, identity_status text, profile_score integer, suspended_at timestamp with time zone, deleted_at timestamp with time zone, onboarding_completed_at timestamp with time zone, created_at timestamp with time zone)
  LANGUAGE plpgsql
  STABLE SECURITY DEFINER
  SET search_path TO 'public'
 AS $function$
+DECLARE v_limit integer;
 BEGIN
   IF NOT public.habitus_is_admin() THEN RAISE EXCEPTION 'No autorizado'; END IF;
+  -- Validate and enforce limit bounds (1-500)
+  v_limit := LEAST(GREATEST(COALESCE(p_limit, 500), 1), 500);
   RETURN QUERY
     SELECT p.id, u.email::text, p.display_name, p.account_role::text,
-           p.admin_role, p.is_admin, p.is_discoverable, p.identity_status,
+           p.is_discoverable, p.identity_status,
            p.profile_score::integer, p.suspended_at, p.deleted_at,
-           NULL::text AS city, p.onboarding_completed_at, u.created_at
+           p.onboarding_completed_at, u.created_at
     FROM public.habitus_profiles p
     JOIN auth.users u ON u.id = p.id
-    ORDER BY u.created_at DESC LIMIT 500;
+    ORDER BY u.created_at DESC LIMIT v_limit;
 END; $function$;

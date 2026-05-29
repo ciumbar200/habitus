@@ -41,7 +41,7 @@ CREATE POLICY habitus_notifications_update ON public.habitus_notifications
 DROP POLICY IF EXISTS habitus_notifications_insert ON public.habitus_notifications;
 CREATE POLICY habitus_notifications_insert ON public.habitus_notifications
   FOR INSERT TO authenticated
-  WITH CHECK (public.habitus_is_admin());
+  WITH CHECK (public.habitus_is_admin() AND profile_id = auth.uid());
 
 CREATE TABLE IF NOT EXISTS public.habitus_notification_preferences (
   profile_id uuid PRIMARY KEY REFERENCES public.habitus_profiles(id) ON DELETE CASCADE,
