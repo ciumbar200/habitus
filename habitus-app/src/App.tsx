@@ -39,6 +39,8 @@ import { AdminUserDetailPage } from "./pages/admin/AdminUserDetailPage";
 import { AdminListingsPage } from "./pages/admin/AdminListingsPage";
 import { AdminReportsPage } from "./pages/admin/AdminReportsPage";
 import { AdminEmbajadoresPage } from "./pages/admin/AdminEmbajadoresPage";
+import { AdminComisionesPage } from "./pages/admin/AdminComisionesPage";
+import { AdminRoomAssignmentsPage } from "./pages/admin/AdminRoomAssignmentsPage";
 import { AdminMatchingPage } from "./pages/admin/AdminMatchingPage";
 import { AdminSolicitudesPage } from "./pages/admin/AdminSolicitudesPage";
 import { AdminGruposPage } from "./pages/admin/AdminGruposPage";
@@ -56,6 +58,7 @@ import { LegalPage } from "./pages/legal/LegalPage";
 import { BlogPage } from "./pages/blog/BlogPage";
 import { NotificationsPage } from "./pages/NotificationsPage";
 import { EmbajadoresPage } from "./pages/embajadores/EmbajadoresPage";
+import { ReferidosPage } from "./pages/ReferidosPage";
 import { BlogPostPage } from "./pages/blog/BlogPostPage";
 import { DocumentationPage } from "./pages/public/DocumentationPage";
 import { HelpPage } from "./pages/public/HelpPage";
@@ -240,6 +243,7 @@ export default function App() {
                 </RoleGate>
               }
             />
+            <Route path="referidos" element={<ReferidosPage />} />
           </Route>
         </Route>
 
@@ -256,6 +260,8 @@ export default function App() {
           <Route path="/admin/usuarios" element={<AdminUsersPage />} />
           <Route path="/admin/usuarios/:id" element={<AdminUserDetailPage />} />
           <Route path="/admin/embajadores" element={<AdminEmbajadoresPage />} />
+          <Route path="/admin/comisiones" element={<AdminComisionesPage />} />
+          <Route path="/admin/habitaciones" element={<AdminRoomAssignmentsPage />} />
           <Route path="/admin/matching" element={<AdminMatchingPage />} />
           <Route path="/admin/solicitudes" element={<AdminSolicitudesPage />} />
           <Route path="/admin/espacios" element={<AdminListingsPage />} />

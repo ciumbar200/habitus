@@ -17,6 +17,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { path: "/admin/usuarios", label: es.admin.nav.users, icon: "group" },
       { path: "/admin/embajadores", label: es.admin.nav.ambassadors, icon: "star" },
+      { path: "/admin/comisiones", label: es.admin.nav.commissions, icon: "payments" },
     ],
   },
   {
@@ -25,6 +26,7 @@ const NAV_SECTIONS: NavSection[] = [
       { path: "/admin/matching", label: es.admin.nav.matching, icon: "hub" },
       { path: "/admin/solicitudes", label: es.admin.nav.applications, icon: "assignment" },
       { path: "/admin/espacios", label: es.admin.nav.listings, icon: "apartment" },
+      { path: "/admin/habitaciones", label: es.admin.nav.rooms, icon: "bed" },
       { path: "/admin/grupos", label: es.admin.nav.groups, icon: "groups" },
     ],
   },
