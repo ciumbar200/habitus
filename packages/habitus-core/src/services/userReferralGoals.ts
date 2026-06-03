@@ -184,7 +184,7 @@ export async function setReferralGoal(
   profileId: string,
   goalCount: number = 5
 ): Promise<string | null> {
-  const { data, error } = await getSupabase()
+  const { error } = await getSupabase()
     .from("habitus_referral_goals")
     .upsert({
       profile_id: profileId,

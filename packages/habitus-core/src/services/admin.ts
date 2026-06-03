@@ -821,7 +821,7 @@ export async function fetchAdminUsersExtended(): Promise<AdminUserExtended[]> {
     displayName: (r.display_name as string) ?? "",
     accountRole: (r.account_role as AccountRoleSlug | null) ?? null,
     adminRole: null,
-    isAdmin: false,
+    isAdmin: Boolean(r.is_admin ?? false),
     isDiscoverable: Boolean(r.is_discoverable),
     identityStatus: ((r.identity_status as string) ?? "none") as IdentityStatus,
     profileScore: Number(r.profile_score ?? 0),

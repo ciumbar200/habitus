@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import {
   getUserReferralStats,
   claimReferralReward,
-  es,
-  buildReferralUrl,
   type UserReferralStats,
 } from "@habitus/core";
 import { ReferralCard } from "../components/ReferralCard";

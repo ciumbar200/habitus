@@ -7,6 +7,7 @@ import {
   createAmbassadorCommission,
   fetchAdminAmbassadors,
   es,
+  type AdminAmbassador,
   type AmbassadorCommission,
   type AmbassadorCommissionStats,
   type CommissionStatus,
@@ -23,7 +24,7 @@ const inputClass =
 export function AdminComisionesPage() {
   const [stats, setStats] = useState<AmbassadorCommissionStats[]>([]);
   const [commissions, setCommissions] = useState<AmbassadorCommission[]>([]);
-  const [ambassadors, setAmbassadors] = useState<{ id: string; name: string }[]>([]);
+  const [ambassadors, setAmbassadors] = useState<AdminAmbassador[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -360,7 +361,7 @@ export function AdminComisionesPage() {
                   <option value="">Seleccionar...</option>
                   {ambassadors.map((a) => (
                     <option key={a.id} value={a.id}>
-                      {a.name}
+                      {a.displayName}
                     </option>
                   ))}
                 </select>

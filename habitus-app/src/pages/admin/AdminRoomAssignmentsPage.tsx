@@ -2,14 +2,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   fetchAdminRoomAssignments,
   createRoom,
-  updateRoom,
   assignRoomHost,
   removeRoomHost,
   fetchAdminHosts,
   es,
   type RoomWithAssignment,
 } from "@habitus/core";
-import { Icon } from "../../components/Icon";
 import { LoadingState, ErrorState } from "../../components/PageState";
 
 const selectClass =
