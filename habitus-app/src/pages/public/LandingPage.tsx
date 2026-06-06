@@ -9,6 +9,7 @@ import { ArrowRight, Users, Shield, Heart, ChatCircle, House, Target, User } fro
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { LandingMainHero } from "../../components/public/LandingMainHero";
 import { HeroAsidePanel } from "../../components/public/HeroAsidePanel";
+import { Reveal } from "../../components/public/Reveal";
 
 const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
   id: i,
@@ -77,7 +78,7 @@ export function LandingPage() {
           <>
             <Link
               to={accessSignupUrl("inquilino")}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100 sm:px-8 sm:py-4 sm:text-base"
+              className="btn-shine group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-stone-100 hover:shadow-xl sm:px-8 sm:py-4 sm:text-base"
             >
               {t.public.landing.ctaStartFree}
               <ArrowRight weight="bold" className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -93,14 +94,14 @@ export function LandingPage() {
       />
 
       {/* Value Props with Icons */}
-      <section className="py-32 bg-stone-100">
+      <section className="py-32 bg-gradient-to-b from-stone-100 to-stone-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
+          <Reveal className="text-center max-w-3xl mx-auto mb-20">
             <p className="section-eyebrow">{t.public.landing.pillarsTitle}</p>
             <h2 className="section-title">
               {t.public.landing.pillarsSubtitle}
             </h2>
-          </div>
+          </Reveal>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -110,7 +111,6 @@ export function LandingPage() {
                 desc: t.public.landing.pillar1Text,
                 color: "from-amber-100 to-orange-50",
                 iconColor: "text-amber-600",
-                iconBg: "bg-amber-100"
               },
               {
                 icon: Users,
@@ -118,7 +118,6 @@ export function LandingPage() {
                 desc: t.public.landing.pillar2Text,
                 color: "from-emerald-100 to-teal-50",
                 iconColor: "text-emerald-600",
-                iconBg: "bg-emerald-100"
               },
               {
                 icon: Shield,
@@ -126,19 +125,17 @@ export function LandingPage() {
                 desc: t.public.landing.pillar3Text,
                 color: "from-blue-100 to-indigo-50",
                 iconColor: "text-blue-600",
-                iconBg: "bg-blue-100"
               }
             ].map((prop, i) => (
-              <div
-                key={i}
-                className="group relative rounded-3xl p-8 bg-gradient-to-br hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${prop.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                  <prop.icon size={32} weight="thin" className={prop.iconColor} />
+              <Reveal key={i} delay={i * 120} from="up">
+                <div className="group relative h-full rounded-3xl border border-stone-200/70 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-stone-300/80 hover:shadow-xl">
+                  <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${prop.color} flex items-center justify-center mb-6 ring-1 ring-stone-900/5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                    <prop.icon size={32} weight="duotone" className={prop.iconColor} />
+                  </div>
+                  <h3 className="card-title mb-3">{prop.title}</h3>
+                  <p className="text-stone-600 leading-relaxed">{prop.desc}</p>
                 </div>
-                <h3 className="card-title mb-3">{prop.title}</h3>
-                <p className="text-stone-600 leading-relaxed">{prop.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -148,17 +145,17 @@ export function LandingPage() {
       <section className="py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div>
+            <Reveal from="left">
               <p className="section-eyebrow">{t.public.landing.howItWorks}</p>
               <h2 className="section-title mb-8">
                 {t.public.landing.stepsTitle}
               </h2>
               <Link
                 to={howItWorksUrl("inquilino")}
-                className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:underline"
+                className="group mb-8 inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:underline"
               >
                 {t.public.landing.stepsGuide}
-                <ArrowRight weight="bold" className="h-4 w-4" />
+                <ArrowRight weight="bold" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
 
               <div className="space-y-8">
@@ -188,40 +185,44 @@ export function LandingPage() {
                     icon: Heart,
                   }
                 ].map((step, i) => (
-                  <div
-                    key={i}
-                    className="flex gap-6 group hover:bg-stone-50 rounded-2xl p-4 -mx-4 transition-all duration-300"
-                  >
-                    <span className="step-number group-hover:text-stone-300 transition-colors">
-                      {step.num}
-                    </span>
-                    <div className="flex-1">
-                      <h3 className="card-title mb-1">{step.title}</h3>
-                      <p className="text-stone-600">{step.desc}</p>
+                  <Reveal key={i} delay={i * 90} from="left">
+                    <div className="flex gap-6 group hover:bg-stone-50 rounded-2xl p-4 -mx-4 transition-all duration-300">
+                      <span className="step-number group-hover:text-terracotta/40 transition-colors">
+                        {step.num}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="card-title mb-1">{step.title}</h3>
+                        <p className="text-stone-600">{step.desc}</p>
+                      </div>
+                      <div className="h-12 w-12 rounded-full bg-stone-100 flex items-center justify-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        <step.icon size={20} weight="bold" className="text-stone-400" />
+                      </div>
                     </div>
-                    <div className="h-12 w-12 rounded-full bg-stone-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <step.icon size={20} weight="bold" className="text-stone-400" />
-                    </div>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-terracotta/20 to-emerald-700/20 p-12 flex items-center justify-center">
-                <div className="text-center">
-                  <House size={64} weight="fill" className="text-stone-700 mx-auto mb-4 animate-float-slow" />
+            <Reveal from="right" delay={120} className="relative">
+              <div className="group relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-terracotta/20 via-stone-100 to-emerald-700/20 p-12 flex items-center justify-center ring-1 ring-stone-900/5 shadow-sm">
+                {/* drifting glow accents */}
+                <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-terracotta/20 blur-3xl animate-float" />
+                <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-emerald-600/20 blur-3xl animate-float" style={{ animationDelay: "1.5s" }} />
+                <div className="relative text-center">
+                  <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/70 shadow-lg ring-1 ring-stone-900/5 backdrop-blur-sm animate-float-slow">
+                    <House size={48} weight="fill" className="text-terracotta" />
+                  </div>
                   <p className="card-title text-stone-700">{t.public.landing.communityWait}</p>
                   <Link
                     to={accessSignupUrl("inquilino")}
-                    className="inline-flex items-center gap-2 mt-6 text-terracotta font-medium hover:gap-4 transition-all group"
+                    className="inline-flex items-center gap-2 mt-6 text-terracotta font-semibold hover:gap-4 transition-all group/cta"
                   >
                     {t.public.landing.startNow}
-                    <ArrowRight weight="bold" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight weight="bold" className="w-5 h-5 group-hover/cta:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -235,48 +236,58 @@ export function LandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <Reveal className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="section-title-light">
               {t.public.landing.rolesTitle}
             </h2>
             <p className="mt-6 text-stone-400 text-lg">
               {t.public.landing.rolesSubtitle}
             </p>
-          </div>
+          </Reveal>
 
           <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
             {[
               { href: accessSignupUrl("inquilino"), icon: User, title: t.public.landing.roleTenantTitle, desc: t.public.landing.roleTenantDesc },
               { href: "/anfitriones", icon: Users, title: t.public.landing.roleHostTitle, desc: t.public.landing.roleHostDesc },
-            ].map((item) => (
-              <Link
-                key={item.title}
-                to={item.href}
-                className="group relative rounded-2xl bg-stone-800 p-8 hover:bg-stone-700 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              >
-                {/* Hover Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-terracotta/0 to-terracotta/10 group-hover:from-terracotta/10 group-hover:to-emerald-700/10 transition-all duration-500" />
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={i * 120} from="up">
+                <Link
+                  to={item.href}
+                  className="group relative block h-full rounded-2xl bg-stone-800 p-8 ring-1 ring-white/5 hover:ring-white/15 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-terracotta/10 overflow-hidden"
+                >
+                  {/* Hover Background Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-terracotta/0 to-terracotta/10 group-hover:from-terracotta/10 group-hover:to-emerald-700/10 transition-all duration-500" />
 
-                <div className="relative">
-                  <div className="text-4xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 text-terracotta">
-                    <item.icon size={40} weight="fill" />
+                  <div className="relative">
+                    <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-terracotta/15 text-terracotta ring-1 ring-terracotta/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-terracotta/25">
+                      <item.icon size={28} weight="fill" />
+                    </div>
+                    <h3 className="card-title-light mb-2">{item.title}</h3>
+                    <p className="text-stone-400 text-sm">{item.desc}</p>
+                    <ArrowRight
+                      weight="bold"
+                      className="mt-4 text-terracotta opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                      size={20}
+                    />
                   </div>
-                  <h3 className="card-title-light mb-2">{item.title}</h3>
-                  <p className="text-stone-400 text-sm">{item.desc}</p>
-                  <ArrowRight
-                    weight="bold"
-                    className="mt-4 text-terracotta opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-                    size={20}
-                  />
-                </div>
-              </Link>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Final CTA with Animation */}
-      <section className="py-32 bg-gradient-to-br from-terracotta to-orange-600 relative overflow-hidden">
+      <section className="py-32 relative overflow-hidden bg-gradient-to-br from-terracotta via-orange-600 to-terracotta-dark animate-gradient-drift">
+        {/* Soft radial highlight */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.22), transparent 70%)",
+          }}
+        />
         {/* Animated Particles */}
         <div className="absolute inset-0">
           {PARTICLES.map((p) => (
@@ -294,22 +305,22 @@ export function LandingPage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6 animate-fade-in-up">
+          <Reveal as="h2" className="section-title-light lg:text-5xl xl:text-[3.25rem] mb-6">
             {t.public.landing.ctaBlockTitle}
-          </h2>
-          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto sm:text-xl animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          </Reveal>
+          <Reveal as="p" delay={120} className="text-lg text-white/80 mb-10 max-w-2xl mx-auto sm:text-xl">
             {t.public.landing.ctaBlockSubtitle}
-          </p>
-          <div
-            className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up"
-            style={{ animationDelay: "400ms" }}
+          </Reveal>
+          <Reveal
+            delay={240}
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Link
               to={accessSignupUrl("inquilino")}
-              className="inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-stone-900 font-medium text-lg hover:bg-stone-100 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+              className="btn-shine group inline-flex items-center gap-3 rounded-full bg-white px-10 py-5 text-stone-900 font-semibold text-lg hover:bg-stone-100 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
             >
               {t.public.landing.ctaStartFree}
-              <ArrowRight weight="bold" className="w-6 h-6" />
+              <ArrowRight weight="bold" className="w-6 h-6 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               to={accessSignupUrl("anfitrion")}
@@ -317,7 +328,7 @@ export function LandingPage() {
             >
               {t.public.landing.ctaPublishSpace}
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
     </main>
