@@ -101,6 +101,7 @@ const CalculadoraAlquilerPage = lazily(
   "CalculadoraAlquilerPage",
 );
 const RecursosPage = lazily(() => import("./pages/public/RecursosPage"), "RecursosPage");
+const BarrioPage = lazily(() => import("./pages/public/BarrioPage"), "BarrioPage");
 const AcuerdoConvivenciaPage = lazily(
   () => import("./pages/public/AcuerdoConvivenciaPage"),
   "AcuerdoConvivenciaPage",
@@ -252,6 +253,7 @@ export default function App() {
           <Route path="recursos/acuerdo-convivencia" element={<AcuerdoConvivenciaPage />} />
           <Route path="recursos/inventario-piso" element={<InventarioPisoPage />} />
           <Route path="recursos/guia-convivencia" element={<GuiaConvivenciaPage />} />
+          <Route path="habitaciones/:ciudad/:barrio" element={<BarrioPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:slug" element={<BlogPostPage />} />
           <Route path="invitar/grupo/:slug" element={<GroupInvitePage />} />

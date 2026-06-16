@@ -556,7 +556,217 @@ Analizamos estilos de convivencia antes de conectar.
 [**Explorar con compatibilidad real**](/alojamientos)
 [**Crear cuenta gratis**](/access?role=inquilino)
     `
-  }
+  },
+  {
+    slug: "repartir-alquiler-habitaciones-distintas",
+    title: "Cómo repartir el alquiler cuando las habitaciones no son iguales",
+    excerpt: "El reparto a partes iguales parece justo, pero cuando las habitaciones son distintas crea resentimiento. Esta es la fórmula que usan los pisos que no tienen peleas.",
+    category: "Guías",
+    tags: ["gastos", "alquiler", "convivencia", "dinero", "habitaciones"],
+    author: "Equipo : moon",
+    publishedAt: "2026-06-17",
+    readTime: 7,
+    seoTitle: "Cómo repartir el alquiler cuando las habitaciones no son iguales | moon",
+    seoDescription: "Fórmula justa para dividir el alquiler en pisos con habitaciones de diferente tamaño o calidad. Calculadora incluida.",
+    content: `
+# Cómo repartir el alquiler cuando las habitaciones no son iguales
+
+## El problema con «a partes iguales»
+
+Piso de 1.200 €/mes. Tres habitaciones: una exterior de 16 m² con baño propio, una interior de 10 m² y un cuarto pequeño de 8 m² que antes era un trastero. Los tres pagan 400 €.
+
+¿Es eso justo?
+
+No lo es. Y todos lo saben. El que tiene la habitación grande acepta callado porque le conviene, y el que tiene el trastero aguanta porque necesita el piso. Esa tensión silenciosa es la que explota a los seis meses.
+
+El reparto «a partes iguales» solo funciona cuando las habitaciones son de verdad iguales. En el 80% de los pisos compartidos, no lo son.
+
+## La fórmula del reparto proporcional por peso
+
+La solución no es complicada. Se asigna un **peso** a cada habitación según su valor relativo, y el alquiler se divide en proporción.
+
+**Factores que suben el peso:**
+- Metros cuadrados (el factor principal)
+- Ventana exterior vs interior
+- Baño propio vs compartido
+- Terraza o balcón privado
+- Armario empotrado, más almacenaje
+- Orientación (sur/este = más luz)
+
+**Factores que bajan el peso:**
+- Interior, sin ventana natural
+- Dimensiones irregulares
+- Sin armario
+- Más lejos del baño compartido
+
+### Ejemplo práctico
+
+| Habitación | Descripción | Peso | % del total | Alquiler a pagar |
+|---|---|---|---|---|
+| Hab. 1 | 16 m², exterior, baño propio | 5 | 45% | **540 €** |
+| Hab. 2 | 10 m², exterior, baño compartido | 3 | 27% | **325 €** |
+| Hab. 3 | 8 m², interior, baño compartido | 2 | 18% | **216 €** |
+| Zonas comunes | — | 1 | 9% | (entre todos) |
+
+**Total: 1.081 €** (el resto: suministros y fondo común)
+
+> La función \`computeFairSplit\` de moon hace este cálculo automáticamente. Puedes usarla en la [calculadora de alquiler justo](/calculadora-alquiler) sin necesidad de registrarte.
+
+## Cómo tener la conversación
+
+La mayoría de la gente no tiene el problema de la fórmula — tiene el problema de **cómo proponerlo** sin que parezca que solo te beneficias a ti.
+
+**Lo que funciona:**
+
+1. **Proponlo antes de firmar**, no después. «Oye, las habitaciones son bastante distintas, ¿cómo lo repartimos?» es mucho más fácil de decir sin contrato firmado.
+
+2. **Usa una herramienta neutral**. No tu cálculo manual. Una calculadora (como la de moon) donde todos meten los datos y la fórmula sale sola elimina el sesgo percibido.
+
+3. **Déjalo por escrito en el acuerdo de convivencia**. «El método de reparto acordado es: proporcional por peso de habitación (calculadora moon, configuración del día X)». Así no hay que re-negociar cada mes.
+
+4. **Revísalo si cambia algo**. Si alguien cede la habitación grande o entra un nuevo compañero, recalculad.
+
+## Los errores más comunes
+
+**Error #1: Repartir suministros también por peso**
+Los suministros (luz, agua, internet) son de uso común y se reparten a partes iguales. Solo el alquiler va por habitación.
+
+**Error #2: No revisar cuando alguien se va**
+Si el que tenía la habitación grande se va y entra alguien en la pequeña, hay que recalcular. Muchos pisos olvidan esto y el nuevo conviviente acaba pagando lo mismo que el anterior aunque tenga una habitación diferente.
+
+**Error #3: Hacer el cálculo sin que todos estén presentes**
+Cada persona debe ver el proceso. «Yo calculé y te toca X» genera desconfianza aunque el cálculo sea perfecto.
+
+## El reparto bien hecho construye confianza
+
+Un piso donde el dinero está bien repartido tiene menos conflictos en todo lo demás. No porque el dinero sea lo más importante, sino porque cuando la parte económica está resuelta de forma justa, el resto de la convivencia se afronta desde una base más sana.
+
+[**Usar la calculadora de alquiler justo →**](/calculadora-alquiler)
+
+[**Descargar plantilla de acuerdo de convivencia →**](/recursos/acuerdo-convivencia)
+    `,
+  },
+  {
+    slug: "liquidar-piso-sin-pelearte",
+    title: "Cómo liquidar un piso compartido sin pelearte con nadie",
+    excerpt: "El momento de ajustar cuentas al terminar la convivencia es el que más conflictos genera. Aquí está el proceso exacto para cerrarlo limpio y sin drama.",
+    category: "Guías",
+    tags: ["gastos", "convivencia", "liquidación", "fianza", "salida"],
+    author: "Equipo : moon",
+    publishedAt: "2026-06-17",
+    readTime: 8,
+    seoTitle: "Cómo liquidar un piso compartido sin peleas — guía paso a paso | moon",
+    seoDescription: "Proceso completo para liquidar las cuentas de un piso compartido: gastos pendientes, fianza, inventario y endosos. Sin conflictos.",
+    content: `
+# Cómo liquidar un piso compartido sin pelearte con nadie
+
+## Por qué la liquidación es el momento más peligroso
+
+Lleváis 10 meses viviendo juntos sin grandes problemas. Luego alguien dice «me voy en 30 días» y de repente aparecen deudas que nadie recuerda, gastos que «alguien pagó pero no está en la app», la fianza que el propietario retiene por una mancha que «ya estaba antes»...
+
+La liquidación de un piso es el momento donde se concentra el máximo potencial de conflicto. No porque la gente sea mala, sino porque hay dinero real en juego, hay prisa, y casi nunca hay un proceso acordado de antemano.
+
+Este artículo es ese proceso.
+
+## El proceso en 5 pasos (en orden)
+
+### Paso 1: Cuadrar los gastos compartidos
+
+Antes de hablar de fianza o de quién paga qué, hay que tener los gastos del piso completamente cuadrados.
+
+**Si usas moon Gastos (o cualquier app de gastos):**
+- Marca todos los gastos como confirmados
+- Calcula los saldos: quién debe a quién y cuánto
+- Ejecuta el «settle up» con el mínimo de transferencias posible
+- Registra cada transferencia como «liquidada» en la app
+
+**Si no usáis app:**
+- Haz una tabla con todas las deudas conocidas
+- Llegad a un acuerdo sobre cuáles son reales y cuáles se compensan
+- Haced las transferencias y guardad los comprobantes
+
+**La regla de oro:** nada de «luego te lo doy» o «lo compensamos con lo de X». Cada deuda se cierra con dinero real o con un acuerdo explícito firmado por ambas partes.
+
+### Paso 2: El inventario de salida
+
+Si hicisteis el inventario de entrada, ahora toca comparar.
+
+**Qué comprobáis:**
+- Estado de cada habitación vs el registro de entrada
+- Electrodomésticos y mobiliario común
+- Paredes, suelos, puertas
+- Llaves entregadas
+
+**Regla de deterioro normal:**
+La LAU distingue entre deterioro por uso normal (no descontable de fianza) y daños (sí descontables). Una pared descolorida después de 1 año es desgaste normal. Un agujero en la pared es daño.
+
+> Si hicisteis fotos en la entrada (con la [plantilla de inventario de moon](/recursos/inventario-piso)), esto es sencillo. Si no las hicisteis, tendréis que negociar sin pruebas.
+
+### Paso 3: La fianza
+
+La fianza es la principal fuente de conflictos al salir de un piso. El proceso correcto:
+
+1. **Limpieza a fondo** antes de entregar las llaves — no «bastante limpio», sino limpio. Es lo que más retenciones genera.
+2. **Entrega de llaves con acta firmada** — el propietario/anfitrión firma que recibe las llaves y el piso en X estado. Sin acta, no tienes prueba.
+3. **Plazo legal**: el propietario tiene 30 días para devolver la fianza o justificar retenciones (en Cataluña: 1 mes).
+4. **Si retiene sin justificación**: burofax al propietario y, si no responde, vía judicial (proceso monitorio, no necesita abogado para importes pequeños).
+
+**Lo que el propietario puede descontar:**
+- Daños reales (no desgaste normal)
+- Facturas de luz/agua/gas pendientes
+- Llaves no devueltas
+
+**Lo que NO puede descontar:**
+- Limpieza básica si el piso se entregó limpio
+- Pintura si lleváis más de un año (desgaste normal)
+- Reparaciones que corresponden al propietario por LAU
+
+### Paso 4: Los gastos del último mes
+
+El mes de salida tiene trampas:
+- ¿Quién paga la última factura de luz que llegará después de salir?
+- ¿Cómo se reparte el mes si alguien se va a mitad?
+- ¿Qué pasa con la compra del bote común que quedaba?
+
+**La solución más limpia:**
+- El que se va paga su parte proporcional hasta el día que sale (si es a mitad de mes, divide por 30)
+- Se reserva un pequeño fondo para la última factura de suministros (se reparte cuando llega)
+- El bote común sobrante se divide entre todos
+
+Ponedlo por escrito aunque sean 20 €. Es la cantidad pequeña la que genera el conflicto grande.
+
+### Paso 5: El endoso (y por qué importa)
+
+El endoso mutuo es lo último que hacéis antes de cerrar el grupo en moon.
+
+Después de una convivencia de meses, tienes información única sobre esa persona: cómo paga, cómo mantiene los espacios comunes, cómo gestiona los conflictos. Eso vale. Y en moon, ese endoso se convierte en parte del Moon Score portable — la reputación que acompaña al compañero en su próximo piso.
+
+No es solo un gesto amable. Es el dato más valioso que puedes darle (y recibir).
+
+## Señales de que va a haber problema
+
+Estas señales antes de la liquidación predicen conflicto:
+
+- 🚩 Deudas que no se registraron en su momento y ahora «según quién se acuerde»
+- 🚩 Propietario que no responde mensajes cuando preguntáis por la fianza
+- 🚩 Compañero que «ya se fue» pero quedan cosas suyas en el piso
+- 🚩 Nadie recuerda si se pagó la última factura de gas
+
+Si ves alguna de estas señales, actúa antes de que la situación se complique: burofax, acta notarial, mediación de consumo. No es dramático — es prevención.
+
+## Plantillas útiles
+
+- [Acuerdo de convivencia (incluye cláusula de salida)](/recursos/acuerdo-convivencia)
+- [Inventario de entrada/salida](/recursos/inventario-piso)
+- [Calculadora de reparto de alquiler](/calculadora-alquiler)
+
+---
+
+*La mejor forma de que la liquidación sea fácil es haber llevado bien los gastos durante toda la convivencia. moon Gastos hace eso automáticamente.*
+
+[**Crear mi piso en moon →**](/access?signup=1&role=inquilino)
+    `,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
