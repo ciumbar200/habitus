@@ -100,6 +100,19 @@ const CalculadoraAlquilerPage = lazily(
   () => import("./pages/public/CalculadoraAlquilerPage"),
   "CalculadoraAlquilerPage",
 );
+const RecursosPage = lazily(() => import("./pages/public/RecursosPage"), "RecursosPage");
+const AcuerdoConvivenciaPage = lazily(
+  () => import("./pages/public/AcuerdoConvivenciaPage"),
+  "AcuerdoConvivenciaPage",
+);
+const InventarioPisoPage = lazily(
+  () => import("./pages/public/InventarioPisoPage"),
+  "InventarioPisoPage",
+);
+const GuiaConvivenciaPage = lazily(
+  () => import("./pages/public/GuiaConvivenciaPage"),
+  "GuiaConvivenciaPage",
+);
 const ForgotPasswordPage = lazily(
   () => import("./pages/ForgotPasswordPage"),
   "ForgotPasswordPage",
@@ -235,6 +248,10 @@ export default function App() {
           <Route path="ayuda" element={<HelpPage />} />
           <Route path="como-funciona" element={<HowItWorksPage />} />
           <Route path="calculadora-alquiler" element={<CalculadoraAlquilerPage />} />
+          <Route path="recursos" element={<RecursosPage />} />
+          <Route path="recursos/acuerdo-convivencia" element={<AcuerdoConvivenciaPage />} />
+          <Route path="recursos/inventario-piso" element={<InventarioPisoPage />} />
+          <Route path="recursos/guia-convivencia" element={<GuiaConvivenciaPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:slug" element={<BlogPostPage />} />
           <Route path="invitar/grupo/:slug" element={<GroupInvitePage />} />
