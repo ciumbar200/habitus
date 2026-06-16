@@ -96,6 +96,10 @@ const DocumentationPage = lazily(
   "DocumentationPage",
 );
 const HelpPage = lazily(() => import("./pages/public/HelpPage"), "HelpPage");
+const CalculadoraAlquilerPage = lazily(
+  () => import("./pages/public/CalculadoraAlquilerPage"),
+  "CalculadoraAlquilerPage",
+);
 const ForgotPasswordPage = lazily(
   () => import("./pages/ForgotPasswordPage"),
   "ForgotPasswordPage",
@@ -230,6 +234,7 @@ export default function App() {
           <Route path="docs" element={<Navigate to="/documentacion" replace />} />
           <Route path="ayuda" element={<HelpPage />} />
           <Route path="como-funciona" element={<HowItWorksPage />} />
+          <Route path="calculadora-alquiler" element={<CalculadoraAlquilerPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:slug" element={<BlogPostPage />} />
           <Route path="invitar/grupo/:slug" element={<GroupInvitePage />} />
