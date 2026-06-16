@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Acuerdo de Convivencia · moon</title>
+<meta name="description" content="Plantilla de acuerdo de convivencia para pisos compartidos. moon — el sistema operativo de la convivencia." />
+<style>
+  :root {
+    --teal: #0f9d8f;
+    --navy: #16243b;
+    --ink: #1f2733;
+    --muted: #5b6675;
+    --line: #d9dee6;
+    --bg: #f7f9fb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg); margin: 0; line-height: 1.55;
+  }
+  .page {
+    max-width: 820px; margin: 32px auto; background: #fff;
+    padding: 56px 64px; border-radius: 14px; box-shadow: 0 8px 40px rgba(22,36,59,.08);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .brand .dot { width: 22px; height: 22px; border-radius: 50%; background: var(--teal); box-shadow: inset 0 0 0 3px #fff, 0 0 0 2px var(--teal); }
+  .brand b { color: var(--navy); font-size: 20px; letter-spacing: .2px; }
+  h1 { color: var(--navy); font-size: 30px; margin: 18px 0 6px; line-height: 1.2; }
+  .lede { color: var(--muted); font-size: 14.5px; border-left: 3px solid var(--teal); padding: 4px 0 4px 14px; margin: 14px 0 26px; }
+  h2 { color: var(--navy); font-size: 18px; margin: 28px 0 10px; break-after: avoid; }
+  p, li { font-size: 14.5px; }
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .field { color: var(--teal); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 9px 11px; text-align: left; }
+  th { background: var(--bg); color: var(--navy); font-weight: 600; }
+  .note { background: #fff8e6; border: 1px solid #f3e2b6; color: #7a5a16; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin: 16px 0; }
+  .pill { display: inline-block; background: var(--teal); color: #fff; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
+  .sig { margin-top: 36px; }
+  .foot { margin-top: 30px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .toolbar { position: sticky; top: 0; background: #fff; border-bottom: 1px solid var(--line); padding: 10px 16px; display: flex; gap: 10px; justify-content: center; }
+  .btn { background: var(--navy); color: #fff; border: 0; border-radius: 8px; padding: 9px 16px; font-size: 14px; cursor: pointer; font-weight: 600; }
+  .btn.ghost { background: #fff; color: var(--navy); border: 1px solid var(--line); }
+  @media print {
+    body { background: #fff; }
+    .toolbar { display: none; }
+    .page { box-shadow: none; margin: 0; max-width: none; padding: 0; border-radius: 0; }
+    @page { size: A4; margin: 18mm 16mm; }
+    h2, table, .note, .sig { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn" onclick="window.print()">⤓ Guardar como PDF / Imprimir</button>
+    <button class="btn ghost" onclick="document.body.contentEditable=true;document.designMode='on'">✏️ Rellenar aquí</button>
+  </div>
+
+  <article class="page">
+    <div class="brand"><span class="dot"></span><b>moon</b><span style="color:var(--muted);font-size:13px">· el sistema operativo de la convivencia</span></div>
+    <span class="pill">Plantilla</span>
+    <h1>Acuerdo de Convivencia</h1>
+    <p class="lede">Pacto entre convivientes para evitar el 90% de los conflictos del piso. <strong>No es un contrato de arrendamiento</strong> (moon nunca es parte del alquiler) ni sustituye la asesoría de un abogado; rellena los campos y firmadlo.</p>
+
+    <div class="note">Rellena los campos <span class="field">[así]</span> o usa <strong>“Rellenar aquí”</strong> y luego <strong>Guardar como PDF</strong>. La firma digital en moon equivale a aceptación.</div>
+
+    <h2>1. Partes y vivienda</h2>
+    <ul>
+      <li><strong>Vivienda:</strong> <span class="field">[dirección, piso, puerta]</span>, <span class="field">[barrio]</span>, <span class="field">[ciudad]</span>.</li>
+      <li><strong>Contrato de arrendamiento principal:</strong> a nombre de <span class="field">[titular]</span>, con duración <span class="field">[…]</span>. Este acuerdo se extingue con el contrato principal.</li>
+    </ul>
+    <table>
+      <thead><tr><th>Nombre</th><th>DNI/NIE</th><th>Habitación</th><th>Rol moon</th></tr></thead>
+      <tbody>
+        <tr><td><span class="field">[Nombre 1]</span></td><td><span class="field">[…]</span></td><td><span class="field">[hab., m²]</span></td><td>Lead / Miembro</td></tr>
+        <tr><td><span class="field">[Nombre 2]</span></td><td><span class="field">[…]</span></td><td><span class="field">[…]</span></td><td>Miembro</td></tr>
+        <tr><td><span class="field">[Nombre 3]</span></td><td><span class="field">[…]</span></td><td><span class="field">[…]</span></td><td>Miembro</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Duración y entrada/salida</h2>
+    <ul>
+      <li><strong>Vigencia:</strong> desde <span class="field">[fecha]</span> hasta el fin del contrato principal o la salida de un conviviente.</li>
+      <li><strong>Preaviso de salida:</strong> <span class="field">[30]</span> días. Quien sale deja la habitación en el estado acordado y participa en la <strong>liquidación de gastos</strong> (moon Gastos).</li>
+      <li><strong>Nuevo conviviente:</strong> requiere mayoría; debe verificarse en moon y aceptar este acuerdo antes de entrar.</li>
+    </ul>
+
+    <h2>3. Reparto de gastos (moon Gastos)</h2>
+    <ul>
+      <li><strong>Alquiler:</strong> reparto por habitación (<em>proportional</em>), no a partes iguales salvo habitaciones equivalentes. Método: <span class="field">[equal / proportional]</span>.</li>
+      <li><strong>Suministros</strong> (luz, agua, gas, internet): a partes iguales en moon Gastos.</li>
+      <li><strong>Comunes</strong> (papel, limpieza, productos): partes iguales; bote común de <span class="field">[X] €/mes</span>.</li>
+      <li><strong>Privados</strong> (comida personal): cada uno lo suyo.</li>
+      <li><strong>Liquidación:</strong> cada mes y a cada salida, con <em>computeSuggestedTransfers</em>. Principio: <em>nadie debe dinero a nadie al cerrar el mes.</em></li>
+    </ul>
+
+    <h2>4. Normas de convivencia</h2>
+    <ul>
+      <li><strong>Limpieza:</strong> rotación semanal de zonas comunes; calendario en moon.</li>
+      <li><strong>Ruido:</strong> silencio relativo de <span class="field">[23:00]</span> a <span class="field">[08:00]</span>. Fiestas: aviso <span class="field">[24] h</span> antes.</li>
+      <li><strong>Zonas comunes vs privadas:</strong> la habitación es inviolable; lo común, de todos.</li>
+      <li><strong>Visitas:</strong> <span class="field">[&lt;3]</span> noches con aviso; más días se reparte suministro.</li>
+      <li><strong>Mascotas:</strong> <span class="field">[sí/no]</span>; el dueño responde de daños. <strong>Fumar:</strong> <span class="field">[no dentro]</span>.</li>
+    </ul>
+
+    <h2>5. Mantenimiento e incidencias</h2>
+    <ul>
+      <li>Toda avería se reporta en el grupo de moon con el botón <strong>“Reportar incidencia”</strong> (tipo, urgencia, descripción).</li>
+      <li><strong>Urgencias de seguridad</strong> (gas, eléctrica, agua): llamar primero al <strong>112 / compañía</strong>, luego reportar. moon no es emergencias.</li>
+      <li><strong>Reparaciones menores (&lt;<span class="field">[50]</span> €):</strong> las decide y paga el grupo, repartidas en moon Gastos.</li>
+      <li><strong>Reparaciones mayores:</strong> del titular/propietario; el lead gestiona y el grupo aporta pruebas del historial.</li>
+    </ul>
+
+    <h2>6. Privacidad, respeto y conflictos</h2>
+    <ul>
+      <li><strong>Respeto cero</strong> a racismos, sexismo, machismo o acoso. Un incidente grave puede suponer expulsión con preaviso reducido.</li>
+      <li><strong>Resolución:</strong> (1) hablar directo → (2) reunión con el lead → (3) mediación externa. El Moon Score y el historial son referencias objetivas.</li>
+      <li><strong>Privacidad:</strong> lo del grupo se queda en el grupo.</li>
+    </ul>
+
+    <h2>7. Fin del acuerdo</h2>
+    <ul>
+      <li>Por fin del contrato, salida de un conviviente o mayoría. Cierre: liquidación final, inventario y, si fue buena, <strong>endoso mutuo</strong> en moon (alimenta el Moon Score portable de cada uno).</li>
+    </ul>
+
+    <div class="sig">
+      <h2 style="margin-top:0">Aceptación</h2>
+      <table>
+        <thead><tr><th>Conviviente</th><th>Fecha</th><th>Aceptación moon</th></tr></thead>
+        <tbody>
+          <tr><td><span class="field">[Nombre 1]</span></td><td><span class="field">[fecha]</span></td><td>✓ verificado</td></tr>
+          <tr><td><span class="field">[Nombre 2]</span></td><td><span class="field">[fecha]</span></td><td>✓ verificado</td></tr>
+          <tr><td><span class="field">[Nombre 3]</span></td><td><span class="field">[fecha]</span></td><td>✓ verificado</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="foot">moon — convivir bien, sin humo · Plantilla v1 · revisión jurídica recomendada antes de uso formal.</div>
+  </article>
+</body>
+</html>

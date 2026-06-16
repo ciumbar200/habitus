@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LivingGroupCard } from "../components/LivingGroupCard";
 import { IdentityBadge } from "../components/IdentityBadge";
+import { MoonScoreBadge } from "../components/MoonScoreBadge";
 import { Icon } from "../components/Icon";
 import { PublishListingModal } from "../components/panel/PublishListingModal";
 import { LoadingState, ErrorState } from "../components/PageState";
@@ -10,6 +11,7 @@ import { LeaseCard } from "../components/LeaseCard";
 import { ReferralCard } from "../components/ReferralCard";
 import { OperatorApiKeyManager } from "../components/profile/OperatorApiKeyManager";
 import { ErrorBoundary } from "../components/ErrorBoundary";
+import { TenantAIProfileCard } from "../components/ai/TenantAIProfileCard";
 import { useAuth } from "../context/AuthContext";
 import {
   accountRoleLabel,
@@ -145,7 +147,7 @@ export function ProfilePage() {
                 Ir al panel admin
               </Link>
               <Link
-                to="/profile/editar"
+                to="/verificacion"
                 className="flex items-center gap-2 rounded-lg border border-border-light px-6 py-3 text-label-md text-deep-navy transition-all hover:bg-surface-container"
               >
                 <Icon name="edit" className="text-[20px]" />
@@ -237,9 +239,11 @@ export function ProfilePage() {
                 {accountRoleLabel(profile.accountRole)}
               </p>
             )}
-            <div className="mt-2">
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <IdentityBadge status={profile?.identityStatus ?? "none"} />
+              {profile?.id && <MoonScoreBadge profileId={profile.id} size="sm" />}
             </div>
+            {!isAdmin && <Link to="/verificacion" className="mt-2 inline-flex text-label-sm text-teal-accent hover:underline">Gestionar verificación</Link>}
             <p className="mt-2 text-body-lg text-warm-slate">{progressLine}</p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -273,6 +277,8 @@ export function ProfilePage() {
           </div>
         </div>
       </section>
+
+      {role === "inquilino" && user?.id && <TenantAIProfileCard userId={user.id} />}
 
       <div className="mb-stack-lg grid grid-cols-1 gap-gutter md:grid-cols-12">
         <div className="rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow md:col-span-8">

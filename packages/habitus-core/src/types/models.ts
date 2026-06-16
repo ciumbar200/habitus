@@ -1,6 +1,71 @@
 import type { CompatibilityResult, MatchKind } from "./compatibility";
 
-export type IdentityStatus = "none" | "pending" | "verified";
+export type IdentityStatus = "none" | "pending" | "basic_trust" | "verified";
+
+/** Tramos de presentación del Moon Score (reputación portable del conviviente). */
+export type MoonScoreTier = "excellent" | "good" | "building" | "new";
+
+export type MoonScore = {
+  score: number;
+  endorsements: number;
+  tier: MoonScoreTier;
+  /** true cuando ya hay al menos 1 endoso (la puntuación se basa en prueba social). */
+  live: boolean;
+};
+
+/** Endoso de un conviviente sobre otro (valoración 1-5 en 4 dimensiones). */
+export type RoommateEndorsement = {
+  id: string;
+  endorserId: string;
+  endorseeId: string;
+  cleanliness: number;
+  respect: number;
+  communication: number;
+  payment: number;
+  wouldLiveAgain: boolean;
+  comment: string | null;
+  createdAt: string;
+};
+
+export type EndorsementInput = {
+  endorseeId: string;
+  convivenciaRef?: string | null;
+  cleanliness: number;
+  respect: number;
+  communication: number;
+  payment: number;
+  wouldLiveAgain: boolean;
+  comment?: string | null;
+};
+
+/** Incidencia de mantenimiento/convivencia dentro de un grupo (piso compartido). */
+export type IncidentCategory =
+  | "appliance"
+  | "plumbing"
+  | "electrical"
+  | "gas"
+  | "security"
+  | "cleanliness"
+  | "noise"
+  | "structural"
+  | "other";
+export type IncidentSeverity = "low" | "normal" | "high" | "urgent";
+export type IncidentStatus = "open" | "in_progress" | "resolved" | "dismissed";
+
+export type GroupIncident = {
+  id: string;
+  groupId: string;
+  reportedBy: string;
+  title: string;
+  description: string | null;
+  category: IncidentCategory;
+  severity: IncidentSeverity;
+  status: IncidentStatus;
+  resolutionNote: string | null;
+  createdAt: string;
+  resolvedAt: string | null;
+};
+
 /** Mismo flujo demo que identidad, aplicado al inmueble publicado. */
 export type PropertyVerificationStatus = IdentityStatus;
 export type ListingVisibility = "public" | "private";
@@ -89,6 +154,11 @@ export type Profile = {
   isDiscoverable: boolean;
   isAdmin: boolean;
   identityStatus: IdentityStatus;
+  /** Reputación portable del conviviente (0-100), cacheada. Distinto de profileScore. */
+  moonScore?: number;
+  moonScoreEndorsements?: number;
+  verificationStatus?: string;
+  verificationBadge?: "none" | "basic_trust" | "identity_verified";
   birthDate: string | null;
   onboardingCompletedAt: string | null;
 };

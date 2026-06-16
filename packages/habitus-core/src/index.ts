@@ -167,6 +167,8 @@ export * from "./services/dashboard";
 export * from "./services/hostPanel";
 export type { PublicMember } from "./services/members";
 export * from "./services/members";
+export * from "./services/reputation";
+export * from "./services/incidents";
 export * from "./services/messages";
 export * from "./services/ownerListings";
 export {

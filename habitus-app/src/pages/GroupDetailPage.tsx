@@ -20,6 +20,7 @@ import {
   type LivingGroupMember,
 } from "@habitus/core";
 import { GroupExpensesPanel } from "../components/GroupExpensesPanel";
+import { GroupIncidentsPanel } from "../components/GroupIncidentsPanel";
 import { Icon } from "../components/Icon";
 
 export function GroupDetailPage() {
@@ -293,6 +294,10 @@ export function GroupDetailPage() {
 
       {isConfirmedMember && (
         <GroupExpensesPanel groupId={group.id} userId={user!.id} members={confirmedMembers} />
+      )}
+
+      {isConfirmedMember && (
+        <GroupIncidentsPanel groupId={group.id} userId={user!.id} />
       )}
 
       {isConfirmedMember && (
