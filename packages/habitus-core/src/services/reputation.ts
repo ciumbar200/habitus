@@ -41,6 +41,8 @@ export function computeMoonScore(signals: {
   verificationBadge?: "none" | "basic_trust" | "identity_verified";
   endorsements: number;
   avgRating01: number;
+  /** Convivencias (grupos) confirmadas sin incidencias graves abiertas. */
+  cleanConvivences?: number;
 }): number {
   const identity =
     signals.verificationBadge === "identity_verified" || signals.identityStatus === "verified"
@@ -50,7 +52,8 @@ export function computeMoonScore(signals: {
         : 0;
   const social = Math.min(signals.endorsements, 5) * 12; // +12 por endoso, tope +60
   const rating = Math.round((signals.avgRating01 || 0) * 20); // tope +20
-  return Math.max(0, Math.min(100, identity + social + rating));
+  const clean = Math.min(signals.cleanConvivences ?? 0, 3) * 4; // +4 por convivencia limpia, tope +12
+  return Math.max(0, Math.min(100, identity + social + rating + clean));
 }
 
 type MoonScoreRow = { moon_score: number | null; moon_score_endorsements: number | null };

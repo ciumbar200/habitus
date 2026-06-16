@@ -21,6 +21,7 @@ import {
 } from "@habitus/core";
 import { GroupExpensesPanel } from "../components/GroupExpensesPanel";
 import { GroupIncidentsPanel } from "../components/GroupIncidentsPanel";
+import { GroupEndorsePanel } from "../components/GroupEndorsePanel";
 import { Icon } from "../components/Icon";
 
 export function GroupDetailPage() {
@@ -298,6 +299,10 @@ export function GroupDetailPage() {
 
       {isConfirmedMember && (
         <GroupIncidentsPanel groupId={group.id} userId={user!.id} />
+      )}
+
+      {isConfirmedMember && (
+        <GroupEndorsePanel groupId={group.id} userId={user!.id} members={confirmedMembers} />
       )}
 
       {isConfirmedMember && (
