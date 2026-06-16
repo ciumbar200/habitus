@@ -574,6 +574,26 @@ export const es = {
     home: "Inicio",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
+    meta: {
+      homeTitle: ": moon — vivienda compartida con compatibilidad real",
+      homeDescription:
+        "Habitación y piso compartido en Barcelona y Madrid. Matching por hábitos, horarios y valores: elige con quién vives, no solo dónde.",
+      howItWorksTitle: "Cómo funciona : moon — matching de convivencia",
+      howItWorksDescription:
+        "Crea tu perfil, verifica tu identidad, encuentra compañeros compatibles y forma grupo para alquilar un piso juntos.",
+      hostsTitle: "Anfitriones : moon — publica tu habitación a personas compatibles",
+      hostsDescription:
+        "Cede tu habitación a personas verificadas y compatibles. : moon gestiona el matching, los grupos y las solicitudes.",
+      ownersTitle: "Propietarios : moon — renta tu vivienda sin caos",
+      ownersDescription:
+        "Alquila tu piso a grupos formados y verificados, con reparto de alquiler y acompañamiento incluidos.",
+      agenciesTitle: "Operadores : moon — gestiona vivienda compartida a escala",
+      agenciesDescription:
+        "Panel para agencias e inmobiliarias: asigna habitaciones, gestiona grupos y comisiones en un solo lugar.",
+      blogTitle: "Blog : moon — convivencia y vivienda compartida",
+      blogDescription:
+        "Guías sobre convivencia, matching de compañeros, alquilar en grupo y vida en piso compartido en España.",
+    },
     heroSearch: {
       cityPlaceholder: "Ciudad",
       zoneLabel: "Zona",

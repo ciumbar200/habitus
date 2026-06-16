@@ -1,6 +1,9 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Suspense } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { es } from "@habitus/core";
 import { Icon } from "./Icon";
+import { RouteTransition } from "./RouteTransition";
+import { RouteFallback } from "./PageState";
 
 type NavItem = { path: string; label: string; icon: string; end?: boolean };
 type NavSection = { section: string; items: NavItem[] };
@@ -16,6 +19,7 @@ const NAV_SECTIONS: NavSection[] = [
     section: "Personas",
     items: [
       { path: "/admin/usuarios", label: es.admin.nav.users, icon: "group" },
+      { path: "/admin/verificaciones", label: "Verificaciones", icon: "verified_user" },
       { path: "/admin/embajadores", label: es.admin.nav.ambassadors, icon: "star" },
       { path: "/admin/comisiones", label: es.admin.nav.commissions, icon: "payments" },
     ],
@@ -37,6 +41,7 @@ const NAV_SECTIONS: NavSection[] = [
       { path: "/admin/notificaciones", label: es.admin.nav.notifications, icon: "notifications" },
       { path: "/admin/configuracion", label: es.admin.nav.config, icon: "tune" },
       { path: "/admin/auditoria", label: es.admin.nav.audit, icon: "history" },
+      { path: "/admin/ia", label: "Control IA", icon: "psychology" },
     ],
   },
 ];
@@ -113,7 +118,9 @@ export function AdminLayout() {
               );
             })}
           </nav>
-          <Outlet />
+          <Suspense fallback={<RouteFallback />}>
+            <RouteTransition />
+          </Suspense>
         </div>
       </div>
     </div>

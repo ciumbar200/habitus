@@ -86,7 +86,7 @@ export function PublicListingsPage() {
   const t = useI18n();
   const PL = t.publicListings;
 
-  usePageMeta(PL.metaTitle, PL.metaDescription);
+  usePageMeta(PL.metaTitle, PL.metaDescription, "/alojamientos");
 
   const { user } = useAuth();
   const { isListingSaved, toggleListing } = useBookmarks();
@@ -156,6 +156,13 @@ export function PublicListingsPage() {
         <img
           src={LISTINGS_HERO_IMAGE}
           alt=""
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = "/marketing/explore-hero-v2.jpg";
+          }}
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/85 via-stone-900/60 to-stone-900/25" />

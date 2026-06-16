@@ -1,7 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Suspense } from "react";
 import { Header } from "./Header";
 import { BottomNav, bottomNavClearance } from "./BottomNav";
 import { PendingGroupJoinHandler } from "./PendingGroupJoinHandler";
+import { RouteTransition } from "./RouteTransition";
+import { RouteFallback } from "./PageState";
 
 type AppLayoutProps = {
   showBack?: boolean;
@@ -20,7 +22,9 @@ export function AppLayout({ showBack, hideNav }: AppLayoutProps) {
         className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain md:pb-0"
         style={{ paddingBottom: navPad, WebkitOverflowScrolling: "touch" }}
       >
-        <Outlet />
+        <Suspense fallback={<RouteFallback />}>
+          <RouteTransition />
+        </Suspense>
       </main>
       {!hideNav && <BottomNav />}
     </div>

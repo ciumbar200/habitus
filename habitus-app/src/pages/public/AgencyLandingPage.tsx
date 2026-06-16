@@ -13,9 +13,11 @@ import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { AGENCY_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
 import { useI18n } from "../../lib/I18nContext";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 export function AgencyLandingPage() {
   const t = useI18n();
+  usePageMeta(t.public.meta.agenciesTitle, t.public.meta.agenciesDescription, "/operadores");
   const al = t.public.agencyLanding;
 
   return (

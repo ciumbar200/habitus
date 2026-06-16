@@ -573,6 +573,26 @@ export const ca = {
     home: "Inici",
     openMenu: "Obrir menú",
     closeMenu: "Tancar menú",
+    meta: {
+      homeTitle: ": moon — habitatge compartit amb compatibilitat real",
+      homeDescription:
+        "Habitació i pis compartit a Barcelona i Madrid. Matching per hàbits, horaris i valors: tria amb qui vius, no només on.",
+      howItWorksTitle: "Com funciona : moon — matching de convivència",
+      howItWorksDescription:
+        "Crea el teu perfil, verifica la identitat, troba companys compatibles i forma un grup per llogar un pis junts.",
+      hostsTitle: "Amfitrions : moon — publica la teva habitació a persones compatibles",
+      hostsDescription:
+        "Cedeix la teva habitació a persones verificades i compatibles. : moon gestiona el matching, els grups i les sol·licituds.",
+      ownersTitle: "Propietaris : moon — lloga el teu habitatge sense caos",
+      ownersDescription:
+        "Lloga el teu pis a grups formats i verificats, amb repartiment del lloguer i acompanyament inclosos.",
+      agenciesTitle: "Operadors : moon — gestiona habitatge compartit a escala",
+      agenciesDescription:
+        "Panell per a agències i immobiliàries: assigna habitacions, gestiona grups i comissions en un sol lloc.",
+      blogTitle: "Blog : moon — convivència i habitatge compartit",
+      blogDescription:
+        "Guies sobre convivència, matching de companys, llogar en grup i vida en pis compartit a Espanya.",
+    },
     heroSearch: {
       cityPlaceholder: "Ciutat",
       zoneLabel: "Zona",

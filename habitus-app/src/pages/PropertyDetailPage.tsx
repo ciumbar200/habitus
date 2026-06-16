@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Icon } from "../components/Icon";
 import { CompatibilityScore } from "../components/CompatibilityScore";
 import { CompatibilityNotice } from "../components/CompatibilityNotice";
+import { PropertyMatchCard } from "../components/ai/PropertyMatchCard";
 import { HostProfileCard } from "../components/HostProfileCard";
 import { IdentityBadge } from "../components/IdentityBadge";
 import { PropertyVerificationBadge } from "../components/PropertyVerificationBadge";
@@ -11,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import { useBookmarks } from "../hooks/useBookmarks";
 import { translateAmenityLabel } from "../lib/amenities";
 import { useI18n } from "../lib/I18nContext";
+import { usePageMeta } from "../hooks/usePageMeta";
 import { saveReturnTo } from "../lib/returnTo";
 import { formatAvailableDate, formatMoonLocation, formatPrice } from "@habitus/core";
 import {
@@ -40,6 +42,14 @@ export function PropertyDetailPage() {
   const [selectedGroupId, setSelectedGroupId] = useState<string>("");
 
   const propertyPath = slug ? `/property/${slug}` : null;
+
+  usePageMeta(
+    property ? `${property.name} · : moon` : "Vivienda compartida · : moon",
+    property
+      ? `${property.name} — habitación o piso compartido con compatibilidad real, en : moon.`
+      : undefined,
+    propertyPath ?? undefined,
+  );
 
   useEffect(() => {
     if (!slug) {
@@ -214,6 +224,8 @@ export function PropertyDetailPage() {
           {property.host && <HostProfileCard host={property.host} />}
 
           <CompatibilityNotice mode={property.compatibilityMode} />
+
+          {profile?.accountRole === "inquilino" && <PropertyMatchCard property={property} profile={profile} />}
 
           {(property.propertyVerificationStatus !== "none" ||
             property.ownerIdentityStatus === "verified" ||

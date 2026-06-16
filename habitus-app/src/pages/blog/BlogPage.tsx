@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getBlogPosts } from "@/lib/blog-content";
 import { ArrowRight, Calendar, Clock } from "@phosphor-icons/react";
 import type { BlogPost } from "@/lib/blog-content";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 const categories = [
   { name: "Todas", slug: undefined },
@@ -14,6 +15,11 @@ const categories = [
 export function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
   const posts = getBlogPosts(selectedCategory);
+  usePageMeta(
+    "Blog : moon — guías para compartir piso",
+    "Artículos y guías sobre convivencia, matching de compañeros y alquilar en grupo en España.",
+    "/blog",
+  );
 
   return (
     <main className="min-h-screen bg-stone-50">

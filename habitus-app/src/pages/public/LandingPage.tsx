@@ -4,12 +4,14 @@ import { fetchCompatQuiz, homePathForRole } from "@habitus/core";
 import { redirectAfterAuth } from "../../lib/returnTo";
 import { useAuth } from "../../context/AuthContext";
 import { useI18n } from "../../lib/I18nContext";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import { LoadingState } from "../../components/PageState";
 import { ArrowRight, Users, Shield, Heart, ChatCircle, House, Target, User } from "@phosphor-icons/react";
 import { accessSignupUrl, howItWorksUrl } from "../../lib/accessLinks";
 import { LandingMainHero } from "../../components/public/LandingMainHero";
 import { HeroAsidePanel } from "../../components/public/HeroAsidePanel";
 import { Reveal } from "../../components/public/Reveal";
+import { COMMUNITY_WAIT_IMAGE } from "../../lib/brandAssets";
 
 const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
   id: i,
@@ -24,6 +26,7 @@ export function LandingPage() {
   const [dest, setDest] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const t = useI18n();
+  usePageMeta(t.public.meta.homeTitle, t.public.meta.homeDescription, "/");
 
   useEffect(() => {
     if (loading || (user && !profileReady)) return;
@@ -204,18 +207,26 @@ export function LandingPage() {
             </Reveal>
 
             <Reveal from="right" delay={120} className="relative">
-              <div className="group relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-terracotta/20 via-stone-100 to-emerald-700/20 p-12 flex items-center justify-center ring-1 ring-stone-900/5 shadow-sm">
-                {/* drifting glow accents */}
-                <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-terracotta/20 blur-3xl animate-float" />
-                <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-emerald-600/20 blur-3xl animate-float" style={{ animationDelay: "1.5s" }} />
-                <div className="relative text-center">
-                  <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/70 shadow-lg ring-1 ring-stone-900/5 backdrop-blur-sm animate-float-slow">
-                    <House size={48} weight="fill" className="text-terracotta" />
-                  </div>
-                  <p className="card-title text-stone-700">{t.public.landing.communityWait}</p>
+              <div className="group relative aspect-square overflow-hidden rounded-3xl bg-stone-900 ring-1 ring-stone-900/10 shadow-xl">
+                <img
+                  src={COMMUNITY_WAIT_IMAGE}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = "/marketing/main-hero-v2.jpg";
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/15 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8 text-left sm:p-10">
+                  <p className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                    {t.public.landing.communityWait}
+                  </p>
                   <Link
                     to={accessSignupUrl("inquilino")}
-                    className="inline-flex items-center gap-2 mt-6 text-terracotta font-semibold hover:gap-4 transition-all group/cta"
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-stone-900 shadow-lg transition-all hover:-translate-y-0.5 hover:gap-3 hover:bg-stone-100 group/cta"
                   >
                     {t.public.landing.startNow}
                     <ArrowRight weight="bold" className="w-5 h-5 group-hover/cta:translate-x-1 transition-transform" />

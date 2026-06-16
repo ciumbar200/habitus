@@ -574,6 +574,26 @@ export const en = {
     home: "Home",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    meta: {
+      homeTitle: ": moon — shared living with real compatibility",
+      homeDescription:
+        "Shared rooms and flats in Barcelona and Madrid. Matching by habits, schedule and values — choose who you live with, not just where.",
+      howItWorksTitle: "How : moon works — compatibility matching",
+      howItWorksDescription:
+        "Create your profile, verify your identity, find compatible flatmates and form a group to rent a flat together.",
+      hostsTitle: ": moon hosts — list your room to compatible people",
+      hostsDescription:
+        "Rent your room to verified, compatible people. : moon handles matching, groups and requests.",
+      ownersTitle: ": moon owners — rent your property without the chaos",
+      ownersDescription:
+        "Rent your flat to formed, verified groups with rent splitting and support included.",
+      agenciesTitle: ": moon operators — manage shared housing at scale",
+      agenciesDescription:
+        "A panel for agencies: assign rooms, manage groups and commissions in one place.",
+      blogTitle: ": moon blog — shared living and coliving",
+      blogDescription:
+        "Guides on coliving, flatmate matching, renting as a group and shared-flat life in Spain.",
+    },
     heroSearch: {
       cityPlaceholder: "City",
       zoneLabel: "Area",

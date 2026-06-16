@@ -4,9 +4,11 @@ import { HOST_HERO_IMAGE } from "../../lib/brandAssets";
 import { MarketingPhotoHero } from "../../components/public/MarketingPhotoHero";
 import { ArrowRight, CheckCircle, Users, Shield, ChatCircle, House, User } from "@phosphor-icons/react";
 import { useI18n } from "../../lib/I18nContext";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 export function HostLandingPage() {
   const t = useI18n();
+  usePageMeta(t.public.meta.hostsTitle, t.public.meta.hostsDescription, "/anfitriones");
   const hl = t.public.hostLanding;
 
   return (

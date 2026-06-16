@@ -1,9 +1,95 @@
 import type { ComponentType } from "react";
-import * as PhosphorIcons from "@phosphor-icons/react";
+import {
+  ArrowClockwise,
+  ArrowLeft,
+  ArrowRight,
+  ArrowsDownUp,
+  Article,
+  Bed,
+  Bell,
+  BookmarkSimple,
+  Briefcase,
+  Broadcast,
+  Broom,
+  Buildings,
+  Calendar,
+  CalendarBlank,
+  Camera,
+  CaretDown,
+  CaretLeft,
+  CaretRight,
+  CaretUp,
+  ChatCircle,
+  Check,
+  CheckCircle,
+  CircleNotch,
+  ClipboardText,
+  Clock,
+  CloudArrowUp,
+  Compass,
+  CookingPot,
+  Copy,
+  CurrencyEur,
+  Desk,
+  DownloadSimple,
+  Envelope,
+  Eye,
+  EyeSlash,
+  Flag,
+  FloppyDisk,
+  Funnel,
+  Gear,
+  Heart,
+  HourglassMedium,
+  House,
+  HouseLine,
+  Image,
+  Images,
+  Info,
+  Lightning,
+  Link,
+  List,
+  Lock,
+  MagnifyingGlass,
+  MapPin,
+  Microphone,
+  Minus,
+  NotePencil,
+  PaperPlaneRight,
+  Paperclip,
+  PawPrint,
+  PencilSimple,
+  Phone,
+  Plus,
+  Printer,
+  Question,
+  SealCheck,
+  ShareNetwork,
+  Shield,
+  ShieldCheck,
+  SignIn,
+  SignOut,
+  SpeakerSlash,
+  SquaresFour,
+  Star,
+  SunHorizon,
+  Trash,
+  UploadSimple,
+  User,
+  UserList,
+  UserMinus,
+  Users,
+  UsersThree,
+  VideoCamera,
+  Warning,
+  WashingMachine,
+  WifiHigh,
+  X,
+  XCircle,
+  type IconProps,
+} from "@phosphor-icons/react";
 
-type IconName = keyof typeof PhosphorIcons;
-
-type IconProps = {
+type IconProps_ = {
   name: string;
   className?: string;
   size?: number;
@@ -12,8 +98,108 @@ type IconProps = {
   filled?: boolean;
 };
 
-/** Nombres Material / internos → iconos Phosphor */
-const iconMapping: Record<string, IconName> = {
+type PhosphorComponent = ComponentType<{
+  size?: number;
+  weight?: IconProps["weight"];
+  className?: string;
+}>;
+
+/**
+ * Registro explícito de los iconos Phosphor usados en la app.
+ * Imports nombrados (en vez de `import *`) para que el bundler tree-shakee y
+ * no incluya las ~1.500 variantes de Phosphor en el bundle inicial.
+ */
+const registry = {
+  ArrowClockwise,
+  ArrowLeft,
+  ArrowRight,
+  ArrowsDownUp,
+  Article,
+  Bed,
+  Bell,
+  BookmarkSimple,
+  Briefcase,
+  Broadcast,
+  Broom,
+  Buildings,
+  Calendar,
+  CalendarBlank,
+  Camera,
+  CaretDown,
+  CaretLeft,
+  CaretRight,
+  CaretUp,
+  ChatCircle,
+  Check,
+  CheckCircle,
+  CircleNotch,
+  ClipboardText,
+  Clock,
+  CloudArrowUp,
+  Compass,
+  CookingPot,
+  Copy,
+  CurrencyEur,
+  Desk,
+  DownloadSimple,
+  Envelope,
+  Eye,
+  EyeSlash,
+  Flag,
+  FloppyDisk,
+  Funnel,
+  Gear,
+  Heart,
+  HourglassMedium,
+  House,
+  HouseLine,
+  Image,
+  Images,
+  Info,
+  Lightning,
+  Link,
+  List,
+  Lock,
+  MagnifyingGlass,
+  MapPin,
+  Microphone,
+  Minus,
+  NotePencil,
+  PaperPlaneRight,
+  Paperclip,
+  PawPrint,
+  PencilSimple,
+  Phone,
+  Plus,
+  Printer,
+  Question,
+  SealCheck,
+  ShareNetwork,
+  Shield,
+  ShieldCheck,
+  SignIn,
+  SignOut,
+  SpeakerSlash,
+  SquaresFour,
+  Star,
+  SunHorizon,
+  Trash,
+  UploadSimple,
+  User,
+  UserList,
+  UserMinus,
+  Users,
+  UsersThree,
+  VideoCamera,
+  Warning,
+  WashingMachine,
+  WifiHigh,
+  X,
+  XCircle,
+} as unknown as Record<string, PhosphorComponent>;
+
+/** Nombres Material / internos → nombres PascalCase del registro Phosphor */
+const iconMapping: Record<string, string> = {
   arrow_forward: "ArrowRight",
   arrow_back: "ArrowLeft",
   arrow_left: "ArrowLeft",
@@ -116,45 +302,30 @@ export function Icon({
   size = 24,
   weight: weightProp,
   filled,
-}: IconProps) {
+}: IconProps_) {
   const normalizedName = name.replace(/-/g, "_");
   const phosphorName =
-    iconMapping[normalizedName] ?? iconMapping[name] ?? (tryPascalCase(name) as IconName | undefined);
+    iconMapping[normalizedName] ?? iconMapping[name] ?? tryPascalCase(name);
 
   const weight = weightProp ?? (filled ? "fill" : "regular");
 
   if (!phosphorName) {
-    const Fallback = PhosphorIcons.Question as ComponentType<{
-      size?: number;
-      weight?: IconProps["weight"];
-      className?: string;
-    }>;
-    return <Fallback size={size} weight={weight} className={className} aria-hidden />;
+    return <Question size={size} weight={weight} className={className} aria-hidden />;
   }
 
-  const IconComponent = (PhosphorIcons as unknown as Record<string, ComponentType<{
-    size?: number;
-    weight?: IconProps["weight"];
-    className?: string;
-  }>>)[phosphorName];
-
+  const IconComponent = registry[phosphorName];
   if (!IconComponent) {
-    const Fallback = PhosphorIcons.Question as ComponentType<{
-      size?: number;
-      weight?: IconProps["weight"];
-      className?: string;
-    }>;
-    return <Fallback size={size} weight={weight} className={className} aria-hidden />;
+    return <Question size={size} weight={weight} className={className} aria-hidden />;
   }
 
   return <IconComponent size={size} weight={weight} className={className} aria-hidden />;
 }
 
-/** snake_case → PascalCase por si el nombre ya es de Phosphor */
+/** snake_case / kebab → PascalCase por si el nombre ya es de Phosphor */
 function tryPascalCase(name: string): string | undefined {
   const pascal = name
     .split("_")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
-  return pascal in PhosphorIcons ? pascal : undefined;
+  return pascal in registry ? pascal : undefined;
 }

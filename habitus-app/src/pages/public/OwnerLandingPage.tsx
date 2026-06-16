@@ -16,9 +16,11 @@ import {
 } from "@phosphor-icons/react";
 import { VerificationSection } from "../../components/public/VerificationSection";
 import { useI18n } from "../../lib/I18nContext";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 export function OwnerLandingPage() {
   const t = useI18n();
+  usePageMeta(t.public.meta.ownersTitle, t.public.meta.ownersDescription, "/propietarios");
   const ol = t.public.ownerLanding;
 
   return (

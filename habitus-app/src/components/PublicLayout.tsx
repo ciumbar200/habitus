@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Suspense, useEffect, useState, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useScrollLock } from "../lib/useScrollLock";
 import { useI18n } from "../lib/I18nContext";
@@ -8,6 +8,8 @@ import { BottomNav, bottomNavClearance } from "./BottomNav";
 import { Logo } from "./Logo";
 import { Icon } from "./Icon";
 import { LanguageSelector } from "./LanguageSelector";
+import { RouteTransition } from "./RouteTransition";
+import { RouteFallback } from "./PageState";
 
 function usePublicNavLinks() {
   const t = useI18n();
@@ -42,10 +44,12 @@ export function PublicLayout() {
         <Header />
         <main
           data-scroll-root
-          className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain"
+          className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
           style={{ paddingBottom: navPad, WebkitOverflowScrolling: "touch" }}
         >
-          <Outlet />
+          <Suspense fallback={<RouteFallback />}>
+            <RouteTransition />
+          </Suspense>
         </main>
         <BottomNav />
       </div>
@@ -174,7 +178,9 @@ export function PublicLayout() {
         </>
       )}
 
-      <Outlet />
+      <Suspense fallback={<RouteFallback />}>
+        <RouteTransition />
+      </Suspense>
 
       <footer className="border-t border-stone-200 bg-white py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">

@@ -123,15 +123,24 @@ export default defineConfig(({ mode }) => {
     exclude: ["@habitus/core"],
   },
   build: {
-    chunkSizeWarningLimit: 10000,
+    chunkSizeWarningLimit: 1500,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom'],
-          'supabase': ['@supabase/supabase-js'],
-        }
-      }
-    }
+        // Code-splitting: las páginas se dividen automáticamente vía React.lazy.
+        // Aquí agrupamos solo dependencias compartidas en chunks estables y
+        // cacheables (se cargan una vez y se reutilizan en toda la app).
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("@supabase")) return "supabase";
+          // @phosphor-icons ANTES que el regex de react (su path acaba en /react)
+          if (id.includes("@phosphor-icons")) return "icons";
+          if (id.includes("react-router")) return "vendor";
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return "vendor";
+          if (id.includes("sileo")) return "ui";
+          return undefined;
+        },
+      },
+    },
   },
   server: {
     fs: { allow: [".."] },

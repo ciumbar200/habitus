@@ -5,6 +5,7 @@ import type { AccountRoleSlug } from "@habitus/core";
 import { accessSignupUrl, howItWorksUrl, parseAccessRole } from "../../lib/accessLinks";
 import { getHowItWorksRoles, type HowItWorksRoleConfig } from "../../lib/howItWorksContent";
 import { useI18n } from "../../lib/I18nContext";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 const HEADER_OFFSET = 112;
 
@@ -17,6 +18,7 @@ function scrollToRole(role: AccountRoleSlug) {
 
 export function HowItWorksPage() {
   const t = useI18n();
+  usePageMeta(t.public.meta.howItWorksTitle, t.public.meta.howItWorksDescription, "/como-funciona");
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const hw = t.public.howItWorksPage;

@@ -1,3 +1,4 @@
+import { lazy, type ComponentType } from "react";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
 import { ScrollReset } from "./components/ScrollReset";
@@ -6,65 +7,196 @@ import { PublicLayout } from "./components/PublicLayout";
 import { RequireAuth } from "./components/RequireAuth";
 import { RoleGate } from "./components/RoleGate";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
-import { DiscoverPage } from "./pages/DiscoverPage";
-import { PropertyDetailPage } from "./pages/PropertyDetailPage";
-import { MatchesPage } from "./pages/MatchesPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { MessagesPage } from "./pages/MessagesPage";
-import { AccessPage } from "./pages/AccessPage";
-import { AuthCallbackPage } from "./pages/AuthCallbackPage";
-import { OnboardingPage } from "./pages/OnboardingPage";
-import { CompleteAccountRolePage } from "./pages/CompleteAccountRolePage";
-import { PanelDashboardPage } from "./pages/panel/PanelDashboardPage";
-import { ListingsRouterPage } from "./pages/panel/ListingsRouterPage";
-import { ListingEditorPage } from "./pages/panel/ListingEditorPage";
-import { ReviewApplicationsPage } from "./pages/panel/ReviewApplicationsPage";
-import { LandingPage } from "./pages/public/LandingPage";
-import { PublicListingsPage } from "./pages/public/PublicListingsPage";
-import { ListingsLegacyRedirect } from "./pages/public/ListingsLegacyRedirect";
-import { HostLandingPage } from "./pages/public/HostLandingPage";
-import { OwnerLandingPage } from "./pages/public/OwnerLandingPage";
-import { AgencyLandingPage } from "./pages/public/AgencyLandingPage";
-import { HowItWorksPage } from "./pages/public/HowItWorksPage";
-import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
-import { CommunityPage } from "./pages/CommunityPage";
-import { CompatibilityQuizPage } from "./pages/CompatibilityQuizPage";
-import { ProfileEditPage } from "./pages/ProfileEditPage";
-import { PanelConvivenciaPage } from "./pages/panel/PanelConvivenciaPage";
 import { AdminLayout } from "./components/AdminLayout";
 import { AdminGate } from "./components/AdminGate";
-import { AdminDashboardPage } from "./pages/admin/AdminDashboardPage";
-import { AdminUsersPage } from "./pages/admin/AdminUsersPage";
-import { AdminUserDetailPage } from "./pages/admin/AdminUserDetailPage";
-import { AdminListingsPage } from "./pages/admin/AdminListingsPage";
-import { AdminReportsPage } from "./pages/admin/AdminReportsPage";
-import { AdminEmbajadoresPage } from "./pages/admin/AdminEmbajadoresPage";
-import { AdminComisionesPage } from "./pages/admin/AdminComisionesPage";
-import { AdminRoomAssignmentsPage } from "./pages/admin/AdminRoomAssignmentsPage";
-import { AdminMatchingPage } from "./pages/admin/AdminMatchingPage";
-import { AdminSolicitudesPage } from "./pages/admin/AdminSolicitudesPage";
-import { AdminGruposPage } from "./pages/admin/AdminGruposPage";
-import { AdminAuditoriaPage } from "./pages/admin/AdminAuditoriaPage";
-import { AdminNotificacionesPage } from "./pages/admin/AdminNotificacionesPage";
-import { AdminConfiguracionPage } from "./pages/admin/AdminConfiguracionPage";
-import { MemberPublicPage } from "./pages/MemberPublicPage";
-import { GroupDetailPage } from "./pages/GroupDetailPage";
-import { CreateGroupPage } from "./pages/CreateGroupPage";
-import { GroupsPage } from "./pages/GroupsPage";
-import { GroupInvitePage } from "./pages/GroupInvitePage";
-import { PanelInquilinosPage } from "./pages/panel/PanelInquilinosPage";
-import { ListingAccessPage } from "./pages/panel/ListingAccessPage";
-import { LegalPage } from "./pages/legal/LegalPage";
-import { BlogPage } from "./pages/blog/BlogPage";
-import { NotificationsPage } from "./pages/NotificationsPage";
-import { EmbajadoresPage } from "./pages/embajadores/EmbajadoresPage";
-import { ReferidosPage } from "./pages/ReferidosPage";
-import { BlogPostPage } from "./pages/blog/BlogPostPage";
-import { DocumentationPage } from "./pages/public/DocumentationPage";
-import { HelpPage } from "./pages/public/HelpPage";
+import { RouteProgress } from "./components/RouteProgress";
 import { Toaster } from "sileo";
 import { NotificationToasts } from "./components/NotificationToasts";
 import { I18nProvider } from "./lib/I18nContext";
+// AuthCallbackPage queda con import estático: ruta crítica de auth sin layout
+// (ni Suspense) por encima, evitando cualquier boundary de suspensión.
+import { AuthCallbackPage } from "./pages/AuthCallbackPage";
+
+/** Adapta exports nombrados a React.lazy (code-splitting por ruta). */
+const lazily = <T extends Record<string, unknown>>(
+  factory: () => Promise<T>,
+  name: keyof T,
+): ReturnType<typeof lazy> =>
+  lazy(() => factory().then((m) => ({ default: m[name] as ComponentType })));
+
+const DiscoverPage = lazily(() => import("./pages/DiscoverPage"), "DiscoverPage");
+const PropertyDetailPage = lazily(
+  () => import("./pages/PropertyDetailPage"),
+  "PropertyDetailPage",
+);
+const MatchesPage = lazily(() => import("./pages/MatchesPage"), "MatchesPage");
+const ProfilePage = lazily(() => import("./pages/ProfilePage"), "ProfilePage");
+const MessagesPage = lazily(() => import("./pages/MessagesPage"), "MessagesPage");
+const AccessPage = lazily(() => import("./pages/AccessPage"), "AccessPage");
+const OnboardingPage = lazily(() => import("./pages/OnboardingPage"), "OnboardingPage");
+const CompleteAccountRolePage = lazily(
+  () => import("./pages/CompleteAccountRolePage"),
+  "CompleteAccountRolePage",
+);
+const PanelDashboardPage = lazily(
+  () => import("./pages/panel/PanelDashboardPage"),
+  "PanelDashboardPage",
+);
+const ListingsRouterPage = lazily(
+  () => import("./pages/panel/ListingsRouterPage"),
+  "ListingsRouterPage",
+);
+const ListingEditorPage = lazily(
+  () => import("./pages/panel/ListingEditorPage"),
+  "ListingEditorPage",
+);
+const ReviewApplicationsPage = lazily(
+  () => import("./pages/panel/ReviewApplicationsPage"),
+  "ReviewApplicationsPage",
+);
+const PanelConvivenciaPage = lazily(
+  () => import("./pages/panel/PanelConvivenciaPage"),
+  "PanelConvivenciaPage",
+);
+const PanelInquilinosPage = lazily(
+  () => import("./pages/panel/PanelInquilinosPage"),
+  "PanelInquilinosPage",
+);
+const ListingAccessPage = lazily(
+  () => import("./pages/panel/ListingAccessPage"),
+  "ListingAccessPage",
+);
+const LandingPage = lazily(() => import("./pages/public/LandingPage"), "LandingPage");
+const PublicListingsPage = lazily(
+  () => import("./pages/public/PublicListingsPage"),
+  "PublicListingsPage",
+);
+const ListingsLegacyRedirect = lazily(
+  () => import("./pages/public/ListingsLegacyRedirect"),
+  "ListingsLegacyRedirect",
+);
+const HostLandingPage = lazily(
+  () => import("./pages/public/HostLandingPage"),
+  "HostLandingPage",
+);
+const OwnerLandingPage = lazily(
+  () => import("./pages/public/OwnerLandingPage"),
+  "OwnerLandingPage",
+);
+const AgencyLandingPage = lazily(
+  () => import("./pages/public/AgencyLandingPage"),
+  "AgencyLandingPage",
+);
+const HowItWorksPage = lazily(
+  () => import("./pages/public/HowItWorksPage"),
+  "HowItWorksPage",
+);
+const DocumentationPage = lazily(
+  () => import("./pages/public/DocumentationPage"),
+  "DocumentationPage",
+);
+const HelpPage = lazily(() => import("./pages/public/HelpPage"), "HelpPage");
+const ForgotPasswordPage = lazily(
+  () => import("./pages/ForgotPasswordPage"),
+  "ForgotPasswordPage",
+);
+const CommunityPage = lazily(() => import("./pages/CommunityPage"), "CommunityPage");
+const CompatibilityQuizPage = lazily(
+  () => import("./pages/CompatibilityQuizPage"),
+  "CompatibilityQuizPage",
+);
+const ProfileEditPage = lazily(
+  () => import("./pages/ProfileEditPage"),
+  "ProfileEditPage",
+);
+const MemberPublicPage = lazily(
+  () => import("./pages/MemberPublicPage"),
+  "MemberPublicPage",
+);
+const GroupDetailPage = lazily(() => import("./pages/GroupDetailPage"), "GroupDetailPage");
+const CreateGroupPage = lazily(() => import("./pages/CreateGroupPage"), "CreateGroupPage");
+const GroupsPage = lazily(() => import("./pages/GroupsPage"), "GroupsPage");
+const GroupInvitePage = lazily(
+  () => import("./pages/GroupInvitePage"),
+  "GroupInvitePage",
+);
+const NotificationsPage = lazily(
+  () => import("./pages/NotificationsPage"),
+  "NotificationsPage",
+);
+const ReferidosPage = lazily(() => import("./pages/ReferidosPage"), "ReferidosPage");
+const VerificationPage = lazily(
+  () => import("./pages/VerificationPage"),
+  "VerificationPage",
+);
+const EmbajadoresPage = lazily(
+  () => import("./pages/embajadores/EmbajadoresPage"),
+  "EmbajadoresPage",
+);
+const LegalPage = lazily(() => import("./pages/legal/LegalPage"), "LegalPage");
+const BlogPage = lazily(() => import("./pages/blog/BlogPage"), "BlogPage");
+const BlogPostPage = lazily(() => import("./pages/blog/BlogPostPage"), "BlogPostPage");
+const AdminDashboardPage = lazily(
+  () => import("./pages/admin/AdminDashboardPage"),
+  "AdminDashboardPage",
+);
+const AdminUsersPage = lazily(
+  () => import("./pages/admin/AdminUsersPage"),
+  "AdminUsersPage",
+);
+const AdminUserDetailPage = lazily(
+  () => import("./pages/admin/AdminUserDetailPage"),
+  "AdminUserDetailPage",
+);
+const AdminListingsPage = lazily(
+  () => import("./pages/admin/AdminListingsPage"),
+  "AdminListingsPage",
+);
+const AdminReportsPage = lazily(
+  () => import("./pages/admin/AdminReportsPage"),
+  "AdminReportsPage",
+);
+const AdminEmbajadoresPage = lazily(
+  () => import("./pages/admin/AdminEmbajadoresPage"),
+  "AdminEmbajadoresPage",
+);
+const AdminComisionesPage = lazily(
+  () => import("./pages/admin/AdminComisionesPage"),
+  "AdminComisionesPage",
+);
+const AdminRoomAssignmentsPage = lazily(
+  () => import("./pages/admin/AdminRoomAssignmentsPage"),
+  "AdminRoomAssignmentsPage",
+);
+const AdminMatchingPage = lazily(
+  () => import("./pages/admin/AdminMatchingPage"),
+  "AdminMatchingPage",
+);
+const AdminSolicitudesPage = lazily(
+  () => import("./pages/admin/AdminSolicitudesPage"),
+  "AdminSolicitudesPage",
+);
+const AdminGruposPage = lazily(
+  () => import("./pages/admin/AdminGruposPage"),
+  "AdminGruposPage",
+);
+const AdminAuditoriaPage = lazily(
+  () => import("./pages/admin/AdminAuditoriaPage"),
+  "AdminAuditoriaPage",
+);
+const AdminNotificacionesPage = lazily(
+  () => import("./pages/admin/AdminNotificacionesPage"),
+  "AdminNotificacionesPage",
+);
+const AdminConfiguracionPage = lazily(
+  () => import("./pages/admin/AdminConfiguracionPage"),
+  "AdminConfiguracionPage",
+);
+const AdminVerificationsPage = lazily(
+  () => import("./pages/admin/AdminVerificationsPage"),
+  "AdminVerificationsPage",
+);
+const AdminAIPage = lazily(() => import("./pages/admin/AdminAIPage"), "AdminAIPage");
 
 function AuthShell() {
   return (
@@ -83,6 +215,7 @@ export default function App() {
         <Toaster position="top-right" offset={{ top: 72, right: 16 }} theme="light" />
         <NotificationToasts />
         <ScrollReset />
+        <RouteProgress />
         <PWAInstallPrompt />
         <Routes>
         <Route element={<PublicLayout />}>
@@ -109,6 +242,7 @@ export default function App() {
           <Route path="/access" element={<AccessPage />} />
           <Route path="/olvide-contrasena" element={<ForgotPasswordPage />} />
           <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/verificacion" element={<VerificationPage />} />
           <Route path="/completar-rol" element={<CompleteAccountRolePage />} />
           <Route path="/cuestionario-compatibilidad" element={<CompatibilityQuizPage />} />
         </Route>
@@ -270,6 +404,8 @@ export default function App() {
           <Route path="/admin/notificaciones" element={<AdminNotificacionesPage />} />
           <Route path="/admin/configuracion" element={<AdminConfiguracionPage />} />
           <Route path="/admin/auditoria" element={<AdminAuditoriaPage />} />
+          <Route path="/admin/verificaciones" element={<AdminVerificationsPage />} />
+          <Route path="/admin/ia" element={<AdminAIPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

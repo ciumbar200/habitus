@@ -1,7 +1,10 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Suspense } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { es } from "@habitus/core";
 import { useAuth } from "../context/AuthContext";
 import { Logo } from "./Logo";
+import { RouteTransition } from "./RouteTransition";
+import { RouteFallback } from "./PageState";
 
 const AUTH_SHELL_PATHS = ["/access", "/olvide-contrasena"];
 
@@ -43,7 +46,9 @@ export function FunnelLayout() {
           </div>
         </header>
       )}
-      <Outlet />
+      <Suspense fallback={<RouteFallback />}>
+        <RouteTransition />
+      </Suspense>
     </div>
   );
 }
