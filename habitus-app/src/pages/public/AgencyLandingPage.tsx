@@ -81,8 +81,16 @@ export function AgencyLandingPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-stone-950 text-white pt-20 pb-24 px-4">
-        <div className="max-w-4xl mx-auto">
+      <section
+        className="relative bg-stone-950 text-white pt-20 pb-24 px-4"
+        style={{
+          backgroundImage: "url('/marketing/operator-hero-v2.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 40%",
+        }}
+      >
+        <div className="absolute inset-0 bg-stone-950/75" aria-hidden="true" />
+        <div className="relative max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-white/10 text-white/60 text-xs font-semibold px-3 py-1.5 rounded-full mb-8 uppercase tracking-widest">
             <Buildings size={12} />
             moon para operadores

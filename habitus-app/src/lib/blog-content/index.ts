@@ -23,7 +23,6 @@ export const blogPosts: BlogPost[] = [
     author: "Equipo : moon",
     publishedAt: "2026-01-23",
     readTime: 15,
-    featuredImage: "/blog/buscar-habitacion-barcelona.jpg",
     seoTitle: "Buscar Habitación en Barcelona 2026: Guía Completa",
     seoDescription: "Guía completa para buscar habitación en Barcelona. Evita errores, encuentra compañeros compatibles y conoce tus derechos como inquilino.",
     content: `
@@ -173,7 +172,6 @@ Y te empareja con:
     author: "Equipo : moon",
     publishedAt: "2026-01-23",
     readTime: 12,
-    featuredImage: "/blog/gracia-vs-poblenou.jpg",
     seoTitle: "Gracia vs Poblenou: ¿Dónde vivir en Barcelona?",
     seoDescription: "Comparativa completa entre Gracia y Poblenou. Precios, vibe, tipo de personas. Descubre qué barrio es para ti.",
     content: `
@@ -293,7 +291,6 @@ En : moon no solo te mostramos habitaciones. Te mostramos **compatibilidad real*
     author: "Equipo : moon",
     publishedAt: "2026-01-23",
     readTime: 10,
-    featuredImage: "/blog/test-compatibilidad.jpg",
     seoTitle: "Test de Compatibilidad para Compañeros de Piso",
     seoDescription: "Descubre qué tipo de compañero eres y con quién encajas. Test completo basado en 5 dimensiones de compatibilidad.",
     content: `
@@ -444,7 +441,6 @@ Nuestro sistema analiza tu tipo y te muestra compañeros con alta afinidad.
     author: "Equipo : moon",
     publishedAt: "2026-01-23",
     readTime: 13,
-    featuredImage: "/blog/senales-mal-companero.jpg",
     seoTitle: "Señales de Mal Compañero: 25 Red Flags al Buscar Piso",
     seoDescription: "Aprende a detectar señales de alerta antes de mudarte. 25 red flags que indican mal compañero de piso.",
     content: `
