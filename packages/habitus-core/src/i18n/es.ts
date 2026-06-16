@@ -1278,6 +1278,18 @@ export const es = {
     severities: { low: "Leve", normal: "Normal", high: "Alta", urgent: "Urgente" },
     statuses: { open: "Abierta", in_progress: "En proceso", resolved: "Resuelta", dismissed: "Descartada" },
   },
+  gastos: {
+    title: "Reparte los gastos de tu piso",
+    subtitle: "Crea tu piso en moon, invita a tus compañeros y dejad que moon cuadre quién debe a quién. Sin peleas, sin hojas de cálculo. Gratis.",
+    cta: "Empezar a repartir gastos",
+    howTitle: "Cómo funciona",
+    step1: "Crea tu piso (1 minuto, sin contrato ni alquiler).",
+    step2: "Invita a tus compañeros con un link.",
+    step3: "Añadid los gastos: moon reparte y simplifica las deudas.",
+    yourPisos: "Tus pisos",
+    empty: "Todavía no tienes ningún piso en moon.",
+    emptyHint: "Crea tu piso y empieza a repartir los gastos hoy.",
+  },
   leases: {
     title: "Mi contrato",
     noLeases: "Aún no tienes contratos.",

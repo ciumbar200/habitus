@@ -1277,6 +1277,18 @@ export const ca = {
     severities: { low: "Lleu", normal: "Normal", high: "Alta", urgent: "Urgent" },
     statuses: { open: "Oberta", in_progress: "En procés", resolved: "Resolta", dismissed: "Descartada" },
   },
+  gastos: {
+    title: "Reparte les despeses del teu pis",
+    subtitle: "Crea el teu pis a moon, convida els teus companys i deixa que moon calculi qui deu a qui. Sense baralles, sense fulls de càlcul. Gratis.",
+    cta: "Començar a repartir despeses",
+    howTitle: "Com funciona",
+    step1: "Crea el teu pis (1 minut, sense contracte).",
+    step2: "Convida els teus companys amb un link.",
+    step3: "Afegeix despeses: moon reparteix i simplifica els deutes.",
+    yourPisos: "Els teus pisos",
+    empty: "Encara no tens cap pis a moon.",
+    emptyHint: "Crea el teu pis i comença a repartir despeses avui.",
+  },
   leases: {
     title: "El meu contracte",
     noLeases: "Encara no tens contractes.",

@@ -1278,6 +1278,18 @@ export const en = {
     severities: { low: "Low", normal: "Normal", high: "High", urgent: "Urgent" },
     statuses: { open: "Open", in_progress: "In progress", resolved: "Resolved", dismissed: "Dismissed" },
   },
+  gastos: {
+    title: "Split your flat's expenses",
+    subtitle: "Create your flat in moon, invite your flatmates, and let moon sort out who owes whom. No fights, no spreadsheets. Free.",
+    cta: "Start splitting expenses",
+    howTitle: "How it works",
+    step1: "Create your flat (1 minute, no lease needed).",
+    step2: "Invite your flatmates with a link.",
+    step3: "Add expenses: moon splits and simplifies the debts.",
+    yourPisos: "Your flats",
+    empty: "You don't have a flat in moon yet.",
+    emptyHint: "Create your flat and start splitting expenses today.",
+  },
   leases: {
     title: "My contract",
     noLeases: "You don't have any contracts yet.",
