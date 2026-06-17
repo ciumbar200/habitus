@@ -26,7 +26,9 @@ export function BlogPostPage() {
     );
   }
 
-  const htmlContent = marked(post.content, { gfm: true, breaks: true }) as string;
+  // Strip leading # H1 line (already shown in the hero header above)
+  const cleanContent = post.content.replace(/^\s*#\s+[^\n]+\n/, "");
+  const htmlContent = marked.parse(cleanContent, { gfm: true, breaks: false }) as string;
 
   return (
     <main className="min-h-screen bg-stone-50">

@@ -448,113 +448,153 @@ Nuestro sistema analiza tu tipo y te muestra compañeros con alta afinidad.
     seoTitle: "Señales de Mal Compañero: 25 Red Flags al Buscar Piso",
     seoDescription: "Aprende a detectar señales de alerta antes de mudarte. 25 red flags que indican mal compañero de piso.",
     content: `
-# 25 Señales de Mal Compañero de Piso: Red Flags que Debes Huir
+# 25 Señales de Mal Compañero de Piso: Red Flags que Debes Detectar Antes de Firmar
 
-## Cómo detectar personas tóxicas antes de mudarte
+Casi todos los conflictos de convivencia que terminan mal tienen algo en común: las señales estaban ahí desde el principio. En la visita, en los mensajes, en el propio anuncio. El problema es que cuando buscas piso con urgencia, tu cerebro filtra las red flags para ver lo que quiere ver.
 
-Todos hemos oído las historias de terror:
-- La compañera que usaba tu crema hidratante "solo una vez"
-- El compañero que traía gente a casa a las 3AM un martes
-- Quien se comía tu comida y negaba haberlo hecho
+Esta guía existe para que dejes de filtrar.
 
-Estas historias son reales. Pero lo que nadie te dice es que **casi todas estas señales eran detectables antes de mudarse.**
+## Señales durante la visita presencial
 
-## Señales durante la visita
+La visita al piso es tu mejor herramienta de detección. Vas a vivir en ese espacio, con esas personas, probablemente durante 12 meses. Dedícale al menos 45 minutos y no te cortes con las preguntas.
 
-### 🚩 Señal #1: No te deja hablar con el compañero actual
+### 🚩 1. No te dejan hablar con el compañero que se va
 
-**Lo que dicen:** "Bueno, él se va en días, así que no podrás conocerlo."
-**Lo que significa:** La convivencia fue un desastre.
+Si el anfitrión dice "se va pronto, no tiene sentido que os conozcáis" o "está muy ocupado esta semana", es una bandera roja mayor. La persona que vivió allí tiene información de primera mano sobre la convivencia: cómo gestiona los gastos el anfitrión, si hay conflictos latentes, si el piso tiene problemas que no aparecen en fotos. El hecho de que no puedas hablar con ella casi siempre significa que la convivencia terminó mal y no quieren que lo sepas.
 
-### 🚩 Señal #2: El piso huele mal
+### 🚩 2. El piso huele a humedad, tabaco impregnado o basura
 
-- Humedad
-- Tabaco impregnado
-- Basura acumulada
+Los olores son difíciles de esconder en una visita. La humedad indica problemas estructurales en paredes o techo que serán tuyos también. El tabaco impregnado en los muebles no desaparece con ventilación. Si hay un cubo de basura visible y huele, es el nivel de higiene cotidiana que te espera. Confía en tu nariz más que en las fotos de Idealista.
 
-### 🚩 Señal #3: Notas pasivo-agresivas
+### 🚩 3. Notas pasivo-agresivas en zonas comunes
 
-Post-its en la nevera: "POR FAVOR LIMPIA DESPUÉS DE USAR"
+Los post-its del tipo "POR FAVOR LIMPIA DESPUÉS DE USAR", "QUIEN HAYA DEJADO ESTO AQUÍ QUE LO RECOJA" o "LA LECHE ES DE TODOS" son evidencia física de que los problemas de convivencia no se resuelven hablando. Quien vive allí lleva tiempo gestionando el conflicto así, y tú vas a entrar en ese sistema. Las notas pasivo-agresivas no se generan de la nada: hay una historia detrás de cada una.
 
-### 🚩 Señal #4: Te hablan mal del compañero que se va
+### 🚩 4. Hablan mal del compañero que se va
 
-"Menos mal se va, era un pesado."
+"Menos mal que se va, era un desastre", "nunca limpiaba", "tenía gente en casa constantemente". Escuchar esto sobre alguien que aún no conoces debe disparar una pregunta: ¿qué dirán de ti cuando te vayas? Las personas que hablan así de sus compañeros anteriores suelen repetir el patrón. Además, el compañero que se va puede tener una versión completamente distinta de lo mismo.
 
-### 🚩 Señal #5: No saben respuestas básicas
+### 🚩 5. No saben cosas básicas del piso
 
-"¿De quién es el router?" "No sé."
+Preguntas como "¿de quién es el contrato de internet?" o "¿cuándo vence el contrato de alquiler?" o "¿cuánto es la comunidad de vecinos?" deben tener respuesta. Si los actuales inquilinos no saben estos datos, significa que nadie lleva las cuentas ni el orden del piso. Ese caos administrativo acaba siendo tuyo también.
 
-## Señales en la comunicación
+## Señales en la comunicación previa
 
-### 🚩 Señal #6: Tardan muchísimo en responder
+Cómo te escriben antes de conoceros dice muchísimo sobre cómo será vivir con esas personas.
 
-### 🚩 Señal #7: Responden de forma evasiva
+### 🚩 6. Tardan más de 48 horas en responder mensajes normales
 
-Preguntas específicas obtienen respuestas vagas.
+Excepto por viaje o emergencia documentada, tardar dos días en responder un mensaje simple indica desorganización, desinterés, o que tienen muchas conversaciones abiertas porque no terminan de decidirse. Los problemas de comunicación en la búsqueda se multiplican una vez que vivís juntos.
 
-### 🚩 Señal #8: Se contradicen entre mensajes
+### 🚩 7. Responden con evasivas a preguntas directas
 
-### 🚩 Señal #9: No responden todas tus preguntas
+"¿Cuánto es el total de gastos al mes?" → "Pues depende del mes, ya ves..." No. Una respuesta honesta es un número o un rango. Si evitan dar cifras concretas sobre gastos, normas del piso o condiciones del contrato, es porque algo no les conviene decirte claramente.
 
-### 🚩 Señal #10: Lenguaje excesivamente informal
+### 🚩 8. Se contradicen entre mensajes o con lo que te dijeron en persona
+
+En el mensaje decían que el piso era tranquilo. En la visita mencionaron que hay fiestas de vez en cuando. En el grupo de WhatsApp del piso alguien puso una foto del salón lleno de gente a las 2AM. Cuando hay contradicciones, la verdad suele ser la versión que no te conviene.
+
+### 🚩 9. Solo contestan cuando tú insistes
+
+Si el 80% de la conversación la inicias tú, eso es el nivel de implicación que tendrán como compañeros en los problemas cotidianos: poca. La persona que nunca responde al chat sobre gastos compartidos es la misma que luego "no se enteró" de que había que pagar la luz.
+
+### 🚩 10. Presionan para que decidas ya, sin darte tiempo para pensar
+
+"Es que tenemos muchos interesados", "si no me dices hoy lo doy a otro". Puede ser verdad, o puede ser una táctica de presión. En cualquier caso, una decisión de dónde vas a vivir 12 meses no se toma en 2 horas. Si no te dan al menos 24-48 horas sin presión, algo falla en cómo gestionan las relaciones.
 
 ## Señales en el anuncio
 
-### 🚩 Señal #11: Anuncio demasiado corto
+El anuncio es el primer filtro y revela más de lo que sus autores creen.
 
-### 🚩 Señal #12: Anuncio excesivamente demandante
+### 🚩 11. Anuncio de 3 líneas sin información real
 
-"BUSCAMOS PERSONA PERFECTA, LIMPIA, RESPONSABLE..."
+"Habitación disponible, buen ambiente, zona céntrica, se busca persona seria". Sin fotos de calidad, sin precio desglosado, sin descripción del perfil real de los compañeros. O están ocultando algo, o les da igual quién entra. Ninguna de las dos opciones es buena.
 
-### 🚩 Señal #13: Fotos no corresponden
+### 🚩 12. Anuncio hiperdeterminado y demandante
 
-### 🚩 Señal #14: Precio sospechosamente bajo
+"Buscamos persona 100% limpia, sin visitas, no fumador ni exfumador, sin mascotas, horario laboral estándar, sin novios/novias que vengan a casa, amante del silencio y el orden." Este nivel de control previo raramente refleja normas razonables: suele reflejar conflictos previos con compañeros y expectativas imposibles de cumplir. Vas a entrar a un piso donde hay normas no escritas que ya te incumpliste antes de llegar.
 
-### 🚩 Señal #15: "Buscamos a alguien especial" sin definir
+### 🚩 13. Las fotos no corresponden al estado real del piso
 
-## Señales sutiles
+Si las fotos son de hace años (detectado por modelos de electrodomésticos o estilo del mobiliario), o están sacadas en ángulos que ocultan partes del espacio, o hay habitaciones que no aparecen, visita con escepticismo activo. Pide fotos recientes antes de ir.
 
-### 🚩 Señal #16: No pueden decirte qué les gusta del piso
+### 🚩 14. El precio está muy por debajo de mercado sin explicación
 
-### 🚩 Señal #17: Se quejan del barrio constantemente
+En Barcelona, una habitación en Gràcia por debajo de 450€ tiene un motivo: habitación interior sin ventana, piso en planta baja muy oscura, ruido extremo, o simplemente que tienen prisa por llenar y bajan el precio para tapar otros problemas. Averigua siempre el porqué del precio.
 
-### 🚩 Señal #18: No pueden decirte la última vez que hubo conflicto
+### 🚩 15. Descripción vaga de los actuales compañeros
 
-### 🚩 Señal #19: Parecen ansiosos por que te mudures YA
+"Somos un piso tranquilo" no te dice nada. ¿Qué edades? ¿Qué horarios? ¿Trabajan desde casa? ¿Hay alguien que no habla español? ¿Con pareja estable? Un anuncio que no describe con honestidad a quienes ya viven allí no quiere que filtres por compatibilidad — quiere que alguien, quien sea, entre.
 
-### 🚩 Señal #20: No conocen detalles del contrato
+## Señales sutiles que muchos ignoran
 
-## Señales del propietario/anfitrión
+Estas son las más difíciles de detectar porque son cosas que "no tienen por qué significar nada". Y sin embargo.
 
-### 🚩 Señal #21: El propietario vive allí y todo decide
+### 🚩 16. No pueden decirte qué les gusta del piso
 
-### 🚩 Señal #22: Habitaciones claramente desiguales
+"Es que... está bien situado" dicho sin convicción. Quienes llevan tiempo viviendo en un sitio y están contentos saben exactamente qué les gusta: la luz de la tarde, el silencio del patio, que el supermercado está a 50 metros. Si no pueden nombrarte nada concreto, es que no están muy contentos de estar allí.
 
-Tú pagas 500€ por habitación pequeña, el anfitrión tiene la suite por mismo precio.
+### 🚩 17. Se quejan del barrio, del edificio, de los vecinos
 
-### 🚩 Señal #23: Depósitos ilegales
+Quejarse de algo concreto ("el bar de abajo tiene música hasta las 2AM los fines de semana") es información útil. Quejarse de todo en general ("este barrio es un desastre", "los vecinos son unos maleducados") describe el estado de ánimo de quien vive allí y te da una señal de con quién vas a convivir.
 
-Fianza de 3 meses (ilegal en España).
+### 🚩 18. No recuerdan la última vez que tuvieron un conflicto en el piso
 
-### 🚩 Señal #24: Contrato sin revisar
+"Aquí nunca hay problemas" dicho de una convivencia de más de seis meses es estadísticamente imposible. Los pisos sin conflictos son los que los resuelven rápido, no los que no los tienen. Si dicen que nunca han tenido ninguno, o no recuerdan cuándo, es porque no los resuelven: los acumulan.
 
-### 🚩 Señal #25: Falta total de transparencia
+### 🚩 19. El piso lleva mucho tiempo buscando compañero/a
 
-## Señales Verdes: Cómo se ve un buen compañero
+Una habitación en Barcelona tarda normalmente menos de 2 semanas en llenarse con precio de mercado. Si llevan más de un mes buscando, hay una razón. Puede ser precio, puede ser el perfil muy específico que buscan, o puede ser que quien ha venido a ver el piso ha decidido no quedarse.
 
-✅ Te dejan hablar con el compañero actual
-✅ Responden preguntas con detalles
-✅ Pueden decirte qué les gusta del piso
-✅ Hay evidencia de que resuelven conflictos
-✅ El piso se siente cuidado
-✅ Te dan tiempo para decidir
+### 🚩 20. No tienen claro quién es el titular del contrato
 
-## En : moon, filtramos por compatibilidad
+El titular del contrato con el propietario es la persona que responde frente a cualquier problema: desperfectos, impagos, comunicaciones. Si nadie sabe bien quién es, o "el piso es de la empresa de un amigo", o "firmamos todos juntos pero sin contrato formal", estás entrando en una situación legal sin protección real.
 
-Analizamos estilos de convivencia antes de conectar.
+## Señales del propietario o anfitrión
 
-[**Explorar con compatibilidad real**](/alojamientos)
-[**Crear cuenta gratis**](/access?role=inquilino)
+Si el piso es de alquiler compartido con el propietario como anfitrión, hay señales adicionales a vigilar.
+
+### 🚩 21. El propietario vive allí y toma todas las decisiones unilateralmente
+
+Hay propietarios que alquilan habitaciones y conviven bien con los inquilinos. Hay otros que convierten el piso en su dominio y a los inquilinos en huéspedes de pago con pocas libertades. La señal de alerta es cuando durante la visita el anfitrión dice frases como "aquí las normas las pongo yo" o "todo se hace como yo digo porque es mi casa". Técnicamente es su casa. En la práctica, será la tuya también.
+
+### 🚩 22. Las habitaciones son claramente desiguales pero el precio es el mismo
+
+Tú pagas 550€ por una habitación de 8 m² interior. El anfitrión tiene la habitación principal de 20 m² con baño privado y terraza por el mismo precio. Esto puede ser legal si está en el contrato, pero es una señal de que no hay una cultura de reparto justo en ese piso. Usa la [calculadora de alquiler justo](/calculadora-alquiler) para comprobar si el reparto es proporcional a los metros.
+
+### 🚩 23. Te piden fianza de más de dos meses
+
+Según la Ley de Arrendamientos Urbanos (LAU), la fianza máxima en un contrato de habitación es equivalente a **una mensualidad**. Pedir dos meses o más no está permitido en contratos estándar de arrendamiento de habitación. Si te lo piden, estás ante alguien que no conoce (o ignora) la ley, o que tiene intención de quedarse con parte de esa fianza al final.
+
+### 🚩 24. No te dejan leer el contrato con calma antes de firmar
+
+Cualquier contrato merece al menos 24 horas de lectura. Si el propietario o anfitrión te presiona para firmar en la visita, sin darte tiempo a leerlo y consultarlo, es porque hay cláusulas que prefieren que no analices con detenimiento. Pide siempre el contrato por escrito y con tiempo para revisarlo.
+
+### 🚩 25. La comunicación es completamente informal: todo de palabra
+
+"No hace falta nada por escrito, somos de confianza." Esta frase, en relación a dinero y vivienda, es la más cara que puedes escuchar. Sin registro escrito de gastos, sin contrato claro, sin inventario del piso al entrar, no tienes ninguna protección si algo sale mal. La confianza no sustituye a la documentación.
+
+---
+
+## Las señales verdes: cómo se ve un piso donde las cosas funcionan
+
+Para compensar la lista anterior: estas son las señales de que vas por buen camino.
+
+- **Te presentan al compañero actual** y le dejan hablar libremente contigo, sin mediación.
+- **Responden preguntas con números concretos** sobre gastos, contrato y normas.
+- **Saben exactamente qué les gusta del piso** y pueden describírtelo sin dudar.
+- **Tienen un sistema para los gastos**: app, hoja de cálculo, algo. No es todo de palabra.
+- **El piso está limpio** sin que sea "de visita" — las zonas comunes reflejan el día a día real.
+- **Te dan tiempo para decidir** sin presión, porque están seguros de que el piso se vende solo.
+- **El contrato es claro**, el propietario conoce sus obligaciones, y la fianza es la legal.
+
+Un piso con estas señales verdes puede tener sus roces, como cualquier convivencia. Pero tiene las bases para resolverlos.
+
+---
+
+En moon verificamos la identidad de todos los perfiles y construimos el Moon Score de cada conviviente — para que puedas ver el historial de convivencia de alguien antes de mudarte, no después.
+
+[Explorar habitaciones con perfil verificado](/alojamientos) · [Crear perfil moon gratis](/access?role=inquilino)
     `
   },
   {
