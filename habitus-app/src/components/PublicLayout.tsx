@@ -213,7 +213,7 @@ export function PublicLayout() {
               </Link>
             </div>
             <p className="text-sm text-stone-400">
-              © 2026 {t.brandProduct} · {t.public.footerTagline}
+              © 2026 moon shared living
             </p>
           </div>
         </div>

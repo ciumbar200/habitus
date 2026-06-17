@@ -7,6 +7,7 @@ import {
   parseReferralCode,
   persistPendingGroupSlug,
   persistPendingReferral,
+  peekPendingReferral,
 } from "@habitus/core";
 import { saveReturnTo, redirectAfterAuth } from "../lib/returnTo";
 import { accessWantsSignup, parseAccessRole } from "../lib/accessLinks";
@@ -39,6 +40,8 @@ export function AccessPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
+  const [showReferralInput, setShowReferralInput] = useState(false);
 
   useEffect(() => {
     const saved = loadRememberedEmail();
@@ -62,8 +65,12 @@ export function AccessPage() {
     if (roleFromUrl) setAccountRole(roleFromUrl);
     else if (propertySignup || state?.signup) setAccountRole("inquilino");
 
-    const ref = parseReferralCode(searchParams);
-    if (ref) persistPendingReferral(ref);
+    const ref = parseReferralCode(searchParams) ?? peekPendingReferral();
+    if (ref) {
+      persistPendingReferral(ref);
+      setReferralCode(ref);
+      setShowReferralInput(true);
+    }
     const grupo = parseGroupSlugParam(searchParams);
     if (grupo) {
       persistPendingGroupSlug(grupo);
@@ -108,6 +115,10 @@ export function AccessPage() {
 
     if (mode === "signin") {
       saveRememberMe(email, rememberMe);
+    }
+
+    if (mode === "signup" && referralCode.trim()) {
+      persistPendingReferral(referralCode.trim());
     }
 
     setLoading(true);
@@ -318,25 +329,67 @@ export function AccessPage() {
         </div>
 
         {mode === "signup" && (
-          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-stone-200/80 bg-white p-4">
-            <input
-              type="checkbox"
-              checked={consentAccepted}
-              onChange={(e) => setConsentAccepted(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900/20"
-              required
-            />
-            <span className="text-[13px] leading-relaxed text-stone-600">
-              {es.access.signupConsent}{" "}
-              <Link to="/privacidad" className="font-medium text-stone-900 underline-offset-2 hover:underline">
-                {es.legal.privacy}
-              </Link>
-              {" · "}
-              <Link to="/terminos" className="font-medium text-stone-900 underline-offset-2 hover:underline">
-                {es.legal.terms}
-              </Link>
-            </span>
-          </label>
+          <>
+            {/* Referral code */}
+            {!showReferralInput ? (
+              <button
+                type="button"
+                onClick={() => setShowReferralInput(true)}
+                className="text-[13px] text-stone-400 hover:text-stone-600 underline-offset-2 hover:underline transition-colors w-full text-center"
+              >
+                ¿Tienes un código de referido o embajador?
+              </button>
+            ) : (
+              <div>
+                <label htmlFor="referral-code" className="auth-label">
+                  Código de referido
+                  <span className="ml-1.5 text-[11px] font-normal text-stone-400">(opcional)</span>
+                </label>
+                <div className="relative">
+                  <input
+                    id="referral-code"
+                    name="referral-code"
+                    type="text"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={referralCode}
+                    onChange={(e) => setReferralCode(e.target.value.toLowerCase().trim())}
+                    placeholder="ej: luna-bcn-23"
+                    className="auth-input"
+                  />
+                  {referralCode.length > 0 && (
+                    <span className="absolute top-1/2 right-3.5 -translate-y-1/2 text-teal-accent text-[18px]">
+                      <Icon name="check_circle" />
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1.5 text-[12px] text-stone-400">
+                  Se contabilizará para ti y para quien te invitó.
+                </p>
+              </div>
+            )}
+
+            {/* Consent */}
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-stone-200/80 bg-white p-4">
+              <input
+                type="checkbox"
+                checked={consentAccepted}
+                onChange={(e) => setConsentAccepted(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-stone-300 text-stone-900 focus:ring-stone-900/20"
+                required
+              />
+              <span className="text-[13px] leading-relaxed text-stone-600">
+                {es.access.signupConsent}{" "}
+                <Link to="/privacidad" className="font-medium text-stone-900 underline-offset-2 hover:underline">
+                  {es.legal.privacy}
+                </Link>
+                {" · "}
+                <Link to="/terminos" className="font-medium text-stone-900 underline-offset-2 hover:underline">
+                  {es.legal.terms}
+                </Link>
+              </span>
+            </label>
+          </>
         )}
 
         <button
