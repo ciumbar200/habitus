@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { marked } from "marked";
 import { getBlogPost, getRelatedPosts } from "@/lib/blog-content";
 import { ArrowRight, Calendar, Clock, ShareNetwork } from "@phosphor-icons/react";
 import { accessSignupUrl } from "@/lib/accessLinks";
@@ -24,6 +25,8 @@ export function BlogPostPage() {
       </main>
     );
   }
+
+  const htmlContent = marked(post.content, { gfm: true, breaks: true }) as string;
 
   return (
     <main className="min-h-screen bg-stone-50">
@@ -94,19 +97,25 @@ export function BlogPostPage() {
             {/* Content */}
             <div
               className="prose prose-lg max-w-none
-                prose-headings:font-semibold
+                prose-headings:font-semibold prose-headings:text-stone-900
+                prose-h1:text-3xl prose-h1:mt-12 prose-h1:mb-6
                 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
                 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-                prose-p:text-stone-700 prose-p:leading-relaxed
-                prose-p:mb-6
-                prose-ul:text-stone-700 prose-ul:my-6
-                prose-li:mb-2
-                prose-strong:text-stone-900
-                prose-a:text-terracotta prose-a:no-underline hover:prose-a:underline
-                prose-blockquote:border-l-4 prose-blockquote:border-terracotta prose-blockquote:bg-stone-100 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:italic
-                prose-code:bg-stone-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm
-                prose-pre:bg-stone-900 prose-pre:text-stone-100"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+                prose-p:text-stone-700 prose-p:leading-relaxed prose-p:mb-6
+                prose-ul:text-stone-700 prose-ul:my-4 prose-ul:pl-6
+                prose-ol:text-stone-700 prose-ol:my-4 prose-ol:pl-6
+                prose-li:mb-2 prose-li:leading-relaxed
+                prose-strong:text-stone-900 prose-strong:font-semibold
+                prose-em:text-stone-700
+                prose-a:text-terracotta prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+                prose-blockquote:border-l-4 prose-blockquote:border-stone-900 prose-blockquote:bg-stone-100 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
+                prose-blockquote:text-stone-700
+                prose-table:border-collapse prose-th:bg-stone-100 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:text-sm prose-th:font-semibold
+                prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-stone-200 prose-td:text-sm
+                prose-code:bg-stone-100 prose-code:px-2 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                prose-pre:bg-stone-900 prose-pre:text-stone-100 prose-pre:rounded-xl
+                prose-hr:border-stone-200 prose-hr:my-10"
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
 
             {/* Share Section */}

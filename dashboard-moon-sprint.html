@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌙 Moon — Sprint 14 Días</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f5f5f0;
+    color: #1a1a1a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Layout */
+  .page { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* Header */
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .logo { font-size: 32px; }
+  .title { font-size: 24px; font-weight: 800; color: #111; }
+  .subtitle { font-size: 14px; color: #666; margin-top: 2px; }
+  .day-pill {
+    background: #111;
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .day-pill small { display: block; font-size: 11px; font-weight: 400; color: #aaa; margin-top: 1px; }
+
+  /* Section headers */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin: 32px 0 12px;
+  }
+
+  /* KPI grid */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .kpi-card {
+    background: #fff;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kpi-card.star { border-color: #111; }
+  .kpi-num { font-size: 36px; font-weight: 800; color: #111; }
+  .kpi-card input[type=number] {
+    font-size: 36px; font-weight: 800; color: #111;
+    background: none; border: none; outline: none;
+    width: 100%; text-align: center;
+  }
+  .kpi-card input[type=number]::-webkit-inner-spin-button { display: none; }
+  .kpi-label { font-size: 12px; color: #888; margin-top: 4px; }
+  .kpi-target { font-size: 11px; color: #bbb; }
+  .kpi-bar { height: 4px; background: #eee; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .kpi-fill { height: 100%; background: #111; border-radius: 2px; transition: width .3s; }
+
+  /* Day blocks */
+  .week-banner {
+    background: #111;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .week-banner span { color: #aaa; font-weight: 400; font-size: 12px; }
+
+  .day-card {
+    background: #fff;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .day-card.today { border-color: #111; border-width: 2px; }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .day-badge {
+    font-size: 11px; font-weight: 700; color: #888;
+    background: #f0f0f0; border-radius: 6px;
+    padding: 2px 8px; white-space: nowrap; flex-shrink: 0;
+  }
+  .today .day-badge { background: #111; color: #fff; }
+  .day-name { font-size: 14px; font-weight: 600; color: #222; flex: 1; }
+  .day-progress { font-size: 12px; color: #aaa; flex-shrink: 0; }
+
+  .day-body { padding: 0 16px 12px; display: none; }
+  .day-body.open { display: block; }
+
+  .task {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f5f5f0;
+    cursor: pointer;
+  }
+  .task:last-child { border-bottom: none; }
+  .task input[type=checkbox] {
+    width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px;
+    accent-color: #111; cursor: pointer;
+  }
+  .task label { font-size: 14px; color: #333; cursor: pointer; line-height: 1.5; }
+  .task.done label { text-decoration: line-through; color: #bbb; }
+
+  .tag {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 4px; margin-left: 5px;
+    vertical-align: middle; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .tag-call { background: #dcfce7; color: #166534; }
+  .tag-post { background: #dbeafe; color: #1d4ed8; }
+  .tag-dm   { background: #fef9c3; color: #854d0e; }
+  .tag-build{ background: #fce7f3; color: #9d174d; }
+  .tag-now  { background: #fee2e2; color: #991b1b; }
+
+  /* Posts section */
+  .posts-grid { display: flex; flex-direction: column; gap: 16px; }
+  .post-card {
+    background: #fff;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .post-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+  }
+  .post-meta { display: flex; align-items: center; gap: 10px; }
+  .post-platform {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: #111; color: #fff;
+    border-radius: 5px; padding: 2px 7px;
+  }
+  .post-platform.ig { background: #e1306c; }
+  .post-platform.fb { background: #1877f2; }
+  .post-platform.tg { background: #229ed9; }
+  .post-day { font-size: 12px; color: #888; }
+  .copy-btn {
+    background: #111; color: #fff;
+    border: none; border-radius: 7px;
+    padding: 6px 14px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: background .15s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover { background: #333; }
+  .copy-btn.copied { background: #166534; }
+  .post-title { font-size: 14px; font-weight: 700; color: #111; padding: 12px 16px 4px; }
+  .post-body {
+    font-size: 13px; color: #444; line-height: 1.8;
+    padding: 0 16px 14px;
+    white-space: pre-wrap;
+  }
+
+  /* Contacts */
+  .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .contact-card {
+    background: #fff; border: 1.5px solid #e5e5e5;
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .contact-num { font-size: 11px; font-weight: 700; color: #888; margin-bottom: 4px; }
+  .contact-name { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 3px; }
+  .contact-who { font-size: 12px; color: #555; margin-bottom: 6px; }
+  .contact-pitch {
+    font-size: 12px; color: #1d4ed8;
+    background: #eff6ff; border-radius: 6px;
+    padding: 6px 10px; line-height: 1.5;
+  }
+
+  /* Investor KPIs */
+  .inv-table { background: #fff; border: 1.5px solid #e5e5e5; border-radius: 12px; overflow: hidden; }
+  .inv-row {
+    display: grid; grid-template-columns: 1fr 80px 100px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+  }
+  .inv-row:last-child { border-bottom: none; }
+  .inv-name { font-size: 13px; color: #333; }
+  .inv-now { font-size: 14px; font-weight: 700; color: #111; text-align: right; }
+  .inv-target { font-size: 12px; color: #16a34a; font-weight: 600; text-align: right; }
+
+  .deck-quote {
+    background: #111; color: #fff;
+    border-radius: 12px; padding: 20px;
+    margin-top: 12px;
+    font-size: 14px; line-height: 1.8;
+  }
+  .deck-quote strong { color: #fbbf24; }
+
+  /* Footer */
+  .footer { text-align: center; margin-top: 48px; font-size: 12px; color: #aaa; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .contacts-grid { grid-template-columns: 1fr; }
+    .inv-row { grid-template-columns: 1fr 60px; }
+    .inv-target { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <span class="logo">🌙</span>
+      <div>
+        <div class="title">Moon Sprint — 14 días</div>
+        <div class="subtitle">Del 17 al 30 de junio · €0 marketing · meta: 50 usuarios</div>
+      </div>
+    </div>
+    <div class="day-pill">
+      Día <span id="dayNum">1</span> / 14
+      <small id="dayDate">—</small>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-title">📊 KPIs — actualiza cada día</div>
+  <div class="kpi-grid">
+    <div class="kpi-card star">
+      <input type="number" id="k_users" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Usuarios registrados</div>
+      <div class="kpi-target">Meta: 50</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_users" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_scores" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Moon Scores activos</div>
+      <div class="kpi-target">Meta: 20</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_scores" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_matches" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Matches calculados</div>
+      <div class="kpi-target">Meta: 15</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_matches" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_outreach" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">DMs / mensajes enviados</div>
+      <div class="kpi-target">Meta: 150</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_outreach" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_profiles" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Perfiles completos</div>
+      <div class="kpi-target">Meta: 30</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_profiles" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_groups" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Grupos de piso creados</div>
+      <div class="kpi-target">Meta: 5</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_groups" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_partners" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Partners confirmados</div>
+      <div class="kpi-target">Meta: 3</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_partners" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-card">
+      <input type="number" id="k_posts" value="0" min="0" onchange="saveKpis()">
+      <div class="kpi-label">Posts publicados</div>
+      <div class="kpi-target">Meta: 8</div>
+      <div class="kpi-bar"><div class="kpi-fill" id="b_posts" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- DÍAS -->
+  <div class="week-banner">🌱 SEMANA 1 — Siembra manual <span>17–23 Jun</span></div>
+
+  <!-- DÍA 1 -->
+  <div class="day-card today" id="day1">
+    <div class="day-header" onclick="toggleDay('day1')">
+      <span class="day-badge">DÍA 1 · Mar 17 Jun</span>
+      <span class="day-name">🔥 Arranque — todo listo antes de las 3pm</span>
+      <span class="day-progress" id="prog_day1">0/5</span>
+    </div>
+    <div class="day-body open" id="body_day1">
+      <div class="task" id="t_1_1"><input type="checkbox" onchange="tick(this)"><label>Aplicar migration Moon Score en Supabase (Query Editor, 5 min) <span class="tag tag-now">AHORA</span></label></div>
+      <div class="task" id="t_1_2"><input type="checkbox" onchange="tick(this)"><label>Crear TU perfil como usuario #1 — foto real, bio real, cuestionario completo <span class="tag tag-build">BUILD</span></label></div>
+      <div class="task" id="t_1_3"><input type="checkbox" onchange="tick(this)"><label>Unirse a estos 5 grupos de Facebook: "Erasmus Barcelona", "Expats Barcelona", "Nómadas Digitales España", "Alquiler piso Madrid", "Compartir piso Barcelona" <span class="tag tag-dm">GRUPOS</span></label></div>
+      <div class="task" id="t_1_4"><input type="checkbox" onchange="tick(this)"><label>Publicar Post #1 en LinkedIn (ver abajo — copiar y pegar) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_1_5"><input type="checkbox" onchange="tick(this)"><label>Invitar a mano a 5 personas de tu red que compartan piso — pídeles que prueben moon y te digan qué falla</label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 2 -->
+  <div class="day-card" id="day2">
+    <div class="day-header" onclick="toggleDay('day2')">
+      <span class="day-badge">DÍA 2 · Mié 18 Jun</span>
+      <span class="day-name">Primeros DMs + primera llamada</span>
+      <span class="day-progress" id="prog_day2">0/4</span>
+    </div>
+    <div class="day-body" id="body_day2">
+      <div class="task" id="t_2_1"><input type="checkbox" onchange="tick(this)"><label>En cada grupo de Facebook: comentar 1 hilo útil (no menciones moon todavía — sé útil primero) <span class="tag tag-dm">COMUNIDAD</span></label></div>
+      <div class="task" id="t_2_2"><input type="checkbox" onchange="tick(this)"><label>Enviar DM a 30 personas de los grupos (template DM #1 abajo — personaliza el nombre y barrio) <span class="tag tag-dm">30 DMs</span></label></div>
+      <div class="task" id="t_2_3"><input type="checkbox" onchange="tick(this)"><label>Llamar a Barcelona Tech City (ver contactos abajo) — 20 min máximo <span class="tag tag-call">LLAMADA</span></label></div>
+      <div class="task" id="t_2_4"><input type="checkbox" onchange="tick(this)"><label>Publicar Reel/Story Instagram: "vivir solo en Barcelona cuesta 1.200€/mes de media" (Post #5 abajo) <span class="tag tag-post">POST</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 3 -->
+  <div class="day-card" id="day3">
+    <div class="day-header" onclick="toggleDay('day3')">
+      <span class="day-badge">DÍA 3 · Jue 19 Jun</span>
+      <span class="day-name">Contenido + 2ª llamada</span>
+      <span class="day-progress" id="prog_day3">0/4</span>
+    </div>
+    <div class="day-body" id="body_day3">
+      <div class="task" id="t_3_1"><input type="checkbox" onchange="tick(this)"><label>DM a 30 más (acumulado: 60) — ahora incluye link a moonsharedliving.com <span class="tag tag-dm">30 DMs</span></label></div>
+      <div class="task" id="t_3_2"><input type="checkbox" onchange="tick(this)"><label>Llamar a Impact Hub Barcelona (ver contactos) <span class="tag tag-call">LLAMADA</span></label></div>
+      <div class="task" id="t_3_3"><input type="checkbox" onchange="tick(this)"><label>Publicar Post #2 LinkedIn (datos del mercado — copiar abajo) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_3_4"><input type="checkbox" onchange="tick(this)"><label>Crear carousel Instagram "5 errores al buscar compañero de piso" (Post #6 abajo — usa Canva gratis) <span class="tag tag-post">POST</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 4 -->
+  <div class="day-card" id="day4">
+    <div class="day-header" onclick="toggleDay('day4')">
+      <span class="day-badge">DÍA 4 · Vie 20 Jun</span>
+      <span class="day-name">Escuelas de idiomas + historia personal</span>
+      <span class="day-progress" id="prog_day4">0/4</span>
+    </div>
+    <div class="day-body" id="body_day4">
+      <div class="task" id="t_4_1"><input type="checkbox" onchange="tick(this)"><label>Llamar a Don Quijote BCN + Kingsbrook — "tenemos matching para vuestros internacionales" (ver contactos) <span class="tag tag-call">2 LLAMADAS</span></label></div>
+      <div class="task" id="t_4_2"><input type="checkbox" onchange="tick(this)"><label>DM a 30 más (acumulado: 90) — ahora enfócate en internacionales y Erasmus <span class="tag tag-dm">30 DMs</span></label></div>
+      <div class="task" id="t_4_3"><input type="checkbox" onchange="tick(this)"><label>Publicar Post #3 LinkedIn — historia personal (copiar abajo) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_4_4"><input type="checkbox" onchange="tick(this)"><label>Llamar a los usuarios que se registraron días 1–3 — 5 min cada uno, pregunta qué fue confuso</label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 5 -->
+  <div class="day-card" id="day5">
+    <div class="day-header" onclick="toggleDay('day5')">
+      <span class="day-badge">DÍA 5 · Sáb 21 Jun</span>
+      <span class="day-name">Coworkings + SEO base</span>
+      <span class="day-progress" id="prog_day5">0/4</span>
+    </div>
+    <div class="day-body" id="body_day5">
+      <div class="task" id="t_5_1"><input type="checkbox" onchange="tick(this)"><label>Email a Betahaus + Cloudworks + MOB Coworking — "habitación compartida verificada para vuestros miembros" <span class="tag tag-call">EMAILS</span></label></div>
+      <div class="task" id="t_5_2"><input type="checkbox" onchange="tick(this)"><label>Crear 5 páginas SEO: Habitaciones en Malasaña, Poblenou, Eixample, Lavapiés, Chueca <span class="tag tag-build">BUILD</span></label></div>
+      <div class="task" id="t_5_3"><input type="checkbox" onchange="tick(this)"><label>DM a 30 más (acumulado: 120) <span class="tag tag-dm">30 DMs</span></label></div>
+      <div class="task" id="t_5_4"><input type="checkbox" onchange="tick(this)"><label>Revisar el onboarding en vivo: ¿dónde se pierden los usuarios? Anótalo.</label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 6 -->
+  <div class="day-card" id="day6">
+    <div class="day-header" onclick="toggleDay('day6')">
+      <span class="day-badge">DÍA 6 · Dom 22 Jun</span>
+      <span class="day-name">Revisión de mitad — ajusta o dobla</span>
+      <span class="day-progress" id="prog_day6">0/4</span>
+    </div>
+    <div class="day-body" id="body_day6">
+      <div class="task" id="t_6_1"><input type="checkbox" onchange="tick(this)"><label>Actualizar los KPIs arriba. Si usuarios &lt;5 → doblar el outreach el lunes. Si &gt;15 → celebrar y acelerar contenido.</label></div>
+      <div class="task" id="t_6_2"><input type="checkbox" onchange="tick(this)"><label>Leer todos los DMs recibidos — anotar los 3 pain-points más repetidos (son oro para el deck)</label></div>
+      <div class="task" id="t_6_3"><input type="checkbox" onchange="tick(this)"><label>Crear el grupo Telegram "Moon BCN — Nómadas y Expats" (comunidad propia) <span class="tag tag-build">BUILD</span></label></div>
+      <div class="task" id="t_6_4"><input type="checkbox" onchange="tick(this)"><label>Publicar Post domingo Instagram: dato housing crisis + CTA suave (Post #7 abajo) <span class="tag tag-post">POST</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 7 -->
+  <div class="day-card" id="day7">
+    <div class="day-header" onclick="toggleDay('day7')">
+      <span class="day-badge">DÍA 7 · Lun 23 Jun</span>
+      <span class="day-name">Cierre semana 1 — primer resumen</span>
+      <span class="day-progress" id="prog_day7">0/4</span>
+    </div>
+    <div class="day-body" id="body_day7">
+      <div class="task" id="t_7_1"><input type="checkbox" onchange="tick(this)"><label>Documentar KPIs semana 1 en una nota: usuarios, outreach, conversion rate. Va al deck.</label></div>
+      <div class="task" id="t_7_2"><input type="checkbox" onchange="tick(this)"><label>Publicar Post #4 LinkedIn — "semana 1 construyendo moon: lo aprendido" (copiar abajo) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_7_3"><input type="checkbox" onchange="tick(this)"><label>Follow-up al partner más prometedor de la semana <span class="tag tag-call">LLAMADA</span></label></div>
+      <div class="task" id="t_7_4"><input type="checkbox" onchange="tick(this)"><label>DM a 30 más (total: 150) — ahora grupos de Madrid también <span class="tag tag-dm">30 DMs</span></label></div>
+    </div>
+  </div>
+
+  <div class="week-banner">🚀 SEMANA 2 — Contenido + Conversión <span>24–30 Jun</span></div>
+
+  <!-- DÍA 8 -->
+  <div class="day-card" id="day8">
+    <div class="day-header" onclick="toggleDay('day8')">
+      <span class="day-badge">DÍA 8 · Mar 24 Jun</span>
+      <span class="day-name">Calculadora viral + SEO batch</span>
+      <span class="day-progress" id="prog_day8">0/4</span>
+    </div>
+    <div class="day-body" id="body_day8">
+      <div class="task" id="t_8_1"><input type="checkbox" onchange="tick(this)"><label>Publicar la calculadora en grupos FB: "calcula si tu alquiler es justo según m² de tu habitación" + link (Post DM #2 abajo) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_8_2"><input type="checkbox" onchange="tick(this)"><label>Crear 10 páginas SEO nuevas: barrios BCN + MAD <span class="tag tag-build">BUILD</span></label></div>
+      <div class="task" id="t_8_3"><input type="checkbox" onchange="tick(this)"><label>Email follow-up a escuelas de idiomas que no respondieron</label></div>
+      <div class="task" id="t_8_4"><input type="checkbox" onchange="tick(this)"><label>Publicar post blog SEO: "Vivir en Barcelona 2026: cuánto cuesta compartir piso por barrios" <span class="tag tag-build">SEO</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 9 -->
+  <div class="day-card" id="day9">
+    <div class="day-header" onclick="toggleDay('day9')">
+      <span class="day-badge">DÍA 9 · Mié 25 Jun</span>
+      <span class="day-name">Primer evento presencial</span>
+      <span class="day-progress" id="prog_day9">0/3</span>
+    </div>
+    <div class="day-body" id="body_day9">
+      <div class="task" id="t_9_1"><input type="checkbox" onchange="tick(this)"><label>Organizar "coffee moonmates" BCN — convocar a tus usuarios + gente de los grupos. Un café. €0. (DM de convocatoria en Post #8 abajo) <span class="tag tag-call">EVENTO</span></label></div>
+      <div class="task" id="t_9_2"><input type="checkbox" onchange="tick(this)"><label>Post previo en LinkedIn + Stories Instagram con la convocatoria <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_9_3"><input type="checkbox" onchange="tick(this)"><label>Llamar a universidades: UPF / UB / UAB oficina relaciones internacionales <span class="tag tag-call">LLAMADA</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 10 -->
+  <div class="day-card" id="day10">
+    <div class="day-header" onclick="toggleDay('day10')">
+      <span class="day-badge">DÍA 10 · Jue 26 Jun</span>
+      <span class="day-name">Post-evento + grupo de prueba real</span>
+      <span class="day-progress" id="prog_day10">0/3</span>
+    </div>
+    <div class="day-body" id="body_day10">
+      <div class="task" id="t_10_1"><input type="checkbox" onchange="tick(this)"><label>Post post-evento LinkedIn: foto + quote de alguien que conociste (Post #9 abajo) <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_10_2"><input type="checkbox" onchange="tick(this)"><label>Registrar en moon a todos los asistentes del coffee — guíalos tú en persona</label></div>
+      <div class="task" id="t_10_3"><input type="checkbox" onchange="tick(this)"><label>Crear un grupo de piso de prueba real con voluntarios → testear Gastos + Acuerdo de Convivencia en vivo <span class="tag tag-build">BUILD</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 11 -->
+  <div class="day-card" id="day11">
+    <div class="day-header" onclick="toggleDay('day11')">
+      <span class="day-badge">DÍA 11 · Vie 27 Jun</span>
+      <span class="day-name">Moon Score viral — primer shared badge</span>
+      <span class="day-progress" id="prog_day11">0/3</span>
+    </div>
+    <div class="day-body" id="body_day11">
+      <div class="task" id="t_11_1"><input type="checkbox" onchange="tick(this)"><label>Pedir a los primeros 10 usuarios que compartan su Moon Score en LinkedIn/Instagram con el copy del Post #10 abajo <span class="tag tag-post">VIRAL</span></label></div>
+      <div class="task" id="t_11_2"><input type="checkbox" onchange="tick(this)"><label>Crear contenido con datos reales anónimos de la plataforma: "esto es lo que busca la gente en co-living en BCN" <span class="tag tag-post">POST</span></label></div>
+      <div class="task" id="t_11_3"><input type="checkbox" onchange="tick(this)"><label>10 páginas SEO más: barrios Madrid (completar lista) <span class="tag tag-build">SEO</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 12 -->
+  <div class="day-card" id="day12">
+    <div class="day-header" onclick="toggleDay('day12')">
+      <span class="day-badge">DÍA 12 · Sáb 28 Jun</span>
+      <span class="day-name">Newsletter #1 + prep ProductHunt</span>
+      <span class="day-progress" id="prog_day12">0/3</span>
+    </div>
+    <div class="day-body" id="body_day12">
+      <div class="task" id="t_12_1"><input type="checkbox" onchange="tick(this)"><label>Enviar Newsletter "La Convivencia #1" a todos tus usuarios (texto completo en Post #11 abajo) <span class="tag tag-post">NEWSLETTER</span></label></div>
+      <div class="task" id="t_12_2"><input type="checkbox" onchange="tick(this)"><label>Preparar assets ProductHunt: descripción, screenshots, tagline. NO lanzar todavía — espera 50 usuarios. <span class="tag tag-build">PREP</span></label></div>
+      <div class="task" id="t_12_3"><input type="checkbox" onchange="tick(this)"><label>Follow-up a todos los partners pendientes — ¿qué necesitan para decir sí? <span class="tag tag-call">FOLLOW-UP</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 13 -->
+  <div class="day-card" id="day13">
+    <div class="day-header" onclick="toggleDay('day13')">
+      <span class="day-badge">DÍA 13 · Dom 29 Jun</span>
+      <span class="day-name">Revisión profunda de KPIs inversor</span>
+      <span class="day-progress" id="prog_day13">0/3</span>
+    </div>
+    <div class="day-body" id="body_day13">
+      <div class="task" id="t_13_1"><input type="checkbox" onchange="tick(this)"><label>Actualizar todos los KPIs arriba. ¿Estamos en 50 usuarios?</label></div>
+      <div class="task" id="t_13_2"><input type="checkbox" onchange="tick(this)"><label>Escribir el "story de tracción": outreach → conversión → usuarios → acciones. Este es el slide del deck.</label></div>
+      <div class="task" id="t_13_3"><input type="checkbox" onchange="tick(this)"><label>Publicar Post #12 LinkedIn reflexivo (texto abajo) <span class="tag tag-post">POST</span></label></div>
+    </div>
+  </div>
+
+  <!-- DÍA 14 -->
+  <div class="day-card" id="day14">
+    <div class="day-header" onclick="toggleDay('day14')">
+      <span class="day-badge">DÍA 14 · Lun 30 Jun</span>
+      <span class="day-name">🎯 Cierre y decisión de siguiente sprint</span>
+      <span class="day-progress" id="prog_day14">0/4</span>
+    </div>
+    <div class="day-body" id="body_day14">
+      <div class="task" id="t_14_1"><input type="checkbox" onchange="tick(this)"><label>Compilar todos los KPIs finales — exportar para el deck inversor</label></div>
+      <div class="task" id="t_14_2"><input type="checkbox" onchange="tick(this)"><label>Decisión: si ≥50 usuarios → lanzar ProductHunt esta semana. Si &lt;30 → repetir semana 1 con lo aprendido.</label></div>
+      <div class="task" id="t_14_3"><input type="checkbox" onchange="tick(this)"><label>Enviar update de tracción a 3 inversores o mentores de confianza — sin pedir dinero, solo compartir</label></div>
+      <div class="task" id="t_14_4"><input type="checkbox" onchange="tick(this)"><label>🎉 Celebrar. Documentar qué funcionó y qué no.</label></div>
+    </div>
+  </div>
+
+  <!-- POSTS -->
+  <div class="section-title">✍️ Posts listos para copiar y publicar</div>
+  <div class="posts-grid">
+
+    <!-- POST 1 LinkedIn -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #1 · Día 1 · Historia del fundador</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post1')">Copiar</button>
+      </div>
+      <div class="post-title">La historia del fundador — ¿por qué moon?</div>
+      <div class="post-body" id="post1">Vine a Barcelona buscando una oportunidad.
+
+Lo que encontré fue el proceso más estresante, caro e injusto que había vivido: buscar piso compartido.
+
+Grupos de WhatsApp que ya no existen. Pisos que ya no están cuando llegas. Personas que no son lo que parecen en el anuncio.
+
+Hoy hay 4 millones de personas en España que comparten piso. Y el sistema para hacerlo sigue siendo igual de roto que en 2010.
+
+Por eso construyo moon.
+
+moon es la capa de confianza que falta en la vivienda compartida: matching real de compatibilidad, identidad verificada, y algo que nadie hace todavía en España — una reputación portable de conviviente que te sigue de piso en piso.
+
+Si tú también has pasado por esto, o conoces a alguien buscando piso compartido en Barcelona o Madrid, me encantaría hablar.
+
+🔗 moonsharedliving.com
+
+#vivienda #coliving #barcelona #madrid #startup #proptech</div>
+    </div>
+
+    <!-- POST 2 LinkedIn -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #2 · Día 3 · Datos del mercado</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post2')">Copiar</button>
+      </div>
+      <div class="post-title">Los datos que flipan sobre la vivienda compartida en España</div>
+      <div class="post-body" id="post2">En Barcelona, un piso compartido de 3 habitaciones está en 1.800€/mes. Dividido: 600€ cada uno.
+
+Pero nadie habla del coste real de buscar compañero de piso:
+
+→ 3–6 semanas de media para encontrar conviventes
+→ 1 de cada 3 convivencias termina en conflicto en los primeros 6 meses
+→ 0 plataformas en España con verificación real + matching de compatibilidad + reputación portable
+
+El problema no es la oferta. Es la confianza.
+
+Construimos moon para arreglarlo.
+
+Si conoces propietarios, operadores de co-living o estudiantes internacionales en Barcelona o Madrid — conecta conmigo.
+
+🔗 moonsharedliving.com
+
+#proptech #vivienda #colivingspain #barcelona #madrid</div>
+    </div>
+
+    <!-- POST 3 LinkedIn -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #3 · Día 4 · Historia real</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post3')">Copiar</button>
+      </div>
+      <div class="post-title">Construir moon en público — semana 1</div>
+      <div class="post-body" id="post3">He hablado con 90 personas esta semana sobre vivienda compartida en Barcelona y Madrid.
+
+Lo que me dicen una y otra vez:
+
+"Confío antes en el perfil de Instagram de alguien que en su anuncio de piso"
+
+Eso me dice todo.
+
+La confianza no es un feature. Es el producto.
+
+Por eso moon construye el Moon Score: la primera reputación portable de conviviente en España. Cuando te mudas de piso, tu historial de convivencia te sigue. Como el historial de crédito, pero para saber si alguien paga a tiempo, respeta el espacio y trata bien a sus compañeros.
+
+¿Tú te fías más de los reviews de Airbnb o del anuncio de Idealista? Exacto.
+
+🔗 moonsharedliving.com — gratis para inquilinos.
+
+#moon #coliving #proptech #reputacion #vivienda</div>
+    </div>
+
+    <!-- POST 4 LinkedIn -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #4 · Día 7 · Semana 1 aprendizajes</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post4')">Copiar</button>
+      </div>
+      <div class="post-title">1 semana construyendo moon — 3 cosas que aprendí</div>
+      <div class="post-body" id="post4">Llevamos 7 días con moon. Sin presupuesto de marketing. Solo hablando con personas.
+
+Esto es lo que aprendí:
+
+1. El problema real no es "no encuentro piso"
+Es "no sé si fiarme de esta persona". Cada conversación termina aquí.
+
+2. Los internacionales son el early adopter perfecto
+Los Erasmus y nómadas digitales en Barcelona están desesperados. No tienen red social local para validar a un compañero de piso. Moon les da exactamente eso.
+
+3. El Moon Score es lo que más emociona
+Cuando explico que tu reputación de conviviente te sigue de piso en piso — la gente lo entiende inmediatamente. "¿Como el rating de Uber pero para vivir?" Sí, exactamente.
+
+Si estás buscando piso compartido en Barcelona o Madrid, o conoces a alguien que lo esté:
+🔗 moonsharedliving.com
+
+#buildinpublic #moon #coliving #proptech #barcelona</div>
+    </div>
+
+    <!-- POST 5 Instagram -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform ig">Instagram</span>
+          <span class="post-day">Post #5 · Día 2 · Reel/Story — dato impactante</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post5')">Copiar</button>
+      </div>
+      <div class="post-title">Texto para Reel/Story (voz en off o texto en pantalla)</div>
+      <div class="post-body" id="post5">Vivir solo en Barcelona cuesta 1.200€/mes de media.
+
+Un sueldo entero.
+
+Por eso el 70% de menores de 35 años comparte piso.
+
+Pero buscar compañero de piso en España sigue siendo una pesadilla:
+→ Anuncios fantasma
+→ Personas que no son lo que parecen
+→ Conflictos de dinero a los 2 meses
+
+Construimos moon para que eso cambie.
+Matching real. Identidad verificada. Reputación de conviviente.
+
+moonsharedliving.com 🌙
+
+#coliving #barcelona #madrid #viviendasolo #estudiantes #nomadas</div>
+    </div>
+
+    <!-- POST 6 Instagram carousel -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform ig">Instagram</span>
+          <span class="post-day">Post #6 · Día 3 · Carousel 6 slides</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post6')">Copiar</button>
+      </div>
+      <div class="post-title">Carousel: 5 errores al buscar compañero de piso</div>
+      <div class="post-body" id="post6">SLIDE 1 (portada):
+"5 errores al buscar compañero de piso que te cuestan meses y dinero 🏠"
+
+SLIDE 2:
+Error #1: Fiar la compatibilidad a la primera impresión
+→ El cuestionario de moon analiza 40+ puntos de afinidad antes del primer contacto
+
+SLIDE 3:
+Error #2: No verificar la identidad
+→ En moon, cada perfil está verificado. Sabes exactamente con quién vives.
+
+SLIDE 4:
+Error #3: Gestionar gastos por WhatsApp
+→ moon tiene split inteligente de gastos integrado. Sin conflictos de "¿quién pagó el agua?"
+
+SLIDE 5:
+Error #4: Sin acuerdo de convivencia escrito
+→ moon genera el tuyo automáticamente. Normas claras desde el día 1.
+
+SLIDE 6 (CTA):
+Error #5: Perder tu historial al mudarte
+→ Tu Moon Score te sigue a todos tus pisos futuros.
+Tu reputación de buen conviviente, para siempre.
+🌙 moonsharedliving.com — gratis para inquilinos
+
+CAPTION:
+El error #5 es el que más duele. ¿Cuántas veces has empezado de cero con cada piso nuevo?
+
+Nosotros construimos moon para que eso cambie.
+🔗 Link en bio
+#coliving #pisocompartido #barcelona #madrid #inquilinos</div>
+    </div>
+
+    <!-- POST 7 Instagram -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform ig">Instagram</span>
+          <span class="post-day">Post #7 · Día 6 · Domingo reflexivo</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post7')">Copiar</button>
+      </div>
+      <div class="post-title">Post de domingo — dato + CTA suave</div>
+      <div class="post-body" id="post7">En Europa, vivir solo ya no es un lujo.
+Es imposible para la mayoría.
+
+En Barcelona: 1.200€/mes de media para un estudio.
+En Madrid: 950€/mes.
+En Lisboa: 800€/mes.
+
+Y los sueldos no han subido igual.
+
+La respuesta natural es compartir piso.
+Pero hacerlo bien — con la persona adecuada, con confianza, con normas claras — eso todavía está roto.
+
+Construimos moon para eso.
+Si conoces a alguien buscando piso compartido en BCN o MAD, pásale esto. 🌙
+
+#vivienda #barcelona #madrid #housing #coliving #pisocompartido</div>
+    </div>
+
+    <!-- DM Facebook -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform fb">Facebook</span>
+          <span class="post-day">DM #1 — Template outreach en grupos</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('dm1')">Copiar</button>
+      </div>
+      <div class="post-title">Mensaje directo para enviar en grupos (personaliza nombre y barrio)</div>
+      <div class="post-body" id="dm1">Hola [NOMBRE],
+
+Vi tu post buscando [piso / compañero de piso] en [BARRIO].
+
+Estoy construyendo moon, una plataforma de matching verificado para co-living en Barcelona y Madrid — nada de pisos fantasma ni perfiles falsos. Matching real de compatibilidad antes del primer contacto.
+
+Si quieres probarlo, te dejo el link: moonsharedliving.com
+
+Me encantaría saber si te resulta útil y qué mejorarías. No te voy a spamear, prometo 😄
+
+Un saludo,
+Valentin</div>
+    </div>
+
+    <!-- DM Calculadora Facebook -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform fb">Facebook</span>
+          <span class="post-day">DM #2 — Calculadora de alquiler (sin mencionar moon)</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('dm2')">Copiar</button>
+      </div>
+      <div class="post-title">Post en grupo para promover la calculadora (primer toque sin marca)</div>
+      <div class="post-body" id="dm2">¿Cómo dividís el alquiler en vuestro piso compartido?
+
+Si tenéis habitaciones de distintos tamaños, dividir a partes iguales no es justo. La habitación más grande debería pagar más.
+
+Acabo de encontrar esta calculadora gratuita que divide el alquiler según los m² de cada habitación + zonas comunes entre todos:
+👉 moonsharedliving.com/calculadora-alquiler
+
+No hace falta registrarse, es gratis y tarda 2 minutos.
+
+¿Vosotros cómo lo hacéis?</div>
+    </div>
+
+    <!-- Post evento -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform tg">Telegram / Grupos</span>
+          <span class="post-day">Post #8 · Día 9 · Convocatoria coffee</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post8')">Copiar</button>
+      </div>
+      <div class="post-title">Convocatoria del coffee moonmates</div>
+      <div class="post-body" id="post8">☕ MOON COFFEE BCN — jueves 26 Jun, 18:30h
+
+Estoy organizando un café informal para personas que comparten (o buscan) piso en Barcelona.
+
+Sin agenda, sin slides. Solo charlar sobre co-living, vivienda compartida y lo que está roto en el proceso.
+
+Somos [X] personas confirmadas hasta ahora.
+Lugar: por confirmar (zona Gràcia / Eixample)
+
+Si te apuntas, responde aquí o escríbeme directamente.
+Cupos limitados.
+
+🌙 moonsharedliving.com — para quien no nos conozca</div>
+    </div>
+
+    <!-- Post post-evento LinkedIn -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #9 · Día 10 · Post-evento</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post9')">Copiar</button>
+      </div>
+      <div class="post-title">Post del día después del coffee</div>
+      <div class="post-body" id="post9">Ayer nos juntamos [X] personas a hablar de co-living en Barcelona.
+
+Una cosa que dijo [NOMBRE, si da permiso] se me quedó grabada:
+
+"[QUOTE REAL DE ALGUIEN — algo que dijeron sobre el problema de la vivienda compartida]"
+
+Eso es exactamente por qué construimos moon.
+
+No es un portal de pisos más. Es la capa de confianza que falta.
+
+Matching de compatibilidad + identidad verificada + reputación portable.
+
+Gracias a todos los que vinieron. El próximo café lo hacemos más grande.
+
+🌙 moonsharedliving.com
+
+#moon #coliving #barcelona #startup #proptech #buildinpublic</div>
+    </div>
+
+    <!-- Moon Score viral -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform ig">Instagram / LinkedIn</span>
+          <span class="post-day">Post #10 · Día 11 · Moon Score compartible</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post10')">Copiar</button>
+      </div>
+      <div class="post-title">Copy para pedir a usuarios que compartan su Moon Score</div>
+      <div class="post-body" id="post10">MENSAJE PARA ENVIAR A TUS USUARIOS:
+
+Hola [nombre]!
+
+Acabo de ver tu Moon Score en la plataforma. Es [X]/100 — uno de los más altos que hemos visto hasta ahora 🌙
+
+¿Te apetecería compartirlo en Instagram o LinkedIn? Sería el primer Moon Score que se ve en redes.
+
+El copy sugerido para tu post:
+
+---
+Mi Moon Score en moon es [X]/100 🌙
+
+Por fin existe una forma de demostrar que eres buen conviviente — no solo de palabra.
+
+@moonsharedliving verifica tu identidad, analiza tu compatibilidad y construye tu reputación de conviviente. Gratis.
+
+moonsharedliving.com
+---
+
+¡Gracias de antemano! 🙏</div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">Newsletter</span>
+          <span class="post-day">Post #11 · Día 12 · La Convivencia #1</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post11')">Copiar</button>
+      </div>
+      <div class="post-title">Newsletter "La Convivencia #1" — enviar a todos tus usuarios</div>
+      <div class="post-body" id="post11">Asunto: 🌙 La Convivencia #1 — el estado del piso compartido en España
+
+---
+
+Hola [nombre],
+
+Bienvenido/a a La Convivencia, la newsletter quincenal de moon sobre vivienda compartida en España.
+
+DATO DE LA SEMANA
+Barcelona tiene 1 habitación disponible para cada 8 personas que la buscan. Madrid, 1 para cada 6. El problema no es de oferta. Es de confianza y matching.
+
+LO QUE HEMOS ESTADO HACIENDO
+Esta semana hemos hablado con más de 150 personas sobre co-living. El pain más repetido: "confío más en el Instagram de alguien que en su anuncio de piso".
+
+Por eso moon construye el Moon Score — tu reputación portable de conviviente.
+
+HERRAMIENTA GRATUITA
+Si tienes que renegociar el reparto del alquiler con tus compis, usa nuestra calculadora de alquiler justo. Divide por m² de habitación, no a partes iguales:
+→ moonsharedliving.com/calculadora-alquiler
+
+HASTA LA PRÓXIMA
+Si conoces a alguien buscando piso compartido en BCN o MAD, pásale este link:
+moonsharedliving.com
+
+🌙 Valentin y el equipo de moon</div>
+    </div>
+
+    <!-- Post LinkedIn cierre -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-platform">LinkedIn</span>
+          <span class="post-day">Post #12 · Día 13 · 2 semanas en público</span>
+        </div>
+        <button class="copy-btn" onclick="copyPost('post12')">Copiar</button>
+      </div>
+      <div class="post-title">Reflexión de cierre — 2 semanas construyendo moon</div>
+      <div class="post-body" id="post12">2 semanas construyendo moon en público. Sin presupuesto. Solo conversaciones.
+
+Los números:
+→ [X] usuarios registrados
+→ [X] DMs enviados · [X]% conversión
+→ [X] Moon Scores activos
+→ [X] partners contactados
+
+Pero el número que más me importa es este:
+[X] personas que por primera vez dijeron "yo quiero que mi reputación como conviviente valga algo"
+
+El problema de la vivienda compartida en Europa es un problema global.
+Vivir solo ya es un lujo para la mayoría.
+Y el sistema para compartir piso sigue siendo de 2010.
+
+moon lo va a arreglar.
+
+Si quieres ser parte del camino — como usuario, partner, inversor, o simplemente siguiendo el proceso:
+🔗 moonsharedliving.com
+
+#buildinpublic #moon #proptech #coliving #startup #barcelona #madrid</div>
+    </div>
+
+  </div>
+
+  <!-- CONTACTOS -->
+  <div class="section-title">📞 A quién llamar — por orden de prioridad</div>
+  <div class="contacts-grid">
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 1</div>
+      <div class="contact-name">Barcelona Tech City</div>
+      <div class="contact-who">~5.000 nómadas y tech workers en BCN. Tu usuario ideal concentrado.</div>
+      <div class="contact-pitch">Propuesta: "moon = vivienda verificada para vuestra comunidad nómada. Queremos ser el recurso de co-living de vuestros miembros."<br><br>Web: barcelonatechcity.com/contact</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 2</div>
+      <div class="contact-name">Impact Hub Barcelona</div>
+      <div class="contact-who">Coworking con comunidad de freelancers/emprendedores internacionales.</div>
+      <div class="contact-pitch">Propuesta: "acceso gratuito a moon premium para vuestros miembros durante 3 meses a cambio de distribución en vuestra newsletter."<br><br>Web: barcelona.impacthub.net</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 3</div>
+      <div class="contact-name">Don Quijote / Kingsbrook BCN</div>
+      <div class="contact-who">Escuelas de español con miles de internacionales buscando piso. Cold-start perfecto.</div>
+      <div class="contact-pitch">Propuesta: "recurso gratuito para vuestros alumnos internacionales buscando compañeros de piso de confianza."<br><br>Contactar directo a coordinación de alumnos.</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 4</div>
+      <div class="contact-name">Betahaus BCN (Gràcia)</div>
+      <div class="contact-who">Nómadas digitales, freelancers internacionales. Comunidad muy activa.</div>
+      <div class="contact-pitch">Propuesta: "flyer digital en vuestro Slack/newsletter de miembros + moon como recurso oficial de housing para vuestros nómadas."<br><br>Web: betahaus.es</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 5</div>
+      <div class="contact-name">OIJ / Punt d'Informació Juvenil BCN</div>
+      <div class="contact-who">Oficina municipal de info juvenil. Publicarán moon si es útil y gratis para jóvenes.</div>
+      <div class="contact-pitch">Propuesta: "herramienta gratuita para jóvenes buscando co-living en Barcelona."<br><br>Email: info@pij.cat · Web: pij.cat</div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-num">PRIORIDAD 6</div>
+      <div class="contact-name">Tetuan Valley / Startup Grind BCN</div>
+      <div class="contact-who">Comunidad startup local — early adopters que entienden el producto.</div>
+      <div class="contact-pitch">Propuesta: "demo de 5 min en vuestro próximo evento o mención en newsletter a cambio de feedback."<br><br>Web: tetuanvalley.com</div>
+    </div>
+
+  </div>
+
+  <!-- KPIs INVERSOR -->
+  <div class="section-title">📈 Frases para el deck del inversor</div>
+  <div class="inv-table">
+    <div class="inv-row" style="background:#f9f9f9;font-weight:700">
+      <span style="font-size:12px;color:#888;text-transform:uppercase">Métrica</span>
+      <span style="font-size:12px;color:#888;text-align:right">Ahora</span>
+      <span style="font-size:12px;color:#888;text-align:right">→ 90 días</span>
+    </div>
+    <div class="inv-row"><span class="inv-name">Usuarios registrados</span><span class="inv-now" id="inv_u">0</span><span class="inv-target">500</span></div>
+    <div class="inv-row"><span class="inv-name">Moon Scores activos (moat data)</span><span class="inv-now" id="inv_s">0</span><span class="inv-target">2.000</span></div>
+    <div class="inv-row"><span class="inv-name">Matching events</span><span class="inv-now" id="inv_m">0</span><span class="inv-target">1.000</span></div>
+    <div class="inv-row"><span class="inv-name">Grupos de piso activos</span><span class="inv-now" id="inv_g">0</span><span class="inv-target">50</span></div>
+    <div class="inv-row"><span class="inv-name">Conversion rate outreach → registro</span><span class="inv-now">—%</span><span class="inv-target">> 15%</span></div>
+    <div class="inv-row"><span class="inv-name">Páginas SEO indexadas</span><span class="inv-now">61</span><span class="inv-target">500</span></div>
+    <div class="inv-row"><span class="inv-name">Partners de distribución</span><span class="inv-now" id="inv_p">0</span><span class="inv-target">5</span></div>
+  </div>
+
+  <div class="deck-quote">
+    "En 14 días conseguimos <strong id="dq_u">__</strong> usuarios con <strong>€0 de marketing</strong>, un conversion rate de outreach del <strong>__%</strong>, y <strong id="dq_s">__</strong> Moon Scores — la primera reputación portable de conviviente en España. El mercado de co-living en España mueve <strong>€4.200M/año</strong> con confianza cero. Moon es la capa que falta."
+  </div>
+
+  <div class="footer">
+    🌙 moon sprint dashboard · datos guardados en tu navegador · <button onclick="if(confirm('¿Resetear todo el progreso?'))resetAll()" style="background:none;border:none;color:#aaa;cursor:pointer;font-size:12px;text-decoration:underline">Resetear</button>
+  </div>
+
+</div>
+
+<script>
+const SPRINT_START = '2026-06-17';
+const KPI_TARGETS = { users:50, scores:20, matches:15, outreach:150, profiles:30, groups:5, partners:3, posts:8 };
+const KPI_IDS = ['users','scores','matches','outreach','profiles','groups','partners','posts'];
+const TASK_COUNTS = { day1:5, day2:4, day3:4, day4:4, day5:4, day6:4, day7:4, day8:4, day9:3, day10:3, day11:3, day12:3, day13:3, day14:4 };
+
+// Day counter
+function initDay() {
+  const start = new Date(SPRINT_START);
+  const today = new Date();
+  today.setHours(0,0,0,0); start.setHours(0,0,0,0);
+  const day = Math.max(1, Math.min(14, Math.floor((today - start) / 86400000) + 1));
+  document.getElementById('dayNum').textContent = day;
+  const dateStr = today.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('dayDate').textContent = dateStr;
+  // Mark today's card
+  const todayCard = document.getElementById('day' + day);
+  if (todayCard) {
+    todayCard.classList.add('today');
+    document.getElementById('body_day' + day).classList.add('open');
+  }
+}
+
+// KPI save/load
+function saveKpis() {
+  const data = {};
+  KPI_IDS.forEach(k => { data[k] = parseInt(document.getElementById('k_' + k).value) || 0; });
+  localStorage.setItem('moon_kpis', JSON.stringify(data));
+  updateBars(data);
+  updateInvestorTable(data);
+}
+
+function loadKpis() {
+  const raw = localStorage.getItem('moon_kpis');
+  if (!raw) return;
+  const data = JSON.parse(raw);
+  KPI_IDS.forEach(k => { if (data[k] !== undefined) document.getElementById('k_' + k).value = data[k]; });
+  updateBars(data);
+  updateInvestorTable(data);
+}
+
+function updateBars(data) {
+  KPI_IDS.forEach(k => {
+    const pct = Math.min(100, Math.round(((data[k]||0) / KPI_TARGETS[k]) * 100));
+    document.getElementById('b_' + k).style.width = pct + '%';
+  });
+}
+
+function updateInvestorTable(data) {
+  if (data.users  !== undefined) { document.getElementById('inv_u').textContent = data.users; document.getElementById('dq_u').textContent = data.users; }
+  if (data.scores !== undefined) { document.getElementById('inv_s').textContent = data.scores; document.getElementById('dq_s').textContent = data.scores; }
+  if (data.matches!== undefined) document.getElementById('inv_m').textContent = data.matches;
+  if (data.groups !== undefined) document.getElementById('inv_g').textContent = data.groups;
+  if (data.partners!==undefined) document.getElementById('inv_p').textContent = data.partners;
+}
+
+// Task save/load
+function tick(cb) {
+  const task = cb.closest('.task');
+  cb.checked ? task.classList.add('done') : task.classList.remove('done');
+  saveTasks();
+  updateDayProgress();
+}
+
+function saveTasks() {
+  const data = {};
+  document.querySelectorAll('.task').forEach(t => {
+    const cb = t.querySelector('input[type=checkbox]');
+    if (cb) data[t.id] = cb.checked;
+  });
+  localStorage.setItem('moon_tasks', JSON.stringify(data));
+}
+
+// Tasks completed by Claude (coded/deployed, not manual outreach)
+const PRESET_DONE = {
+  t_1_1: true,  // Migration Moon Score ✅ aplicada en Supabase
+  t_5_2: true,  // 10 páginas SEO barrios (5 BCN + 5 MAD) ✅
+  t_8_2: true,  // Blog SEO posts creados y formateados ✅
+  t_8_4: true,  // Posts blog con imágenes + markdown fix ✅
+  t_11_3: true, // 5 páginas barrios Madrid ✅
+};
+
+function loadTasks() {
+  const raw = localStorage.getItem('moon_tasks');
+  const data = raw ? JSON.parse(raw) : {};
+  // Merge presets (presets only if not already set)
+  const merged = { ...PRESET_DONE, ...data };
+  Object.keys(merged).forEach(id => {
+    const task = document.getElementById(id);
+    if (!task) return;
+    const cb = task.querySelector('input[type=checkbox]');
+    if (cb && merged[id]) { cb.checked = true; task.classList.add('done'); }
+  });
+  // Persist merged state
+  if (!raw) localStorage.setItem('moon_tasks', JSON.stringify(merged));
+  updateDayProgress();
+}
+
+function updateDayProgress() {
+  for (let d = 1; d <= 14; d++) {
+    const total = TASK_COUNTS['day' + d] || 0;
+    const done = document.querySelectorAll('#day' + d + ' .task.done').length;
+    const el = document.getElementById('prog_day' + d);
+    if (el) el.textContent = done + '/' + total;
+  }
+}
+
+// Day toggle
+function toggleDay(id) {
+  const body = document.getElementById('body_' + id);
+  body.classList.toggle('open');
+}
+
+// Copy post
+function copyPost(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+    const btn = el.closest('.post-card').querySelector('.copy-btn');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function resetAll() {
+  localStorage.removeItem('moon_kpis');
+  localStorage.removeItem('moon_tasks');
+  location.reload();
+}
+
+initDay();
+loadKpis();
+loadTasks();
+</script>
+</body>
+</html>

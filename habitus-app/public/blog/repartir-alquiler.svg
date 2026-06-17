@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c1a0e"/>
+      <stop offset="100%" stop-color="#050d07"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Floor plan background -->
+  <rect x="300" y="80" width="600" height="440" rx="8" fill="#0f2211" stroke="#16a34a" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- Room dividers -->
+  <line x1="300" y1="290" x2="900" y2="290" stroke="#16a34a" stroke-width="1.5" opacity="0.5"/>
+  <line x1="580" y1="80" x2="580" y2="520" stroke="#16a34a" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Room A - big room -->
+  <rect x="315" y="95" width="250" height="180" rx="4" fill="#16a34a" opacity="0.12"/>
+  <text x="440" y="170" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#4ade80" text-anchor="middle">HAB. 1</text>
+  <text x="440" y="195" font-family="Arial" font-size="14" fill="#86efac" text-anchor="middle">16 m²</text>
+  <text x="440" y="218" font-family="Arial" font-size="13" fill="#c9a962" text-anchor="middle">540 €/mes</text>
+
+  <!-- Room B - medium -->
+  <rect x="595" y="95" width="290" height="180" rx="4" fill="#0891b2" opacity="0.12"/>
+  <text x="740" y="170" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#38bdf8" text-anchor="middle">HAB. 2</text>
+  <text x="740" y="195" font-family="Arial" font-size="14" fill="#bae6fd" text-anchor="middle">10 m²</text>
+  <text x="740" y="218" font-family="Arial" font-size="13" fill="#c9a962" text-anchor="middle">325 €/mes</text>
+
+  <!-- Room C - small -->
+  <rect x="315" y="305" width="250" height="200" rx="4" fill="#7c3aed" opacity="0.12"/>
+  <text x="440" y="395" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#c4b5fd" text-anchor="middle">HAB. 3</text>
+  <text x="440" y="420" font-family="Arial" font-size="14" fill="#ddd6fe" text-anchor="middle">8 m²</text>
+  <text x="440" y="443" font-family="Arial" font-size="13" fill="#c9a962" text-anchor="middle">216 €/mes</text>
+
+  <!-- Common areas -->
+  <rect x="595" y="305" width="290" height="200" rx="4" fill="#475569" opacity="0.1"/>
+  <text x="740" y="395" font-family="Arial" font-size="14" fill="#94a3b8" text-anchor="middle">Zonas comunes</text>
+  <text x="740" y="418" font-family="Arial" font-size="13" fill="#64748b" text-anchor="middle">÷ entre todos</text>
+
+  <!-- Price calculation panel - left -->
+  <rect x="30" y="100" width="240" height="320" rx="12" fill="#0f1a12" stroke="#16a34a" stroke-width="1" opacity="0.9"/>
+  <text x="150" y="135" font-family="Arial" font-size="12" fill="#4ade80" text-anchor="middle" font-weight="bold" letter-spacing="2">FÓRMULA</text>
+  <line x1="50" y1="145" x2="250" y2="145" stroke="#16a34a" stroke-width="0.5" opacity="0.5"/>
+  <text x="50" y="170" font-family="Arial" font-size="12" fill="#86efac">Alquiler total:</text>
+  <text x="240" y="170" font-family="Georgia" font-size="14" fill="#c9a962" text-anchor="end" font-weight="bold">1.200 €</text>
+  <text x="50" y="195" font-family="Arial" font-size="12" fill="#86efac">Total m² (incl. comunes):</text>
+  <text x="240" y="195" font-family="Georgia" font-size="14" fill="white" text-anchor="end">40 m²</text>
+  <line x1="50" y1="210" x2="240" y2="210" stroke="#16a34a" stroke-width="0.5" opacity="0.5"/>
+  <text x="150" y="235" font-family="Arial" font-size="12" fill="#86efac" text-anchor="middle">Precio por m²</text>
+  <text x="150" y="260" font-family="Georgia" font-size="24" font-weight="bold" fill="#4ade80" text-anchor="middle">30 €/m²</text>
+  <line x1="50" y1="278" x2="240" y2="278" stroke="#16a34a" stroke-width="0.5" opacity="0.4"/>
+  <text x="50" y="302" font-family="Arial" font-size="11" fill="#64748b">Hab 1 (16m²):</text>
+  <text x="240" y="302" font-family="Arial" font-size="12" fill="#4ade80" text-anchor="end">480 + ZC</text>
+  <text x="50" y="322" font-family="Arial" font-size="11" fill="#64748b">Hab 2 (10m²):</text>
+  <text x="240" y="322" font-family="Arial" font-size="12" fill="#38bdf8" text-anchor="end">300 + ZC</text>
+  <text x="50" y="342" font-family="Arial" font-size="11" fill="#64748b">Hab 3 (8m²):</text>
+  <text x="240" y="342" font-family="Arial" font-size="12" fill="#c4b5fd" text-anchor="end">240 + ZC</text>
+  <text x="50" y="375" font-family="Arial" font-size="10" fill="#475569">ZC = zonas comunes ÷ nº inquilinos</text>
+
+  <!-- Result panel - right -->
+  <rect x="930" y="100" width="240" height="320" rx="12" fill="#0f1a12" stroke="#c9a962" stroke-width="1" opacity="0.9"/>
+  <text x="1050" y="135" font-family="Arial" font-size="12" fill="#c9a962" text-anchor="middle" font-weight="bold" letter-spacing="2">RESULTADO</text>
+  <line x1="950" y1="145" x2="1150" y2="145" stroke="#c9a962" stroke-width="0.5" opacity="0.5"/>
+
+  <circle cx="980" cy="195" r="12" fill="#16a34a" opacity="0.8"/>
+  <text x="980" y="200" font-family="Arial" font-size="11" fill="white" text-anchor="middle" font-weight="bold">1</text>
+  <text x="1000" y="187" font-family="Arial" font-size="12" fill="#4ade80">Habitación grande</text>
+  <text x="1000" y="203" font-family="Georgia" font-size="18" fill="white" font-weight="bold">540 €</text>
+
+  <circle cx="980" cy="255" r="12" fill="#0891b2" opacity="0.8"/>
+  <text x="980" y="260" font-family="Arial" font-size="11" fill="white" text-anchor="middle" font-weight="bold">2</text>
+  <text x="1000" y="247" font-family="Arial" font-size="12" fill="#38bdf8">Habitación media</text>
+  <text x="1000" y="263" font-family="Georgia" font-size="18" fill="white" font-weight="bold">325 €</text>
+
+  <circle cx="980" cy="315" r="12" fill="#7c3aed" opacity="0.8"/>
+  <text x="980" y="320" font-family="Arial" font-size="11" fill="white" text-anchor="middle" font-weight="bold">3</text>
+  <text x="1000" y="307" font-family="Arial" font-size="12" fill="#c4b5fd">Habitación pequeña</text>
+  <text x="1000" y="323" font-family="Georgia" font-size="18" fill="white" font-weight="bold">216 €</text>
+
+  <line x1="950" y1="350" x2="1150" y2="350" stroke="#c9a962" stroke-width="0.5" opacity="0.5"/>
+  <text x="950" y="375" font-family="Arial" font-size="12" fill="#94a3b8">Sin suministros</text>
+  <text x="1150" y="375" font-family="Georgia" font-size="16" fill="#c9a962" text-anchor="end" font-weight="bold">= 1.081 €</text>
+
+  <!-- Title -->
+  <text x="600" y="575" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">Cómo repartir el alquiler por m²</text>
+  <text x="600" y="605" font-family="Arial" font-size="14" fill="#4ade80" text-anchor="middle">Sin peleas · Sin adivinanzas · Sin desigualdad</text>
+</svg>

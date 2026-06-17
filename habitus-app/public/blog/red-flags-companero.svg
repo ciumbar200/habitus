@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="darkbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0808"/>
+      <stop offset="100%" stop-color="#0f0505"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#darkbg)"/>
+
+  <!-- Subtle grid pattern -->
+  <line x1="0" y1="0" x2="1200" y2="630" stroke="#ef4444" stroke-width="0.5" opacity="0.05"/>
+  <line x1="1200" y1="0" x2="0" y2="630" stroke="#ef4444" stroke-width="0.5" opacity="0.05"/>
+
+  <!-- Large warning triangle - center -->
+  <polygon points="600,80 900,540 300,540" fill="none" stroke="#ef4444" stroke-width="3" opacity="0.2"/>
+  <polygon points="600,120 870,510 330,510" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.15"/>
+  <polygon points="600,155 840,490 360,490" fill="#ef4444" opacity="0.06"/>
+
+  <!-- Exclamation mark -->
+  <rect x="582" y="200" width="36" height="180" rx="18" fill="#ef4444" opacity="0.85"/>
+  <circle cx="600" cy="430" r="22" fill="#ef4444" opacity="0.85"/>
+
+  <!-- Flag icons scattered -->
+  <!-- Flag 1 -->
+  <g transform="translate(120, 150)">
+    <rect x="0" y="0" width="4" height="80" fill="#ef4444" opacity="0.7"/>
+    <polygon points="4,0 44,12 4,24" fill="#ef4444" opacity="0.7"/>
+  </g>
+
+  <!-- Flag 2 -->
+  <g transform="translate(980, 120)">
+    <rect x="0" y="0" width="4" height="80" fill="#ef4444" opacity="0.6"/>
+    <polygon points="4,0 44,12 4,24" fill="#ef4444" opacity="0.6"/>
+  </g>
+
+  <!-- Flag 3 -->
+  <g transform="translate(80, 400)">
+    <rect x="0" y="0" width="4" height="60" fill="#ef4444" opacity="0.5"/>
+    <polygon points="4,0 36,10 4,20" fill="#ef4444" opacity="0.5"/>
+  </g>
+
+  <!-- Flag 4 -->
+  <g transform="translate(1050, 380)">
+    <rect x="0" y="0" width="4" height="60" fill="#ef4444" opacity="0.5"/>
+    <polygon points="4,0 36,10 4,20" fill="#ef4444" opacity="0.5"/>
+  </g>
+
+  <!-- Red flags list - left panel -->
+  <rect x="60" y="80" width="220" height="440" rx="12" fill="#1a0808" stroke="#ef4444" stroke-width="1" opacity="0.8"/>
+  <text x="170" y="115" font-family="Arial, sans-serif" font-size="12" fill="#ef4444" text-anchor="middle" font-weight="bold" letter-spacing="1">🚩 SEÑALES</text>
+  <line x1="80" y1="122" x2="260" y2="122" stroke="#ef4444" stroke-width="0.5" opacity="0.4"/>
+
+  <text x="80" y="148" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">No deja hablar</text>
+  <text x="80" y="165" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">con el anterior</text>
+  <text x="80" y="195" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Piso huele mal</text>
+  <text x="80" y="222" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Notas pasivo-agresivas</text>
+  <text x="80" y="249" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Hablan mal del anterior</text>
+  <text x="80" y="276" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">No saben cosas básicas</text>
+  <text x="80" y="303" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Tardan en responder</text>
+  <text x="80" y="330" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Respuestas evasivas</text>
+  <text x="80" y="357" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Se contradicen</text>
+  <text x="80" y="384" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Anuncio muy corto</text>
+  <text x="80" y="411" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Precio sospechoso</text>
+  <text x="80" y="438" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Fianza ilegal (&gt;2 meses)</text>
+  <text x="80" y="465" font-family="Arial, sans-serif" font-size="11" fill="#fca5a5">Sin contrato claro</text>
+
+  <!-- Green flags list - right panel -->
+  <rect x="920" y="80" width="220" height="440" rx="12" fill="#031a0a" stroke="#22c55e" stroke-width="1" opacity="0.8"/>
+  <text x="1030" y="115" font-family="Arial, sans-serif" font-size="12" fill="#22c55e" text-anchor="middle" font-weight="bold" letter-spacing="1">✅ BUENAS SEÑALES</text>
+  <line x1="940" y1="122" x2="1120" y2="122" stroke="#22c55e" stroke-width="0.5" opacity="0.4"/>
+
+  <text x="940" y="148" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Te presentan al actual</text>
+  <text x="940" y="175" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Piso bien cuidado</text>
+  <text x="940" y="202" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Responden con detalles</text>
+  <text x="940" y="229" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Saben lo que les gusta</text>
+  <text x="940" y="256" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Evidencia de acuerdos</text>
+  <text x="940" y="283" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Te dan tiempo para decidir</text>
+  <text x="940" y="310" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Contrato transparente</text>
+  <text x="940" y="337" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Moon Score verificado</text>
+  <text x="940" y="364" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Identidad verificada</text>
+  <text x="940" y="391" font-family="Arial, sans-serif" font-size="11" fill="#86efac">Historial de convivencias</text>
+
+  <!-- Title bottom -->
+  <text x="600" y="575" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle" opacity="0.9">25 señales de mal compañero de piso</text>
+  <text x="600" y="603" font-family="Arial, sans-serif" font-size="14" fill="#ef4444" text-anchor="middle" opacity="0.7">Detecta las red flags antes de firmar</text>
+</svg>

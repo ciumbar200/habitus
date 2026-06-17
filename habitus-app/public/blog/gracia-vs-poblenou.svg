@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="leftSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="rightSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left: Gràcia -->
+  <rect x="0" y="0" width="600" height="630" fill="#1a0d2e"/>
+  <!-- Right: Poblenou -->
+  <rect x="600" y="0" width="600" height="630" fill="#0c1a2e"/>
+
+  <!-- Divider line -->
+  <line x1="600" y1="0" x2="600" y2="630" stroke="white" stroke-width="3" opacity="0.3"/>
+
+  <!-- GRÀCIA side - warm village feel -->
+  <!-- Modernist building shapes -->
+  <rect x="60" y="300" width="80" height="330" fill="#2d1a4a" rx="4"/>
+  <rect x="150" y="260" width="100" height="370" fill="#3b2160" rx="4"/>
+  <rect x="260" y="280" width="90" height="350" fill="#2d1a4a" rx="4"/>
+  <rect x="360" y="240" width="110" height="390" fill="#3b2160" rx="4"/>
+  <rect x="480" y="270" width="80" height="360" fill="#2d1a4a" rx="4"/>
+
+  <!-- Gràcia windows - warm amber -->
+  <rect x="80" y="320" width="14" height="10" fill="#f59e0b" opacity="0.8" rx="2"/>
+  <rect x="102" y="320" width="14" height="10" fill="#f59e0b" opacity="0.5" rx="2"/>
+  <rect x="80" y="342" width="14" height="10" fill="#f59e0b" opacity="0.6" rx="2"/>
+  <rect x="102" y="342" width="14" height="10" fill="#fbbf24" opacity="0.7" rx="2"/>
+  <rect x="80" y="364" width="14" height="10" fill="#f59e0b" opacity="0.4" rx="2"/>
+
+  <rect x="168" y="280" width="14" height="10" fill="#f59e0b" opacity="0.7" rx="2"/>
+  <rect x="192" y="280" width="14" height="10" fill="#fbbf24" opacity="0.5" rx="2"/>
+  <rect x="216" y="280" width="14" height="10" fill="#f59e0b" opacity="0.8" rx="2"/>
+  <rect x="168" y="302" width="14" height="10" fill="#f59e0b" opacity="0.6" rx="2"/>
+  <rect x="192" y="302" width="14" height="10" fill="#f59e0b" opacity="0.4" rx="2"/>
+  <rect x="216" y="302" width="14" height="10" fill="#fbbf24" opacity="0.7" rx="2"/>
+  <rect x="168" y="324" width="14" height="10" fill="#f59e0b" opacity="0.5" rx="2"/>
+  <rect x="192" y="324" width="14" height="10" fill="#f59e0b" opacity="0.3" rx="2"/>
+
+  <rect x="278" y="300" width="14" height="10" fill="#f59e0b" opacity="0.7" rx="2"/>
+  <rect x="302" y="300" width="14" height="10" fill="#fbbf24" opacity="0.5" rx="2"/>
+  <rect x="278" y="322" width="14" height="10" fill="#f59e0b" opacity="0.6" rx="2"/>
+  <rect x="302" y="322" width="14" height="10" fill="#f59e0b" opacity="0.8" rx="2"/>
+
+  <rect x="378" y="260" width="14" height="10" fill="#fbbf24" opacity="0.8" rx="2"/>
+  <rect x="402" y="260" width="14" height="10" fill="#f59e0b" opacity="0.5" rx="2"/>
+  <rect x="426" y="260" width="14" height="10" fill="#f59e0b" opacity="0.7" rx="2"/>
+  <rect x="450" y="260" width="14" height="10" fill="#fbbf24" opacity="0.4" rx="2"/>
+  <rect x="378" y="282" width="14" height="10" fill="#f59e0b" opacity="0.6" rx="2"/>
+  <rect x="402" y="282" width="14" height="10" fill="#f59e0b" opacity="0.7" rx="2"/>
+
+  <!-- Terrace / plaza dots -->
+  <circle cx="100" cy="490" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="130" cy="495" r="3" fill="#f59e0b" opacity="0.5"/>
+  <circle cx="200" cy="488" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="260" cy="492" r="3" fill="#f59e0b" opacity="0.5"/>
+  <circle cx="320" cy="486" r="4" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="380" cy="490" r="3" fill="#f59e0b" opacity="0.5"/>
+  <circle cx="450" cy="488" r="4" fill="#f59e0b" opacity="0.6"/>
+  <circle cx="510" cy="492" r="3" fill="#fbbf24" opacity="0.5"/>
+
+  <!-- POBLENOU side - cool tech + sea -->
+  <!-- Modern industrial buildings -->
+  <rect x="630" y="270" width="100" height="360" fill="#0a2540" rx="4"/>
+  <rect x="740" y="240" width="120" height="390" fill="#0d2d4a" rx="4"/>
+  <rect x="870" y="260" width="95" height="370" fill="#0a2540" rx="4"/>
+  <rect x="975" y="250" width="110" height="380" fill="#0d2d4a" rx="4"/>
+  <rect x="1095" y="280" width="75" height="350" fill="#0a2540" rx="4"/>
+
+  <!-- Poblenou windows - cool blue/teal -->
+  <rect x="648" y="290" width="14" height="10" fill="#22d3ee" opacity="0.6" rx="2"/>
+  <rect x="672" y="290" width="14" height="10" fill="#06b6d4" opacity="0.4" rx="2"/>
+  <rect x="696" y="290" width="14" height="10" fill="#22d3ee" opacity="0.5" rx="2"/>
+  <rect x="648" y="312" width="14" height="10" fill="#22d3ee" opacity="0.7" rx="2"/>
+  <rect x="672" y="312" width="14" height="10" fill="#06b6d4" opacity="0.3" rx="2"/>
+  <rect x="696" y="312" width="14" height="10" fill="#22d3ee" opacity="0.6" rx="2"/>
+
+  <rect x="758" y="260" width="14" height="10" fill="#06b6d4" opacity="0.7" rx="2"/>
+  <rect x="782" y="260" width="14" height="10" fill="#22d3ee" opacity="0.5" rx="2"/>
+  <rect x="806" y="260" width="14" height="10" fill="#06b6d4" opacity="0.6" rx="2"/>
+  <rect x="830" y="260" width="14" height="10" fill="#22d3ee" opacity="0.4" rx="2"/>
+  <rect x="758" y="282" width="14" height="10" fill="#22d3ee" opacity="0.5" rx="2"/>
+  <rect x="782" y="282" width="14" height="10" fill="#06b6d4" opacity="0.7" rx="2"/>
+  <rect x="806" y="282" width="14" height="10" fill="#22d3ee" opacity="0.4" rx="2"/>
+
+  <rect x="888" y="280" width="14" height="10" fill="#06b6d4" opacity="0.6" rx="2"/>
+  <rect x="912" y="280" width="14" height="10" fill="#22d3ee" opacity="0.4" rx="2"/>
+  <rect x="936" y="280" width="14" height="10" fill="#06b6d4" opacity="0.7" rx="2"/>
+  <rect x="888" y="302" width="14" height="10" fill="#22d3ee" opacity="0.5" rx="2"/>
+  <rect x="912" y="302" width="14" height="10" fill="#06b6d4" opacity="0.3" rx="2"/>
+
+  <rect x="993" y="270" width="14" height="10" fill="#22d3ee" opacity="0.7" rx="2"/>
+  <rect x="1017" y="270" width="14" height="10" fill="#06b6d4" opacity="0.5" rx="2"/>
+  <rect x="1041" y="270" width="14" height="10" fill="#22d3ee" opacity="0.6" rx="2"/>
+  <rect x="1065" y="270" width="14" height="10" fill="#06b6d4" opacity="0.4" rx="2"/>
+  <rect x="993" y="292" width="14" height="10" fill="#22d3ee" opacity="0.4" rx="2"/>
+  <rect x="1017" y="292" width="14" height="10" fill="#06b6d4" opacity="0.6" rx="2"/>
+
+  <!-- Sea waves in Poblenou -->
+  <path d="M 600 560 Q 650 545 700 560 Q 750 575 800 560 Q 850 545 900 560 Q 950 575 1000 560 Q 1050 545 1100 560 Q 1150 575 1200 560 L 1200 630 L 600 630 Z" fill="#0891b2" opacity="0.3"/>
+  <path d="M 600 580 Q 660 565 720 580 Q 780 595 840 580 Q 900 565 960 580 Q 1020 595 1080 580 Q 1140 565 1200 580 L 1200 630 L 600 630 Z" fill="#0891b2" opacity="0.25"/>
+
+  <!-- Labels -->
+  <rect x="40" y="140" width="200" height="70" rx="10" fill="#7c3aed" opacity="0.8"/>
+  <text x="140" y="172" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">Gràcia</text>
+  <text x="140" y="196" font-family="Arial, sans-serif" font-size="13" fill="#e9d5ff" text-anchor="middle">pueblo + vida</text>
+
+  <rect x="960" y="140" width="200" height="70" rx="10" fill="#0891b2" opacity="0.8"/>
+  <text x="1060" y="172" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">Poblenou</text>
+  <text x="1060" y="196" font-family="Arial, sans-serif" font-size="13" fill="#bae6fd" text-anchor="middle">tech + mar</text>
+
+  <!-- VS badge -->
+  <circle cx="600" cy="315" r="40" fill="#0f172a"/>
+  <circle cx="600" cy="315" r="38" fill="none" stroke="white" stroke-width="2" opacity="0.4"/>
+  <text x="600" y="325" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">VS</text>
+
+  <!-- moon mark -->
+  <text x="600" y="600" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle" opacity="0.4">🌙 moon shared living</text>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#1a1a3e"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </radialGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#c9a962" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#c9a962" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles/rings -->
+  <circle cx="400" cy="315" r="200" fill="none" stroke="#c9a962" stroke-width="1" opacity="0.15"/>
+  <circle cx="400" cy="315" r="150" fill="none" stroke="#c9a962" stroke-width="1" opacity="0.2"/>
+  <circle cx="800" cy="315" r="200" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.15"/>
+  <circle cx="800" cy="315" r="150" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.2"/>
+
+  <!-- Glow halos -->
+  <circle cx="400" cy="315" r="180" fill="url(#glow1)" opacity="0.5"/>
+  <circle cx="800" cy="315" r="180" fill="url(#glow2)" opacity="0.5"/>
+
+  <!-- Person A (left) - silhouette -->
+  <circle cx="380" cy="220" r="55" fill="#c9a962" opacity="0.25"/>
+  <circle cx="380" cy="220" r="40" fill="#c9a962" opacity="0.4"/>
+  <circle cx="380" cy="220" r="28" fill="#c9a962" opacity="0.7"/>
+  <text x="380" y="229" font-family="Arial" font-size="22" fill="#0f0f1a" text-anchor="middle" font-weight="bold">A</text>
+
+  <!-- Person B (right) - silhouette -->
+  <circle cx="820" cy="220" r="55" fill="#a78bfa" opacity="0.25"/>
+  <circle cx="820" cy="220" r="40" fill="#a78bfa" opacity="0.4"/>
+  <circle cx="820" cy="220" r="28" fill="#a78bfa" opacity="0.7"/>
+  <text x="820" y="229" font-family="Arial" font-size="22" fill="#0f0f1a" text-anchor="middle" font-weight="bold">B</text>
+
+  <!-- Connection lines -->
+  <line x1="410" y1="220" x2="790" y2="220" stroke="white" stroke-width="1.5" stroke-dasharray="8,6" opacity="0.3"/>
+
+  <!-- Match score badge - center -->
+  <circle cx="600" cy="220" r="70" fill="#1a1a3e" stroke="#c9a962" stroke-width="2" opacity="0.9"/>
+  <circle cx="600" cy="220" r="70" fill="none" stroke="#c9a962" stroke-width="2"/>
+  <text x="600" y="205" font-family="Georgia, serif" font-size="13" fill="#c9a962" text-anchor="middle" letter-spacing="1">MATCH</text>
+  <text x="600" y="240" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">87%</text>
+  <text x="600" y="258" font-family="Arial" font-size="11" fill="#c9a962" text-anchor="middle">compatible</text>
+
+  <!-- Dimension bars -->
+  <!-- Horarios -->
+  <text x="200" y="355" font-family="Arial, sans-serif" font-size="14" fill="#c9a962" opacity="0.8">Horarios</text>
+  <rect x="200" y="365" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="200" y="365" width="192" height="8" rx="4" fill="#c9a962" opacity="0.8"/>
+  <text x="450" y="375" font-family="Arial" font-size="12" fill="white" opacity="0.6">80%</text>
+
+  <!-- Limpieza -->
+  <text x="200" y="400" font-family="Arial, sans-serif" font-size="14" fill="#c9a962" opacity="0.8">Limpieza</text>
+  <rect x="200" y="410" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="200" y="410" width="216" height="8" rx="4" fill="#c9a962" opacity="0.8"/>
+  <text x="450" y="420" font-family="Arial" font-size="12" fill="white" opacity="0.6">90%</text>
+
+  <!-- Comunicación -->
+  <text x="200" y="445" font-family="Arial, sans-serif" font-size="14" fill="#c9a962" opacity="0.8">Comunicación</text>
+  <rect x="200" y="455" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="200" y="455" width="180" height="8" rx="4" fill="#c9a962" opacity="0.8"/>
+  <text x="450" y="465" font-family="Arial" font-size="12" fill="white" opacity="0.6">75%</text>
+
+  <!-- Right side: Espacio -->
+  <text x="760" y="355" font-family="Arial, sans-serif" font-size="14" fill="#a78bfa" opacity="0.8">Espacio</text>
+  <rect x="760" y="365" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="760" y="365" width="216" height="8" rx="4" fill="#a78bfa" opacity="0.8"/>
+  <text x="1010" y="375" font-family="Arial" font-size="12" fill="white" opacity="0.6">90%</text>
+
+  <!-- Valores -->
+  <text x="760" y="400" font-family="Arial, sans-serif" font-size="14" fill="#a78bfa" opacity="0.8">Valores</text>
+  <rect x="760" y="410" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="760" y="410" width="192" height="8" rx="4" fill="#a78bfa" opacity="0.8"/>
+  <text x="1010" y="420" font-family="Arial" font-size="12" fill="white" opacity="0.6">80%</text>
+
+  <!-- Estilo de vida -->
+  <text x="760" y="445" font-family="Arial, sans-serif" font-size="14" fill="#a78bfa" opacity="0.8">Estilo de vida</text>
+  <rect x="760" y="455" width="240" height="8" rx="4" fill="#1e1e3a"/>
+  <rect x="760" y="455" width="204" height="8" rx="4" fill="#a78bfa" opacity="0.8"/>
+  <text x="1010" y="465" font-family="Arial" font-size="12" fill="white" opacity="0.6">85%</text>
+
+  <!-- Title -->
+  <text x="600" y="540" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">Test de compatibilidad</text>
+  <text x="600" y="572" font-family="Arial, sans-serif" font-size="15" fill="#c9a962" text-anchor="middle">5 dimensiones · Moon Score · Compañeros reales</text>
+
+  <!-- Stars bg -->
+  <circle cx="100" cy="50" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="300" cy="80" r="1" fill="white" opacity="0.3"/>
+  <circle cx="900" cy="60" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="1100" cy="40" r="1" fill="white" opacity="0.3"/>
+  <circle cx="50" cy="100" r="1" fill="white" opacity="0.25"/>
+  <circle cx="1150" cy="90" r="1" fill="white" opacity="0.3"/>
+</svg>

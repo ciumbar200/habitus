@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1628"/>
+      <stop offset="100%" stop-color="#060a14"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Timeline line -->
+  <line x1="150" y1="315" x2="1050" y2="315" stroke="#475569" stroke-width="2" opacity="0.5"/>
+
+  <!-- Step 1: Cuadrar gastos -->
+  <circle cx="240" cy="315" r="36" fill="#0f1628" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="240" y="308" font-family="Georgia" font-size="22" font-weight="bold" fill="#22c55e" text-anchor="middle">1</text>
+  <text x="240" y="325" font-family="Arial" font-size="9" fill="#22c55e" text-anchor="middle">€</text>
+  <text x="240" y="380" font-family="Arial" font-size="13" fill="white" text-anchor="middle" font-weight="bold">Cuadrar</text>
+  <text x="240" y="397" font-family="Arial" font-size="12" fill="#94a3b8" text-anchor="middle">gastos</text>
+  <!-- Check mark -->
+  <circle cx="265" cy="290" r="12" fill="#22c55e"/>
+  <text x="265" y="295" font-family="Arial" font-size="14" fill="white" text-anchor="middle" font-weight="bold">✓</text>
+
+  <!-- Step 2: Inventario -->
+  <circle cx="420" cy="315" r="36" fill="#0f1628" stroke="#3b82f6" stroke-width="2.5"/>
+  <text x="420" y="308" font-family="Georgia" font-size="22" font-weight="bold" fill="#3b82f6" text-anchor="middle">2</text>
+  <text x="420" y="325" font-family="Arial" font-size="9" fill="#3b82f6" text-anchor="middle">📋</text>
+  <text x="420" y="380" font-family="Arial" font-size="13" fill="white" text-anchor="middle" font-weight="bold">Inventario</text>
+  <text x="420" y="397" font-family="Arial" font-size="12" fill="#94a3b8" text-anchor="middle">de salida</text>
+
+  <!-- Step 3: Fianza -->
+  <circle cx="600" cy="315" r="36" fill="#0f1628" stroke="#c9a962" stroke-width="2.5"/>
+  <text x="600" y="308" font-family="Georgia" font-size="22" font-weight="bold" fill="#c9a962" text-anchor="middle">3</text>
+  <text x="600" y="325" font-family="Arial" font-size="9" fill="#c9a962" text-anchor="middle">🔑</text>
+  <text x="600" y="380" font-family="Arial" font-size="13" fill="white" text-anchor="middle" font-weight="bold">Fianza</text>
+  <text x="600" y="397" font-family="Arial" font-size="12" fill="#94a3b8" text-anchor="middle">devolución</text>
+  <text x="600" y="414" font-family="Arial" font-size="10" fill="#64748b" text-anchor="middle">30 días · LAU</text>
+
+  <!-- Step 4: Último mes -->
+  <circle cx="780" cy="315" r="36" fill="#0f1628" stroke="#a78bfa" stroke-width="2.5"/>
+  <text x="780" y="308" font-family="Georgia" font-size="22" font-weight="bold" fill="#a78bfa" text-anchor="middle">4</text>
+  <text x="780" y="325" font-family="Arial" font-size="9" fill="#a78bfa" text-anchor="middle">📅</text>
+  <text x="780" y="380" font-family="Arial" font-size="13" fill="white" text-anchor="middle" font-weight="bold">Último mes</text>
+  <text x="780" y="397" font-family="Arial" font-size="12" fill="#94a3b8" text-anchor="middle">proporcional</text>
+
+  <!-- Step 5: Endoso -->
+  <circle cx="960" cy="315" r="36" fill="#0f1628" stroke="#f97316" stroke-width="2.5"/>
+  <text x="960" y="308" font-family="Georgia" font-size="22" font-weight="bold" fill="#f97316" text-anchor="middle">5</text>
+  <text x="960" y="325" font-family="Arial" font-size="9" fill="#f97316" text-anchor="middle">⭐</text>
+  <text x="960" y="380" font-family="Arial" font-size="13" fill="white" text-anchor="middle" font-weight="bold">Endoso</text>
+  <text x="960" y="397" font-family="Arial" font-size="12" fill="#94a3b8" text-anchor="middle">Moon Score</text>
+
+  <!-- Key icon center -->
+  <rect x="520" y="120" width="160" height="110" rx="12" fill="#0a1020" stroke="#c9a962" stroke-width="1.5" opacity="0.9"/>
+  <text x="600" y="165" font-family="Arial" font-size="42" text-anchor="middle">🔑</text>
+  <text x="600" y="210" font-family="Arial" font-size="12" fill="#c9a962" text-anchor="middle">Llaves · Acta firmada</text>
+
+  <!-- Warning box -->
+  <rect x="60" y="120" width="200" height="130" rx="10" fill="#1a0808" stroke="#ef4444" stroke-width="1" opacity="0.8"/>
+  <text x="160" y="148" font-family="Arial" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="bold">🚩 CUIDADO CON</text>
+  <text x="80" y="170" font-family="Arial" font-size="11" fill="#fca5a5">Deudas sin registro</text>
+  <text x="80" y="190" font-family="Arial" font-size="11" fill="#fca5a5">Propietario sin responder</text>
+  <text x="80" y="210" font-family="Arial" font-size="11" fill="#fca5a5">Cosas del anterior inquilino</text>
+  <text x="80" y="230" font-family="Arial" font-size="11" fill="#fca5a5">Factura pendiente sin pagar</text>
+
+  <!-- Moon Score badge -->
+  <rect x="940" y="120" width="200" height="130" rx="10" fill="#0d1a10" stroke="#22c55e" stroke-width="1" opacity="0.8"/>
+  <text x="1040" y="148" font-family="Arial" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="bold">🌙 MOON SCORE</text>
+  <text x="1040" y="175" font-family="Georgia" font-size="30" font-weight="bold" fill="white" text-anchor="middle">+12</text>
+  <text x="1040" y="200" font-family="Arial" font-size="11" fill="#86efac" text-anchor="middle">puntos por endoso</text>
+  <text x="1040" y="220" font-family="Arial" font-size="10" fill="#4ade80" text-anchor="middle">reputación portable</text>
+
+  <!-- Title -->
+  <text x="600" y="510" font-family="Georgia, serif" font-size="27" font-weight="bold" fill="white" text-anchor="middle">Cómo liquidar un piso sin pelearte</text>
+  <text x="600" y="542" font-family="Arial" font-size="14" fill="#64748b" text-anchor="middle">5 pasos · Sin drama · Contrato LAU · Endoso final</text>
+
+  <!-- moon -->
+  <text x="600" y="595" font-family="Arial" font-size="13" fill="#c9a962" text-anchor="middle" opacity="0.6">🌙 moon shared living</text>
+</svg>

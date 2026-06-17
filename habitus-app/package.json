@@ -14,7 +14,9 @@
   "dependencies": {
     "@habitus/core": "file:../packages/habitus-core",
     "@phosphor-icons/react": "^2.1.10",
+    "@sentry/react": "^10.58.0",
     "@supabase/supabase-js": "^2.106.1",
+    "marked": "^18.0.5",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-onesignal": "^3.5.3",
