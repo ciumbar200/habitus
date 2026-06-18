@@ -19,7 +19,13 @@ export type ContractPdfInput = {
   endDate?: string | null;
   specialConditions?: string | null;
   generatedAt?: string;
+  templateVersion?: string;
+  jurisdiction?: string;
 };
+
+export const CONTRACT_PDF_TEMPLATE_VERSION = "moon-contract-template-es-2026-06";
+export const CONTRACT_PDF_LEGAL_NOTICE =
+  "Plantilla operativa generada por moon. Debe revisarse legalmente antes de usarse como contrato definitivo.";
 
 const PAGE_WIDTH = 595.28;
 const PAGE_HEIGHT = 841.89;
@@ -84,6 +90,12 @@ function drawFooter(page: PDFPage, font: PDFFont, pageNumber: number) {
 
 export async function generateContractPdf(input: ContractPdfInput): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
+  doc.setTitle(normalizeText(input.title));
+  doc.setSubject("Contrato operativo moon shared living");
+  doc.setCreator(": moon shared living");
+  doc.setProducer(`moon contract generator ${input.templateVersion ?? CONTRACT_PDF_TEMPLATE_VERSION}`);
+  doc.setCreationDate(new Date(input.generatedAt ?? new Date().toISOString()));
+
   const regular = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   let page = addPage(doc);
@@ -161,7 +173,10 @@ export async function generateContractPdf(input: ContractPdfInput): Promise<Uint
     color: rgb(0.05, 0.06, 0.06),
   });
   y -= 24;
-  paragraph(`Referencia ${input.reference}. Documento generado el ${formatDate(input.generatedAt ?? new Date().toISOString())}.`, 9);
+  paragraph(
+    `Referencia ${input.reference}. Documento generado el ${formatDate(input.generatedAt ?? new Date().toISOString())}. Plantilla ${input.templateVersion ?? CONTRACT_PDF_TEMPLATE_VERSION}. Jurisdiccion prevista: ${input.jurisdiction ?? "Espana"}.`,
+    9,
+  );
 
   heading("1. Partes");
   for (const party of input.parties) {
@@ -184,7 +199,7 @@ export async function generateContractPdf(input: ContractPdfInput): Promise<Uint
     "La renta mensual debera abonarse en los plazos y por los medios acordados entre las partes fuera de esta plantilla.",
     "La fianza respondera de los importes legalmente aplicables, desperfectos imputables y obligaciones pendientes al final de la estancia.",
     "La convivencia se regira por las normas acordadas por las partes y por la normativa aplicable en la ciudad donde se encuentre la vivienda.",
-    "Este documento es una plantilla operativa generada por moon y debe revisarse legalmente antes de usarse como contrato definitivo.",
+    CONTRACT_PDF_LEGAL_NOTICE,
   ].forEach((clause, index) => paragraph(`${index + 1}. ${clause}`));
 
   if (input.specialConditions) {
