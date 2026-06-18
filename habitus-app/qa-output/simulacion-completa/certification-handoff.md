@@ -56,6 +56,7 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 - verificacion real de notificaciones / webhooks / endpoints serverless
 - verificacion de flujos AI y verificacion si se consideran criticos
 - auditoria completa del worktree sucio heredado
+- lint global del repositorio: falla con errores reales existentes en varias superficies
 
 ## Hallazgos abiertos conocidos
 
@@ -110,7 +111,8 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 3. Completar suite E2E para admin, auth y recovery.
 4. Ejecutar responsive y accesibilidad.
 5. Ejecutar smoke real contra entorno de despliegue.
-6. Documentar cualquier hueco restante con evidencia, no con suposiciones.
+6. Reparar o aislar los errores de `eslint` que hoy bloquean la certificacion total.
+7. Documentar cualquier hueco restante con evidencia, no con suposiciones.
 
 ## Comandos utiles para continuar
 
