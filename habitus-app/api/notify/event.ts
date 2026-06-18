@@ -39,7 +39,11 @@ function emailAllowedForType(type: string, prefs: NotificationPrefs): boolean {
   if (
     type === "application_submitted" ||
     type === "application_status_changed" ||
-    type === "lease_pending_signature"
+    type === "lease_pending_signature" ||
+    type === "contract_offer" ||
+    type === "contract_accepted" ||
+    type === "contract_rejected" ||
+    type === "contract_active"
   ) {
     return prefs.email_applications;
   }

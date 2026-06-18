@@ -120,17 +120,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth
       .getSession()
       .then(({ data }) => {
+        if (data.session?.user.id) {
+          setProfileReady(false);
+        }
         setSession(data.session);
       })
       .catch((err) => {
         console.error("Error al leer sesión:", err);
         setSession(null);
+        setProfileReady(true);
       })
       .finally(() => setLoading(false));
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setProfileReady(nextSession?.user.id ? false : true);
       setSession(nextSession);
       setLoading(false);
     });

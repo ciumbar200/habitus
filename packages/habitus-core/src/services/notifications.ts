@@ -9,7 +9,11 @@ export type NotificationEventType =
   | "group_member_rejected"
   | "listing_access_granted"
   | "expense_added"
-  | "lease_pending_signature";
+  | "lease_pending_signature"
+  | "contract_offer"
+  | "contract_accepted"
+  | "contract_rejected"
+  | "contract_active";
 
 export type NotificationChannel = "push" | "email" | "in_app";
 

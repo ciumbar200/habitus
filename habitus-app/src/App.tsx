@@ -147,6 +147,51 @@ const VerificationPage = lazily(
   () => import("./pages/VerificationPage"),
   "VerificationPage",
 );
+// Contratos y Finanzas
+const ContratosHabitacionPage = lazily(
+  () => import("./pages/panel/anfitriones/ContratosHabitacionPage"),
+  "ContratosHabitacionPage",
+);
+const NuevoContratoHabitacionPage = lazily(
+  () => import("./pages/panel/anfitriones/NuevoContratoHabitacionPage"),
+  "NuevoContratoHabitacionPage",
+);
+const ContratoHabitacionDetailPage = lazily(
+  () => import("./pages/panel/anfitriones/ContratoHabitacionDetailPage"),
+  "ContratoHabitacionDetailPage",
+);
+const ContratosPisoPage = lazily(
+  () => import("./pages/panel/propietarios/ContratosPisoPage"),
+  "ContratosPisoPage",
+);
+const NuevoContratoPisoPage = lazily(
+  () => import("./pages/panel/propietarios/NuevoContratoPisoPage"),
+  "NuevoContratoPisoPage",
+);
+const ContratoPisoDetailPage = lazily(
+  () => import("./pages/panel/propietarios/ContratoPisoDetailPage"),
+  "ContratoPisoDetailPage",
+);
+const IngresosPage = lazily(
+  () => import("./pages/panel/propietarios/IngresosPage"),
+  "IngresosPage",
+);
+const GastosPisoPage = lazily(
+  () => import("./pages/panel/propietarios/GastosPisoPage"),
+  "GastosPisoPage",
+);
+const GroupInvitesPage = lazily(
+  () => import("./pages/grupos/GroupInvitesPage"),
+  "GroupInvitesPage",
+);
+const JoinGroupPage = lazily(
+  () => import("./pages/grupos/JoinGroupPage"),
+  "JoinGroupPage",
+);
+const GroupContratoPage = lazily(
+  () => import("./pages/grupos/GroupContratoPage"),
+  "GroupContratoPage",
+);
 const EmbajadoresPage = lazily(
   () => import("./pages/embajadores/EmbajadoresPage"),
   "EmbajadoresPage",
@@ -328,6 +373,23 @@ export default function App() {
                 </RoleGate>
               }
             />
+            <Route
+              path="grupos/:id/invitar"
+              element={
+                <RoleGate allow={["inquilino"]}>
+                  <GroupInvitesPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="grupos/:id/contrato"
+              element={
+                <RoleGate allow={["inquilino"]}>
+                  <GroupContratoPage />
+                </RoleGate>
+              }
+            />
+            <Route path="grupos/join/:token" element={<JoinGroupPage />} />
 
             <Route
               path="panel"
@@ -390,6 +452,73 @@ export default function App() {
               element={
                 <RoleGate allow={["anfitrion"]}>
                   <PanelConvivenciaPage />
+                </RoleGate>
+              }
+            />
+            {/* Contratos - Anfitriones */}
+            <Route
+              path="panel/anfitriones/contratos"
+              element={
+                <RoleGate allow={["anfitrion"]}>
+                  <ContratosHabitacionPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/anfitriones/contratos/nuevo"
+              element={
+                <RoleGate allow={["anfitrion"]}>
+                  <NuevoContratoHabitacionPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/anfitriones/contratos/:id"
+              element={
+                <RoleGate allow={["anfitrion", "inquilino"]}>
+                  <ContratoHabitacionDetailPage />
+                </RoleGate>
+              }
+            />
+            {/* Contratos - Propietarios */}
+            <Route
+              path="panel/propietarios/contratos"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <ContratosPisoPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/propietarios/contratos/nuevo"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <NuevoContratoPisoPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/propietarios/contratos/:id"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <ContratoPisoDetailPage />
+                </RoleGate>
+              }
+            />
+            {/* Ingresos - Propietarios */}
+            <Route
+              path="panel/propietarios/ingresos"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <IngresosPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/propietarios/gastos/:pisoId"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <GastosPisoPage />
                 </RoleGate>
               }
             />

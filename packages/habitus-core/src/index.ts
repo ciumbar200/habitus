@@ -130,6 +130,7 @@ export {
 } from "./data/adminImportTemplates";
 
 export { parseCsv, parseCsvRecords, rowsToCsv, downloadCsv } from "./lib/csv";
+export { generateContractPdf, downloadPdfBytes, type ContractPdfInput } from "./lib/contractPdf";
 
 export {
   homePathForRole,
@@ -209,3 +210,15 @@ export * from "./services/leases";
 export * from "./services/moonAccess";
 export * from "./services/notifications";
 export * from "./services/storage";
+export * from "./services/contratosHabitacion";
+export * from "./services/contratosPiso";
+export * from "./services/gastos";
+export * from "./services/groupInvites";
+// Export types - contratos.ts includes most types, gastos.ts and groupInvites.ts have specific additions
+export * from "./types/contratos";
+export type {
+  ActualizarGastoPisoInput,
+  GastoPisoTipo,
+  PropietarioIngresosMetrics,
+} from "./types/gastos";
+export type { ResponderGroupJoinRequestInput, UsarGroupInviteInput, UsarGroupInviteResult, CrearGroupInviteInputFull } from "./types/groupInvites";
