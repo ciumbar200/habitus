@@ -502,7 +502,7 @@ export function CalculadoraAlquilerPage() {
 
       {/* Contextual links */}
       <section className="max-w-3xl mx-auto px-4 py-10 flex flex-col sm:flex-row gap-4 items-center justify-between border-t border-stone-100">
-        <p className="text-stone-500 text-sm">¿Buscas piso en Barcelona o Madrid?</p>
+        <p className="text-stone-500 text-sm">¿Buscas piso compartido en Europa?</p>
         <Link
           to="/alojamientos"
           className="flex items-center gap-1.5 text-sm font-semibold text-stone-800 hover:text-stone-600 transition-colors"

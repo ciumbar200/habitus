@@ -32,7 +32,7 @@ const RECURSOS = [
 export function RecursosPage() {
   usePageMeta(
     "Recursos gratuitos para pisos compartidos | : moon",
-    "Descarga gratis: acuerdo de convivencia, inventario del piso y guía de convivencia. Herramientas de moon para pisos compartidos en Barcelona y Madrid.",
+    "Descarga gratis: acuerdo de convivencia, inventario del piso y guía de convivencia. Herramientas de moon para pisos compartidos en Europa.",
     "/recursos",
   );
 

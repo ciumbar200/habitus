@@ -36,7 +36,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 export function GuiaConvivenciaPage() {
   usePageMeta(
     "Guía de convivencia en pisos compartidos 2026 | : moon",
-    "10 reglas no escritas de los pisos que funcionan. Guía práctica para convivir sin conflictos en Barcelona y Madrid.",
+    "10 reglas no escritas de los pisos que funcionan. Guía práctica para convivir sin conflictos en pisos compartidos.",
     "/recursos/guia-convivencia",
   );
 
@@ -55,7 +55,7 @@ export function GuiaConvivenciaPage() {
           Guía de convivencia en pisos compartidos
         </h1>
         <p className="text-xs text-stone-500 italic mb-6">
-          Barcelona · Madrid · 2026 — Las reglas que nadie te enseñó pero todos esperan que sepas.
+          Barcelona · Europa · 2026 — Las reglas que nadie te enseñó pero todos esperan que sepas.
         </p>
 
         {/* Stats row */}

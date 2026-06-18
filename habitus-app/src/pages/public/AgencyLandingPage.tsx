@@ -74,7 +74,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 export function AgencyLandingPage() {
   usePageMeta(
     "moon para operadores de co-living — ocupación verificada y gestión integrada",
-    "Asigna habitaciones con confianza: Moon Score del inquilino, incidencias integradas y panel de ocupación. moon para operadores de co-living en Barcelona y Madrid.",
+    "Asigna habitaciones con confianza: Moon Score del inquilino, incidencias integradas y panel de ocupación. moon — la plataforma europea de co-living, fundada en Barcelona.",
     "/operadores",
   );
 
@@ -184,7 +184,7 @@ export function AgencyLandingPage() {
               color="bg-stone-700"
               title="Panel de ocupación con señal de calidad"
               body="Un dashboard con el Moon Score de cada inquilino activo, deudas de gastos pendientes y alertas de incidencias abiertas. No gestión de CRM genérica — señal específica de co-living."
-              proof="Diseñado con y para operadores de co-living en Barcelona y Madrid. No adaptado de un SaaS genérico."
+              proof="Diseñado con y para operadores de co-living en Europa. Fundado y probado en Barcelona."
             />
           </div>
         </div>
@@ -295,8 +295,8 @@ export function AgencyLandingPage() {
               a="El perfil igualmente muestra identidad verificada y cuestionario de compatibilidad. El Moon Score crece con el tiempo — como un historial de crédito, los nuevos en el mercado empiezan sin score y lo construyen."
             />
             <FaqItem
-              q="¿Está disponible fuera de Barcelona y Madrid?"
-              a="En 2026, solo Barcelona y Madrid. La expansión a Valencia y otras ciudades depende de la masa crítica de inquilinos — no queremos abrir ciudades sin liquidez en ambas caras del marketplace."
+              q="¿Está disponible en toda Europa?"
+              a="moon es una plataforma europea fundada en Barcelona. Operamos en España y nos expandimos activamente por Europa. Si tienes propiedades en otra ciudad europea, escríbenos — la plataforma está diseñada para escalar sin fricción."
             />
           </div>
         </div>
@@ -305,7 +305,7 @@ export function AgencyLandingPage() {
       {/* Final CTA */}
       <section className="bg-stone-950 text-white py-20 px-4">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">¿Tienes pisos en Barcelona o Madrid?</h2>
+          <h2 className="text-3xl font-bold mb-4">¿Gestionas pisos en España o Europa?</h2>
           <p className="text-white/60 mb-8 leading-relaxed">
             Agenda una llamada de 15 minutos. Te enseñamos el panel en vivo,
             discutimos cómo encaja con tu operación y acordamos si tiene sentido.
