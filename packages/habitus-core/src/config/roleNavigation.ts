@@ -131,6 +131,7 @@ export function canAccessPath(
       pathname.startsWith("/matches") ||
       pathname.startsWith("/miembro/") ||
       pathname.startsWith("/grupos") ||
+      pathname.startsWith("/panel/grupos") ||
       pathname.startsWith("/messages") ||
       pathname.startsWith("/profile") ||
       pathname.startsWith("/profile/") ||

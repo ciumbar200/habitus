@@ -32,6 +32,21 @@ test.describe("Contratos/finanzas UI — rutas profundas autenticadas", () => {
     const { consoleErrors, networkErrors } = trackErrors(page);
     await login(page, OWNER_EMAIL);
 
+    await page.goto("/panel/propietarios");
+    await page.waitForLoadState("networkidle").catch(() => {});
+    await expect(page).toHaveURL(/\/panel\/propietarios$/);
+    await expect(page.getByRole("heading", { name: /Panel de propietarios/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Publicar piso/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Ingresos/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Contratos/i })).toBeVisible();
+
+    await page.goto("/panel/contratos");
+    await page.waitForLoadState("networkidle").catch(() => {});
+    await expect(page).toHaveURL(/\/panel\/contratos$/);
+    await expect(page.getByRole("heading", { name: /Hub de contratos/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Nuevo contrato habitación/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Nuevo contrato piso/i })).toBeVisible();
+
     await page.goto("/panel/propietarios/contratos");
     await page.waitForLoadState("networkidle").catch(() => {});
     await expect(page).toHaveURL(/\/panel\/propietarios\/contratos$/);
@@ -56,6 +71,13 @@ test.describe("Contratos/finanzas UI — rutas profundas autenticadas", () => {
   test("inquilino puede abrir grupos por URL directa", async ({ page }) => {
     const { consoleErrors, networkErrors } = trackErrors(page);
     await login(page, TENANT_EMAIL);
+
+    await page.goto("/panel/grupos");
+    await page.waitForLoadState("networkidle").catch(() => {});
+    await expect(page).toHaveURL(/\/panel\/grupos$/);
+    await expect(page.getByRole("heading", { name: /Reparte los gastos de tu piso/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Crear grupo/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Invitar miembros/i })).toBeVisible();
 
     await page.goto("/grupos");
     await page.waitForLoadState("networkidle").catch(() => {});

@@ -297,7 +297,7 @@ export function IngresosPage() {
           <p className="text-sm text-gray-500">Gestiona todos tus contratos activos</p>
         </button>
         <button
-          onClick={() => navigate('/panel/propietarios/pisos')}
+          onClick={() => navigate('/panel/espacios')}
           className="bg-white border rounded-lg p-4 text-left hover:shadow-md transition"
         >
           <h3 className="font-semibold text-gray-900">Mis Pisos</h3>

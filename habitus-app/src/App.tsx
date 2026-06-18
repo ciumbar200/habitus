@@ -42,6 +42,14 @@ const PanelDashboardPage = lazily(
   () => import("./pages/panel/PanelDashboardPage"),
   "PanelDashboardPage",
 );
+const PropietariosDashboardPage = lazily(
+  () => import("./pages/panel/propietarios/PropietariosDashboardPage"),
+  "PropietariosDashboardPage",
+);
+const ContractsHubPage = lazily(
+  () => import("./pages/panel/ContractsHubPage"),
+  "ContractsHubPage",
+);
 const ListingsRouterPage = lazily(
   () => import("./pages/panel/ListingsRouterPage"),
   "ListingsRouterPage",
@@ -349,19 +357,27 @@ export default function App() {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="profile/editar" element={<ProfileEditPage />} />
             <Route path="comunidad" element={<CommunityPage />} />
-            <Route
-              path="grupos"
-              element={
-                <RoleGate allow={["inquilino"]}>
-                  <GroupsPage />
-                </RoleGate>
-              }
-            />
-            <Route
-              path="grupos/nuevo"
-              element={
-                <RoleGate allow={["inquilino"]}>
-                  <CreateGroupPage />
+          <Route
+            path="grupos"
+            element={
+              <RoleGate allow={["inquilino"]}>
+                <GroupsPage />
+              </RoleGate>
+            }
+          />
+          <Route
+            path="panel/grupos"
+            element={
+              <RoleGate allow={["inquilino"]}>
+                <GroupsPage />
+              </RoleGate>
+            }
+          />
+          <Route
+            path="grupos/nuevo"
+            element={
+              <RoleGate allow={["inquilino"]}>
+                <CreateGroupPage />
                 </RoleGate>
               }
             />
@@ -396,6 +412,22 @@ export default function App() {
               element={
                 <RoleGate allow={["anfitrion", "propietario", "agencia"]}>
                   <PanelDashboardPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/propietarios"
+              element={
+                <RoleGate allow={["propietario", "agencia"]}>
+                  <PropietariosDashboardPage />
+                </RoleGate>
+              }
+            />
+            <Route
+              path="panel/contratos"
+              element={
+                <RoleGate allow={["anfitrion", "propietario", "agencia"]}>
+                  <ContractsHubPage />
                 </RoleGate>
               }
             />

@@ -40,8 +40,29 @@ export function GroupsPage() {
             className="inline-flex items-center gap-2 rounded-lg bg-teal-accent px-5 py-3 text-label-md text-on-primary transition-opacity hover:opacity-90"
           >
             <Icon name="add" />
-            {es.gastos.cta}
+            Crear grupo
           </Link>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {groups.length > 0 ? (
+            <Link
+              to={`/grupos/${groups[0].id}/invitar`}
+              className="inline-flex items-center gap-2 rounded-lg border border-teal-accent/30 bg-white px-5 py-3 text-label-md text-teal-accent transition-opacity hover:opacity-90"
+            >
+              <Icon name="group" />
+              Invitar miembros
+            </Link>
+          ) : (
+            <button
+              type="button"
+              disabled
+              className="inline-flex items-center gap-2 rounded-lg border border-teal-accent/20 bg-white px-5 py-3 text-label-md text-teal-accent/40"
+              title="Crea un grupo antes de invitar miembros"
+            >
+              <Icon name="group" />
+              Invitar miembros
+            </button>
+          )}
         </div>
       </section>
 
@@ -61,13 +82,6 @@ export function GroupsPage() {
         <div className="rounded-xl border border-dashed border-border-light p-10 text-center">
           <p className="text-body-lg text-warm-slate">{es.gastos.empty}</p>
           <p className="mt-2 text-body-sm text-warm-slate">{es.gastos.emptyHint}</p>
-          <Link
-            to="/grupos/nuevo"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-teal-accent px-6 py-3 text-label-md text-on-primary"
-          >
-            <Icon name="add" />
-            {es.gastos.cta}
-          </Link>
         </div>
       )}
 
