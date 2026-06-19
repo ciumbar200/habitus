@@ -6,48 +6,27 @@
     <link rel="apple-touch-icon" href="/brand/moon-logo-black.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#0c0a09" />
+    <link rel="canonical" href="https://www.moonsharedliving.com/" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content=": moon" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- OneSignal Web SDK v16 (init único aquí; ver notifications.ts) -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      var isOneSignalHost = window.location.hostname === "moonsharedliving.com";
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      if (isOneSignalHost) OneSignalDeferred.push(async function (OneSignal) {
-        var appId = "%VITE_ONESIGNAL_APP_ID%" || "8ab2d231-41db-49a5-9543-eac1df3986b4";
-        await OneSignal.init({
-          appId: appId,
-          notifyButton: { enable: false },
-          promptOptions: {
-            slidedown: {
-              prompts: [
-                {
-                  type: "push",
-                  autoPrompt: false,
-                  text: {
-                    actionMessage:
-                      "Activa las notificaciones para mensajes, solicitudes y actualizaciones de tu piso.",
-                    acceptButton: "PERMITIR",
-                    cancelButton: "AHORA NO",
-                  },
-                },
-              ],
-            },
-          },
-          welcomeNotification: {
-            title: ": moon shared living",
-            message: "¡Gracias por activar las notificaciones!",
-          },
-        });
-      });
-    </script>
-
-    <title>: moon shared living — vivienda compartida con compatibilidad</title>
-    <meta name="description" content="Elige con quién vives, no solo dónde. Habitaciones compartidas con compatibilidad real en varias ciudades de España — para inquilinos y anfitriones en moonsharedliving.com." />
+    <title>MoOn Shared Living | Encuentra personas compatibles para compartir vivienda</title>
+    <meta name="description" content="MoOn conecta personas, viviendas y estilos de vida compatibles para hacer que compartir vivienda sea más seguro, humano y sencillo." />
+    <meta name="application-name" content=": moon shared living" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content=": moon shared living" />
+    <meta property="og:title" content="MoOn Shared Living | Encuentra personas compatibles para compartir vivienda" />
+    <meta property="og:description" content="MoOn conecta personas, viviendas y estilos de vida compatibles para hacer que compartir vivienda sea más seguro, humano y sencillo." />
+    <meta property="og:url" content="https://www.moonsharedliving.com/" />
+    <meta property="og:image" content="https://www.moonsharedliving.com/marketing/main-hero-v2.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MoOn Shared Living | Encuentra personas compatibles para compartir vivienda" />
+    <meta name="twitter:description" content="MoOn conecta personas, viviendas y estilos de vida compatibles para compartir vivienda mejor." />
+    <meta name="twitter:image" content="https://www.moonsharedliving.com/marketing/main-hero-v2.jpg" />
     <script type="module" src="/src/main.tsx"></script>
   </head>
   <body>

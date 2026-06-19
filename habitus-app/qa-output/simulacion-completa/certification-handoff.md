@@ -7,7 +7,13 @@ Fecha: 2026-06-19
 El bloque de contratos, finanzas, grupos y RLS ya esta validado con evidencia fuerte:
 
 - `npm run build` OK
+- `npx playwright test e2e/agents --project=chromium` OK, `12 passed`
 - `npx playwright test --project=chromium` OK, `10 passed`
+- `npx playwright test e2e/agents/contracts-ui.spec.ts --project=chromium` OK, `2 passed`
+- `npx playwright test e2e/agents/admin-embajador-verify.spec.ts --project=chromium` OK, `2 passed`
+- `npx playwright test e2e/agents/public-smoke.spec.ts --project=chromium` OK, `2 passed` en desktop y mobile
+- `npx playwright test e2e/agents/verification-ai-smoke.spec.ts --project=chromium` OK, `2 passed`
+- `npx playwright test e2e/agents --project=chromium` OK, `14 passed`
 - Auditoria RLS real pasada para contratos, gastos, grupos e ingresos
 - Rutas criticas y deep links corregidos para:
   - `/panel/propietarios`
@@ -32,6 +38,11 @@ Commit importante de este bloque:
 - Pantalla de grupos con CTA visible
 - Pantallas de contratos de habitacion y de piso
 - Pantalla de ingresos
+- Admin completo del bloque actual, incluyendo `/admin/habitaciones`
+- Smoke público y auth en desktop + mobile para landing, listings, barrio, blog, ayuda, access y recuperación
+- Batería completa `e2e/agents` en chromium
+- OneSignal bootstrap movido fuera de `index.html` para evitar fricción con Vite/Vercel dev
+- Smoke de verificación/IA cubre `/verificacion`, `/admin/verificaciones` y `/admin/ia`
 
 ### Backend / Supabase
 
@@ -55,13 +66,12 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 - responsive serio en varios breakpoints
 - verificacion real de notificaciones / webhooks / endpoints serverless
 - verificacion de flujos AI y verificacion si se consideran criticos
+- lint global del repositorio: pasa con 90 warnings, sin errores
 - auditoria completa del worktree sucio heredado
-- lint global del repositorio: falla con errores reales existentes en varias superficies
+- falta ampliar el smoke público con más estados y datos reales, aunque ya hay una base funcional
 
 ## Hallazgos abiertos conocidos
 
-- En `habitus-app/e2e/agents/admin-embajador-verify.spec.ts` existe un TODO comentado:
-  - `/admin/habitaciones` todavia falla por RPC 404
 - Hay muchos cambios previos sin relacion con este bloque en el worktree.
   - No revertirlos por defecto.
   - Tratar cualquier limpieza como tarea separada.
@@ -71,13 +81,13 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 ### Rutas publicas
 
 - Landing, listings, blog, recursos, legal, ayuda, calculadora
-- Evidencia actual: existe codigo y build pasa
-- Falta: recorrido visual y responsive con datos reales
+- Evidencia actual: `public-smoke.spec.ts` en desktop y mobile, build pasa
+- Falta: recorrido visual más amplio con datos reales y estados vacíos/llenos
 
 ### Auth / onboarding
 
 - `/access`, `/auth/callback`, `/onboarding`, `/completar-rol`, quiz de compatibilidad
-- Evidencia actual: specs basicos y fix de hydration
+- Evidencia actual: specs básicos + smoke de `/access` y `/olvide-contrasena`
 - Falta: smoke completo con signup, recovery y OAuth si aplica
 
 ### Inquilino
@@ -95,8 +105,11 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 ### Admin
 
 - `/admin/*`
-- Evidencia actual: existe suite parcial y screenshots
-- Falta: resolver `/admin/habitaciones` y completar recorrido total
+- Evidencia actual: suite `admin-embajador-verify.spec.ts` pasa incluyendo `/admin/habitaciones`
+- Falta: ampliar cobertura de estados y rutas secundarias admin
+- Falta: multi-browser, accesibilidad formal, verification, AI, notifications y Stripe
+- Falta: multi-browser, accesibilidad formal, notifications y Stripe
+- El runtime local con `vercel dev` sigue siendo inestable para este workspace; el smoke de verificación/IA se valida sobre Vite con API admin mockeada en el test
 
 ### API / Supabase
 
@@ -107,12 +120,11 @@ No hay evidencia suficiente para afirmar que toda la app este certificada. Falta
 ## Orden recomendado para seguir
 
 1. Hacer inventario completo de rutas, endpoints y roles.
-2. Cerrar el TODO de `/admin/habitaciones`.
-3. Completar suite E2E para admin, auth y recovery.
-4. Ejecutar responsive y accesibilidad.
-5. Ejecutar smoke real contra entorno de despliegue.
-6. Reparar o aislar los errores de `eslint` que hoy bloquean la certificacion total.
-7. Documentar cualquier hueco restante con evidencia, no con suposiciones.
+2. Completar suite E2E para admin, auth y recovery.
+3. Ejecutar responsive y accesibilidad más formales.
+4. Ejecutar smoke real contra entorno de despliegue.
+5. Reparar o aislar los warnings de `eslint` que hoy siguen abiertos.
+6. Documentar cualquier hueco restante con evidencia, no con suposiciones.
 
 ## Comandos utiles para continuar
 

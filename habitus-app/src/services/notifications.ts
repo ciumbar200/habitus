@@ -1,12 +1,15 @@
 /**
  * Notification Service for : moon shared living
- * OneSignal Web SDK v16 — init en index.html; aquí solo operaciones vía OneSignalDeferred.
+ * OneSignal Web SDK v16 se carga bajo demanda en producción; aquí solo operaciones vía OneSignalDeferred.
  */
 
 import { useEffect, useState } from 'react';
 
 export const ONESIGNAL_APP_ID =
   import.meta.env.VITE_ONESIGNAL_APP_ID ?? "8ab2d231-41db-49a5-9543-eac1df3986b4";
+
+const ONESIGNAL_SRC = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
+let oneSignalLoadPromise: Promise<void> | null = null;
 
 type OneSignalInstance = {
   Notifications: {
@@ -65,6 +68,42 @@ function isOneSignalEnabled(): boolean {
   return typeof window !== 'undefined' && window.location.hostname === 'moonsharedliving.com';
 }
 
+function ensureOneSignalSdk(): Promise<void> {
+  if (typeof window === 'undefined') return Promise.resolve();
+  if (window.OneSignalDeferred?.length) return Promise.resolve();
+  if (oneSignalLoadPromise) return oneSignalLoadPromise;
+
+  oneSignalLoadPromise = new Promise((resolve, reject) => {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${ONESIGNAL_SRC}"]`);
+    if (existing) {
+      if ((existing as HTMLScriptElement & { dataset?: DOMStringMap }).dataset.loaded === "true") {
+        resolve();
+        return;
+      }
+      existing.addEventListener("load", () => {
+        existing.dataset.loaded = "true";
+        resolve();
+      }, { once: true });
+      existing.addEventListener("error", () => reject(new Error("No se pudo cargar OneSignal.")), { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = ONESIGNAL_SRC;
+    script.defer = true;
+    script.addEventListener("load", () => {
+      script.dataset.loaded = "true";
+      resolve();
+    }, { once: true });
+    script.addEventListener("error", () => reject(new Error("No se pudo cargar OneSignal.")), { once: true });
+    document.head.appendChild(script);
+  });
+
+  return oneSignalLoadPromise;
+}
+
 class NotificationService {
   private ready = false;
   private permission: NotificationPermission = 'default';
@@ -88,6 +127,7 @@ class NotificationService {
     if (this.ready) return true;
 
     try {
+      await ensureOneSignalSdk();
       await runWithOneSignal((OneSignal) => {
         const native = OneSignal.Notifications?.permissionNative;
         if (native) this.permission = native;

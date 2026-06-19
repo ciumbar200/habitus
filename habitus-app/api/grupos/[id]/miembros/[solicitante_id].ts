@@ -7,7 +7,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     const auth = await requireAuth(req, res);
     if (!auth) return;
     const body = jsonBody(req);
-    const grupoId = routeId(req, "grupo_id");
+    const grupoId = routeId(req);
     const solicitanteId = routeId(req, "solicitante_id");
     const estado = body.estado === "approved" ? "approved" : "rejected";
 
