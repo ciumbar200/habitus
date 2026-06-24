@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { authenticate } from "../_lib/auth.js";
 
 type NotifyPayload = {
   type: string;
@@ -260,20 +261,6 @@ function validateNotifyAuth(req: {
   return { ok: true };
 }
 
-async function resolveAuthUserId(token: string): Promise<string | null> {
-  const url = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL;
-  const anonKey =
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY;
-  if (!url || !anonKey) return null;
-
-  const client = createClient(url, anonKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  const { data, error } = await client.auth.getUser(token);
-  if (error || !data.user) return null;
-  return data.user.id;
-}
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -297,9 +284,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     req.headers["x-notify-secret"] === process.env.NOTIFY_INTERNAL_SECRET;
 
   if (!secretOk) {
-    const callerId = token ? await resolveAuthUserId(token) : null;
-    if (!callerId) {
-      return res.status(401).json({ error: "Token inválido o expirado" });
+    const auth = await authenticate(req);
+    if (!auth?.isAdmin) {
+      return res.status(403).json({ error: "Solo administradores pueden enviar notificaciones" });
     }
   }
 

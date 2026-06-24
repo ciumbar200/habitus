@@ -154,63 +154,35 @@ export function getGroupInvites(supabase: any, grupoId: string) {
     .order('created_at', { ascending: false });
 }
 
-export function getInviteByToken(supabase: any, token: string) {
-  return supabase
-    .from('habitus_group_invites')
-    .select(`
-      *,
-      grupo:grupo_id (id, name, notes, creator_id, target_members)
-    `)
-    .eq('token', token)
-    .gt('expires_at', new Date().toISOString())
-    .single();
+export async function getInviteByToken(supabase: any, token: string) {
+  const { data, error } = await supabase.rpc('habitus_preview_group_invite', { p_token: token });
+  if (error) return { data: null, error };
+  if (!data) return { data: null, error: { message: 'Token inválido o expirado' } };
+  return { data: data as import('../types/groupInvites').GroupInvite, error: null };
 }
 
 export async function usarGroupInvite(
   supabase: any,
   input: UsarGroupInviteInput
 ): Promise<UsarGroupInviteResult> {
-  // Verificar que el token sea válido
-  const { data: invite, error } = await getInviteByToken(supabase, input.token);
-
-  if (error || !invite) {
-    return {
-      success: false,
-      error: 'Token inválido o expirado',
-    };
-  }
-
-  if (invite.uses_count >= invite.max_uses) {
-    return {
-      success: false,
-      error: 'El enlace ha alcanzado el máximo de usos',
-    };
-  }
-
-  // Crear join request automáticamente
-  const { data: request, error: requestError } = await crearGroupJoinRequest(supabase, {
-    grupo_id: invite.grupo_id,
-    solicitante_id: input.user_id,
-    mensaje: input.mensaje || `Solicitud mediante enlace de invitación`,
+  const { data, error } = await supabase.rpc('habitus_use_group_invite_token', {
+    p_token: input.token,
+    p_mensaje: input.mensaje ?? null,
   });
 
-  if (requestError) {
-    return {
-      success: false,
-      error: requestError.message,
-    };
+  if (error) {
+    return { success: false, error: error.message };
   }
 
-  // Incrementar contador de usos
-  await supabase
-    .from('habitus_group_invites')
-    .update({ uses_count: invite.uses_count + 1 })
-    .eq('id', invite.id);
+  const result = data as { success: boolean; error?: string; grupo_id?: string; join_request_id?: string };
+  if (!result?.success) {
+    return { success: false, error: result?.error ?? 'Error al procesar la invitación' };
+  }
 
   return {
     success: true,
-    grupo_id: invite.grupo_id,
-    join_request_id: request.id,
+    grupo_id: result.grupo_id!,
+    join_request_id: result.join_request_id!,
   };
 }
 

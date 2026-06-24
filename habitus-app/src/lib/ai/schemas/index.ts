@@ -39,10 +39,27 @@ export const agentSchemas = {
     recommended_action: { type: "string", enum: ["allow", "warn", "manual_review", "block_temporarily"] },
     explanation_internal: { type: "string" }, confidence_score: score,
   }),
+  contactExchangeShieldAgent: object({
+    decision: { type: "string", enum: ["allow", "block"] },
+    matched_signals: strings,
+    explanation_internal: { type: "string" },
+    user_message: { type: "string" },
+    confidence_score: score,
+  }),
   operatorInsightsAgent: object({
     summary: { type: "string" }, occupancy_risk: { type: "string", enum: ["low", "medium", "high"] },
     lead_quality_summary: { type: "string" }, recommended_actions: strings, pricing_suggestions: strings,
     rooms_needing_attention: strings, confidence_score: score,
+  }),
+  adminPlatformInsightsAgent: object({
+    summary: { type: "string" },
+    health_score: score,
+    critical_issues: strings,
+    product_improvements: strings,
+    growth_actions: strings,
+    security_and_trust_notes: strings,
+    priority_this_week: strings,
+    confidence_score: score,
   }),
 } as const;
 

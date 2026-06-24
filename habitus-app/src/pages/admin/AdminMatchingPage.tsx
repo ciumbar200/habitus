@@ -11,6 +11,7 @@ import {
 } from "@habitus/core";
 import { Icon } from "../../components/Icon";
 import { LoadingState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { useAuth } from "../../context/AuthContext";
 
 const STATUS_LABELS = es.admin.matchingStatus;
@@ -94,28 +95,22 @@ export function AdminMatchingPage() {
   if (loading) return <LoadingState />;
 
   return (
-    <div>
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-headline-lg text-deep-navy">{es.admin.matchingTitle}</h1>
-          <p className="mt-2 text-body-lg text-warm-slate">{es.admin.matchingSubtitle}</p>
-        </div>
+    <AdminPageShell
+      title={es.admin.matchingTitle}
+      subtitle={es.admin.matchingSubtitle}
+      actions={
         <button
           type="button"
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-2 rounded-lg bg-deep-navy px-4 py-2 text-label-md text-on-primary"
+          className="flex items-center gap-2 rounded-xl bg-deep-navy px-4 py-2.5 text-label-sm font-medium text-on-primary shadow-sm"
         >
           <Icon name="add" className="text-[18px]" />
           {es.admin.matchingNewIntro}
         </button>
-      </div>
-
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">{error}</p>
-      )}
-      {feedback && (
-        <p className="mt-4 rounded-lg bg-teal-accent/10 px-4 py-2 text-body-sm text-teal-accent">{feedback}</p>
-      )}
+      }
+    >
+      {error && <AdminAlert message={error} />}
+      {feedback && <AdminAlert message={feedback} variant="success" />}
 
       {/* Formulario nueva introducción */}
       {showForm && (
@@ -267,7 +262,7 @@ export function AdminMatchingPage() {
           </table>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }
 

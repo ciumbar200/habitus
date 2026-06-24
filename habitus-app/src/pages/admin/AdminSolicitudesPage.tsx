@@ -7,6 +7,7 @@ import {
 } from "@habitus/core";
 import { AdminFilterField } from "../../components/admin/AdminToolbar";
 import { ErrorState, LoadingState } from "../../components/PageState";
+import { AdminAlert, AdminCount, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { Link } from "react-router-dom";
 
 const STATUS_OPTIONS = [
@@ -77,13 +78,8 @@ export function AdminSolicitudesPage() {
   const hasFilters = search || statusFilter || sourceFilter;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.applicationsTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.applicationsSubtitle}</p>
-
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">{error}</p>
-      )}
+    <AdminPageShell title={es.admin.applicationsTitle} subtitle={es.admin.applicationsSubtitle}>
+      {error && <AdminAlert message={error} />}
 
       <div className="mt-6 flex flex-wrap items-end gap-3">
         <AdminFilterField label="Buscar" className="min-w-[200px] flex-1">
@@ -121,7 +117,7 @@ export function AdminSolicitudesPage() {
         )}
       </div>
 
-      <p className="mt-3 text-label-sm text-warm-slate">{filtered.length} / {rows.length}</p>
+      <AdminCount current={filtered.length} total={rows.length} />
 
       {filtered.length === 0 ? (
         <p className="mt-8 text-body-lg text-warm-slate">{es.admin.filters.noResults}</p>
@@ -187,6 +183,6 @@ export function AdminSolicitudesPage() {
           </table>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

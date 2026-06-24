@@ -10,6 +10,7 @@ import {
 } from "@habitus/core";
 import { Icon } from "../../components/Icon";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { supabase } from "../../lib/supabase";
 
 export function AdminEmbajadoresPage() {
@@ -100,16 +101,9 @@ export function AdminEmbajadoresPage() {
   if (error && ambassadors.length === 0) return <ErrorState message={error} />;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.ambassadorsTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.ambassadorsSubtitle}</p>
-
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">{error}</p>
-      )}
-      {feedback && (
-        <p className="mt-4 rounded-lg bg-teal-accent/10 px-4 py-2 text-body-sm text-teal-accent">{feedback}</p>
-      )}
+    <AdminPageShell title={es.admin.ambassadorsTitle} subtitle={es.admin.ambassadorsSubtitle}>
+      {error && <AdminAlert message={error} />}
+      {feedback && <AdminAlert message={feedback} variant="success" />}
 
       {/* Invitar */}
       <form
@@ -213,6 +207,6 @@ export function AdminEmbajadoresPage() {
           </tbody>
         </table>
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

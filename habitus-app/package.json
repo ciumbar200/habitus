@@ -9,7 +9,9 @@
     "prebuild": "node scripts/verify-marketing-assets.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:sql-security": "node scripts/audit-sql-security.mjs",
+    "db:apply-security": "supabase db query -f supabase/migrations/20260621120000_harden_admin_rpc_security.sql --linked --yes"
   },
   "dependencies": {
     "@habitus/core": "file:../packages/habitus-core",

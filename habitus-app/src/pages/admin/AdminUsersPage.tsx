@@ -25,6 +25,7 @@ import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminTool
 import { AdminCsvImport } from "../../components/admin/AdminCsvImport";
 import { IdentityBadge } from "../../components/IdentityBadge";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { supabase } from "../../lib/supabase";
 import { Link } from "react-router-dom";
 
@@ -201,14 +202,8 @@ export function AdminUsersPage() {
   const hasFilters = search || roleFilter || identityFilter || statusFilter;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.usersTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.usersSubtitle}</p>
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">
-          {error}
-        </p>
-      )}
+    <AdminPageShell title={es.admin.usersTitle} subtitle={es.admin.usersSubtitle}>
+      {error && <AdminAlert message={error} />}
 
       {importServerReady === false && (
         <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-body-sm text-amber-950">
@@ -485,6 +480,6 @@ export function AdminUsersPage() {
           </table>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

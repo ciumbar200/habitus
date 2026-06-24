@@ -8,6 +8,7 @@ import {
 } from "@habitus/core";
 import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminToolbar";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 
 const selectClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm min-w-[140px]";
@@ -109,14 +110,8 @@ export function AdminReportsPage() {
   const f = es.admin.filters;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.reportsTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.reportsSubtitle}</p>
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">
-          {error}
-        </p>
-      )}
+    <AdminPageShell title={es.admin.reportsTitle} subtitle={es.admin.reportsSubtitle}>
+      {error && <AdminAlert message={error} />}
 
       <div className="mt-6 flex flex-wrap items-end gap-3">
         <AdminFilterField label={f.reportStatus}>
@@ -240,6 +235,6 @@ export function AdminReportsPage() {
           ))}
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

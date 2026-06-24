@@ -263,6 +263,10 @@ const AdminConfiguracionPage = lazily(
   () => import("./pages/admin/AdminConfiguracionPage"),
   "AdminConfiguracionPage",
 );
+const AdminIntegracionesPage = lazily(
+  () => import("./pages/admin/AdminIntegracionesPage"),
+  "AdminIntegracionesPage",
+);
 const AdminVerificationsPage = lazily(
   () => import("./pages/admin/AdminVerificationsPage"),
   "AdminVerificationsPage",
@@ -588,6 +592,7 @@ export default function App() {
           <Route path="/admin/reportes" element={<AdminReportsPage />} />
           <Route path="/admin/notificaciones" element={<AdminNotificacionesPage />} />
           <Route path="/admin/configuracion" element={<AdminConfiguracionPage />} />
+          <Route path="/admin/integraciones" element={<AdminIntegracionesPage />} />
           <Route path="/admin/auditoria" element={<AdminAuditoriaPage />} />
           <Route path="/admin/verificaciones" element={<AdminVerificationsPage />} />
           <Route path="/admin/ia" element={<AdminAIPage />} />

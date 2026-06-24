@@ -1,0 +1,18 @@
+import { useEffect, useState } from "react";
+import type { Property, Profile } from "@habitus/core";
+import { runMoonAgent } from "../../lib/ai/api";
+import { aiErrorState, type AIErrorState } from "../../lib/ai/errors";
+import { useI18n } from "../../lib/I18nContext";
+import { supabase } from "../../lib/supabase";
+
+type MatchResult = { match_score: number; compatibility_level: string; main_reasons: string[]; possible_conflicts: string[]; questions_to_ask: string[]; explanation_for_user: string; confidence_score: number };
+export function PropertyMatchCard({ property, profile }: { property: Property; profile: Profile }) {
+  const t = useI18n();
+  const id = property.uuid; const [result, setResult] = useState<MatchResult | null>(null); const [busy, setBusy] = useState(false); const [error, setError] = useState<AIErrorState | null>(null);
+  useEffect(() => { if (id) void supabase.from("match_ai_scores").select("result").eq("user_id", profile.id).eq("property_id", id).maybeSingle().then(({ data }) => { if (data?.result) setResult(data.result as MatchResult); }); }, [id, profile.id]);
+  if (!id) return null;
+  async function analyze() { setBusy(true); setError(null); try { const response = await runMoonAgent<MatchResult>("moonMatchAgent", { raw_user_data: profile, raw_property_data: property }, { propertyId: id, force: true }); setResult(response.result); } catch (e) { setError(aiErrorState(e, t.ai.matchFallbackError, t.ai)); } finally { setBusy(false); } }
+  return <section className="rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow"><div className="flex items-center justify-between gap-3"><div><p className="text-label-sm uppercase tracking-wider text-teal-accent">{t.ai.matchLabel}</p><h2 className="text-headline-md text-deep-navy">{t.ai.matchTitle}</h2></div><button type="button" disabled={busy} onClick={analyze} className="rounded-lg bg-deep-navy px-4 py-2 text-label-sm text-white disabled:opacity-60">{busy ? t.ai.matchBusy : result ? t.ai.matchRecalculate : t.ai.matchCalculate}</button></div>{error && <AIErrorNotice error={error} busy={busy} onRetry={analyze} retryText={t.ai.retryButton} retryAfterText={t.ai.retryAfter} />}{result && <div className="mt-5 space-y-4"><p><strong className="text-display-lg text-teal-accent">{Math.round(result.match_score)}%</strong> <span className="text-label-md text-warm-slate">{result.compatibility_level} · {t.ai.confidence} {Math.round(result.confidence_score)}%</span></p><p className="text-body-md text-on-surface-variant">{result.explanation_for_user}</p><MatchList title={t.ai.mainReasons} items={result.main_reasons} /><MatchList title={t.ai.possibleConflicts} items={result.possible_conflicts} /><MatchList title={t.ai.recommendedQuestions} items={result.questions_to_ask} /></div>}</section>;
+}
+function MatchList({ title, items }: { title: string; items: string[] }) { return <div><p className="text-label-md text-deep-navy">{title}</p><ul className="mt-2 space-y-1 text-body-sm text-warm-slate">{items.map((item) => <li key={item}>• {item}</li>)}</ul></div>; }
+function AIErrorNotice({ error, busy, onRetry, retryText, retryAfterText }: { error: AIErrorState; busy: boolean; onRetry: () => void; retryText: string; retryAfterText: string }) { return <div className="mt-4 rounded-lg bg-error-container px-4 py-3 text-body-sm text-on-error-container"><p>{error.message}{error.retryAfter ? ` ${retryAfterText.replace("{seconds}", String(error.retryAfter))}` : ""}</p>{error.retryable && <button type="button" disabled={busy} onClick={onRetry} className="mt-3 rounded-lg bg-deep-navy px-3 py-2 text-label-sm text-white disabled:opacity-60">{retryText}</button>}</div>; }

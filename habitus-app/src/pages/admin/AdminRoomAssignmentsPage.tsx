@@ -9,6 +9,7 @@ import {
   type RoomWithAssignment,
 } from "@habitus/core";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminPageShell } from "../../components/admin/AdminPageShell";
 
 const selectClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm min-w-[140px]";
@@ -142,11 +143,19 @@ export function AdminRoomAssignmentsPage() {
   if (error && rooms.length === 0) return <ErrorState message={error} />;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">Asignación de Habitaciones</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">
-        Asigna anfitriones a habitaciones individuales dentro de los listings.
-      </p>
+    <AdminPageShell
+      title={es.admin.roomsTitle}
+      subtitle={es.admin.roomsSubtitle}
+      actions={
+        <button
+          type="button"
+          onClick={() => setShowCreateModal(true)}
+          className="rounded-xl bg-deep-navy px-4 py-2.5 text-label-sm font-medium text-on-primary shadow-sm transition-opacity hover:opacity-90"
+        >
+          Nueva habitación
+        </button>
+      }
+    >
 
       {error && (
         <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">
@@ -176,7 +185,7 @@ export function AdminRoomAssignmentsPage() {
           <label className="mb-1 block text-label-sm text-warm-slate">Asignación</label>
           <select
             value={hasHostFilter}
-            onChange={(e) => setHasHostFilter(e.target.value as any)}
+            onChange={(e) => setHasHostFilter(e.target.value as "all" | "assigned" | "unassigned")}
             className={selectClass}
           >
             <option value="all">Todas</option>
@@ -184,13 +193,6 @@ export function AdminRoomAssignmentsPage() {
             <option value="unassigned">Sin anfitrión</option>
           </select>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowCreateModal(true)}
-          className="rounded-lg bg-teal-accent px-4 py-2 text-label-sm font-medium text-on-primary hover:bg-teal-accent/90"
-        >
-          + Crear habitación
-        </button>
       </div>
 
       {/* Results count */}
@@ -422,6 +424,6 @@ export function AdminRoomAssignmentsPage() {
           </div>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

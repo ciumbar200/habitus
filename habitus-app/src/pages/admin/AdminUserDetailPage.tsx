@@ -12,6 +12,7 @@ import {
 import { Icon } from "../../components/Icon";
 import { IdentityBadge } from "../../components/IdentityBadge";
 import { useAuth } from "../../context/AuthContext";
+import { AdminAlert, AdminPageShell, AdminSection } from "../../components/admin/AdminPageShell";
 
 const ALL_ROLES: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia", "embajador"];
 
@@ -81,40 +82,32 @@ export function AdminUserDetailPage() {
   const isDeleted = Boolean(userRow.deletedAt);
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-6 flex items-center gap-3">
+    <AdminPageShell
+      title={userRow.displayName || "Sin nombre"}
+      subtitle={userRow.email}
+      actions={
         <button
           type="button"
           onClick={() => navigate("/admin/usuarios")}
-          className="flex items-center gap-1 text-label-sm text-warm-slate hover:text-deep-navy"
+          className="flex items-center gap-1 rounded-xl border border-border-light px-4 py-2 text-label-sm text-warm-slate hover:bg-surface-container"
         >
           <Icon name="arrow_back" className="text-[16px]" />
-          Usuarios
+          Volver a usuarios
         </button>
-        <span className="text-warm-slate/40">/</span>
-        <span className="text-label-sm text-deep-navy">{userRow.displayName}</span>
-      </div>
-
-      {error && (
-        <p className="mb-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">{error}</p>
-      )}
-      {feedback && (
-        <p className="mb-4 rounded-lg bg-teal-accent/10 px-4 py-2 text-body-sm text-teal-accent">{feedback}</p>
-      )}
+      }
+    >
+      {error && <AdminAlert message={error} />}
+      {feedback && <AdminAlert message={feedback} variant="success" />}
 
       {/* Header */}
-      <div className="mb-6 rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow">
+      <AdminSection title="Perfil" description={`ID: ${userRow.id}`}>
         <div className="flex items-start gap-4">
           {userRow.displayName && (
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-accent/15 text-headline-md font-bold text-teal-accent">
               {userRow.displayName.charAt(0).toUpperCase()}
             </div>
           )}
-          <div className="min-w-0 flex-1">
-            <h1 className="text-headline-md text-deep-navy">{userRow.displayName || "Sin nombre"}</h1>
-            <p className="text-body-sm text-warm-slate">{userRow.email}</p>
-            <p className="mt-1 text-body-sm text-warm-slate">ID: {userRow.id}</p>
-          </div>
+          <div className="min-w-0 flex-1" />
           <div className="flex flex-col items-end gap-1">
             {isSuspended && (
               <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-800">
@@ -168,11 +161,9 @@ export function AdminUserDetailPage() {
             </p>
           </div>
         </div>
-      </div>
+      </AdminSection>
 
-      {/* Acciones */}
-      <div className="mb-6 rounded-xl border border-border-light bg-surface-container-lowest p-6 card-shadow">
-        <h2 className="mb-4 text-headline-md text-deep-navy">Acciones</h2>
+      <AdminSection title="Acciones" className="mt-6">
 
         <div className="mb-4">
           <p className="mb-2 text-label-sm text-warm-slate">{es.admin.userDetail.changeRole}</p>
@@ -216,13 +207,13 @@ export function AdminUserDetailPage() {
             </span>
           )}
         </div>
-      </div>
+      </AdminSection>
 
       {adminUser && (
         <p className="text-center text-body-sm text-warm-slate/50">
           Cambios registrados en auditoría como {adminUser.email}
         </p>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

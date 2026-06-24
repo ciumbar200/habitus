@@ -15,6 +15,7 @@ import {
 } from "@habitus/core";
 import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminToolbar";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell, AdminStatCard } from "../../components/admin/AdminPageShell";
 
 const selectClass =
   "rounded-lg border border-border-light bg-white px-3 py-2 text-label-sm min-w-[120px]";
@@ -184,26 +185,25 @@ export function AdminComisionesPage() {
   const totalApproved = stats.reduce((sum, s) => sum + s.totalApproved, 0);
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">Comisiones de Embajadores</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">
-        Gestiona las comisiones que los embajadores ganan por referidos convertidos.
-      </p>
+    <AdminPageShell
+      title={es.admin.commissionsTitle}
+      subtitle={es.admin.commissionsSubtitle}
+      actions={
+        <button
+          type="button"
+          onClick={() => setShowCreateModal(true)}
+          className="rounded-xl bg-deep-navy px-4 py-2.5 text-label-sm font-medium text-on-primary shadow-sm"
+        >
+          Nueva comisión
+        </button>
+      }
+    >
+      {error && <AdminAlert message={error} />}
 
-      {/* Stats cards */}
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-border-light bg-surface-container-lowest p-4">
-          <p className="text-label-sm text-warm-slate">Total pagado</p>
-          <p className="mt-1 text-headline-md text-deep-navy">{totalPaid.toFixed(2)} €</p>
-        </div>
-        <div className="rounded-xl border border-border-light bg-surface-container-lowest p-4">
-          <p className="text-label-sm text-warm-slate">Por aprobar</p>
-          <p className="mt-1 text-headline-md text-deep-navy">{totalPending.toFixed(2)} €</p>
-        </div>
-        <div className="rounded-xl border border-border-light bg-surface-container-lowest p-4">
-          <p className="text-label-sm text-warm-slate">Aprobado (sin pagar)</p>
-          <p className="mt-1 text-headline-md text-deep-navy">{totalApproved.toFixed(2)} €</p>
-        </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <AdminStatCard label="Total pagado" value={`${totalPaid.toFixed(2)} €`} icon="payments" />
+        <AdminStatCard label="Por aprobar" value={`${totalPending.toFixed(2)} €`} icon="pending" />
+        <AdminStatCard label="Aprobado (sin pagar)" value={`${totalApproved.toFixed(2)} €`} icon="account_balance" />
       </div>
 
       {/* Filters */}
@@ -230,13 +230,6 @@ export function AdminComisionesPage() {
             className={inputClass}
           />
         </AdminFilterField>
-        <button
-          type="button"
-          onClick={() => setShowCreateModal(true)}
-          className="rounded-lg bg-teal-accent px-4 py-2 text-label-sm font-medium text-on-primary hover:bg-teal-accent/90"
-        >
-          + Crear comisión
-        </button>
       </div>
 
       {/* Commissions table */}
@@ -433,6 +426,6 @@ export function AdminComisionesPage() {
           </div>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

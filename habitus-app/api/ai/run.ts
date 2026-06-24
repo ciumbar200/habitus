@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { authenticate, bodyOf } from "../_lib/verification.js";
+import { loadAiRuntimeOverrides } from "../_lib/aiRuntime.js";
 import { agents } from "../../src/lib/ai/agents/index.js";
 import { AIConfigurationError, AIRateLimitError, runStructuredAgent } from "../../src/lib/ai/client.js";
 import type { AgentName } from "../../src/lib/ai/schemas/index.js";
@@ -61,13 +62,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       const { data: profile } = await auth.adminClient.from("habitus_profiles").select("account_role").eq("id", auth.userId).single();
       if (profile?.account_role !== "agencia") { res.status(403).json({ error: "Este informe requiere rol operador." }); return; }
     }
+    if (agentName === "adminPlatformInsightsAgent" && !auth.isAdmin) {
+      res.status(403).json({ error: "El análisis de plataforma requiere admin." }); return;
+    }
+
+    const aiOverrides = await loadAiRuntimeOverrides(auth.adminClient);
 
     const since = new Date(Date.now() - 86_400_000).toISOString();
     const { count } = await auth.adminClient.from("ai_usage_logs").select("id", { count: "exact", head: true })
       .eq("user_id", auth.userId).eq("status", "success").gte("created_at", since);
     if ((count ?? 0) >= AI_DAILY_LIMIT) {
       await log(auth.adminClient, { agent_name: agentName, model_used: process.env[agent.modelEnv] || "not-called", user_id: auth.userId, property_id: propertyId, status: "rate_limited" });
-      res.status(429).json({ error: `Has alcanzado el límite diario de análisis IA (${AI_DAILY_LIMIT} al día). Vuelve más tarde.`, retryable: false }); return;
+      res.status(429).json({ error: `Has alcanzado el límite diario de análisis IA (${AI_DAILY_LIMIT} al día). Vuelve más tarde.`, errorCode: "daily_quota", retryable: false }); return;
     }
 
     const inputHash = createHash("sha256").update(stable({ agentName, input, propertyId })).digest("hex");
@@ -85,7 +91,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       }
     }
 
-    const { result, model } = await runStructuredAgent(agent, input);
+    const { result, model } = await runStructuredAgent(agent, input, undefined, aiOverrides);
     const confidence = typeof result.confidence_score === "number" ? result.confidence_score : null;
     if (agent.name === "tenantProfileAgent") await auth.adminClient.from("user_ai_profiles").upsert({ user_id: auth.userId, input_hash: inputHash, result, model_used: model, confidence_score: confidence });
     if (agent.name === "propertyIntelligenceAgent") await auth.adminClient.from("property_ai_profiles").upsert({ property_id: propertyId, input_hash: inputHash, result, model_used: model, confidence_score: confidence });
@@ -96,13 +102,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       const today = new Date(); const start = new Date(today); start.setDate(today.getDate() - 6);
       await auth.adminClient.from("operator_ai_reports").upsert({ operator_id: auth.userId, period_start: start.toISOString().slice(0, 10), period_end: today.toISOString().slice(0, 10), input_hash: inputHash, result, model_used: model }, { onConflict: "operator_id,period_start,period_end" });
     }
+    if (agent.name === "adminPlatformInsightsAgent") {
+      await auth.adminClient.from("habitus_platform_config").upsert({
+        key: "last_admin_platform_insight",
+        value: { result, generated_at: new Date().toISOString(), model_used: model },
+        updated_at: new Date().toISOString(),
+      });
+    }
     await log(auth.adminClient, { agent_name: agentName, model_used: model, user_id: auth.userId, property_id: propertyId, input_hash: inputHash, status: "success", duration_ms: Date.now() - started });
     res.status(200).json({ result, cached: false });
   } catch (error) {
     if (error instanceof AIRateLimitError) {
       console.warn("[moon-ai] rate-limited (gateway saturado tras reintentos)", agentName);
       if (auth) await log(auth.adminClient, { agent_name: agentName, model_used: "not-called", user_id: auth.userId, property_id: propertyId, status: "rate_limited", error_message: error.message.slice(0, 1000), duration_ms: Date.now() - started });
-      res.status(429).json({ error: error.message, retryable: true, retryAfter: error.retryAfter ?? 5 });
+      res.status(429).json({ error: error.message, errorCode: "ai_gateway_rate_limited", retryable: true, retryAfter: error.retryAfter ?? 5 });
       return;
     }
     const message = error instanceof Error ? error.message : "Error IA desconocido";

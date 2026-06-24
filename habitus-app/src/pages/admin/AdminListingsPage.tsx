@@ -25,6 +25,7 @@ import { AdminBulkBar, AdminFilterField } from "../../components/admin/AdminTool
 import { AdminCsvImport } from "../../components/admin/AdminCsvImport";
 import { PropertyVerificationBadge } from "../../components/PropertyVerificationBadge";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { useAuth } from "../../context/AuthContext";
 
 const selectClass =
@@ -217,14 +218,8 @@ export function AdminListingsPage() {
   const hasFilters = search || city || zone || statusFilter || categoryFilter || verificationFilter;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.listingsTitle}</h1>
-      <p className="mt-2 max-w-3xl text-body-lg text-warm-slate">{es.admin.listingsSubtitle}</p>
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">
-          {error}
-        </p>
-      )}
+    <AdminPageShell title={es.admin.listingsTitle} subtitle={es.admin.listingsSubtitle}>
+      {error && <AdminAlert message={error} />}
 
       <AdminCsvImport
         title={es.admin.import.listingsTitle}
@@ -512,6 +507,6 @@ export function AdminListingsPage() {
           </table>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

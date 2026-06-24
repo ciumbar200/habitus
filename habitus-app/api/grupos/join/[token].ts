@@ -8,7 +8,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     if (!auth) return;
     const body = jsonBody(req);
 
-    const { data: invite, error: inviteError } = await auth.userClient
+    const { data: invite, error: inviteError } = await auth.adminClient
       .from("habitus_group_invites")
       .select("*")
       .eq("token", routeId(req, "token"))
@@ -41,7 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       return;
     }
 
-    await auth.userClient
+    await auth.adminClient
       .from("habitus_group_invites")
       .update({ uses_count: Number(invite.uses_count) + 1 })
       .eq("id", invite.id);

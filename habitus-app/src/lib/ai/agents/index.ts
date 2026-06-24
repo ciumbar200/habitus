@@ -15,5 +15,7 @@ export const agents: Record<AgentName, AgentDefinition> = {
   listingQualityAgent: { name: "listingQualityAgent", modelEnv: "AI_DEFAULT_MODEL", system: agentPrompts.listingQualityAgent, schema: agentSchemas.listingQualityAgent },
   basicTrustAgent: { name: "basicTrustAgent", modelEnv: "AI_VISION_MODEL", system: agentPrompts.basicTrustAgent, schema: agentSchemas.basicTrustAgent },
   safetyAgent: { name: "safetyAgent", modelEnv: "AI_SAFETY_MODEL", system: agentPrompts.safetyAgent, schema: agentSchemas.safetyAgent },
+  contactExchangeShieldAgent: { name: "contactExchangeShieldAgent", modelEnv: "AI_SAFETY_MODEL", system: agentPrompts.contactExchangeShieldAgent, schema: agentSchemas.contactExchangeShieldAgent },
   operatorInsightsAgent: { name: "operatorInsightsAgent", modelEnv: "AI_DEFAULT_MODEL", system: agentPrompts.operatorInsightsAgent, schema: agentSchemas.operatorInsightsAgent },
+  adminPlatformInsightsAgent: { name: "adminPlatformInsightsAgent", modelEnv: "AI_DEFAULT_MODEL", system: agentPrompts.adminPlatformInsightsAgent, schema: agentSchemas.adminPlatformInsightsAgent },
 };

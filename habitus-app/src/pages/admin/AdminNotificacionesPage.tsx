@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { accountRoleLabel, adminBroadcastNotification, es, type AccountRoleSlug } from "@habitus/core";
 import { AdminFilterField } from "../../components/admin/AdminToolbar";
+import { AdminAlert, AdminPageShell } from "../../components/admin/AdminPageShell";
 import { supabase } from "../../lib/supabase";
 
 const ROLES: AccountRoleSlug[] = ["inquilino", "anfitrion", "propietario", "agencia", "embajador"];
@@ -71,13 +72,9 @@ export function AdminNotificacionesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.notificationsTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.notificationsSubtitle}</p>
-
-      {error && (
-        <p className="mt-4 rounded-lg bg-error-container/30 px-4 py-2 text-body-sm text-error">{error}</p>
-      )}
+    <AdminPageShell title={es.admin.notificationsTitle} subtitle={es.admin.notificationsSubtitle}>
+      {error && <AdminAlert message={error} />}
+      <div className="max-w-2xl">
 
       {state.phase === "sent" ? (
         <div className="mt-8 rounded-xl border border-teal-accent/30 bg-teal-accent/5 p-6 text-center">
@@ -176,6 +173,7 @@ export function AdminNotificacionesPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </AdminPageShell>
   );
 }

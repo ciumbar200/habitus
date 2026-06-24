@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 import { es } from "@habitus/core";
+import { AdminFormField, adminSelectClass } from "./AdminFormField";
+
+export { adminSelectClass };
 
 type AdminBulkBarProps = {
   selectedCount: number;
@@ -21,12 +24,12 @@ export function AdminBulkBar({
   actions,
 }: AdminBulkBarProps) {
   return (
-    <div className="mt-6 flex flex-wrap items-center gap-3 rounded-xl border border-border-light bg-surface-container px-4 py-3">
+    <div className="mt-6 flex flex-wrap items-center gap-3 rounded-xl border border-border-light bg-surface-container px-4 py-3 shadow-sm">
       <button
         type="button"
         disabled={busy || filteredCount === 0}
         onClick={allSelected ? onDeselectAll : onToggleAll}
-        className="rounded-lg border border-border-light px-3 py-1.5 text-label-sm hover:bg-white disabled:opacity-50"
+        className="rounded-lg border border-border-light bg-white px-3 py-1.5 text-label-sm transition-colors hover:bg-surface-container disabled:opacity-50"
       >
         {allSelected ? es.admin.bulk.deselectAll : es.admin.bulk.selectAll}
       </button>
@@ -41,10 +44,10 @@ export function AdminBulkBar({
               type="button"
               disabled={busy}
               onClick={action.onClick}
-              className={`rounded-lg px-3 py-1.5 text-label-sm disabled:opacity-50 ${
+              className={`rounded-lg px-3 py-1.5 text-label-sm font-medium transition-colors disabled:opacity-50 ${
                 action.variant === "primary"
-                  ? "bg-deep-navy text-on-primary"
-                  : "border border-border-light hover:bg-white"
+                  ? "bg-deep-navy text-on-primary shadow-sm hover:opacity-90"
+                  : "border border-border-light bg-white hover:bg-surface-container"
               }`}
             >
               {action.label}
@@ -64,9 +67,8 @@ type AdminFilterFieldProps = {
 
 export function AdminFilterField({ label, children, className = "" }: AdminFilterFieldProps) {
   return (
-    <label className={`flex flex-col gap-1 ${className}`}>
-      <span className="text-label-sm text-warm-slate">{label}</span>
+    <AdminFormField label={label} className={className}>
       {children}
-    </label>
+    </AdminFormField>
   );
 }

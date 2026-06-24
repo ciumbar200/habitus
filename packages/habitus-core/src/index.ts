@@ -208,6 +208,7 @@ export * from "./services/consents";
 export * from "./services/expenses";
 export * from "./services/leases";
 export * from "./services/moonAccess";
+export * from "./services/platformAiConfig";
 export * from "./services/notifications";
 export * from "./services/storage";
 export * from "./services/contratosHabitacion";

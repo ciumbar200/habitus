@@ -10,18 +10,22 @@ import {
 } from "@habitus/core";
 import { Icon } from "../../components/Icon";
 import { LoadingState, ErrorState } from "../../components/PageState";
+import { AdminPageShell, AdminSection, AdminStatCard } from "../../components/admin/AdminPageShell";
+import { AdminIntegrationHealthBar } from "../../components/admin/AdminIntegrationHealthBar";
+import { adminFetchVerifications } from "../../lib/verification";
 
-const STAT_LINKS: { key: keyof AdminStats; path: string; icon: string }[] = [
-  { key: "users", path: "/admin/usuarios", icon: "group" },
-  { key: "listingsPublished", path: "/admin/espacios", icon: "apartment" },
-  { key: "listingsDraft", path: "/admin/espacios", icon: "edit_note" },
-  { key: "openReports", path: "/admin/reportes", icon: "flag" },
-  { key: "blogPosts", path: "/comunidad", icon: "article" },
-  { key: "upcomingEvents", path: "/comunidad", icon: "event" },
+const PRIORITY_LINKS = [
+  { path: "/admin/verificaciones", icon: "verified_user", label: "Verificaciones", color: "text-teal-accent" },
+  { path: "/admin/reportes", icon: "flag", label: "Reportes", color: "text-amber-600" },
+  { path: "/admin/solicitudes", icon: "assignment", label: "Solicitudes", color: "text-sky-600" },
+  { path: "/admin/integraciones", icon: "tune", label: "Integraciones", color: "text-violet-600" },
+  { path: "/admin/usuarios", icon: "group", label: "Usuarios", color: "text-deep-navy" },
+  { path: "/admin/espacios", icon: "apartment", label: "Espacios", color: "text-deep-navy" },
 ];
 
 export function AdminDashboardPage() {
   const [stats, setStats] = useState<AdminStats | null>(null);
+  const [pendingVerifications, setPendingVerifications] = useState(0);
   const [moonAccess, setMoonAccess] = useState<{
     userCount: number;
     threshold: number;
@@ -32,10 +36,16 @@ export function AdminDashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    Promise.all([fetchAdminStats(), fetchMoonAccessReadiness(), fetchAdminMarketplaceDashboard()])
-      .then(([s, m, dashboard]) => {
+    Promise.all([
+      fetchAdminStats(),
+      fetchMoonAccessReadiness(),
+      fetchAdminMarketplaceDashboard(),
+      adminFetchVerifications().catch(() => []),
+    ])
+      .then(([s, m, dashboard, verifications]) => {
         setStats(s);
         setMarketplace(dashboard);
+        setPendingVerifications(Array.isArray(verifications) ? verifications.length : 0);
         setMoonAccess({
           userCount: m.userCount,
           threshold: m.threshold,
@@ -50,215 +60,187 @@ export function AdminDashboardPage() {
   if (error) return <ErrorState message={error} />;
   if (!stats) return null;
 
-  return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.dashboardTitle}</h1>
-      <p className="mt-2 max-w-2xl text-body-lg text-warm-slate">{es.admin.dashboardSubtitle}</p>
+  const alerts = [
+    pendingVerifications > 0 && {
+      icon: "verified_user",
+      title: `${pendingVerifications} verificación(es) en cola`,
+      body: "Revisar identidad y escalar a Stripe si hace falta.",
+      href: "/admin/verificaciones",
+      urgent: true,
+    },
+    stats.openReports > 0 && {
+      icon: "flag",
+      title: `${stats.openReports} reporte(s) abiertos`,
+      body: "Moderación pendiente de perfiles, espacios o mensajes.",
+      href: "/admin/reportes",
+      urgent: stats.openReports >= 3,
+    },
+    stats.listingsDraft > 5 && {
+      icon: "edit_note",
+      title: `${stats.listingsDraft} borradores de espacios`,
+      body: "Listings sin publicar que pueden activar oferta.",
+      href: "/admin/espacios",
+      urgent: false,
+    },
+  ].filter(Boolean) as Array<{
+    icon: string;
+    title: string;
+    body: string;
+    href: string;
+    urgent: boolean;
+  }>;
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {STAT_LINKS.map(({ key, path, icon }) => (
-          <Link
-            key={key}
-            to={path}
-            className="rounded-xl border border-border-light bg-surface-container-lowest p-6 transition-shadow hover:shadow-md"
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <Icon name={icon} className="text-[24px] text-teal-accent" />
-              <span className="text-headline-lg text-deep-navy">{stats[key]}</span>
-            </div>
-            <p className="text-label-md text-warm-slate">{es.admin.stats[key]}</p>
-          </Link>
-        ))}
+  return (
+    <AdminPageShell
+      title={es.admin.commandCenter.title}
+      subtitle={es.admin.commandCenter.subtitle}
+      actions={
+        <span className="rounded-full bg-surface-container px-3 py-1.5 text-label-sm text-warm-slate">
+          {new Date().toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}
+        </span>
+      }
+    >
+      <AdminIntegrationHealthBar />
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Link to="/admin/usuarios" className="block">
+          <AdminStatCard label={es.admin.stats.users} value={stats.users} icon="group" />
+        </Link>
+        <Link to="/admin/espacios" className="block">
+          <AdminStatCard label={es.admin.stats.listingsPublished} value={stats.listingsPublished} icon="apartment" />
+        </Link>
+        <Link to="/admin/verificaciones" className="block">
+          <AdminStatCard
+            label="Verificaciones en cola"
+            value={pendingVerifications}
+            icon="verified_user"
+            trend={pendingVerifications > 0 ? "Requiere acción" : "Al día"}
+          />
+        </Link>
+        <Link to="/admin/reportes" className="block">
+          <AdminStatCard label={es.admin.stats.openReports} value={stats.openReports} icon="flag" />
+        </Link>
       </div>
 
-      {moonAccess && (
-        <section className="mt-8 rounded-xl border border-border-light bg-surface-container-lowest p-6">
-          <h2 className="text-headline-md text-deep-navy">{es.admin.moonAccess.title}</h2>
-          <p className="mt-2 text-body-sm text-warm-slate">{es.admin.moonAccess.note}</p>
-          <div className="mt-4 flex flex-wrap gap-6">
-            <div>
-              <p className="text-label-sm text-warm-slate">{es.admin.moonAccess.userCount}</p>
-              <p className="text-headline-lg text-deep-navy">
-                {moonAccess.userCount} / {moonAccess.threshold}
-              </p>
-            </div>
-            <div>
-              <p className="text-label-sm text-warm-slate">{es.admin.stats.moonAccessProgress}</p>
-              <p className="text-headline-md text-teal-accent">
-                {moonAccess.readyToEnable
-                  ? es.admin.moonAccess.ready
-                  : es.admin.moonAccess.notReady}
-              </p>
-            </div>
-          </div>
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-surface-container">
-            <div
-              className="h-full rounded-full bg-teal-accent transition-all"
-              style={{
-                width: `${Math.min(100, (moonAccess.userCount / moonAccess.threshold) * 100)}%`,
-              }}
-            />
-          </div>
-        </section>
+      {alerts.length > 0 && (
+        <AdminSection
+          title={es.admin.commandCenter.alertsTitle}
+          description={es.admin.commandCenter.alertsSubtitle}
+          className="mt-6"
+        >
+          <ul className="space-y-3">
+            {alerts.map((alert) => (
+              <li key={alert.href}>
+                <Link
+                  to={alert.href}
+                  className={`flex items-start gap-4 rounded-xl border p-4 transition-all hover:shadow-md ${
+                    alert.urgent
+                      ? "border-amber-200 bg-amber-50/60"
+                      : "border-border-light bg-white hover:border-teal-accent/30"
+                  }`}
+                >
+                  <span
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                      alert.urgent ? "bg-amber-100 text-amber-800" : "bg-teal-accent/10 text-teal-accent"
+                    }`}
+                  >
+                    <Icon name={alert.icon} className="text-[22px]" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-deep-navy">{alert.title}</p>
+                    <p className="mt-0.5 text-body-sm text-warm-slate">{alert.body}</p>
+                  </div>
+                  <Icon name="chevron_right" className="shrink-0 text-warm-slate" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </AdminSection>
       )}
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+        <AdminSection
+          title={es.admin.commandCenter.quickActions}
+          className="lg:col-span-1"
+        >
+          <div className="grid grid-cols-2 gap-2">
+            {PRIORITY_LINKS.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="flex flex-col items-center gap-2 rounded-xl border border-border-light bg-white p-4 text-center transition-all hover:border-teal-accent/40 hover:shadow-sm"
+              >
+                <Icon name={item.icon} className={`text-[28px] ${item.color}`} />
+                <span className="text-label-sm font-medium text-deep-navy">{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </AdminSection>
+
+        {moonAccess && (
+          <AdminSection
+            title={es.admin.moonAccess.title}
+            description={es.admin.moonAccess.note}
+            className="lg:col-span-2"
+          >
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-display-sm text-deep-navy">
+                  {moonAccess.userCount}
+                  <span className="text-headline-md text-warm-slate"> / {moonAccess.threshold}</span>
+                </p>
+                <p className="mt-1 text-label-sm text-warm-slate">{es.admin.moonAccess.userCount}</p>
+              </div>
+              <p
+                className={`rounded-full px-4 py-1.5 text-label-sm font-semibold ${
+                  moonAccess.readyToEnable
+                    ? "bg-emerald-50 text-emerald-700"
+                    : "bg-surface-container text-warm-slate"
+                }`}
+              >
+                {moonAccess.readyToEnable ? es.admin.moonAccess.ready : es.admin.moonAccess.notReady}
+              </p>
+            </div>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-surface-container">
+              <div
+                className="h-full rounded-full bg-teal-accent transition-all"
+                style={{ width: `${Math.min(100, (moonAccess.userCount / moonAccess.threshold) * 100)}%` }}
+              />
+            </div>
+          </AdminSection>
+        )}
+      </div>
 
       {marketplace && (
-        <>
-          <MarketplaceOps dashboard={marketplace} />
-          <AssistedMatching dashboard={marketplace} />
-          <BusinessFunnel dashboard={marketplace} />
-        </>
+        <AdminSection
+          title="Funnel marketplace"
+          description="Vista ejecutiva — detalle en cada módulo operativo."
+          className="mt-6"
+          actions={
+            <Link to="/admin/matching" className="text-label-sm font-medium text-teal-accent hover:underline">
+              Ver matching →
+            </Link>
+          }
+        >
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              ["Solicitudes", marketplace.funnel.applicationsCreated],
+              ["Matches enviados", marketplace.funnel.matchesSent],
+              ["Aceptados", marketplace.funnel.matchesAccepted],
+              ["Entradas confirmadas", marketplace.funnel.confirmedEntries],
+              [
+                "Comisión estimada",
+                `${marketplace.funnel.estimatedCommission.toLocaleString("es-ES")} €`,
+              ],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-xl bg-surface-container p-4">
+                <p className="text-label-sm text-warm-slate">{label}</p>
+                <p className="mt-1 text-headline-sm text-deep-navy">{value}</p>
+              </div>
+            ))}
+          </div>
+        </AdminSection>
       )}
-
-      <p className="mt-8 rounded-lg bg-surface-container px-4 py-3 text-body-sm text-warm-slate">
-        {es.admin.betaNote}
-      </p>
-    </div>
-  );
-}
-
-function MarketplaceOps({ dashboard }: { dashboard: AdminMarketplaceDashboard }) {
-  const roleMetrics = dashboard.roles;
-  const roles = [
-    {
-      title: "Inquilinos",
-      value: roleMetrics.tenants.registered,
-      items: [
-        `${roleMetrics.tenants.incompleteProfiles} perfiles incompletos`,
-        `${roleMetrics.tenants.citiesTracked} ciudades con demanda`,
-        `${roleMetrics.tenants.withBudget} con presupuesto informado`,
-        `${roleMetrics.tenants.withMoveIn} con fecha de entrada`,
-        `${roleMetrics.tenants.usersWithoutMatch} usuarios sin match aprobado`,
-      ],
-    },
-    {
-      title: "Propietarios",
-      value: roleMetrics.owners.total,
-      items: [
-        `${roleMetrics.owners.listingsPublished} pisos completos publicados`,
-        `${roleMetrics.owners.listingsPending} pisos pendientes`,
-        `${roleMetrics.owners.groupsInterested} grupos interesados`,
-        `${roleMetrics.owners.groupsAccepted} grupos aceptados`,
-        `${roleMetrics.owners.lowConversionListings} pisos con baja conversión`,
-      ],
-    },
-    {
-      title: "Anfitriones",
-      value: roleMetrics.hosts.total,
-      items: [
-        `${roleMetrics.hosts.roomsPublished} habitaciones publicadas`,
-        `${roleMetrics.hosts.candidatesReceived} candidatos recibidos`,
-        `${roleMetrics.hosts.pendingApplications} solicitudes pendientes`,
-        `${roleMetrics.hosts.occupiedRooms} habitaciones ocupadas/aprobadas`,
-        `${roleMetrics.hosts.incompleteListings} publicaciones incompletas`,
-      ],
-    },
-    {
-      title: "Operadores",
-      value: roleMetrics.operators.total,
-      items: [
-        `${roleMetrics.operators.inventoryPublished} unidades en inventario`,
-        `${roleMetrics.operators.activeUnits} unidades activas`,
-        `${roleMetrics.operators.applicationsReceived} solicitudes recibidas`,
-        `Conversión: ${roleMetrics.operators.conversionRate == null ? "Pendiente" : `${roleMetrics.operators.conversionRate}%`}`,
-        `${roleMetrics.operators.responsePending} respuestas pendientes`,
-        `${roleMetrics.operators.potentialCommissions.toLocaleString("es-ES")} € comisiones potenciales`,
-      ],
-    },
-  ];
-
-  return (
-    <section className="mt-8">
-      <h2 className="text-headline-md text-deep-navy">Operación marketplace por rol</h2>
-      <p className="mt-2 max-w-3xl text-body-md text-warm-slate">
-        Visibilidad no destructiva sobre los cuatro lados del marketplace: inquilinos, propietarios,
-        anfitriones y operadores.
-      </p>
-      <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {roles.map((role) => (
-          <div key={role.title} className="rounded-xl border border-border-light bg-surface-container-lowest p-5">
-            <div className="flex items-start justify-between gap-4">
-              <h3 className="text-headline-sm text-deep-navy">{role.title}</h3>
-              <span className="rounded-full bg-surface-container px-3 py-1 text-label-sm text-teal-accent">
-                {role.value}
-              </span>
-            </div>
-            <ul className="mt-4 space-y-2">
-              {role.items.map((item) => (
-                <li key={item} className="flex gap-2 text-body-sm text-warm-slate">
-                  <Icon name="check_circle" className="mt-0.5 text-[16px] text-teal-accent" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function AssistedMatching({ dashboard }: { dashboard: AdminMarketplaceDashboard }) {
-  return (
-    <section className="mt-8 rounded-xl border border-border-light bg-surface-container-lowest p-6">
-      <h2 className="text-headline-md text-deep-navy">Matching asistido</h2>
-      <p className="mt-2 text-body-md text-warm-slate">
-        Interfaz preparada para operar recomendaciones manuales usando criterios básicos disponibles:
-        ciudad, presupuesto, fecha de entrada, duración, tipo de búsqueda y perfil de convivencia.
-      </p>
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
-        {dashboard.assistedMatching.map((row) => (
-          <div key={`${row.from}-${row.to}`} className="flex items-center justify-between gap-4 rounded-lg bg-surface-container px-4 py-3">
-            <div>
-              <span className="text-label-md text-deep-navy">{row.from} → {row.to}</span>
-              <p className="text-label-sm text-warm-slate">{row.criteria}</p>
-            </div>
-            <span className="rounded-full bg-white px-3 py-1 text-label-sm text-warm-slate">{row.count}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function BusinessFunnel({ dashboard }: { dashboard: AdminMarketplaceDashboard }) {
-  const { funnel } = dashboard;
-  const money = (value: number) => `${value.toLocaleString("es-ES")} ${funnel.currency}`;
-  const metrics = [
-    ["Solicitudes creadas", funnel.applicationsCreated],
-    ["Matches enviados", funnel.matchesSent],
-    ["Matches aceptados", funnel.matchesAccepted],
-    ["Reservas pendientes", funnel.reservationsPending],
-    ["Entradas confirmadas", funnel.confirmedEntries],
-    ["Matches perdidos", funnel.matchesLost],
-    ["Valor potencial de contratos", money(funnel.potentialContractValue)],
-    ["Comisión estimada", money(funnel.estimatedCommission)],
-    ["Comisión confirmada", money(funnel.confirmedCommission)],
-    ["Comisión pendiente", money(funnel.pendingCommission)],
-  ];
-
-  return (
-    <section className="mt-8 rounded-xl border border-border-light bg-surface-container-lowest p-6">
-      <h2 className="text-headline-md text-deep-navy">Funnel y monetización</h2>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        {metrics.map(([label, value]) => (
-          <div key={label} className="rounded-lg bg-surface-container p-4">
-            <p className="text-label-sm text-warm-slate">{label}</p>
-            <p className="mt-1 text-headline-sm text-deep-navy">{value}</p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-5 grid gap-3 md:grid-cols-3">
-        {[
-          "Propietario: comisión por grupo que alquila piso",
-          "Anfitrión: comisión por inquilino aceptado o entrada confirmada",
-          "Operador: comisión por reserva, plan mensual o modelo híbrido",
-        ].map((model) => (
-          <p key={model} className="rounded-lg border border-border-light px-4 py-3 text-body-sm text-warm-slate">
-            {model}
-          </p>
-        ))}
-      </div>
-    </section>
+    </AdminPageShell>
   );
 }

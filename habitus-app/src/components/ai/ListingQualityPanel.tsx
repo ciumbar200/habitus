@@ -1,0 +1,14 @@
+import { useState } from "react";
+import type { ListingFormInput } from "@habitus/core";
+import { runMoonAgent } from "../../lib/ai/api";
+import { aiErrorState, type AIErrorState } from "../../lib/ai/errors";
+import { useI18n } from "../../lib/I18nContext";
+
+type QualityResult = { quality_score: number; status: string; missing_fields: string[]; improvement_suggestions: string[]; recommended_action: string };
+export function ListingQualityPanel({ propertyId, form, amenities }: { propertyId: string; form: ListingFormInput; amenities: Array<{ label: string }> }) {
+  const t = useI18n();
+  const [result, setResult] = useState<QualityResult | null>(null); const [busy, setBusy] = useState(false); const [error, setError] = useState<AIErrorState | null>(null);
+  async function analyze() { setBusy(true); setError(null); try { const response = await runMoonAgent<QualityResult>("listingQualityAgent", { ...form, amenities: amenities.map((a) => a.label) }, { propertyId, force: true }); setResult(response.result); } catch (e) { setError(aiErrorState(e, t.ai.listingQualityFallbackError, t.ai)); } finally { setBusy(false); } }
+  return <section className="mb-6 rounded-xl border border-teal-accent/30 bg-teal-accent/5 p-5"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-headline-sm text-deep-navy">{t.ai.listingQualityTitle}</h3><p className="text-body-sm text-warm-slate">{t.ai.listingQualityHint}</p></div><button type="button" onClick={analyze} disabled={busy} className="rounded-lg bg-deep-navy px-4 py-2 text-label-sm text-white disabled:opacity-60">{busy ? t.ai.listingQualityBusy : t.ai.listingQualityAction}</button></div>{error && <AIErrorNotice error={error} busy={busy} onRetry={analyze} retryText={t.ai.retryButton} retryAfterText={t.ai.retryAfter} />}{result && <div className="mt-4 space-y-2 text-body-sm text-warm-slate"><p><strong className="text-deep-navy">{t.ai.score} {Math.round(result.quality_score)}/100</strong> · {result.status}</p>{result.missing_fields.length > 0 && <p>{t.ai.missingFields} {result.missing_fields.join(", ")}</p>}<ul>{result.improvement_suggestions.map((item) => <li key={item}>• {item}</li>)}</ul><p>{result.recommended_action}</p></div>}</section>;
+}
+function AIErrorNotice({ error, busy, onRetry, retryText, retryAfterText }: { error: AIErrorState; busy: boolean; onRetry: () => void; retryText: string; retryAfterText: string }) { return <div className="mt-3 rounded-lg bg-error-container px-4 py-3 text-body-sm text-on-error-container"><p>{error.message}{error.retryAfter ? ` ${retryAfterText.replace("{seconds}", String(error.retryAfter))}` : ""}</p>{error.retryable && <button type="button" disabled={busy} onClick={onRetry} className="mt-3 rounded-lg bg-deep-navy px-3 py-2 text-label-sm text-white disabled:opacity-60">{retryText}</button>}</div>; }

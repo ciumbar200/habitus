@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { es, fetchAdminAuditLog, type AdminAuditEntry } from "@habitus/core";
 import { ErrorState, LoadingState } from "../../components/PageState";
+import { AdminCount, AdminPageShell } from "../../components/admin/AdminPageShell";
 
 const ACTION_LABELS: Record<string, string> = {
   suspend_user:    "Suspender usuario",
@@ -50,9 +51,7 @@ export function AdminAuditoriaPage() {
   if (error && entries.length === 0) return <ErrorState message={error} />;
 
   return (
-    <div>
-      <h1 className="text-headline-lg text-deep-navy">{es.admin.auditTitle}</h1>
-      <p className="mt-2 text-body-lg text-warm-slate">{es.admin.auditSubtitle}</p>
+    <AdminPageShell title={es.admin.auditTitle} subtitle={es.admin.auditSubtitle}>
 
       <div className="mt-6">
         <input
@@ -64,7 +63,7 @@ export function AdminAuditoriaPage() {
         />
       </div>
 
-      <p className="mt-3 text-label-sm text-warm-slate">{filtered.length} entradas</p>
+      <AdminCount current={filtered.length} total={entries.length} />
 
       {filtered.length === 0 ? (
         <p className="mt-8 text-body-lg text-warm-slate">No hay registros de auditoría todavía.</p>
@@ -104,6 +103,6 @@ export function AdminAuditoriaPage() {
           </table>
         </div>
       )}
-    </div>
+    </AdminPageShell>
   );
 }

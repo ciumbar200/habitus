@@ -2,6 +2,19 @@ import type { AgentDefinition } from "./agents/index.js";
 
 type MessageContent = string | Array<Record<string, unknown>>;
 
+const FALLBACK_MODELS: Record<AgentDefinition["modelEnv"], string> = {
+  AI_DEFAULT_MODEL: "openai/gpt-4o-mini",
+  AI_MATCH_MODEL: "openai/gpt-4o-mini",
+  AI_SAFETY_MODEL: "openai/gpt-4o-mini",
+  AI_VISION_MODEL: "openai/gpt-4o-mini",
+};
+
+const LEGACY_MODEL_FALLBACKS: Record<string, string> = {
+  "google/gemini-2.0-flash": FALLBACK_MODELS.AI_DEFAULT_MODEL,
+  "google/gemini-2.0-flash-lite": FALLBACK_MODELS.AI_DEFAULT_MODEL,
+  "google/gemini-2.0-pro": FALLBACK_MODELS.AI_DEFAULT_MODEL,
+};
+
 export class AIConfigurationError extends Error {
   missing: string[];
 
@@ -23,18 +36,44 @@ export class AIRateLimitError extends Error {
   }
 }
 
-function configFor(agent: AgentDefinition) {
+export type AiConfigOverrides = {
+  gatewayBaseUrl?: string;
+  defaultModel?: string;
+  matchModel?: string;
+  safetyModel?: string;
+  visionModel?: string;
+  apiKey?: string;
+};
+
+function configFor(agent: AgentDefinition, overrides?: AiConfigOverrides) {
   const env = (globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
-  // Vercel refreshes the project OIDC token automatically and bills the
-  // request to the deployment's team. Keep the static key as a local/CI fallback.
-  const token = env.VERCEL_OIDC_TOKEN?.trim() || env.AI_GATEWAY_API_KEY?.trim();
-  const model = env[agent.modelEnv]?.trim() || env.AI_DEFAULT_MODEL?.trim();
+  const token =
+    overrides?.apiKey?.trim() ||
+    env.VERCEL_OIDC_TOKEN?.trim() ||
+    env.AI_GATEWAY_API_KEY?.trim();
+  const modelByEnv: Record<AgentDefinition["modelEnv"], string | undefined> = {
+    AI_DEFAULT_MODEL: overrides?.defaultModel,
+    AI_MATCH_MODEL: overrides?.matchModel,
+    AI_SAFETY_MODEL: overrides?.safetyModel,
+    AI_VISION_MODEL: overrides?.visionModel,
+  };
+  const rawModel =
+    modelByEnv[agent.modelEnv]?.trim() ||
+    env[agent.modelEnv]?.trim() ||
+    overrides?.defaultModel?.trim() ||
+    env.AI_DEFAULT_MODEL?.trim();
+  const model = rawModel
+    ? LEGACY_MODEL_FALLBACKS[rawModel] || (rawModel.startsWith("google/gemini-2.0-") ? FALLBACK_MODELS[agent.modelEnv] : rawModel)
+    : FALLBACK_MODELS[agent.modelEnv];
+  if (rawModel && rawModel !== model) {
+    console.warn(`[moon-ai] legacy model "${rawModel}" mapped to "${model}" for ${agent.name}`);
+  }
   const missing = [!token && "AI_GATEWAY_API_KEY o VERCEL_OIDC_TOKEN", !model && agent.modelEnv].filter(Boolean) as string[];
   if (missing.length) throw new AIConfigurationError(missing);
   return {
     token: token!,
     model: model!,
-    baseUrl: (env.AI_GATEWAY_BASE_URL || "https://ai-gateway.vercel.sh/v1").replace(/\/$/, ""),
+    baseUrl: (overrides?.gatewayBaseUrl || env.AI_GATEWAY_BASE_URL || "https://ai-gateway.vercel.sh/v1").replace(/\/$/, ""),
   };
 }
 
@@ -46,8 +85,9 @@ export async function runStructuredAgent(
   agent: AgentDefinition,
   input: unknown,
   content?: MessageContent,
+  overrides?: AiConfigOverrides,
 ): Promise<{ result: Record<string, unknown>; model: string }> {
-  const config = configFor(agent);
+  const config = configFor(agent, overrides);
   const url = `${config.baseUrl}/chat/completions`;
   const init: RequestInit = {
     method: "POST",
