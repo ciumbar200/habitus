@@ -71,6 +71,7 @@ export default defineConfig(({ mode }) => {
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,woff2}'],
+        globIgnores: ['runtime-config.js'],
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // heroes ~2.2 MB; bundle JS ~5.6 MB
         runtimeCaching: [
           {

@@ -6,7 +6,9 @@ import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { AuthProvider } from "./context/AuthContext";
 import { initAnalytics } from "./lib/analytics";
+import { initMonitoring } from "./lib/monitoring";
 
+initMonitoring();
 initAnalytics();
 
 createRoot(document.getElementById("root")!).render(

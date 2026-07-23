@@ -1,8 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { initHabitus, getSupabase, isHabitusConfigured } from "@habitus/core";
+import { publicEnv } from "./runtimeConfig";
 
-const url = import.meta.env.VITE_SUPABASE_URL;
-const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const url = publicEnv("VITE_SUPABASE_URL");
+const key = publicEnv("VITE_SUPABASE_PUBLISHABLE_KEY");
 
 if (!url || !key) {
   console.warn(

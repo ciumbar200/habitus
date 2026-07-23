@@ -4,9 +4,10 @@
  */
 
 import { useEffect, useState } from 'react';
+import { publicEnv } from '../lib/runtimeConfig';
 
 export const ONESIGNAL_APP_ID =
-  import.meta.env.VITE_ONESIGNAL_APP_ID ?? "8ab2d231-41db-49a5-9543-eac1df3986b4";
+  publicEnv("VITE_ONESIGNAL_APP_ID") ?? "8ab2d231-41db-49a5-9543-eac1df3986b4";
 
 const ONESIGNAL_SRC = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
 let oneSignalLoadPromise: Promise<void> | null = null;

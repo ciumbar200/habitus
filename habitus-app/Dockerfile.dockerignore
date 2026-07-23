@@ -1,0 +1,15 @@
+**
+!package.json
+!package-lock.json
+!packages/
+!packages/habitus-core/
+!packages/habitus-core/**
+!habitus-app/
+!habitus-app/**
+habitus-app/.env*
+habitus-app/node_modules
+habitus-app/dist
+habitus-app/server-dist
+habitus-app/dev-dist
+habitus-app/e2e/playwright-report
+habitus-app/test-results

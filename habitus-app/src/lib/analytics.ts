@@ -1,3 +1,5 @@
+import { publicEnv } from "./runtimeConfig";
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -5,7 +7,7 @@ declare global {
   }
 }
 
-const GA_ID = import.meta.env.VITE_GA4_ID as string | undefined;
+const GA_ID = publicEnv("VITE_GA4_ID");
 
 export function initAnalytics(): void {
   if (!GA_ID || typeof document === "undefined") return;
