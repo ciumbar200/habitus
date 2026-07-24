@@ -10,6 +10,7 @@ type IdentityBadgeProps = {
 
 const styles: Record<IdentityStatus, string> = {
   verified: "bg-teal-accent/15 text-teal-accent border-teal-accent/30",
+  basic_trust: "bg-sky-100 text-sky-800 border-sky-200",
   pending: "bg-amber-100 text-amber-800 border-amber-200",
   none: "bg-surface-container text-warm-slate border-border-light",
 };
@@ -19,12 +20,18 @@ export function IdentityBadge({ status, size = "md", className = "" }: IdentityB
   const label =
     status === "verified"
       ? t.identity.verified
+      : status === "basic_trust"
+        ? t.identity.pending
       : status === "pending"
         ? t.identity.pending
         : t.identity.notVerified;
 
   const icon =
-    status === "verified" ? "verified_user" : status === "pending" ? "hourglass_top" : "shield";
+    status === "verified"
+      ? "verified_user"
+      : status === "pending"
+        ? "hourglass_top"
+        : "shield";
 
   return (
     <span

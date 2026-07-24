@@ -10,6 +10,7 @@ type PropertyVerificationBadgeProps = {
 
 const styles: Record<PropertyVerificationStatus, string> = {
   verified: "bg-teal-accent/15 text-teal-accent border-teal-accent/30",
+  basic_trust: "bg-sky-100 text-sky-800 border-sky-200",
   pending: "bg-amber-100 text-amber-800 border-amber-200",
   none: "bg-surface-container text-warm-slate border-border-light",
 };
@@ -24,6 +25,8 @@ export function PropertyVerificationBadge({
   const label =
     status === "verified"
       ? pv.verified
+      : status === "basic_trust"
+        ? pv.pending
       : status === "pending"
         ? pv.pending
         : pv.notVerified;

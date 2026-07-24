@@ -19,3 +19,4 @@ export const HOST_HERO_IMAGE = hero;
 export const OWNER_HERO_IMAGE = hero;
 export const AGENCY_HERO_IMAGE = hero;
 export const LANDING_HERO_IMAGE = hero;
+export const COMMUNITY_WAIT_IMAGE = "/marketing/community-wait-v2.jpg";
