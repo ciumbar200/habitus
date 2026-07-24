@@ -253,6 +253,12 @@ const server = createServer(async (request, rawResponse) => {
 
   try {
     const url = new URL(request.url ?? "/", `http://${request.headers.host ?? "localhost"}`);
+
+    if (url.pathname === "/healthz") {
+      response.status(200).json({ ok: true });
+      return;
+    }
+
     const canonicalHost = process.env.CANONICAL_HOST?.trim();
     const forwardedHost = String(request.headers["x-forwarded-host"] ?? request.headers.host ?? "")
       .split(",")[0]
@@ -263,11 +269,6 @@ const server = createServer(async (request, rawResponse) => {
       response.statusCode = 308;
       response.setHeader("Location", `https://${canonicalHost}${url.pathname}${url.search}`);
       response.end();
-      return;
-    }
-
-    if (url.pathname === "/healthz") {
-      response.status(200).json({ ok: true });
       return;
     }
 
