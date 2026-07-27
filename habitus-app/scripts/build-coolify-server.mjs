@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 
 const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const apiRoot = path.join(appRoot, "api");
+const apiRoot = path.join(appRoot, "_api");
 const outRoot = path.join(appRoot, "server-dist");
 const coreEntry = path.resolve(appRoot, "../packages/habitus-core/src/index.ts");
 

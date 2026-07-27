@@ -12,6 +12,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://api.moonsharedliving.com/api/:path*"
+    },
+    {
       "source": "/((?!assets/|api/|brand/|marketing/|hero-listings/|blog/|robots\\.txt$|sitemap\\.xml$|.*\\.(?:jpg|jpeg|png|webp|svg|ico|gif|woff2?|txt|xml|json|js|css|map)$).*)",
       "destination": "/index.html"
     }
