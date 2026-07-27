@@ -1,0 +1,8 @@
+[Unit]
+Description=Moon Shared Living - limpieza de documentos de verificación
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/moonsharedliving-api-cron verification-cleanup

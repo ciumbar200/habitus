@@ -1,0 +1,9 @@
+api.moonsharedliving.com {
+    encode zstd gzip
+    tls {
+        issuer acme {
+            email admin@moonsharedliving.com
+        }
+    }
+    reverse_proxy 127.0.0.1:3300
+}

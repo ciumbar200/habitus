@@ -1,6 +1,6 @@
 /**
  * ADM-23: Hard delete cron
- * Triggered by Vercel Cron (weekly, Sunday 03:00 UTC).
+ * Triggered by the VPS scheduler (weekly, Sunday 03:00 UTC).
  * Also callable manually by super-admin via POST with Bearer token.
  *
  * Deletes auth.users where habitus_profiles.deleted_at < now() - 30 days.
@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       return;
     }
 
-    // Auth: accept Vercel Cron secret OR admin Bearer token
+    // Auth: accept the VPS scheduler secret OR admin Bearer token
     const authHeader = req.headers.authorization ?? "";
     const isCron = CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`;
     const isManual = !isCron && authHeader.startsWith("Bearer ");

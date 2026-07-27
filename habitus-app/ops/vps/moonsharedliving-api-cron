@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+  hard-delete)
+    endpoint="/api/admin/hard-delete-users"
+    ;;
+  verification-cleanup)
+    endpoint="/api/verification/cleanup"
+    ;;
+  *)
+    echo "Uso: $0 {hard-delete|verification-cleanup}" >&2
+    exit 64
+    ;;
+esac
+
+container="$(
+  docker ps \
+    --filter "label=coolify.name=u10xt5oxkktkkmgwfq6ssq6r" \
+    --filter "health=healthy" \
+    --format "{{.Names}}" |
+    head -n 1
+)"
+
+if [[ -z "$container" ]]; then
+  echo "No se encontró un contenedor saludable de moonsharedliving-api." >&2
+  exit 1
+fi
+
+docker exec "$container" node -e '
+  const endpoint = process.argv[1];
+  const secret = process.env.CRON_SECRET;
+  if (!secret) {
+    console.error("CRON_SECRET no está configurado.");
+    process.exit(1);
+  }
+  const response = await fetch(`http://127.0.0.1:3000${endpoint}`, {
+    headers: { authorization: `Bearer ${secret}` },
+  });
+  const body = await response.text();
+  console.log(`${endpoint} -> ${response.status} ${body}`);
+  if (!response.ok) process.exit(1);
+' "$endpoint"

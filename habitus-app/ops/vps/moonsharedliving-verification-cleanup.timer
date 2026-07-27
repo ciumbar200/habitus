@@ -1,0 +1,10 @@
+[Unit]
+Description=Moon Shared Living - ejecutar limpieza de verificación diaria
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 UTC
+Persistent=true
+Unit=moonsharedliving-verification-cleanup.service
+
+[Install]
+WantedBy=timers.target

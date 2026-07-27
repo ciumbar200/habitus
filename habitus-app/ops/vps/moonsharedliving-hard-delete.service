@@ -1,0 +1,8 @@
+[Unit]
+Description=Moon Shared Living - borrado definitivo de usuarios
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/moonsharedliving-api-cron hard-delete

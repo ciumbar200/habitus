@@ -1,0 +1,10 @@
+[Unit]
+Description=Moon Shared Living - ejecutar borrado definitivo semanal
+
+[Timer]
+OnCalendar=Sun *-*-* 03:00:00 UTC
+Persistent=true
+Unit=moonsharedliving-hard-delete.service
+
+[Install]
+WantedBy=timers.target

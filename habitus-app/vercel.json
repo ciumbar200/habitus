@@ -19,15 +19,5 @@
       "source": "/((?!assets/|api/|brand/|marketing/|hero-listings/|blog/|robots\\.txt$|sitemap\\.xml$|.*\\.(?:jpg|jpeg|png|webp|svg|ico|gif|woff2?|txt|xml|json|js|css|map)$).*)",
       "destination": "/index.html"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/admin/hard-delete-users",
-      "schedule": "0 3 * * 0"
-    },
-    {
-      "path": "/api/verification/cleanup",
-      "schedule": "30 3 * * *"
-    }
   ]
 }
